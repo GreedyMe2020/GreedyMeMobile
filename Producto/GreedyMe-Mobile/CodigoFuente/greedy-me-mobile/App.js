@@ -1,21 +1,42 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { StyleSheet } from 'react-native';
+import ButtonGenerico from './src/components/Button';
+import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
+import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
-import Home from './pantallas/Home';
 import { createStackNavigator } from '@react-navigation/stack';
+import DetailsScreen from './src/components/ejemplo';
+
+const theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: '#262262',
+    accent: '#F7941E',
+    secondary: '#76B39D',
+    background: '#ECECEC',
+    text: 'black',
+  },
+};
 
 const Stack = createStackNavigator();
 
-export default function App() {
+export default function App(props) {
   return (
-    
+    <PaperProvider theme={theme}>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="Home" component={ButtonGenerico} />
+          <Stack.Screen name="Details" component={DetailsScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </PaperProvider>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
