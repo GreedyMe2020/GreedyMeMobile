@@ -1,15 +1,29 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
+import { Button } from 'react-native-paper';
+
+const theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: 'yellow',
+    accent: 'green',
+  },
+};
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text style={{ backgroundColor: 'pink', color: 'black' }}>
-        Hola wachos ahora anda by lau!
-      </Text>
-      <StatusBar style="auto" />
-    </View>
+    <PaperProvider theme={theme}>
+      <View style={styles.container}>
+        <Text style={{ color: theme.colors.accent }}>
+          Hola wachos ahora anda by lau!
+        </Text>
+        <Button mode="contained" theme={{ color: theme.colors.accent }}>
+          Press me
+        </Button>
+      </View>
+    </PaperProvider>
   );
 }
 
