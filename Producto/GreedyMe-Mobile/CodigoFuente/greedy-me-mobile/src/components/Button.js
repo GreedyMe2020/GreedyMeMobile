@@ -1,27 +1,18 @@
 import React from 'react';
 import { Button } from 'react-native-paper';
-import { StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
 
-export const buttonTheme = {
-  colors: {
-    primary: '#1E1B4D',
-    accent: 'yellow',
-    secondary: '#05004e',
-  },
-};
-
-export default function ButtonGenerico({ text }) {
+export default function ButtonGenerico({ navigation }) {
   return (
-    <Button style={styles.container} mode="contained" theme={buttonTheme}>
-      {text}
-    </Button>
+    <View>
+      <Text>Home Screen</Text>
+      <Button
+        mode="contained"
+        title="Go to otra pagina"
+        onPress={() => navigation.navigate('Details')}
+      >
+        Ir a la otra
+      </Button>
+    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
