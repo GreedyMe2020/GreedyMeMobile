@@ -1,27 +1,26 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import ButtonGenerico from './src/components/Button';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
-import { Button } from 'react-native-paper';
 
 const theme = {
   ...DefaultTheme,
+  roundness: 2,
   colors: {
     ...DefaultTheme.colors,
-    primary: 'yellow',
-    accent: 'green',
+    primary: '#3498db',
+    accent: '#f1c40f',
   },
 };
 
-export default function App() {
+export default function App(props) {
   return (
     <PaperProvider theme={theme}>
       <View style={styles.container}>
-        <Text style={{ color: theme.colors.accent }}>
+        <Text style={{ color: theme.colors.primary }}>
           Hola wachos ahora anda by lau!
         </Text>
-        <Button mode="contained" theme={{ color: theme.colors.accent }}>
-          Press me
-        </Button>
+        <ButtonGenerico text="Presionar ak"></ButtonGenerico>
       </View>
     </PaperProvider>
   );
