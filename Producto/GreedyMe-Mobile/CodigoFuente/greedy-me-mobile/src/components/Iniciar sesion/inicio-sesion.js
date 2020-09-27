@@ -2,8 +2,10 @@ import * as React from 'react';
 import { Button, TextInput } from 'react-native-paper';
 import { StyleSheet, StatusBar, Text, View } from 'react-native';
 import SafeAreaView from 'react-native-safe-area-view';
+import { connect } from 'react-redux';
+import { signIn } from '../../../redux/actions/auth-actions';
 
-export default function IniciarSesion({ navigation }) {
+function IniciarSesion(props) {
   const [email, setEmail] = React.useState('');
   const [pass, setPass] = React.useState('');
 
@@ -48,6 +50,7 @@ export default function IniciarSesion({ navigation }) {
             />
           }
         />
+
         <View style={styles.contOlvidePass}>
           <Text style={styles.olvideMiPass}>Olvidé mi contraseña</Text>
         </View>
@@ -58,7 +61,7 @@ export default function IniciarSesion({ navigation }) {
             }}
             style={styles.btnIngresar}
             mode="contained"
-            onPress={() => navigation.navigate('Home')}
+            onPress={() => props.navigation.navigate('Home')}
           >
             Ingresar
           </Button>
@@ -132,3 +135,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+const mapStateToProps = (state) => {
+  return {
+    authError: state.auth.authError,
+    auth: state.firebase.auth,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signIn: (user) => dispatch(signIn(user)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(IniciarSesion);
