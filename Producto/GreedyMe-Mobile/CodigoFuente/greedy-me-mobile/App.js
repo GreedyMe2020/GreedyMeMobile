@@ -6,6 +6,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import PantallaLogo from './src/components/pantalla-logo';
 import IniciarSesion from './src/components/Iniciar sesion/inicio-sesion';
+import { Provider } from 'react-redux';
+import store from './redux/store';
 
 const theme = {
   ...DefaultTheme,
@@ -23,18 +25,20 @@ const Stack = createStackNavigator();
 
 export default function App(props) {
   return (
-    <PaperProvider theme={theme}>
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Home"
-            component={PantallaLogo}
-            options={{ title: '' }}
-          />
-          <Stack.Screen name="IniciarSesion" component={IniciarSesion} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </PaperProvider>
+    <Provider store={store}>
+      <PaperProvider theme={theme}>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen
+              name="Home"
+              component={PantallaLogo}
+              options={{ title: '' }}
+            />
+            <Stack.Screen name="IniciarSesion" component={IniciarSesion} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </PaperProvider>
+    </Provider>
   );
 }
 
