@@ -19,6 +19,7 @@ export default function IniciarSesion({ navigation }) {
         <TextInput
           style={styles.inputEmailPass}
           underlineColor="#F7941E"
+          placeholderTextColor="white"
           mode="flat"
           label="Email"
           value={email}
@@ -33,6 +34,7 @@ export default function IniciarSesion({ navigation }) {
         />
         <TextInput
           underlineColor="#F7941E"
+          placeholderTextColor="white"
           style={styles.inputEmailPass}
           mode="flat"
           label="Contraseña"
