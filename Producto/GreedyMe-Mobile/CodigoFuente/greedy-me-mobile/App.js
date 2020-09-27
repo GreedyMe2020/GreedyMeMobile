@@ -1,11 +1,11 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import ButtonGenerico from './src/components/Button';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import DetailsScreen from './src/components/ejemplo';
+import PantallaLogo from './src/components/pantalla-logo';
+import IniciarSesion from './src/components/Iniciar sesion/inicio-sesion';
 
 const theme = {
   ...DefaultTheme,
@@ -26,8 +26,12 @@ export default function App(props) {
     <PaperProvider theme={theme}>
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="Home" component={ButtonGenerico} />
-          <Stack.Screen name="Details" component={DetailsScreen} />
+          <Stack.Screen
+            name="Home"
+            component={PantallaLogo}
+            options={{ title: '' }}
+          />
+          <Stack.Screen name="IniciarSesion" component={IniciarSesion} />
         </Stack.Navigator>
       </NavigationContainer>
     </PaperProvider>
@@ -39,5 +43,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  flex: {
+    flex: 1,
   },
 });
