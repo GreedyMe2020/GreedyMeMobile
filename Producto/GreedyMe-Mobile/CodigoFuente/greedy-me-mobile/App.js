@@ -7,6 +7,8 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { createStackNavigator } from '@react-navigation/stack';
 import PantallaLogo from './src/components/pantalla-logo';
 import IniciarSesion from './src/components/Iniciar sesion/inicio-sesion';
+import IniciarSesionConEmail from './src/components/Iniciar sesion/iniciar-con-email';
+import IniciarSesionConRedes from './src/components/Iniciar sesion/iniciar-con-redes';
 import { Provider } from 'react-redux';
 import store from './redux/store';
 
@@ -30,13 +32,27 @@ export default function App(props) {
       <SafeAreaProvider>
         <PaperProvider theme={theme}>
           <NavigationContainer>
-            <Stack.Navigator>
+            <Stack.Navigator headerMode="none">
               <Stack.Screen
                 name="Home"
                 component={PantallaLogo}
                 options={{ title: '' }}
               />
-              <Stack.Screen name="IniciarSesion" component={IniciarSesion} />
+              <Stack.Screen
+                name="IniciarSesion"
+                component={IniciarSesion}
+                options={{ title: '' }}
+              />
+              <Stack.Screen
+                name="IniciarSesionConEmail"
+                component={IniciarSesionConEmail}
+                options={{ title: '' }}
+              />
+              <Stack.Screen
+                name="IniciarSesionConRedes"
+                component={IniciarSesionConRedes}
+                options={{ title: '' }}
+              />
             </Stack.Navigator>
           </NavigationContainer>
         </PaperProvider>
