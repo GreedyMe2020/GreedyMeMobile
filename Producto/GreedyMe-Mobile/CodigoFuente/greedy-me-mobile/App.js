@@ -7,8 +7,10 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { createStackNavigator } from '@react-navigation/stack';
 import PantallaLogo from './src/components/pantalla-logo';
 import IniciarSesion from './src/components/Iniciar sesion/inicio-sesion';
+import Main from './src/components/pages/main';
 import { Provider } from 'react-redux';
 import store from './redux/store';
+import obtenerTitulo from './src/components/obtener-titulo';
 
 const theme = {
   ...DefaultTheme,
@@ -37,6 +39,13 @@ export default function App(props) {
                 options={{ title: '' }}
               />
               <Stack.Screen name="IniciarSesion" component={IniciarSesion} />
+              <Stack.Screen
+                name="Main"
+                component={Main}
+                options={({ route }) => ({
+                  headerTitle: obtenerTitulo(route.key),
+                })}
+              />
             </Stack.Navigator>
           </NavigationContainer>
         </PaperProvider>

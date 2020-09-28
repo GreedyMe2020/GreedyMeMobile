@@ -35,13 +35,6 @@ function IniciarSesion(props) {
           label="Email"
           value={email}
           onChangeText={(email) => setEmail(email)}
-          left={
-            <TextInput.Icon
-              name="email"
-              color="white"
-              style={styles.iconSesion}
-            />
-          }
         />
         <TextInput
           underlineColor="#F7941E"
@@ -51,13 +44,6 @@ function IniciarSesion(props) {
           label="Contraseña"
           value={pass}
           onChangeText={(pass) => setPass(pass)}
-          left={
-            <TextInput.Icon
-              name="lock"
-              color="white"
-              style={styles.iconSesion}
-            />
-          }
         />
         <Form ref={form} onSubmit={handleSubmit}>
           <TextValidator
@@ -84,9 +70,20 @@ function IniciarSesion(props) {
             }}
             style={styles.btnIngresar}
             mode="contained"
-            onPress={() => props.navigation.navigate('Home')}
+            onPress={() => props.navigation.navigate('Main')}
           >
             Ingresar
+          </Button>
+          <Button
+            theme={{
+              colors: { primary: 'white' },
+              backgroundColor: 'none',
+            }}
+            style={styles.btnVolver}
+            mode="contained"
+            onPress={() => props.navigation.navigate('Home')}
+          >
+            Volver
           </Button>
         </View>
       </View>
@@ -150,6 +147,14 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   btnIngresar: {
+    marginRight: 20,
+    marginLeft: 20,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  btnVolver: {
+    marginTop: 20,
     marginRight: 20,
     marginLeft: 20,
     height: 50,
