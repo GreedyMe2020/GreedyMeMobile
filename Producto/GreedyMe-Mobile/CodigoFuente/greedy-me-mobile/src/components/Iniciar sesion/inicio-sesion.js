@@ -4,10 +4,19 @@ import { StyleSheet, StatusBar, Text, View } from 'react-native';
 import SafeAreaView from 'react-native-safe-area-view';
 import { connect } from 'react-redux';
 import { signIn } from '../../../redux/actions/auth-actions';
+import { Form, TextValidator } from 'react-native-validator-form';
 
 function IniciarSesion(props) {
   const [email, setEmail] = React.useState('');
   const [pass, setPass] = React.useState('');
+
+  const handleChange = (email) => {
+    setEmail({ email });
+  };
+
+  const handleSubmit = () => {};
+
+  const form = React.createRef();
 
   return (
     <SafeAreaView style={styles.container}>
@@ -50,6 +59,20 @@ function IniciarSesion(props) {
             />
           }
         />
+        <Form ref={form} onSubmit={handleSubmit}>
+          <TextValidator
+            name="email"
+            label="email"
+            validators={['required', 'isEmail']}
+            errorMessages={['This field is required', 'Email invalid']}
+            placeholder="Your email"
+            type="text"
+            keyboardType="email-address"
+            value={email}
+            onChangeText={handleChange}
+          />
+          <Button title="Submit" onPress={handleSubmit} />
+        </Form>
 
         <View style={styles.contOlvidePass}>
           <Text style={styles.olvideMiPass}>Olvidé mi contraseña</Text>
@@ -75,7 +98,6 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#1E1B4D',
     flex: 1,
   },
   titulo: {
