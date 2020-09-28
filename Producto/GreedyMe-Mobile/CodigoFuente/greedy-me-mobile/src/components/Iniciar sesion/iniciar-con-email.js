@@ -73,7 +73,7 @@ function IniciarSesionConEmail(props) {
           style={styles.btnIngresar}
           mode="contained"
           title="Submit"
-          onPress={handleSubmit}
+          onPress={() => props.navigation.navigate('Main')}
         >
           Ingresar
         </Button>

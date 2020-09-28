@@ -59,7 +59,7 @@ export default function App(props) {
                 name="Main"
                 component={Main}
                 options={({ route }) => ({
-                  headerTitle: obtenerTitulo(route.key),
+                  headerTitle: obtenerTitulo(route),
                 })}
               />
             </Stack.Navigator>

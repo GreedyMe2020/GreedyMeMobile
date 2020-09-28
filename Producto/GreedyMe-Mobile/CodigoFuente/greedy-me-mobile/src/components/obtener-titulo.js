@@ -4,12 +4,12 @@ export default function obtenerTitulo(route) {
   // If the focused route is not found, we need to assume it's the initial screen
   // This can happen during if there hasn't been any navigation inside the screen
   // In our case, it's "Feed" as that's the first screen inside the navigator
-  const routeName = getFocusedRouteNameFromRoute(route) ?? 'inicio';
+  const routeName = getFocusedRouteNameFromRoute(route) ?? 1;
 
   switch (routeName) {
-    case 'inicio':
+    case 1:
       return 'naranja';
-    case 'buscador':
+    case 2:
       return 'Buscar';
     case 'cupones':
       return 'Mis cupones';

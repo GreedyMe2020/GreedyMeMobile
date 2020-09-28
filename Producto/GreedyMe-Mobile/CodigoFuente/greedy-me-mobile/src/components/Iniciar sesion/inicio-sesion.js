@@ -17,7 +17,7 @@ function IniciarSesion(props) {
         <Text style={styles.letraNaranja}>me </Text>
       </View>
       <View style={styles.inputSesion}>
-        <IniciarSesionConEmail />
+        <IniciarSesionConEmail navigation={props.navigation} />
       </View>
       <View style={styles.ingresoConRedes}>
         <IniciarSesionConRedes />
