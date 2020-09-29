@@ -4,23 +4,15 @@ import {
   Keyboard,
   Platform,
   StyleSheet,
-  StatusBar,
   Text,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import {
-  Appbar,
-  Avatar,
-  IconButton,
-  Button,
-  List,
-  TextInput,
-} from 'react-native-paper';
-import SafeAreaView from 'react-native-safe-area-view';
+import { Avatar, List } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { signIn } from '../../../redux/actions/auth-actions';
-import { Form, TextValidator } from 'react-native-validator-form';
+
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 function Perfil() {
   return (
@@ -41,19 +33,10 @@ function Perfil() {
               <List.Subheader>Mis datos</List.Subheader>
               <List.Item
                 title="Datos personales"
-                left={(props) => (
-                  <List.Icon {...props} icon="account" style={styles.icono} />
-                )}
+                style={styles.listItem}
+                left={(props) => <List.Icon icon="account" color="#707070" />}
                 right={(props) => (
-                  <List.Icon
-                    {...props}
-                    icon="apple-keyboard-control"
-                    style={[
-                      {
-                        transform: [{ rotate: '90deg' }],
-                      },
-                    ]}
-                  />
+                  <List.Icon icon="chevron-right" color="#707070" size={24} />
                 )}
               />
             </List.Section>
@@ -101,9 +84,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#e0e0e0',
   },
   misDatos: {
-    flex: 1,
+    flex: 3,
     width: '100%',
     backgroundColor: 'white',
+  },
+  listItem: {
+    alignItems: 'center',
+    backgroundColor: '#eeeeee',
+    justifyContent: 'center',
   },
 });
 
