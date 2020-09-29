@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Divider, TextInput } from 'react-native-paper';
+import { Divider } from 'react-native-paper';
 import {
   KeyboardAvoidingView,
   Keyboard,
