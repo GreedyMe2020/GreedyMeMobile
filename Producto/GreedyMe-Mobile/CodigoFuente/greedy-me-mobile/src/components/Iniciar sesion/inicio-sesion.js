@@ -38,11 +38,14 @@ function IniciarSesion(props) {
           <View style={styles.ingresoConRedes}>
             <IniciarSesionConRedes />
           </View>
-          <View>
-            <Text style={styles.textoCrearCuenta}>Crear nueva cuenta</Text>
-            <Divider
-              style={{ backgroundColor: '#F7941E', height: 2, bottom: 13 }}
-            />
+          <View style={styles.contenedorCrearCuenta}>
+            <Text style={styles.textoPreguntaCuenta}>¿No tenés cuenta?</Text>
+            <View>
+              <Text style={styles.textoCrearCuenta}>Registrate acá</Text>
+              <Divider
+                style={{ backgroundColor: '#F7941E', height: 2, marginLeft: 8 }}
+              />
+            </View>
           </View>
         </SafeAreaView>
       </TouchableWithoutFeedback>
@@ -93,12 +96,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     top: -10,
   },
-  textoCrearCuenta: {
-    bottom: 15,
-    fontSize: 16,
-    width: '100%',
+  contenedorCrearCuenta: {
+    bottom: 25,
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    width: '100%',
+  },
+  textoPreguntaCuenta: {
+    fontSize: 16,
+  },
+  textoCrearCuenta: {
+    fontSize: 16,
+    marginLeft: 8,
+    fontWeight: 'bold',
+    color: '#F7941E',
   },
   btnVolver: {
     marginTop: 20,

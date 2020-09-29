@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Button } from 'react-native-paper';
-import { StyleSheet, View } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 import { signIn } from '../../../redux/actions/auth-actions';
 
@@ -8,7 +8,12 @@ function IniciarSesionConRedes(props) {
   return (
     <View>
       <Button
-        icon="gmail"
+        icon={({ padding }) => (
+          <Image
+            source={require('../../multimedia/gmail.png')}
+            style={{ width: 20, height: 20, marginEnd: 3, marginLeft: -3 }}
+          />
+        )}
         theme={{
           colors: { primary: '#e1e1e1' }, ///1E1B4D
         }}
@@ -19,7 +24,12 @@ function IniciarSesionConRedes(props) {
         Iniciar sesión con Gmail
       </Button>
       <Button
-        icon="facebook"
+        icon={({ padding }) => (
+          <Image
+            source={require('../../multimedia/facebook.png')}
+            style={{ width: 20, height: 20, marginLeft: 7 }}
+          />
+        )}
         theme={{
           colors: { primary: '#e1e1e1' }, ///1E1B4D
         }}
@@ -41,6 +51,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 70,
+  },
+  iconRedes: {
+    width: 20,
+    height: 20,
   },
 });
 

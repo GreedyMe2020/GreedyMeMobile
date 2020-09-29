@@ -102,10 +102,11 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     justifyContent: 'flex-end',
     marginBottom: 15,
+    marginRight: 22,
   },
   olvideMiPass: {
     top: -10,
-    marginRight: 20,
+
     color: '#707070',
   },
   btnIngresar: {

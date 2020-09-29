@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'react-native-paper';
-import { StatusBar, StyleSheet, Image, Text } from 'react-native';
+import { StatusBar, StyleSheet, Image } from 'react-native';
 import SafeAreaView from 'react-native-safe-area-view';
 
 export default function PantallaLogo({ navigation }) {
