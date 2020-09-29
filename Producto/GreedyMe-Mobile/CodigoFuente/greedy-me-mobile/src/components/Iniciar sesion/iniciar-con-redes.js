@@ -21,7 +21,7 @@ function IniciarSesionConRedes(props) {
         mode="contained"
         title="Submit"
       >
-        Iniciar sesión con Gmail
+        Iniciar sesión con Google
       </Button>
       <Button
         icon={({ padding }) => (
