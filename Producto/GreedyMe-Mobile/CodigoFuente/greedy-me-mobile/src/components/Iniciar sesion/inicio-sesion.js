@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Divider, TextInput } from 'react-native-paper';
+import { Divider } from 'react-native-paper';
 import { StyleSheet, StatusBar, Text, View } from 'react-native';
 import SafeAreaView from 'react-native-safe-area-view';
 import { connect } from 'react-redux';
