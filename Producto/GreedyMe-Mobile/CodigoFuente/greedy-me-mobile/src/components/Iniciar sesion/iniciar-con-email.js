@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Button, TextInput } from 'react-native-paper';
-import { StyleSheet, StatusBar, Text, View } from 'react-native';
+import { Button } from 'react-native-paper';
+import { StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { signIn } from '../../../redux/actions/auth-actions';
 import { Form, TextValidator } from 'react-native-validator-form';
@@ -12,6 +12,7 @@ function IniciarSesionConEmail(props) {
   const handleChangeEmail = (email) => {
     setEmail(email);
   };
+
   const handleChangePassword = (password) => {
     setPassword(password);
   };

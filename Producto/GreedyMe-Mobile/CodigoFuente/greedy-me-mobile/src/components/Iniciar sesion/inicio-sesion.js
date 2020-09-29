@@ -1,6 +1,15 @@
 import * as React from 'react';
 import { Button, Divider, TextInput } from 'react-native-paper';
-import { StyleSheet, StatusBar, Text, View } from 'react-native';
+import {
+  KeyboardAvoidingView,
+  Keyboard,
+  Platform,
+  StyleSheet,
+  StatusBar,
+  Text,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import SafeAreaView from 'react-native-safe-area-view';
 import { connect } from 'react-redux';
 import { signIn } from '../../../redux/actions/auth-actions';
@@ -9,26 +18,35 @@ import IniciarSesionConRedes from './iniciar-con-redes';
 
 function IniciarSesion(props) {
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#e1e1e1" />
-      <View style={styles.titulo}>
-        <Text style={styles.letraBlanca}>gre</Text>
-        <Text style={styles.letraVerde}>edy</Text>
-        <Text style={styles.letraNaranja}>me </Text>
-      </View>
-      <View style={styles.inputSesion}>
-        <IniciarSesionConEmail />
-      </View>
-      <View style={styles.ingresoConRedes}>
-        <IniciarSesionConRedes />
-      </View>
-      <View>
-        <Text style={styles.textoCrearCuenta}>Crear nueva cuenta</Text>
-        <Divider
-          style={{ backgroundColor: '#F7941E', height: 2, bottom: 13 }}
-        />
-      </View>
-    </SafeAreaView>
+    <KeyboardAvoidingView
+      style={styles.containerTeclado}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
+      enabled={Platform.OS === 'ios'}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <SafeAreaView style={styles.container}>
+          <StatusBar barStyle="light-content" backgroundColor="#e1e1e1" />
+          <View style={styles.titulo}>
+            <Text style={styles.letraBlanca}>gre</Text>
+            <Text style={styles.letraVerde}>edy</Text>
+            <Text style={styles.letraNaranja}>me </Text>
+          </View>
+          <View style={styles.inputSesion}>
+            <IniciarSesionConEmail />
+          </View>
+          <View style={styles.ingresoConRedes}>
+            <IniciarSesionConRedes />
+          </View>
+          <View>
+            <Text style={styles.textoCrearCuenta}>Crear nueva cuenta</Text>
+            <Divider
+              style={{ backgroundColor: '#F7941E', height: 2, bottom: 13 }}
+            />
+          </View>
+        </SafeAreaView>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -36,6 +54,9 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
+    flex: 1,
+  },
+  containerTeclado: {
     flex: 1,
   },
   titulo: {
@@ -66,6 +87,7 @@ const styles = StyleSheet.create({
   },
   ingresoConRedes: {
     flex: 1.3,
+    minHeight: 100,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
