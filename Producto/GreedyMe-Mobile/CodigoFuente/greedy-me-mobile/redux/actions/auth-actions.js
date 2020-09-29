@@ -32,7 +32,7 @@ export const signIn = (usuario) => {
     const firebase = getFirebase();
     firebase
       .auth()
-      .signInWithEmailAndPassword(usuario.email, usuario.password)
+      .signInWithEmailAndPassword(usuario.email, usuario.contraseña)
       .then(() => {
         dispatch({ type: 'INICIO_CORRECTO' });
       })

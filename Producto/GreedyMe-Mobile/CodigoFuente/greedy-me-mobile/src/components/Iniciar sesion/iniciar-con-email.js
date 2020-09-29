@@ -16,9 +16,15 @@ function IniciarSesionConEmail(props) {
   const handleChangePassword = (password) => {
     setPassword(password);
   };
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    props.signIn({ email: email, contraseña: password });
+  };
 
   const form = React.createRef();
+
+  if (props.auth.uid) {
+    props.navigation.navigate('Main');
+  }
 
   return (
     <Form ref={form} onSubmit={handleSubmit}>
@@ -51,10 +57,10 @@ function IniciarSesionConEmail(props) {
         placeholder="Contraseña"
         secureTextEntry
         validators={['required']}
-        errorMessages={['This field is required']}
+        errorMessages={['* Este campo es requerido']}
         type="text"
         value={password}
-        onChange={handleChangePassword}
+        onChangeText={handleChangePassword}
         errorStyle={{
           container: { top: 0, left: 20, position: 'relative' },
           text: { color: 'red' },
@@ -74,10 +80,15 @@ function IniciarSesionConEmail(props) {
           style={styles.btnIngresar}
           mode="contained"
           title="Submit"
-          onPress={() => props.navigation.navigate('Main')}
+          onPress={handleSubmit}
         >
           Ingresar
         </Button>
+        {props.authError ? (
+          <Text style={styles.alerta}>
+            Los datos ingresados son incorrectos
+          </Text>
+        ) : null}
         <View style={styles.or}>
           <Text>- O -</Text>
         </View>
@@ -116,6 +127,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  alerta: {
+    textAlign: 'center',
+    color: 'red',
+  },
   or: {
     top: 40,
     width: '100%',
@@ -133,7 +148,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    signIn: (user) => dispatch(signIn(user)),
+    signIn: (formData) => dispatch(signIn(formData)),
   };
 };
 

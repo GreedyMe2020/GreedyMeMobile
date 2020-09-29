@@ -7,8 +7,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import PantallaLogo from './src/components/pantalla-logo';
 import IniciarSesion from './src/components/Iniciar sesion/inicio-sesion';
 import Main from './src/components/pages/main';
-import IniciarSesionConEmail from './src/components/Iniciar sesion/iniciar-con-email';
-import IniciarSesionConRedes from './src/components/Iniciar sesion/iniciar-con-redes';
 import { Provider } from 'react-redux';
 import store from './redux/store';
 import obtenerTitulo from './src/components/obtener-titulo';
@@ -25,6 +23,18 @@ const theme = {
   },
 };
 
+//Funcion para determinar el color del header del componente
+// Main a partir del nombre de la ruta obtenida.
+function coloresHeaderTab(tabName) {
+  const colorHead =
+    tabName === 'Buscar' || tabName === 'Mis favoritos'
+      ? '#76B39D'
+      : tabName === 'Mis cupones'
+      ? '#F7941E'
+      : '#1E1B4D';
+  return colorHead;
+}
+
 const Stack = createStackNavigator();
 
 export default function App(props) {
@@ -33,32 +43,28 @@ export default function App(props) {
       <SafeAreaProvider>
         <PaperProvider theme={theme}>
           <NavigationContainer>
-            <Stack.Navigator headerMode="none">
+            <Stack.Navigator headerMode="screen">
               <Stack.Screen
                 name="Home"
                 component={PantallaLogo}
-                options={{ title: '' }}
+                options={{ headerShown: false }}
               />
               <Stack.Screen
                 name="IniciarSesion"
                 component={IniciarSesion}
-                options={{ title: '' }}
-              />
-              <Stack.Screen
-                name="IniciarSesionConEmail"
-                component={IniciarSesionConEmail}
-                options={{ title: '' }}
-              />
-              <Stack.Screen
-                name="IniciarSesionConRedes"
-                component={IniciarSesionConRedes}
-                options={{ title: '' }}
+                options={{ title: '', headerShown: false }}
               />
               <Stack.Screen
                 name="Main"
                 component={Main}
                 options={({ route }) => ({
                   headerTitle: obtenerTitulo(route),
+                  headerShown: obtenerTitulo(route) === 'Inicio' ? false : true,
+                  headerLeft: null,
+                  headerStyle: {
+                    backgroundColor: coloresHeaderTab(obtenerTitulo(route)),
+                  },
+                  headerTitleStyle: { color: 'white' },
                 })}
               />
             </Stack.Navigator>
