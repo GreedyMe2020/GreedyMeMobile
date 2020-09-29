@@ -56,7 +56,7 @@ function IniciarSesionConEmail(props) {
         placeholder="Contraseña"
         secureTextEntry
         validators={['required']}
-        errorMessages={['This field is required']}
+        errorMessages={['* Este campo es requerido']}
         type="text"
         value={password}
         onChangeText={handleChangePassword}

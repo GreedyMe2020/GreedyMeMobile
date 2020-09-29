@@ -24,6 +24,8 @@ const theme = {
   },
 };
 
+//Funcion para determinar el color del header del componente
+// Main a partir del nombre de la ruta obtenida.
 function coloresHeaderTab(tabName) {
   const colorHead =
     tabName === 'Buscar' || tabName === 'Mis favoritos'

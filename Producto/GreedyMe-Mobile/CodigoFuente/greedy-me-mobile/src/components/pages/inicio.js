@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 function Inicio(props) {
   const handleSubmit = () => {
     props.signOut();
-    //props.navigation.navigate('');
+    props.navigation.navigate('IniciarSesion');
   };
 
   return (
