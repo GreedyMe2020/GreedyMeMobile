@@ -33,7 +33,7 @@ function IniciarSesion(props) {
             <Text style={styles.letraNaranja}>me </Text>
           </View>
           <View style={styles.inputSesion}>
-            <IniciarSesionConEmail />
+            <IniciarSesionConEmail navigation={props.navigation} />
           </View>
           <View style={styles.ingresoConRedes}>
             <IniciarSesionConRedes />
@@ -97,6 +97,14 @@ const styles = StyleSheet.create({
     bottom: 15,
     fontSize: 16,
     width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  btnVolver: {
+    marginTop: 20,
+    marginRight: 20,
+    marginLeft: 20,
+    height: 50,
     alignItems: 'center',
     justifyContent: 'center',
   },
