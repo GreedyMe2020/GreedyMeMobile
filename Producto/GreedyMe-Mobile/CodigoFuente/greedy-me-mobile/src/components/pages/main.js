@@ -42,7 +42,7 @@ function Main() {
           tabBarColor: '#F7941E',
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons
-              name="qrcode-scan"
+              name="ticket-percent"
               color={color}
               size={26}
             />
