@@ -114,7 +114,6 @@ const styles = StyleSheet.create({
   },
   olvideMiPass: {
     top: -10,
-
     color: '#707070',
   },
   btnIngresar: {
