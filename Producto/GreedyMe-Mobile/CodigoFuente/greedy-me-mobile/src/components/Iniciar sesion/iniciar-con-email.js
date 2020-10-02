@@ -89,9 +89,6 @@ function IniciarSesionConEmail(props) {
             Los datos ingresados son incorrectos
           </Text>
         ) : null}
-        <View style={styles.or}>
-          <Text>- O -</Text>
-        </View>
       </View>
     </Form>
   );
@@ -130,12 +127,6 @@ const styles = StyleSheet.create({
   alerta: {
     textAlign: 'center',
     color: 'red',
-  },
-  or: {
-    top: 40,
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });
 

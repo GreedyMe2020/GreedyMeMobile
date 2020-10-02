@@ -3,8 +3,9 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Avatar, Divider, List } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { signIn } from '../../../redux/actions/auth-actions';
+import MisDatos from './datosPerfil';
 
-function Perfil() {
+function Perfil(props) {
   return (
     <View style={styles.contenedor}>
       <View style={styles.subtitulo}>
@@ -21,6 +22,9 @@ function Perfil() {
             right={(props) => (
               <List.Icon icon="chevron-right" color="#707070" size={20} />
             )}
+            onPress={() => {
+              props.navigation.navigate('MisDatos');
+            }}
           />
         </List.Section>
       </View>
