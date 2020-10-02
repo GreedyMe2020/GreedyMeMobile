@@ -8,8 +8,7 @@ import {
   Text,
   TouchableWithoutFeedback,
 } from 'react-native';
-import { Button } from 'react-native-paper';
-import { Form, TextValidator } from 'react-native-validator-form';
+import { Button, TextInput } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { signIn } from '../../../redux/actions/auth-actions';
 
@@ -33,8 +32,6 @@ function MisDatos(props) {
   };
   const handleSubmit = () => {};
 
-  const form = React.createRef();
-
   return (
     <KeyboardAvoidingView
       style={styles.containerTeclado}
@@ -44,103 +41,67 @@ function MisDatos(props) {
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
-          <Form
-            ref={form}
-            onSubmit={handleSubmit}
-            style={styles.contenedorForm}
-          >
-            <TextValidator
-              style={styles.inputEmailPass}
-              placeholderTextColor="#000000"
-              required
-              name="nombre"
-              validators={['required']}
-              errorMessages={['* Este campo es obligatorio']}
-              placeholder="Nombre"
-              type="text"
-              value={nombre}
-              onChangeText={handleChangeNombre}
-              errorStyle={{
-                container: { top: 0, left: 20, position: 'relative' },
-                text: { color: 'red' },
-                underlineValidColor: '#76B39D',
-                underlineInvalidColor: 'red',
+          <TextInput
+            style={styles.inputEmailPass}
+            mode="flat"
+            label="Nombre"
+            required
+            underlineColor="#76B39D"
+            value={nombre}
+            onChangeText={handleChangeNombre}
+            validators={['required']}
+            errorMessages={['*Este campo es obligatorio']}
+          />
+          <TextInput
+            style={styles.inputEmailPass}
+            mode="flat"
+            label="Apellido"
+            required
+            underlineColor="#76B39D"
+            value={apellido}
+            onChangeText={handleChangeApellido}
+            validators={['required']}
+            errorMessages={['* Este campo es obligatorio']}
+          />
+          <TextInput
+            style={styles.inputEmailPass}
+            mode="flat"
+            label="Email"
+            required
+            underlineColor="#76B39D"
+            value={email}
+            onChangeText={handleChangeEmail}
+            validators={['required']}
+            errorMessages={['* Este campo es obligatorio']}
+          />
+          <TextInput
+            style={styles.inputEmailPass}
+            mode="flat"
+            label="Contraseña"
+            required
+            disabled
+            underlineColor="#76B39D"
+            value={password}
+            onChangeText={handleChangePassword}
+            validators={['required']}
+            errorMessages={['* Este campo es obligatorio']}
+          />
+          <View style={styles.contOlvidePass}>
+            <Text style={styles.olvideMiPass}>Cambiar mi contraseña</Text>
+          </View>
+          <View style={styles.contenedorBoton}>
+            <Button
+              theme={{
+                colors: { primary: '#76B39D' },
               }}
-            />
-            <TextValidator
-              style={styles.inputEmailPass}
-              placeholderTextColor="#000000"
-              required
-              name="apellido"
-              validators={['required']}
-              errorMessages={['* Este campo es obligatorio']}
-              placeholder="Apellido"
-              type="text"
-              value={apellido}
-              onChangeText={handleChangeApellido}
-              errorStyle={{
-                container: { top: 0, left: 20, position: 'relative' },
-                text: { color: 'red' },
-                underlineValidColor: '#76B39D',
-                underlineInvalidColor: 'red',
-              }}
-            />
-            <TextValidator
-              style={styles.inputEmailPass}
-              placeholderTextColor="#000000"
-              required
-              name="email"
-              validators={['isEmail']}
-              errorMessages={['* El email no es válido']}
-              placeholder="Email"
-              type="text"
-              keyboardType="email-address"
-              value={email}
-              onChangeText={handleChangeEmail}
-              errorStyle={{
-                container: { top: 0, left: 20, position: 'relative' },
-                text: { color: 'red' },
-                underlineValidColor: '#76B39D',
-                underlineInvalidColor: 'red',
-              }}
-            />
-            <TextValidator
-              style={styles.inputEmailPass}
-              placeholderTextColor="#000000"
-              required
-              name="password"
-              label="text"
-              placeholder="Contraseña"
-              secureTextEntry
-              validators={['required']}
-              errorMessages={['* Este campo es requerido']}
-              type="text"
-              value={password}
-              onChangeText={handleChangePassword}
-              errorStyle={{
-                container: { top: 0, left: 20, position: 'relative' },
-                text: { color: 'red' },
-                underlineValidColor: '#76B39D',
-                underlineInvalidColor: 'red',
-              }}
-            />
-            <View style={styles.contOlvidePass}>
-              <Text style={styles.olvideMiPass}>Cambiar mi contraseña</Text>
-            </View>
-            <View style={styles.contenedorBoton}>
-              <Button
-                theme={{
-                  colors: { primary: '#76B39D' },
-                }}
-                style={styles.btnIngresar}
-                mode="contained"
-                title="Submit"
-                onPress={handleSubmit}
-              >
-                Guardar datos
-              </Button>
-            </View>
-          </Form>
+              style={styles.btnIngresar}
+              mode="contained"
+              title="Submit"
+              onPress={handleSubmit}
+            >
+              Guardar datos
+            </Button>
+          </View>
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
@@ -151,6 +112,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: '100%',
+    top: 50,
   },
   containerTeclado: {
     flex: 1,
@@ -161,10 +123,10 @@ const styles = StyleSheet.create({
   inputEmailPass: {
     marginRight: 20,
     marginLeft: 20,
-    marginBottom: 10,
-    paddingLeft: 5,
+    marginBottom: 15,
     height: 55,
     fontSize: 18,
+    backgroundColor: '#e8e8e8',
   },
   contOlvidePass: {
     alignItems: 'flex-end',
