@@ -23,7 +23,7 @@ function IniciarSesionConRedes(props) {
           '652418121698-idd1gmmbtp3bnuu8n65h6idp1oe7ncgd.apps.googleusercontent.com',
         scopes: ['profile', 'email'],
       });
-
+      //ACA YA SE REGISTRA
       if (result.type === 'success') {
         this.onSignIn(result);
         setUser(result);
@@ -35,10 +35,9 @@ function IniciarSesionConRedes(props) {
       return { error: true };
     }
   };
+
   //VALIDACION DE USUARIO UNA VEZ REGISTRADO
   const onSignIn = (googleUser) => {
-    console.log('Google Auth Response', googleUser);
-    // We need to register an Observer on Firebase Auth to make sure auth is initialized.
     var unsubscribe = firebase.auth().onAuthStateChanged(
       function (firebaseUser) {
         unsubscribe();
@@ -127,13 +126,6 @@ function IniciarSesionConRedes(props) {
         const credentialFireBase = firebase.auth.FacebookAuthProvider.credential(
           token,
         );
-        firebase
-          .auth()
-          .signInWithCredential(credentialFireBase)
-          .catch((error) => {
-            console.log(error);
-          });
-        // console.log((await response.json()).name);
         const data = await response.json();
         setUser(data);
       } else {
@@ -208,7 +200,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    signIn: (user) => dispatch(signIn(user)),
+    signUp: (user) => dispatch(signIn(user)),
   };
 };
 
