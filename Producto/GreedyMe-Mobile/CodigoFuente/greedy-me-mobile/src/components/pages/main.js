@@ -1,37 +1,78 @@
-import * as React from 'react';
-import { BottomNavigation } from 'react-native-paper';
+import React from 'react';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Inicio from './inicio';
 import Cupones from './cupones';
 import Favoritos from './favoritos';
 import Buscador from './buscar';
 import Perfil from './perfil';
 
-const Main = () => {
-  const [index, setIndex] = React.useState(0);
-  const [routes] = React.useState([
-    { key: 'inicio', title: 'Inicio', icon: 'home', color: '#1E1B4D' },
-    { key: 'buscador', title: 'Buscador', icon: 'magnify', color: '#76B39D' },
-    { key: 'cupones', title: 'Cupones', icon: 'qrcode-scan', color: '#F7941E' },
-    { key: 'favoritos', title: 'Favoritos', icon: 'heart', color: '#76B39D' },
-    { key: 'perfil', title: 'Perfil', icon: 'account', color: '#1E1B4D' },
-  ]);
+const Tab = createMaterialBottomTabNavigator();
 
-  const renderScene = BottomNavigation.SceneMap({
-    inicio: Inicio,
-    cupones: Cupones,
-    favoritos: Favoritos,
-    buscador: Buscador,
-    perfil: Perfil,
-  });
-
+function Main() {
   return (
-    <BottomNavigation
-      navigationState={{ index, routes }}
-      onIndexChange={setIndex}
-      renderScene={renderScene}
-      activeColor="white"
-    />
+    <Tab.Navigator initialRouteName="Inicio" activeColor="white">
+      <Tab.Screen
+        name="Inicio"
+        component={Inicio}
+        options={{
+          tabBarLabel: 'Home',
+          tabBarColor: '#1E1B4D',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="home" color={color} size={26} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Buscador"
+        component={Buscador}
+        options={{
+          tabBarLabel: 'Buscador',
+          tabBarColor: '#76B39D',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="magnify" color={color} size={26} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Cupones"
+        component={Cupones}
+        options={{
+          tabBarLabel: 'Cupones',
+          tabBarColor: '#F7941E',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons
+              name="ticket-percent"
+              color={color}
+              size={26}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Favoritos"
+        component={Favoritos}
+        options={{
+          tabBarLabel: 'Favoritos',
+          tabBarColor: '#76B39D',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="heart" color={color} size={26} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Perfil"
+        component={Perfil}
+        options={{
+          tabBarLabel: 'Perfil',
+          tabBarColor: '#1E1B4D',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="account" color={color} size={26} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
   );
-};
+}
 
 export default Main;

@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Button, TextInput } from 'react-native-paper';
-import { StyleSheet, StatusBar, Text, View } from 'react-native';
+import { Button } from 'react-native-paper';
+import { StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { signIn } from '../../../redux/actions/auth-actions';
 import { Form, TextValidator } from 'react-native-validator-form';
@@ -12,6 +12,7 @@ function IniciarSesionConEmail(props) {
   const handleChangeEmail = (email) => {
     setEmail(email);
   };
+
   const handleChangePassword = (password) => {
     setPassword(password);
   };
@@ -56,7 +57,7 @@ function IniciarSesionConEmail(props) {
         placeholder="Contraseña"
         secureTextEntry
         validators={['required']}
-        errorMessages={['This field is required']}
+        errorMessages={['* Este campo es requerido']}
         type="text"
         value={password}
         onChangeText={handleChangePassword}
@@ -88,9 +89,6 @@ function IniciarSesionConEmail(props) {
             Los datos ingresados son incorrectos
           </Text>
         ) : null}
-        <View style={styles.or}>
-          <Text>- O -</Text>
-        </View>
       </View>
     </Form>
   );
@@ -112,10 +110,10 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     justifyContent: 'flex-end',
     marginBottom: 15,
+    marginRight: 22,
   },
   olvideMiPass: {
     top: -10,
-    marginRight: 20,
     color: '#707070',
   },
   btnIngresar: {
@@ -128,12 +126,6 @@ const styles = StyleSheet.create({
   alerta: {
     textAlign: 'center',
     color: 'red',
-  },
-  or: {
-    top: 40,
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });
 

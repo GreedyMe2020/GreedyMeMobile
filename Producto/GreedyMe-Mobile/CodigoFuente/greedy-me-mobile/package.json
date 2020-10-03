@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@react-native-community/masked-view": "0.1.10",
+    "@react-navigation/material-bottom-tabs": "^5.2.18",
     "@react-navigation/native": "^5.7.4",
     "@react-navigation/stack": "^5.9.1",
     "expo": "~39.0.2",
@@ -34,12 +35,16 @@
     "react-redux-firebase": "^2.2.4",
     "redux": "^4.0.5",
     "redux-firestore": "^0.13.0",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "expo-permissions": "~9.3.0",
+    "expo-notifications": "~0.7.2",
+    "expo-location": "~9.0.0"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
     "@react-native-community/eslint-config": "^2.0.0",
-    "eslint": "^7.9.0"
+    "eslint": "^7.9.0",
+    "prettier-eslint": "^11.0.0"
   },
   "private": true
 }
