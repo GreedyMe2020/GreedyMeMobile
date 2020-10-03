@@ -13,6 +13,7 @@ import obtenerTitulo from './src/components/obtener-titulo';
 import MisDatos from './src/components/Perfil/datosPerfil';
 import Notificaciones from './src/components/Perfil/notificaciones';
 import Ubicacion from './src/components/Perfil/ubicacion';
+import CambiarContraseña from './src/components/Perfil/cambiarContraseña';
 
 const theme = {
   ...DefaultTheme,
@@ -99,6 +100,18 @@ export default function App(props) {
                 component={Ubicacion}
                 options={({ route }) => ({
                   title: 'Gestionar mi ubicación',
+                  headerShown: true,
+                  headerTintColor: 'white',
+                  headerStyle: {
+                    backgroundColor: '#1E1B4D',
+                  },
+                })}
+              />
+              <Stack.Screen
+                name="CambiarContraseña"
+                component={CambiarContraseña}
+                options={({ route }) => ({
+                  title: 'Cambiar contraseña',
                   headerShown: true,
                   headerTintColor: 'white',
                   headerStyle: {

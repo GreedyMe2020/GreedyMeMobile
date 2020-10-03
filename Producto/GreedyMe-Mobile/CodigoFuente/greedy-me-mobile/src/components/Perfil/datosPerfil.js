@@ -87,7 +87,14 @@ function MisDatos(props) {
             errorMessages={['* Este campo es obligatorio']}
           />
           <View style={styles.contOlvidePass}>
-            <Text style={styles.olvideMiPass}>Cambiar mi contraseña</Text>
+            <Text
+              style={styles.olvideMiPass}
+              onPress={() => {
+                props.navigation.navigate('CambiarContraseña');
+              }}
+            >
+              Cambiar mi contraseña
+            </Text>
           </View>
           <View style={styles.contenedorBoton}>
             <Button
@@ -116,9 +123,6 @@ const styles = StyleSheet.create({
   },
   containerTeclado: {
     flex: 1,
-  },
-  contenedorForm: {
-    top: 50,
   },
   inputEmailPass: {
     marginRight: 20,
