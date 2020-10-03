@@ -7,7 +7,7 @@ import { signIn } from '../../../redux/actions/auth-actions';
 function Notificaciones(props) {
   const [swiComerciosFav, setSwiComerciosFav] = React.useState(false);
   const [swiComerciosUbic, setSwiComerciosUbic] = React.useState(false);
-  const [swiComerciosTodos, setSwiComerciosTodos] = React.useState(false);
+  const [swiComerciosTodos, setSwiComerciosTodos] = React.useState(true);
 
   const onToggleSwitchFav = () => setSwiComerciosFav(!swiComerciosFav);
   const onToggleSwitchUbic = () => setSwiComerciosUbic(!swiComerciosUbic);
