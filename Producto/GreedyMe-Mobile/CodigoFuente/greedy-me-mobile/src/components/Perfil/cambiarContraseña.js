@@ -10,6 +10,8 @@ import {
 } from 'react-native';
 import { Form, TextValidator } from 'react-native-validator-form';
 import { Button, TextInput } from 'react-native-paper';
+import { cambiarContraseña } from '../../../redux/actions/user-actions';
+import { connect } from 'react-redux';
 
 function Registro(props) {
   const [password, setPassword] = React.useState(null);
@@ -31,6 +33,11 @@ function Registro(props) {
         setCompletos(null);
         if (passwordNueva === passwordRepetida) {
           setEsDistinta(null);
+          props.cambiarContraseña({
+            email: props.profile.email,
+            password: password,
+            passwordNueva: passwordNueva,
+          });
         } else {
           setEsDistinta('Ambos campos deben ser iguales');
         }
@@ -68,8 +75,11 @@ function Registro(props) {
             mode="flat"
             label="Contraseña actual"
             underlineColor="#76B39D"
-            disabled
             value={password}
+            secureTextEntry={true}
+            onChangeText={(text) => {
+              setPassword(text);
+            }}
           />
           <TextInput
             style={styles.inputEmailPass}
@@ -119,6 +129,11 @@ function Registro(props) {
           </View>
           <View style={styles.contenedorError}>
             <Text style={styles.errorDistintos}>{estanCompletos}</Text>
+          </View>
+          <View style={styles.contenedorError}>
+            <Text style={styles.errorDistintos}>
+              {props.contraError ? 'La contraseña actual es incorrecta' : null}
+            </Text>
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -182,4 +197,17 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Registro;
+const mapStateToProps = (state) => {
+  return {
+    auth: state.firebase.auth,
+    profile: state.firebase.profile,
+    contraError: state.user.contraError,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    cambiarContraseña: (datos) => dispatch(cambiarContraseña(datos)),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Registro);

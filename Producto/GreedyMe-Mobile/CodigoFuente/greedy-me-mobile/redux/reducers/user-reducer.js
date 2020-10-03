@@ -1,8 +1,8 @@
 const initState = {
   editData: null,
   dataError: null,
-  contraseña: null,
-  contraseñaError: null,
+  contra: null,
+  contraError: null,
 };
 
 const userReducer = (state = initState, action) => {
@@ -18,6 +18,20 @@ const userReducer = (state = initState, action) => {
       return {
         ...state,
         dataError: 'Ocurrio algun error',
+      };
+    case 'CAMBIAR_CONTRASEÑA':
+      console.log('se cambio la contraseña');
+      return {
+        ...state,
+        contra: 'se cambio la contraseña',
+        contraError: null,
+      };
+    case 'ERROR_CONTRASEÑA':
+      console.log('no se cambio la contraseña');
+      return {
+        ...state,
+        contraError: action.error,
+        contra: null,
       };
 
     default:
