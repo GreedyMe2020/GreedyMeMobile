@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, StatusBar, Text, View } from 'react-native';
 import { Avatar, Divider, List } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { signOut } from '../../../redux/actions/auth-actions';
@@ -11,6 +11,7 @@ function Perfil(props) {
   };
   return (
     <View style={styles.contenedor}>
+      <StatusBar backgroundColor="#1E1B4D" />
       <View style={styles.subtitulo}>
         <Avatar.Icon style={styles.avatar} size={70} icon="account-outline" />
         <Text style={styles.contenidoSubtitulo}>NOMBRE APELLIDO</Text>
@@ -25,6 +26,9 @@ function Perfil(props) {
             right={(props) => (
               <List.Icon icon="chevron-right" color="#707070" size={20} />
             )}
+            onPress={() => {
+              props.navigation.navigate('MisDatos');
+            }}
           />
         </List.Section>
       </View>
@@ -38,6 +42,9 @@ function Perfil(props) {
             right={(props) => (
               <List.Icon icon="chevron-right" color="#707070" size={20} />
             )}
+            onPress={() => {
+              props.navigation.navigate('GestionarNotificaciones');
+            }}
           />
           <List.Item
             title="Gestión de ubicación"
@@ -46,6 +53,9 @@ function Perfil(props) {
             right={(props) => (
               <List.Icon icon="chevron-right" color="#707070" size={20} />
             )}
+            onPress={() => {
+              props.navigation.navigate('GestionarUbicacion');
+            }}
           />
           <List.Item
             title="Términos y condiciones"

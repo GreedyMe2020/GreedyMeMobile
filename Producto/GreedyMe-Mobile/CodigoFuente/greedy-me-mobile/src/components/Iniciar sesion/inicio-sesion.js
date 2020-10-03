@@ -35,6 +35,9 @@ function IniciarSesion(props) {
           <View style={styles.inputSesion}>
             <IniciarSesionConEmail navigation={props.navigation} />
           </View>
+          <View style={styles.or}>
+            <Text>- O -</Text>
+          </View>
           <View style={styles.ingresoConRedes}>
             <IniciarSesionConRedes />
           </View>
@@ -64,7 +67,7 @@ const styles = StyleSheet.create({
   },
   titulo: {
     flexDirection: 'row',
-    flex: 1.5,
+    flex: 1.8,
     alignItems: 'center',
     justifyContent: 'center',
     marginLeft: 15, //igual este no deberia estar nose porque no lo centra
@@ -117,6 +120,13 @@ const styles = StyleSheet.create({
     marginRight: 20,
     marginLeft: 20,
     height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  or: {
+    flex: 0,
+    top: 20,
+    width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
   },
