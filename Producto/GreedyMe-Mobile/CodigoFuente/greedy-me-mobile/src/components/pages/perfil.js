@@ -14,7 +14,9 @@ function Perfil(props) {
       <StatusBar backgroundColor="#1E1B4D" />
       <View style={styles.subtitulo}>
         <Avatar.Icon style={styles.avatar} size={70} icon="account-outline" />
-        <Text style={styles.contenidoSubtitulo}>NOMBRE APELLIDO</Text>
+        <Text style={styles.contenidoSubtitulo}>
+          {props.profile.nombre + ' ' + props.profile.apellido}
+        </Text>
       </View>
       <View style={styles.misDatos}>
         <List.Section>
@@ -129,6 +131,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   return {
     auth: state.firebase.auth,
+    profile: state.firebase.profile,
   };
 };
 
