@@ -10,7 +10,9 @@ import Main from './src/components/pages/main';
 import { Provider } from 'react-redux';
 import store from './redux/store';
 import obtenerTitulo from './src/components/obtener-titulo';
-import MisDatos from './src/components/pages/datosPerfil';
+import MisDatos from './src/components/Perfil/datosPerfil';
+import Notificaciones from './src/components/Perfil/notificaciones';
+import Ubicacion from './src/components/Perfil/ubicacion';
 
 const theme = {
   ...DefaultTheme,
@@ -73,6 +75,30 @@ export default function App(props) {
                 component={MisDatos}
                 options={({ route }) => ({
                   title: 'Mis datos personales',
+                  headerShown: true,
+                  headerTintColor: 'white',
+                  headerStyle: {
+                    backgroundColor: '#1E1B4D',
+                  },
+                })}
+              />
+              <Stack.Screen
+                name="GestionarNotificaciones"
+                component={Notificaciones}
+                options={({ route }) => ({
+                  title: 'Gestionar mis notificaciones',
+                  headerShown: true,
+                  headerTintColor: 'white',
+                  headerStyle: {
+                    backgroundColor: '#1E1B4D',
+                  },
+                })}
+              />
+              <Stack.Screen
+                name="GestionarUbicacion"
+                component={Ubicacion}
+                options={({ route }) => ({
+                  title: 'Gestionar mi ubicación',
                   headerShown: true,
                   headerTintColor: 'white',
                   headerStyle: {
