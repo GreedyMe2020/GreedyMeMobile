@@ -10,19 +10,22 @@ import {
 } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import { connect } from 'react-redux';
-import { signIn } from '../../../redux/actions/auth-actions';
+import { editarDatos } from '../../../redux/actions/user-actions';
 
 function MisDatos(props) {
-  const [nombre, setNombre] = React.useState('');
-  const [apellido, setApellido] = React.useState('');
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
+  const [nombre, setNombre] = React.useState(props.profile.nombre);
+  const [apellido, setApellido] = React.useState(props.profile.apellido);
+  const [email, setEmail] = React.useState(props.profile.email);
+  const [password, setPassword] = React.useState('***********');
+  const [mensajeError, setMensajeError] = React.useState('');
 
   const handleChangeNombre = (nombre) => {
     setNombre(nombre);
+    console.log(nombre);
   };
   const handleChangeApellido = (apellido) => {
     setApellido(apellido);
+    console.log(apellido);
   };
   const handleChangeEmail = (email) => {
     setEmail(email);
@@ -30,7 +33,18 @@ function MisDatos(props) {
   const handleChangePassword = (password) => {
     setPassword(password);
   };
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    if (nombre === '' || apellido === '') {
+      setMensajeError('Ambos campos deben ser completados');
+    } else {
+      setMensajeError('');
+      props.editarDatos({
+        id: props.auth.uid,
+        nombre: nombre,
+        apellido: apellido,
+      });
+    }
+  };
 
   return (
     <KeyboardAvoidingView
@@ -45,6 +59,7 @@ function MisDatos(props) {
             style={styles.inputEmailPass}
             mode="flat"
             label="Nombre"
+            name="nombre"
             required
             underlineColor="#76B39D"
             value={nombre}
@@ -56,6 +71,7 @@ function MisDatos(props) {
             style={styles.inputEmailPass}
             mode="flat"
             label="Apellido"
+            name="apellido"
             required
             underlineColor="#76B39D"
             value={apellido}
@@ -68,6 +84,7 @@ function MisDatos(props) {
             mode="flat"
             label="Email"
             required
+            disabled
             underlineColor="#76B39D"
             value={email}
             onChangeText={handleChangeEmail}
@@ -108,6 +125,9 @@ function MisDatos(props) {
             >
               Guardar datos
             </Button>
+          </View>
+          <View style={styles.contenedorError}>
+            <Text style={styles.errorDistintos}>{mensajeError}</Text>
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -152,18 +172,27 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  contenedorError: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+  },
+  errorDistintos: {
+    color: '#af1a1a',
+    top: 25,
+  },
 });
 
 const mapStateToProps = (state) => {
   return {
-    authError: state.auth.authError,
     auth: state.firebase.auth,
+    profile: state.firebase.profile,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    signIn: (user) => dispatch(signIn(user)),
+    editarDatos: (datos) => dispatch(editarDatos(datos)),
   };
 };
 
