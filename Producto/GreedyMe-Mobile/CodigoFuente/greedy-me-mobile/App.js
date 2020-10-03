@@ -14,6 +14,7 @@ import MisDatos from './src/components/Perfil/datosPerfil';
 import Notificaciones from './src/components/Perfil/notificaciones';
 import Ubicacion from './src/components/Perfil/ubicacion';
 import CambiarContraseña from './src/components/Perfil/cambiarContraseña';
+import Proveedores from './src/components/Proveedores/ini-proveedores';
 
 const theme = {
   ...DefaultTheme,
@@ -100,6 +101,18 @@ export default function App(props) {
                 component={Ubicacion}
                 options={({ route }) => ({
                   title: 'Gestionar mi ubicación',
+                  headerShown: true,
+                  headerTintColor: 'white',
+                  headerStyle: {
+                    backgroundColor: '#1E1B4D',
+                  },
+                })}
+              />
+              <Stack.Screen
+                name="GestionarProveedores"
+                component={Proveedores}
+                options={({ route }) => ({
+                  title: 'Gestionar mis proveedores',
                   headerShown: true,
                   headerTintColor: 'white',
                   headerStyle: {
