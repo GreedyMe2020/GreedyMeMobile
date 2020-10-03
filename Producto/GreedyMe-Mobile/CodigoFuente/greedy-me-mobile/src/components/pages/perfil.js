@@ -2,16 +2,13 @@ import * as React from 'react';
 import { StyleSheet, StatusBar, Text, View } from 'react-native';
 import { Avatar, Divider, List } from 'react-native-paper';
 import { connect } from 'react-redux';
-import { signIn } from '../../../redux/actions/auth-actions';
 import { signOut } from '../../../redux/actions/auth-actions';
 
 function Perfil(props) {
-  //cerrar sesion
-  const handleSignOut = () => {
+  const handleCerrarSesion = () => {
     props.signOut();
     props.navigation.navigate('IniciarSesion');
   };
-
   return (
     <View style={styles.contenedor}>
       <StatusBar backgroundColor="#1E1B4D" />
@@ -70,7 +67,7 @@ function Perfil(props) {
             title="Cerrar sesión"
             style={styles.listItem}
             left={(props) => <List.Icon icon="logout" color="#707070" />}
-            onPress={handleSignOut}
+            onPress={handleCerrarSesion}
           />
         </List.Section>
       </View>
@@ -120,14 +117,12 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
-    authError: state.auth.authError,
     auth: state.firebase.auth,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    signIn: (user) => dispatch(signIn(user)),
     signOut: () => dispatch(signOut()),
   };
 };
