@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
   },
   alerta: {
     textAlign: 'center',
-    color: 'red',
+    color: '#af1a1a',
   },
 });
 
