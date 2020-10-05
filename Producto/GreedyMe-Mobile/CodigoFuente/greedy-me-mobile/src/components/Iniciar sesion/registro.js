@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import { connect } from 'react-redux';
+import { signUp } from '../../../redux/actions/auth-actions';
 
 function Registro(props) {
   //Estados para cada uno de los inputs del formulario de registro
@@ -32,10 +33,11 @@ function Registro(props) {
 
   //Variable que contiene un expresion regular de un email
   const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  //Variable para contra que se de mas de 8 digitos menos de 16, por lo menos una mayuscula, una minuscula y un numero
+  const reg2 = 'matchRegexp:^(?=.{8,16}$)(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])';
 
   const handleChangeNombre = (nombre) => {
     setNombre(nombre);
-    console.log(nombre);
   };
   const handleChangeApellido = (apellido) => {
     setApellido(apellido);
@@ -70,6 +72,12 @@ function Registro(props) {
       if (password === repetido) {
         setEsDistinta('');
         //Agregar funcion para registrar nuevo usuario
+        props.signUp({
+          email: email,
+          contraseña: password,
+          nombre: nombre,
+          apellido: apellido,
+        });
       } else {
         setEsDistinta('Las contraseñas no son iguales');
       }
@@ -228,6 +236,11 @@ function Registro(props) {
           <View style={styles.contenedorError}>
             <Text style={styles.errorDistintos}>{mensajeError}</Text>
           </View>
+          <View style={styles.contenedorError}>
+            <Text style={styles.errorDistintos}>
+              {props.creacionError ? 'El email ya esta siendo utilizado' : null}
+            </Text>
+          </View>
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
@@ -287,4 +300,16 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Registro;
+const mapStateToProps = (state) => {
+  return {
+    creacionError: state.auth.creacionError,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signUp: (nuevoUsuario) => dispatch(signUp(nuevoUsuario)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Registro);
