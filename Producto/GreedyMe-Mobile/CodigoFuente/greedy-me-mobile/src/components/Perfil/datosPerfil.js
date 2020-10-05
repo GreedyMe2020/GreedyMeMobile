@@ -12,6 +12,14 @@ import { Button, TextInput } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { editarDatos } from '../../../redux/actions/user-actions';
 
+/* Función para validar que Nombre y Apellido no tengan números */
+function Validate(expression) {
+  var rgularExp = {
+    containsNumber: /\d+/,
+  };
+  return rgularExp.containsNumber.test(expression);
+}
+
 function MisDatos(props) {
   const [nombre, setNombre] = React.useState(props.profile.nombre);
   const [apellido, setApellido] = React.useState(props.profile.apellido);
@@ -36,6 +44,11 @@ function MisDatos(props) {
   const handleSubmit = () => {
     if (nombre === '' || apellido === '') {
       setMensajeError('Ambos campos deben ser completados');
+    }
+    if (Validate(nombre) === true || Validate(apellido) === true) {
+      setMensajeError(
+        'Los campos de Nombre y Apellido no pueden contener números',
+      );
     } else {
       setMensajeError('');
       props.editarDatos({
