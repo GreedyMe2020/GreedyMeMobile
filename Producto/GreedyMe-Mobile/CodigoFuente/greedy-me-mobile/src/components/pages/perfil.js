@@ -60,6 +60,17 @@ function Perfil(props) {
             }}
           />
           <List.Item
+            title="Gestión de proveedores"
+            style={styles.listItem}
+            left={(props) => <List.Icon icon="sale" color="#707070" />}
+            right={(props) => (
+              <List.Icon icon="chevron-right" color="#707070" size={20} />
+            )}
+            onPress={() => {
+              props.navigation.navigate('GestionarProveedores');
+            }}
+          />
+          <List.Item
             title="Términos y condiciones"
             style={styles.listItem}
             left={(props) => <List.Icon icon="information" color="#707070" />}
