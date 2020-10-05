@@ -30,6 +30,9 @@ function Registro(props) {
   //Estado para saber si las contraseñas son iguales
   const [esDistinta, setEsDistinta] = React.useState('');
 
+  //Variable que contiene un expresion regular de un email
+  const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
   const handleChangeNombre = (nombre) => {
     setNombre(nombre);
     console.log(nombre);
@@ -94,9 +97,13 @@ function Registro(props) {
     if (email === '') {
       setErrorEmail('* Este campo no puede estar vacio');
     } else {
-      setErrorEmail('');
+      if (reg.test(email) !== true) {
+        setErrorEmail('* Este campo no es correcto');
+      } else {
+        setErrorEmail('');
+      }
     }
-  }, [email]);
+  }, [email, reg]);
 
   const passValidatorNueva = React.useEffect(() => {
     if (password === '') {
@@ -160,7 +167,6 @@ function Registro(props) {
             mode="flat"
             label="Email"
             required
-            disabled
             underlineColor="#76B39D"
             onBlur={() => {
               emailValidator;
@@ -176,7 +182,6 @@ function Registro(props) {
             mode="flat"
             label="Contraseña"
             required
-            disabled
             underlineColor="#76B39D"
             onBlur={() => {
               passValidatorNueva;
@@ -191,9 +196,8 @@ function Registro(props) {
           <TextInput
             style={styles.inputEmailPass}
             mode="flat"
-            label="Contraseña"
+            label="Repita la contraseña"
             required
-            disabled
             underlineColor="#76B39D"
             onBlur={() => {
               passValidatorRepetida;
@@ -279,7 +283,7 @@ const styles = StyleSheet.create({
   errorPass: {
     marginLeft: 20,
     color: '#af1a1a',
-    top: -5,
+    top: -13,
   },
 });
 
