@@ -2,7 +2,11 @@ import * as React from 'react';
 import { Button } from 'react-native-paper';
 import { Image, StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
-import { signIn } from '../../../redux/actions/auth-actions';
+import {
+  signInGoogle,
+  signInFacebook,
+  saveToken,
+} from '../../../redux/actions/auth-actions';
 import * as Facebook from 'expo-facebook';
 import * as Google from 'expo-google-app-auth';
 import firebase from 'firebase';
@@ -12,6 +16,7 @@ var credential = { appId: '3359296714151798', appName: 'greedy-me' };
 
 function IniciarSesionConRedes(props) {
   const [user, setUser] = React.useState(null);
+
   //FUNCION DE LOGIN CON GOOGLE
 
   const signUpGoogle = async () => {
@@ -25,9 +30,10 @@ function IniciarSesionConRedes(props) {
       });
       //ACA YA SE REGISTRA
       if (result.type === 'success') {
-        this.onSignIn(result);
-        setUser(result);
-        return result.accessToken;
+        var credential = firebase.auth.GoogleAuthProvider.credential(
+          result.getAuthResponse().accessToken,
+        );
+        props.saveToken(credential);
       } else {
         return { cancelled: true };
       }
@@ -37,37 +43,38 @@ function IniciarSesionConRedes(props) {
   };
 
   //VALIDACION DE USUARIO UNA VEZ REGISTRADO
-  const onSignIn = (googleUser) => {
-    var unsubscribe = firebase.auth().onAuthStateChanged(
-      function (firebaseUser) {
-        unsubscribe();
-        // Check if we are already signed-in Firebase with the correct user.
-        if (!this.isUserEqual(googleUser, firebaseUser)) {
-          // Build Firebase credential with the Google ID token.
-          var credential = firebase.auth.GoogleAuthProvider.credential(
-            googleUser.getAuthResponse().id_token,
-            googleUser.getAuthResponse().accessToken,
-          );
-          // Sign in with credential from the Google user.
-          firebase
+  /*const onSignIn = (googleUser) => {
+    //var unsubscribe = firebase
+    //.auth()
+    //.onAuthStateChanged(function (firebaseUser) {
+    //unsubscribe();
+    // Check if we are already signed-in Firebase with the correct user.
+    //if (!isUserEqual(googleUser, firebaseUser)) {
+    // Build Firebase credential with the Google ID token.
+    var credential = firebase.auth.GoogleAuthProvider.credential(
+      googleUser.getAuthResponse().id_token,
+      googleUser.getAuthResponse().accessToken,
+    );
+    props.saveToken(credential.accessToken);
+    // Sign in with credential from the Google user.
+    props.signInGoogle(credential);
+    firebase
             .auth()
             .signInWithCredential(credential)
             .then(function (result) {
-              console.log('User signed in');
               if (result.additionalUserInfo.isNewUser) {
                 firebase
                   .database()
-                  .ref('/users/' + result.user.uid)
+                  .collection('usuarioConsumidor') //ESTO AGREGUÉ YO PERO NO SE SI ESTÁ BIEN.
+                  .doc(result.user.uid)
                   .set({
-                    gmail: result.user.email,
-                    profile_picture: result.additionalUserInfo.profile.picture,
-                    locale: result.additionalUserInfo.profile.locale,
-                    first_name: result.additionalUserInfo.profile.given_name,
-                    last_name: result.additionalUserInfo.profile.family_name,
-                    creatd_at: Date.now(),
+                    email: result.user.email,
+                    nombre: result.additionalUserInfo.profile.given_name,
+                    apellido: result.additionalUserInfo.profile.family_name,
+                    last_logged_in: Date.now(),
                   })
                   .then(function (snapshot) {
-                    //console.log()
+                    //console.log() no hace nada aca.
                   });
               } else {
                 firebase
@@ -88,12 +95,11 @@ function IniciarSesionConRedes(props) {
               var credential = error.credential;
               // ...
             });
-        } else {
-          console.log('User already signed-in Firebase.');
-        }
-      }.bind(this),
-    );
-  };
+    //} else {
+    //console.log('User already signed-in Firebase.');
+    //}
+    //});
+  };*/
   const isUserEqual = (googleUser, firebaseUser) => {
     if (firebaseUser) {
       var providerData = firebaseUser.providerData;
@@ -121,13 +127,20 @@ function IniciarSesionConRedes(props) {
       if (type === 'success') {
         // Get the user's name using Facebook's Graph API
         const response = await fetch(
-          `https://graph.facebook.com/me?fields=id,name,email&access_token=${token}`,
+          `https://graph.facebook.com/me?fields=id,name,email&access_token=${token}`, //SOLICITA A LA API EL ID, NOMBRE Y MAIL
         );
         const credentialFireBase = firebase.auth.FacebookAuthProvider.credential(
           token,
         );
-        const data = await response.json();
+        props.saveToken(credentialFireBase);
+        const data = await response.json(); //TRAE LOS DATOS DE LA API: ID, NOMBRE Y EMAIL
         setUser(data);
+        firebase.database().collection('usuarioConsumidor').doc(data.id).set({
+          email: data.email,
+          nombre: data.name,
+          last_logged_in: Date.now(),
+        });
+        //props.signInFacebook(data);
       } else {
         type === 'cancel';
       }
@@ -195,12 +208,15 @@ const mapStateToProps = (state) => {
   return {
     authError: state.auth.authError,
     auth: state.firebase.auth,
+    token: state.token,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    signUp: (user) => dispatch(signIn(user)),
+    signInFacebook: (user) => dispatch(signInFacebook(user)),
+    signInGoogle: (user) => dispatch(signInGoogle(user)),
+    saveToken: (token) => dispatch(saveToken(token)),
   };
 };
 
