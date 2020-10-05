@@ -96,8 +96,6 @@ function Proveedores(props) {
   const onSelectedItemsChange = (selectedItems) => {
     setSelectedItems(selectedItems);
     props.editarProveedores(selectedItems, props.auth.uid);
-    console.log(selectedItems);
-    console.log(items);
   };
   /* const list = [
     {
