@@ -8,7 +8,6 @@ import {
   Text,
   TouchableWithoutFeedback,
 } from 'react-native';
-import { Form, TextValidator } from 'react-native-validator-form';
 import { Button, TextInput } from 'react-native-paper';
 import { cambiarContraseña } from '../../../redux/actions/user-actions';
 import { connect } from 'react-redux';
