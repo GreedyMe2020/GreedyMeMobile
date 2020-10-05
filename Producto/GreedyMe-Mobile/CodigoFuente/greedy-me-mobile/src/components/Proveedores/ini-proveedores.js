@@ -24,70 +24,6 @@ const obtenerProveedores = () => {
 };
 obtenerProveedores();
 
-/*const items = [
-  // this is the parent or 'item'
-  {
-    name: 'Bancos',
-
-    // these are the children or 'sub items'
-    lista: [
-      {
-        name: 'Galicia',
-      },
-      {
-        name: 'Santander',
-      },
-      {
-        name: 'Bancor',
-      },
-      {
-        name: 'ICBC',
-      },
-      {
-        name: 'Naranja',
-      },
-      {
-        name: 'HSBC',
-      },
-    ],
-  },
-  {
-    name: 'Clubes de beneficio',
-
-    // these are the lista or 'sub items'
-    lista: [
-      {
-        name: 'Club Personal',
-      },
-      {
-        name: 'Club Movistar',
-      },
-      {
-        name: 'Club Talleres',
-      },
-      {
-        name: 'Club La Voz',
-      },
-    ],
-  },
-  {
-    name: 'Entiedades de algo',
-
-    // these are the lista or 'sub items'
-    lista: [
-      {
-        name: 'Club Personal',
-      },
-      {
-        name: 'Club Movistar',
-      },
-      {
-        name: 'Club Talleres',
-      },
-    ],
-  },
-];*/
-
 function Proveedores(props) {
   const [selectedItems, setSelectedItems] = React.useState(
     props.profile.proveedoresAsociados,
@@ -97,26 +33,6 @@ function Proveedores(props) {
     setSelectedItems(selectedItems);
     props.editarProveedores(selectedItems, props.auth.uid);
   };
-  /* const list = [
-    {
-      name: 'Amy Farha',
-      subtitle: 'Vice President',
-    },
-    {
-      name: 'Chris Jackson',
-      subtitle: 'Vice Chairman',
-    },
-  ];
-
-  const [checked, setChecked] = React.useState('unchecked');
-
-  const handleChangeCheck = () => {
-    if (checked === 'checked') {
-      setChecked('unchecked');
-    } else {
-      setChecked('checked');
-    }
-  }; */
 
   return (
     <View style={styles.container}>
@@ -183,15 +99,6 @@ function Proveedores(props) {
           },
         }}
       />
-      {/* {list.map((l, i) => (
-        <List.Item
-          key={i}
-          title={l.name}
-          right={(props) => (
-            <Checkbox.Item onPress={handleChangeCheck} status={checked} />
-          )}
-        />
-      ))} */}
     </View>
   );
 }
