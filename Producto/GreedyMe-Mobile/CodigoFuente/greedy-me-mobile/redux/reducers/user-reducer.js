@@ -3,6 +3,8 @@ const initState = {
   dataError: null,
   contra: null,
   contraError: null,
+  proveedor: null,
+  proveedorError: null,
 };
 
 const userReducer = (state = initState, action) => {
@@ -32,6 +34,20 @@ const userReducer = (state = initState, action) => {
         ...state,
         contraError: action.error,
         contra: null,
+      };
+    case 'EDITAR_PROVEEDOR':
+      console.log('se cambio los proveedores');
+      return {
+        ...state,
+        proveedor: 'se cambio los proveedores',
+        proveedorError: null,
+      };
+    case 'ERROR_PROVEEDOR':
+      console.log('no se cambio los proveedores');
+      return {
+        ...state,
+        proveedorError: 'no se cambio los proveedores',
+        proveedor: null,
       };
 
     default:

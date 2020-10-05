@@ -2,92 +2,102 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-
 import { connect } from 'react-redux';
-import { signIn } from '../../../redux/actions/auth-actions';
+import { editarProveedores } from '../../../redux/actions/user-actions';
+import firebaseapp from '../../../firebase/config';
 
-const items = [
+const firestore = firebaseapp.firestore();
+const items = [];
+const obtenerProveedores = () => {
+  firestore
+    .collection('proveedorServicio')
+    .get()
+    .then((snapShots) => {
+      snapShots.forEach((doc) => {
+        const data = doc.data();
+        items.push({
+          ...data,
+          id: doc.id,
+        });
+      });
+    });
+};
+obtenerProveedores();
+
+/*const items = [
   // this is the parent or 'item'
   {
     name: 'Bancos',
-    id: 0,
+
     // these are the children or 'sub items'
-    children: [
+    lista: [
       {
         name: 'Galicia',
-        id: 10,
       },
       {
         name: 'Santander',
-        id: 17,
       },
       {
         name: 'Bancor',
-        id: 13,
       },
       {
         name: 'ICBC',
-        id: 14,
       },
       {
         name: 'Naranja',
-        id: 15,
       },
       {
         name: 'HSBC',
-        id: 16,
       },
     ],
   },
   {
     name: 'Clubes de beneficio',
-    id: 1,
-    // these are the children or 'sub items'
-    children: [
+
+    // these are the lista or 'sub items'
+    lista: [
       {
         name: 'Club Personal',
-        id: 1,
       },
       {
         name: 'Club Movistar',
-        id: 2,
       },
       {
         name: 'Club Talleres',
-        id: 3,
       },
       {
         name: 'Club La Voz',
-        id: 4,
       },
     ],
   },
   {
     name: 'Entiedades de algo',
-    id: 2,
-    // these are the children or 'sub items'
-    children: [
+
+    // these are the lista or 'sub items'
+    lista: [
       {
         name: 'Club Personal',
-        id: 20,
       },
       {
         name: 'Club Movistar',
-        id: 30,
       },
       {
         name: 'Club Talleres',
-        id: 40,
       },
     ],
   },
-];
+];*/
 
 function Proveedores(props) {
-  const [selectedItems, setSelectedItems] = React.useState([]);
+  const [selectedItems, setSelectedItems] = React.useState(
+    props.profile.proveedoresAsociados,
+  );
 
   const onSelectedItemsChange = (selectedItems) => {
     setSelectedItems(selectedItems);
+    props.editarProveedores(selectedItems, props.auth.uid);
+    console.log(selectedItems);
+    console.log(items);
   };
   /* const list = [
     {
@@ -115,8 +125,8 @@ function Proveedores(props) {
       <SectionedMultiSelect
         items={items}
         IconRenderer={Icon}
-        uniqueKey="id"
-        subKey="children"
+        uniqueKey="name"
+        subKey="lista"
         selectText="Mis proveedores de descuento"
         showDropDowns={true}
         readOnlyHeadings={true}
@@ -201,14 +211,14 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
-    authError: state.auth.authError,
     auth: state.firebase.auth,
+    profile: state.firebase.profile,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    signIn: (user) => dispatch(signIn(user)),
+    editarProveedores: (datos, id) => dispatch(editarProveedores(datos, id)),
   };
 };
 

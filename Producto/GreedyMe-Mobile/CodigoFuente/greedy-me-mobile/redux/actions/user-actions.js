@@ -43,3 +43,22 @@ export const cambiarContraseña = (datos) => {
     });
   };
 };
+
+export const editarProveedores = (datos, id) => {
+  return (dispatch, getState, { getFirestore }) => {
+    //codigo asincrono
+    const firestore = getFirestore();
+    firestore
+      .collection('usuarioConsumidor')
+      .doc(id)
+      .update({
+        proveedoresAsociados: datos,
+      })
+      .then(() => {
+        dispatch({ type: 'EDITAR_PROVEEDOR' });
+      })
+      .catch((error) => {
+        dispatch({ type: 'ERROR_PROVEEDOR', error });
+      });
+  };
+};
