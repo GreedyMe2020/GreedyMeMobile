@@ -1,5 +1,6 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import authReducer from './reducers/auth-reducer';
+import userReducer from './reducers/user-reducer';
 import thunk from 'redux-thunk';
 import {
   firestoreReducer,
@@ -17,6 +18,7 @@ const reducer = combineReducers({
   auth: authReducer,
   firestore: firestoreReducer,
   firebase: firebaseReducer,
+  user: userReducer,
 });
 const store = createStore(
   reducer,
