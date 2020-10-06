@@ -102,7 +102,14 @@ function IniciarSesionConEmail(props) {
       <Text style={styles.errorPass}>{errorContraseña}</Text>
 
       <View style={styles.contOlvidePass}>
-        <Text style={styles.olvideMiPass}>Olvidé mi contraseña</Text>
+        <Text
+          style={styles.olvideMiPass}
+          onPress={() => {
+            props.navigation.navigate('OlvideContraseña');
+          }}
+        >
+          Olvidé mi contraseña
+        </Text>
       </View>
       <View>
         <Button
