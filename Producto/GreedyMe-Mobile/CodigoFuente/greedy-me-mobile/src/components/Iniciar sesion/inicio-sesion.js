@@ -74,21 +74,21 @@ const styles = StyleSheet.create({
   },
   letraBlanca: {
     color: '#1E1B4D',
-    fontSize: 60,
+    fontSize: 45,
     letterSpacing: 10,
-    fontFamily: 'Poppins-Regular',
+    fontFamily: 'Raleway-Regular',
   },
   letraVerde: {
     color: '#76B39D',
-    fontSize: 60,
+    fontSize: 45,
     letterSpacing: 10,
-    fontFamily: 'Poppins-Regular',
+    fontFamily: 'Raleway-Regular',
   },
   letraNaranja: {
     color: '#F7941E',
-    fontSize: 60,
+    fontSize: 45,
     letterSpacing: 10,
-    fontFamily: 'Poppins-Regular',
+    fontFamily: 'Raleway-SemiBold',
   },
   inputSesion: {
     flex: 2,

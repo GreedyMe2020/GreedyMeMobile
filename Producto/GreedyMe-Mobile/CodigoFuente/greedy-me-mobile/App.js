@@ -51,6 +51,7 @@ export default function App(props) {
       Font.loadAsync({
         'Raleway-Regular': require('./src/fonts/Raleway-Regular.ttf'),
         'Poppins-Regular': require('./src/fonts/Poppins-Regular.ttf'),
+        'Raleway-SemiBold': require('./src/fonts/Raleway-SemiBold.ttf'),
       });
     }
   });
