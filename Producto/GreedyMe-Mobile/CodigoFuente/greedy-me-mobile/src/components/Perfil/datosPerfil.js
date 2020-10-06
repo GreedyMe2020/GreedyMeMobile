@@ -8,9 +8,17 @@ import {
   Text,
   TouchableWithoutFeedback,
 } from 'react-native';
-import { Button, TextInput } from 'react-native-paper';
+import { Button, TextInput, Snackbar } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { editarDatos } from '../../../redux/actions/user-actions';
+
+/* Función para validar que Nombre y Apellido no tengan números */
+function Validate(expression) {
+  var rgularExp = {
+    containsNumber: /\d+/,
+  };
+  return rgularExp.containsNumber.test(expression);
+}
 
 function MisDatos(props) {
   const [nombre, setNombre] = React.useState(props.profile.nombre);
@@ -18,6 +26,9 @@ function MisDatos(props) {
   const [email, setEmail] = React.useState(props.profile.email);
   const [password, setPassword] = React.useState('***********');
   const [mensajeError, setMensajeError] = React.useState('');
+
+  //Estado para abrir o cerrar el snackbar de confirmacion
+  const [visible, setVisible] = React.useState(false);
 
   const handleChangeNombre = (nombre) => {
     setNombre(nombre);
@@ -36,6 +47,11 @@ function MisDatos(props) {
   const handleSubmit = () => {
     if (nombre === '' || apellido === '') {
       setMensajeError('Ambos campos deben ser completados');
+    }
+    if (Validate(nombre) === true || Validate(apellido) === true) {
+      setMensajeError(
+        'Los campos de Nombre y Apellido no pueden contener números',
+      );
     } else {
       setMensajeError('');
       props.editarDatos({
@@ -43,8 +59,13 @@ function MisDatos(props) {
         nombre: nombre,
         apellido: apellido,
       });
+      //Abro la confirmacion del cambio de contraseña
+      setVisible(true);
     }
   };
+
+  //Funcion para cerrar la confirmacion del cambio de contraseña
+  const onDismissSnackBar = () => setVisible(false);
 
   return (
     <KeyboardAvoidingView
@@ -55,79 +76,97 @@ function MisDatos(props) {
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
-          <TextInput
-            style={styles.inputEmailPass}
-            mode="flat"
-            label="Nombre"
-            name="nombre"
-            required
-            underlineColor="#76B39D"
-            value={nombre}
-            onChangeText={handleChangeNombre}
-            validators={['required']}
-            errorMessages={['*Este campo es obligatorio']}
-          />
-          <TextInput
-            style={styles.inputEmailPass}
-            mode="flat"
-            label="Apellido"
-            name="apellido"
-            required
-            underlineColor="#76B39D"
-            value={apellido}
-            onChangeText={handleChangeApellido}
-            validators={['required']}
-            errorMessages={['* Este campo es obligatorio']}
-          />
-          <TextInput
-            style={styles.inputEmailPass}
-            mode="flat"
-            label="Email"
-            required
-            disabled
-            underlineColor="#76B39D"
-            value={email}
-            onChangeText={handleChangeEmail}
-            validators={['required']}
-            errorMessages={['* Este campo es obligatorio']}
-          />
-          <TextInput
-            style={styles.inputEmailPass}
-            mode="flat"
-            label="Contraseña"
-            required
-            disabled
-            underlineColor="#76B39D"
-            value={password}
-            onChangeText={handleChangePassword}
-            validators={['required']}
-            errorMessages={['* Este campo es obligatorio']}
-          />
-          <View style={styles.contOlvidePass}>
-            <Text
-              style={styles.olvideMiPass}
-              onPress={() => {
-                props.navigation.navigate('CambiarContraseña');
-              }}
-            >
-              Cambiar mi contraseña
-            </Text>
+          <View style={styles.formContainer}>
+            <TextInput
+              style={styles.inputEmailPass}
+              mode="flat"
+              label="Nombre"
+              name="nombre"
+              required
+              underlineColor="#76B39D"
+              value={nombre}
+              onChangeText={handleChangeNombre}
+              validators={['required']}
+              errorMessages={['*Este campo es obligatorio']}
+            />
+            <TextInput
+              style={styles.inputEmailPass}
+              mode="flat"
+              label="Apellido"
+              name="apellido"
+              required
+              underlineColor="#76B39D"
+              value={apellido}
+              onChangeText={handleChangeApellido}
+              validators={['required']}
+              errorMessages={['* Este campo es obligatorio']}
+            />
+            <TextInput
+              style={styles.inputEmailPass}
+              mode="flat"
+              label="Email"
+              required
+              disabled
+              underlineColor="#76B39D"
+              value={email}
+              onChangeText={handleChangeEmail}
+              validators={['required']}
+              errorMessages={['* Este campo es obligatorio']}
+            />
+            <TextInput
+              style={styles.inputEmailPass}
+              mode="flat"
+              label="Contraseña"
+              required
+              disabled
+              underlineColor="#76B39D"
+              value={password}
+              onChangeText={handleChangePassword}
+              validators={['required']}
+              errorMessages={['* Este campo es obligatorio']}
+            />
+            <View style={styles.contOlvidePass}>
+              <Text
+                style={styles.olvideMiPass}
+                onPress={() => {
+                  props.navigation.navigate('CambiarContraseña');
+                }}
+              >
+                Cambiar mi contraseña
+              </Text>
+            </View>
+            <View style={styles.contenedorBoton}>
+              <Button
+                theme={{
+                  colors: { primary: '#76B39D' },
+                }}
+                style={styles.btnIngresar}
+                mode="contained"
+                title="Submit"
+                onPress={handleSubmit}
+              >
+                Guardar datos
+              </Button>
+            </View>
+            <View style={styles.contenedorError}>
+              <Text style={styles.errorDistintos}>{mensajeError}</Text>
+            </View>
           </View>
-          <View style={styles.contenedorBoton}>
-            <Button
-              theme={{
-                colors: { primary: '#76B39D' },
+
+          <View style={styles.contenedorSnack}>
+            <Snackbar
+              visible={visible}
+              onDismiss={onDismissSnackBar}
+              action={{
+                label: 'Cerrar',
+                onPress: () => {
+                  onDismissSnackBar;
+                },
               }}
-              style={styles.btnIngresar}
-              mode="contained"
-              title="Submit"
-              onPress={handleSubmit}
+              style={styles.snackbar}
             >
-              Guardar datos
-            </Button>
-          </View>
-          <View style={styles.contenedorError}>
-            <Text style={styles.errorDistintos}>{mensajeError}</Text>
+              Los datos se cambiaron correctamente.
+            </Snackbar>
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -140,6 +179,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     top: 50,
+    justifyContent: 'space-between',
   },
   containerTeclado: {
     flex: 1,
@@ -180,6 +220,12 @@ const styles = StyleSheet.create({
   errorDistintos: {
     color: '#af1a1a',
     top: 25,
+  },
+  contenedorSnack: {
+    top: -50,
+  },
+  snackbar: {
+    backgroundColor: '#333333',
   },
 });
 
