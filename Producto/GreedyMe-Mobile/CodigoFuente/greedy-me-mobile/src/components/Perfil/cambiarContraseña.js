@@ -8,19 +8,24 @@ import {
   Text,
   TouchableWithoutFeedback,
 } from 'react-native';
-import { Form, TextValidator } from 'react-native-validator-form';
 import { Button, TextInput } from 'react-native-paper';
 import { cambiarContraseña } from '../../../redux/actions/user-actions';
 import { connect } from 'react-redux';
 
 function Registro(props) {
+  //Estados para manejar los valores de los inputs
   const [password, setPassword] = React.useState(null);
   const [passwordNueva, setPasswordNueva] = React.useState(null);
   const [passwordRepetida, setPasswordRepetida] = React.useState(null);
+
+  //Estados para manejar los errores de los inputs correspondientes
   const [errorContraseñaNueva, setErrorContraseñaNueva] = React.useState('');
   const [errorContraseñaRepe, setErrorContraseñaRepe] = React.useState('');
   const [esDistinta, setEsDistinta] = React.useState('');
   const [estanCompletos, setCompletos] = React.useState('');
+
+  //Expresion regular para comparar la contraseña (1 min, 1 may, 1 num, 8-16 caracteres, pueden usarse caract esp)
+  const reg2 = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -31,7 +36,11 @@ function Registro(props) {
         setCompletos('Todos los campos deben estar completos');
       } else {
         setCompletos(null);
-        if (passwordNueva === passwordRepetida) {
+        if (
+          passwordNueva === passwordRepetida &&
+          errorContraseñaRepe === '' &&
+          errorContraseñaNueva === ''
+        ) {
           setEsDistinta(null);
           props.cambiarContraseña({
             email: props.profile.email,
@@ -45,11 +54,20 @@ function Registro(props) {
     }
   };
 
+  //Funciones para manejar el renderizado de los errores en base a lo que se escriba en pantalla y ciertas condiciones
   const passValidatorNueva = React.useEffect(() => {
     if (passwordNueva === '') {
       setErrorContraseñaNueva('* Este campo no puede estar vacio');
     } else {
-      setErrorContraseñaNueva('');
+      if (passwordNueva !== null) {
+        if (reg2.test(passwordNueva) !== true) {
+          setErrorContraseñaNueva(
+            '* La contraseña debe tener entre 8 y 16 caracteres, una minúscula, una mayúscula y un caracter especial',
+          );
+        } else {
+          setErrorContraseñaNueva('');
+        }
+      }
     }
   }, [passwordNueva]);
 
@@ -193,7 +211,7 @@ const styles = StyleSheet.create({
   errorPass: {
     marginLeft: 20,
     color: '#af1a1a',
-    top: -5,
+    top: -13,
   },
 });
 

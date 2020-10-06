@@ -26,7 +26,7 @@ function IniciarSesion(props) {
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <SafeAreaView style={styles.container}>
-          <StatusBar barStyle="light-content" backgroundColor="#e1e1e1" />
+          <StatusBar backgroundColor="#ececec" />
           <View style={styles.titulo}>
             <Text style={styles.letraBlanca}>gre</Text>
             <Text style={styles.letraVerde}>edy</Text>
@@ -36,7 +36,9 @@ function IniciarSesion(props) {
             <IniciarSesionConEmail navigation={props.navigation} />
           </View>
           <View style={styles.or}>
-            <Text>- O -</Text>
+            <Divider style={styles.dividerIzq} />
+            <Text style={styles.orcontent}>O</Text>
+            <Divider style={styles.dividerDer} />
           </View>
           <View style={styles.ingresoConRedes}>
             <IniciarSesionConRedes navigation={props.navigation} />
@@ -44,7 +46,14 @@ function IniciarSesion(props) {
           <View style={styles.contenedorCrearCuenta}>
             <Text style={styles.textoPreguntaCuenta}>¿No tenés cuenta?</Text>
             <View>
-              <Text style={styles.textoCrearCuenta}>Registrate acá</Text>
+              <Text
+                style={styles.textoCrearCuenta}
+                onPress={() => {
+                  props.navigation.navigate('Registro');
+                }}
+              >
+                Registrate acá
+              </Text>
               <Divider
                 style={{ backgroundColor: '#F7941E', height: 2, marginLeft: 8 }}
               />
@@ -67,32 +76,56 @@ const styles = StyleSheet.create({
   },
   titulo: {
     flexDirection: 'row',
-    flex: 1.8,
+    flex: 1.5,
     alignItems: 'center',
     justifyContent: 'center',
     marginLeft: 15, //igual este no deberia estar nose porque no lo centra
   },
   letraBlanca: {
     color: '#1E1B4D',
-    fontSize: 60,
-    letterSpacing: 10,
+    fontSize: 45,
+    letterSpacing: 5,
+    fontFamily: 'Poppins-Regular',
   },
   letraVerde: {
     color: '#76B39D',
-    fontSize: 60,
-    letterSpacing: 10,
+    fontSize: 45,
+    letterSpacing: 5,
+    fontFamily: 'Poppins-Regular',
   },
   letraNaranja: {
     color: '#F7941E',
-    fontSize: 60,
-    letterSpacing: 10,
+    fontSize: 45,
+    letterSpacing: 5,
+    fontFamily: 'Poppins-SemiBold',
   },
   inputSesion: {
-    flex: 2,
+    flex: 1.5,
     width: '100%',
   },
+  or: {
+    flex: 0.5,
+    top: 20,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+  },
+  orcontent: {
+    width: 10,
+  },
+  dividerIzq: {
+    width: '50%',
+    height: 1,
+    marginRight: 15,
+  },
+  dividerDer: {
+    width: '50%',
+    height: 1,
+    marginLeft: 15,
+  },
   ingresoConRedes: {
-    flex: 1.3,
+    flex: 0.5,
     minHeight: 100,
     width: '100%',
     alignItems: 'center',
@@ -100,12 +133,14 @@ const styles = StyleSheet.create({
     top: -10,
   },
   contenedorCrearCuenta: {
-    bottom: 25,
+    bottom: 20,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
+    flex: 0.1,
   },
+
   textoPreguntaCuenta: {
     fontSize: 16,
   },
@@ -120,13 +155,6 @@ const styles = StyleSheet.create({
     marginRight: 20,
     marginLeft: 20,
     height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  or: {
-    flex: 0,
-    top: 20,
-    width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
   },

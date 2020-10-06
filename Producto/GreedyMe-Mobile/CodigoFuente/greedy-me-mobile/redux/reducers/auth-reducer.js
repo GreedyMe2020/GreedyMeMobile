@@ -3,6 +3,8 @@ const initState = {
   mailError: null,
   mandoMail: null,
   user: null,
+  crearUsuario: null,
+  creacionError: null,
 };
 
 const authReducer = (state = initState, action) => {
@@ -50,6 +52,20 @@ const authReducer = (state = initState, action) => {
         user: null,
       };*/
 
+    case 'USUARIO_CREADO':
+      console.log('se creo usuario');
+      return {
+        ...state,
+        creacionError: null,
+        crearUsuario: 'se creo usuario',
+      };
+    case 'FALLO_CREACION':
+      console.log('no se creo el pinche usuario');
+      return {
+        ...state,
+        creacionError: action.error.message,
+        crearUsuario: null,
+      };
     default:
       return state;
   }

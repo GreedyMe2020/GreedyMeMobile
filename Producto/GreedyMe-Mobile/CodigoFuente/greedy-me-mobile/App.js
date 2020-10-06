@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
@@ -10,13 +10,15 @@ import Main from './src/components/pages/main';
 import { Provider } from 'react-redux';
 import store from './redux/store';
 import obtenerTitulo from './src/components/obtener-titulo';
+import Registro from './src/components/Iniciar sesion/registro';
 import MisDatos from './src/components/Perfil/datosPerfil';
 import Notificaciones from './src/components/Perfil/notificaciones';
 import Ubicacion from './src/components/Perfil/ubicacion';
 import CambiarContraseña from './src/components/Perfil/cambiarContraseña';
 import Proveedores from './src/components/Proveedores/ini-proveedores';
-import { setUser, clearUser } from './redux/actions/auth-actions';
-import firebase from 'firebase';
+import * as Font from 'expo-font';
+import OlvideContraseña from './src/components/Iniciar sesion/olvide-contraseña';
+import VerificarCuenta from './src/components/Iniciar sesion/verificar-cuenta';
 
 const theme = {
   ...DefaultTheme,
@@ -53,6 +55,17 @@ function coloresHeaderTab(tabName) {
 const Stack = createStackNavigator();
 
 export default function App(props) {
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    if (!loaded) {
+      Font.loadAsync({
+        'Raleway-Regular': require('./src/fonts/Raleway-Regular.ttf'),
+        'Poppins-Regular': require('./src/fonts/Poppins-Regular.ttf'),
+        'Poppins-SemiBold': require('./src/fonts/Poppins-SemiBold.ttf'),
+      });
+    }
+  });
   return (
     <Provider store={store}>
       <SafeAreaProvider>
@@ -62,12 +75,41 @@ export default function App(props) {
               <Stack.Screen
                 name="Home"
                 component={PantallaLogo}
-                options={{ headerShown: false }}
+                options={{
+                  headerShown: false,
+                  animationEnabled: false,
+                  gestureDirection: 'horizontal',
+                }}
               />
               <Stack.Screen
                 name="IniciarSesion"
                 component={IniciarSesion}
-                options={{ title: '', headerShown: false }}
+                options={{
+                  title: '',
+                  headerShown: false,
+                  animationEnabled: false,
+                  gestureDirection: 'horizontal',
+                }}
+              />
+              <Stack.Screen
+                name="OlvideContraseña"
+                component={OlvideContraseña}
+                options={{
+                  title: 'Olvidé mi contraseña',
+                  headerShown: true,
+                  animationEnabled: false,
+                  gestureDirection: 'horizontal',
+                }}
+              />
+              <Stack.Screen
+                name="Registro"
+                component={Registro}
+                options={{ title: 'Registrarme', headerShown: true }}
+              />
+              <Stack.Screen
+                name="VerificarCuenta"
+                component={VerificarCuenta}
+                options={{ title: 'Verificar mi cuenta', headerShown: true }}
               />
               <Stack.Screen
                 name="Main"
