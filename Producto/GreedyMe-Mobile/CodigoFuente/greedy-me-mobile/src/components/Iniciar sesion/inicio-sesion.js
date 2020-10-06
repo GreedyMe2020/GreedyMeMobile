@@ -44,14 +44,7 @@ function IniciarSesion(props) {
           <View style={styles.contenedorCrearCuenta}>
             <Text style={styles.textoPreguntaCuenta}>¿No tenés cuenta?</Text>
             <View>
-              <Text
-                style={styles.textoCrearCuenta}
-                onPress={() => {
-                  props.navigation.navigate('Registro');
-                }}
-              >
-                Registrate acá
-              </Text>
+              <Text style={styles.textoCrearCuenta}>Registrate acá</Text>
               <Divider
                 style={{ backgroundColor: '#F7941E', height: 2, marginLeft: 8 }}
               />

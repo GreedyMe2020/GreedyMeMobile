@@ -2,8 +2,6 @@ const initState = {
   authError: null,
   mailError: null,
   mandoMail: null,
-  crearUsuario: null,
-  creacionError: null,
 };
 
 const authReducer = (state = initState, action) => {
@@ -37,20 +35,7 @@ const authReducer = (state = initState, action) => {
         mailError: 'email invalido',
         mandoMail: null,
       };
-    case 'USUARIO_CREADO':
-      console.log('se creo usuario');
-      return {
-        ...state,
-        creacionError: null,
-        crearUsuario: 'se creo usuario',
-      };
-    case 'FALLO_CREACION':
-      console.log('no se creo el pinche usuario');
-      return {
-        ...state,
-        creacionError: action.error.message,
-        crearUsuario: null,
-      };
+
     default:
       return state;
   }

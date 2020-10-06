@@ -16,10 +16,6 @@ export const signUp = (nuevoUsuario) => {
             email: nuevoUsuario.email,
             nombre: nuevoUsuario.nombre,
             apellido: nuevoUsuario.apellido,
-            notificacionesFavoritas: false,
-            notificacionesUbicacion: false,
-            notificacionesTodas: true,
-            proveedoresAsociados: [],
           });
       })
       .then(() => {

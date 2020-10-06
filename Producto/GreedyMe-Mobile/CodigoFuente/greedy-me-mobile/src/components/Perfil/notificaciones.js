@@ -2,35 +2,16 @@ import * as React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Divider, List, Switch } from 'react-native-paper';
 import { connect } from 'react-redux';
-import {
-  editarNotificacionesFavoritas,
-  editarNotificacionesUbicacion,
-  editarNotificacionesTodas,
-} from '../../../redux/actions/user-actions';
+import { signIn } from '../../../redux/actions/auth-actions';
 
 function Notificaciones(props) {
-  const [swiComerciosFav, setSwiComerciosFav] = React.useState(
-    props.profile.notificacionesFavoritas,
-  );
-  const [swiComerciosUbic, setSwiComerciosUbic] = React.useState(
-    props.profile.notificacionesUbicacion,
-  );
-  const [swiComerciosTodos, setSwiComerciosTodos] = React.useState(
-    props.profile.notificacionesTodas,
-  );
+  const [swiComerciosFav, setSwiComerciosFav] = React.useState(false);
+  const [swiComerciosUbic, setSwiComerciosUbic] = React.useState(false);
+  const [swiComerciosTodos, setSwiComerciosTodos] = React.useState(true);
 
-  const onToggleSwitchFav = () => {
-    setSwiComerciosFav(!swiComerciosFav);
-    props.editarNotificacionesFavoritas(!swiComerciosFav, props.auth.uid);
-  };
-  const onToggleSwitchUbic = () => {
-    setSwiComerciosUbic(!swiComerciosUbic);
-    props.editarNotificacionesUbicacion(!swiComerciosUbic, props.auth.uid);
-  };
-  const onToggleSwitchTodos = () => {
-    setSwiComerciosTodos(!swiComerciosTodos);
-    props.editarNotificacionesTodas(!swiComerciosTodos, props.auth.uid);
-  };
+  const onToggleSwitchFav = () => setSwiComerciosFav(!swiComerciosFav);
+  const onToggleSwitchUbic = () => setSwiComerciosUbic(!swiComerciosUbic);
+  const onToggleSwitchTodos = () => setSwiComerciosTodos(!swiComerciosTodos);
 
   return (
     <View style={styles.contenedor}>
@@ -85,19 +66,14 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
-    profile: state.firebase.profile,
+    authError: state.auth.authError,
     auth: state.firebase.auth,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    editarNotificacionesFavoritas: (datos, id) =>
-      dispatch(editarNotificacionesFavoritas(datos, id)),
-    editarNotificacionesUbicacion: (datos, id) =>
-      dispatch(editarNotificacionesUbicacion(datos, id)),
-    editarNotificacionesTodas: (datos, id) =>
-      dispatch(editarNotificacionesTodas(datos, id)),
+    signIn: (user) => dispatch(signIn(user)),
   };
 };
 

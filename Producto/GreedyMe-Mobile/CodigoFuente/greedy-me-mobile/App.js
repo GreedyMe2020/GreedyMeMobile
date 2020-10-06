@@ -10,7 +10,6 @@ import Main from './src/components/pages/main';
 import { Provider } from 'react-redux';
 import store from './redux/store';
 import obtenerTitulo from './src/components/obtener-titulo';
-import Registro from './src/components/Iniciar sesion/registro';
 import MisDatos from './src/components/Perfil/datosPerfil';
 import Notificaciones from './src/components/Perfil/notificaciones';
 import Ubicacion from './src/components/Perfil/ubicacion';
@@ -59,11 +58,6 @@ export default function App(props) {
                 name="IniciarSesion"
                 component={IniciarSesion}
                 options={{ title: '', headerShown: false }}
-              />
-              <Stack.Screen
-                name="Registro"
-                component={Registro}
-                options={{ title: 'Registrate', headerShown: true }}
               />
               <Stack.Screen
                 name="Main"
