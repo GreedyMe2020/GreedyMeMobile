@@ -23,6 +23,9 @@ export const signUp = (nuevoUsuario) => {
           });
       })
       .then(() => {
+        firebase.auth().currentUser.sendEmailVerification();
+      })
+      .then(() => {
         dispatch({ type: 'USUARIO_CREADO' });
       })
       .catch((error) => {
