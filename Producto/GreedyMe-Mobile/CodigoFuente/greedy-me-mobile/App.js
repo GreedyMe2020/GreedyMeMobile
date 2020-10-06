@@ -17,6 +17,8 @@ import Ubicacion from './src/components/Perfil/ubicacion';
 import CambiarContraseña from './src/components/Perfil/cambiarContraseña';
 import Proveedores from './src/components/Proveedores/ini-proveedores';
 import * as Font from 'expo-font';
+import OlvideContraseña from './src/components/Iniciar sesion/olvide-contraseña';
+import VerificarCuenta from './src/components/Iniciar sesion/verificar-cuenta';
 
 const theme = {
   ...DefaultTheme,
@@ -73,9 +75,19 @@ export default function App(props) {
                 options={{ title: '', headerShown: false }}
               />
               <Stack.Screen
+                name="OlvideContraseña"
+                component={OlvideContraseña}
+                options={{ title: 'Olvidé mi contraseña', headerShown: true }}
+              />
+              <Stack.Screen
                 name="Registro"
                 component={Registro}
-                options={{ title: 'Registrate', headerShown: true }}
+                options={{ title: 'Registrarme', headerShown: true }}
+              />
+              <Stack.Screen
+                name="VerificarCuenta"
+                component={VerificarCuenta}
+                options={{ title: 'Verificar mi cuenta', headerShown: true }}
               />
               <Stack.Screen
                 name="Main"
