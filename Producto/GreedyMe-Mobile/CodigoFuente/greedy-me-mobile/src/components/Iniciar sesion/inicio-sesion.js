@@ -76,16 +76,19 @@ const styles = StyleSheet.create({
     color: '#1E1B4D',
     fontSize: 60,
     letterSpacing: 10,
+    fontFamily: 'Poppins-Regular',
   },
   letraVerde: {
     color: '#76B39D',
     fontSize: 60,
     letterSpacing: 10,
+    fontFamily: 'Poppins-Regular',
   },
   letraNaranja: {
     color: '#F7941E',
     fontSize: 60,
     letterSpacing: 10,
+    fontFamily: 'Poppins-Regular',
   },
   inputSesion: {
     flex: 2,

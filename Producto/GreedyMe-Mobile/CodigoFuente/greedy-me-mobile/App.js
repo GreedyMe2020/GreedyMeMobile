@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
@@ -15,6 +15,7 @@ import Notificaciones from './src/components/Perfil/notificaciones';
 import Ubicacion from './src/components/Perfil/ubicacion';
 import CambiarContraseña from './src/components/Perfil/cambiarContraseña';
 import Proveedores from './src/components/Proveedores/ini-proveedores';
+import * as Font from 'expo-font';
 
 const theme = {
   ...DefaultTheme,
@@ -43,6 +44,16 @@ function coloresHeaderTab(tabName) {
 const Stack = createStackNavigator();
 
 export default function App(props) {
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    if (!loaded) {
+      Font.loadAsync({
+        'Raleway-Regular': require('./src/fonts/Raleway-Regular.ttf'),
+        'Poppins-Regular': require('./src/fonts/Poppins-Regular.ttf'),
+      });
+    }
+  });
   return (
     <Provider store={store}>
       <SafeAreaProvider>
