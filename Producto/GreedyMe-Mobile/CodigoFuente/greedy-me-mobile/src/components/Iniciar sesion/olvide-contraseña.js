@@ -10,7 +10,7 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { signIn } from '../../../redux/actions/auth-actions';
+import { forgotPass } from '../../../redux/actions/auth-actions';
 
 function OlvideContraseña(props) {
   const [email, setEmail] = React.useState(null);
@@ -18,6 +18,15 @@ function OlvideContraseña(props) {
 
   const handleChangeEmail = (email) => {
     setEmail(email);
+  };
+
+  const handleSubmit = () => {
+    if (email === '' || email === null) {
+      setErrorEmail('Todos campos deben ser completados');
+    } else {
+      setErrorEmail('');
+      props.forgotPass(email);
+    }
   };
 
   //Variable que contiene un expresion regular de un email
@@ -56,8 +65,8 @@ function OlvideContraseña(props) {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
           <Text style={styles.texto}>
-            Ingresá tu email y te enviaremos una nueva contraseña que luego
-            podrás cambiar desde tu perfil.
+            Ingresá tu email y te enviaremos un mail con una nueva contraseña,
+            luego podrás cambiarla desde el perfil.
           </Text>
           <TextInput
             style={styles.inputEmailPass}
@@ -82,15 +91,16 @@ function OlvideContraseña(props) {
               style={styles.btnIngresar}
               mode="contained"
               title="Submit"
-              onPress={() => {
-                props.navigation.navigate('VerificarCuenta');
-              }}
+              onPress={handleSubmit}
               /* onPress={() => {
                 props.navigation.navigate('Main');
               }} */
             >
               Enviar
             </Button>
+            <Text style={styles.alerta}>
+              {props.mailError ? 'Email invalido' : null}
+            </Text>
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -136,18 +146,22 @@ const styles = StyleSheet.create({
     color: '#af1a1a',
     top: -8,
   },
+  alerta: {
+    textAlign: 'center',
+    color: '#af1a1a',
+  },
 });
 
 const mapStateToProps = (state) => {
   return {
-    authError: state.auth.authError,
+    mailError: state.auth.mailError,
     auth: state.firebase.auth,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    signIn: (user) => dispatch(signIn(user)),
+    forgotPass: (email) => dispatch(forgotPass(email)),
   };
 };
 
