@@ -1,73 +1,116 @@
 import * as React from 'react';
-import { Button } from 'react-native-paper';
+import { Button, TextInput } from 'react-native-paper';
 import { StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { signIn } from '../../../redux/actions/auth-actions';
-import { Form, TextValidator } from 'react-native-validator-form';
 
 function IniciarSesionConEmail(props) {
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
+  const [email, setEmail] = React.useState(null);
+  const [password, setPassword] = React.useState(null);
+
+  const [errorEmail, setErrorEmail] = React.useState('');
+  const [errorContraseña, setErrorContraseña] = React.useState('');
+
+  //Estado para los errores de envio de los formularios
+  const [mensajeError, setMensajeError] = React.useState('');
+
+  //Variable que contiene un expresion regular de un email
+  const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+  //RegExp para contraseña que se de mas de 8 digitos menos de 16, por lo menos una mayuscula, una minuscula y un numero
+  const reg2 = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/;
 
   const handleChangeEmail = (email) => {
     setEmail(email);
   };
-
   const handleChangePassword = (password) => {
     setPassword(password);
   };
+
   const handleSubmit = () => {
-    props.signIn({ email: email, contraseña: password });
+    if (
+      email === '' ||
+      password === '' ||
+      email === null ||
+      password === null
+    ) {
+      setMensajeError('Todos campos deben ser completados');
+    } else {
+      setMensajeError('');
+      if (errorContraseña === '' && errorEmail === '') {
+        props.signUp({
+          email: email,
+          contraseña: password,
+        });
+      }
+    }
   };
 
-  const form = React.createRef();
+  const emailValidator = React.useEffect(() => {
+    if (email === '') {
+      setErrorEmail('* Este campo no puede estar vacio');
+    } else {
+      if (email !== null) {
+        if (reg.test(email) !== true) {
+          setErrorEmail('* Este campo no es correcto');
+        } else {
+          setErrorEmail('');
+        }
+      }
+    }
+  }, [email]);
+
+  const passValidator = React.useEffect(() => {
+    if (password === '') {
+      setErrorContraseña('* Este campo no puede estar vacio');
+    } else {
+      if (password !== null) {
+        if (reg2.test(password) !== true) {
+          setErrorContraseña(
+            '* La contraseña debe tener entre 8 y 16 caracteres, una minúscula, una mayúscula y un caracter especial',
+          );
+        } else {
+          setErrorContraseña('');
+        }
+      }
+    }
+  }, [password]);
 
   if (props.auth.uid) {
     props.navigation.navigate('Main');
   }
 
   return (
-    <Form ref={form} onSubmit={handleSubmit}>
-      <TextValidator
+    <View>
+      <TextInput
         style={styles.inputEmailPass}
-        placeholderTextColor="#000000"
-        required
+        mode="flat"
         label="Email"
-        name="email"
-        validators={['isEmail']}
-        errorMessages={['* El email no es válido']}
-        placeholder="Email"
-        type="text"
-        keyboardType="email-address"
+        required
+        underlineColor="#76B39D"
+        onBlur={() => {
+          emailValidator;
+        }}
         value={email}
         onChangeText={handleChangeEmail}
-        errorStyle={{
-          container: { top: 0, left: 20, position: 'relative' },
-          text: { color: 'red' },
-          underlineValidColor: '#1E1B4D',
-          underlineInvalidColor: 'red',
-        }}
+        error={errorEmail}
       />
-      <TextValidator
+      <Text style={styles.errorPass}>{errorEmail}</Text>
+      <TextInput
         style={styles.inputEmailPass}
-        placeholderTextColor="#000000"
+        mode="flat"
+        label="Contraseña"
         required
-        name="password"
-        label="text"
-        placeholder="Contraseña"
-        secureTextEntry
-        validators={['required']}
-        errorMessages={['* Este campo es requerido']}
-        type="text"
+        underlineColor="#76B39D"
+        onBlur={() => {
+          passValidator;
+        }}
         value={password}
         onChangeText={handleChangePassword}
-        errorStyle={{
-          container: { top: 0, left: 20, position: 'relative' },
-          text: { color: 'red' },
-          underlineValidColor: '#1E1B4D',
-          underlineInvalidColor: 'red',
-        }}
+        secureTextEntry={true}
+        error={errorContraseña}
       />
+      <Text style={styles.errorPass}>{errorContraseña}</Text>
 
       <View style={styles.contOlvidePass}>
         <Text style={styles.olvideMiPass}>Olvidé mi contraseña</Text>
@@ -84,13 +127,16 @@ function IniciarSesionConEmail(props) {
         >
           Ingresar
         </Button>
-        {props.authError ? (
-          <Text style={styles.alerta}>
-            Los datos ingresados son incorrectos
-          </Text>
-        ) : null}
+        <View style={styles.contenedorError}>
+          <Text style={styles.errorPass}>{mensajeError}</Text>
+          {props.authError ? (
+            <Text style={styles.alerta}>
+              Los datos ingresados son incorrectos
+            </Text>
+          ) : null}
+        </View>
       </View>
-    </Form>
+    </View>
   );
 }
 
@@ -101,15 +147,16 @@ const styles = StyleSheet.create({
   inputEmailPass: {
     marginRight: 20,
     marginLeft: 20,
-    marginBottom: 10,
+    marginBottom: 7,
     paddingLeft: 5,
     height: 55,
     fontSize: 18,
+    backgroundColor: '#e8e8e8',
   },
   contOlvidePass: {
     alignItems: 'flex-end',
     justifyContent: 'flex-end',
-    marginBottom: 15,
+    marginBottom: 5,
     marginRight: 22,
   },
   olvideMiPass: {
@@ -127,6 +174,17 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#af1a1a',
   },
+  contenedorError: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    top: 12,
+  },
+  errorPass: {
+    marginLeft: 20,
+    color: '#af1a1a',
+    top: -8,
+  },
 });
 
 const mapStateToProps = (state) => {
@@ -138,7 +196,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    signIn: (formData) => dispatch(signIn(formData)),
+    signIn: (user) => dispatch(signIn(user)),
   };
 };
 
