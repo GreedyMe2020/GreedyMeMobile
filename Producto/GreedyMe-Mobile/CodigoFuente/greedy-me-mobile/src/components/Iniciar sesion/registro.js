@@ -243,7 +243,7 @@ function Registro(props) {
               title="Submit"
               onPress={handleSubmit}
             >
-              Guardar datos
+              Registrarme
             </Button>
           </View>
           <View style={styles.contenedorError}>
