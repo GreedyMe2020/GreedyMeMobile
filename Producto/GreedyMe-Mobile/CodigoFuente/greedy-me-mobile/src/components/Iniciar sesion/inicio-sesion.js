@@ -39,7 +39,7 @@ function IniciarSesion(props) {
             <Text>- O -</Text>
           </View>
           <View style={styles.ingresoConRedes}>
-            <IniciarSesionConRedes />
+            <IniciarSesionConRedes navigation={props.navigation} />
           </View>
           <View style={styles.contenedorCrearCuenta}>
             <Text style={styles.textoPreguntaCuenta}>¿No tenés cuenta?</Text>

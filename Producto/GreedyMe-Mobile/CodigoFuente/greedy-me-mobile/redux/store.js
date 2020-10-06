@@ -1,6 +1,8 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import authReducer from './reducers/auth-reducer';
-import userReducer from './reducers/user-reducer';
+//import userReducer from './reducers/user-reducer';
+//import tokenReducer from './reducers/token-reducer';
+
 import thunk from 'redux-thunk';
 import {
   firestoreReducer,
@@ -13,12 +15,14 @@ import {
   getFirebase,
 } from 'react-redux-firebase';
 import config from '../firebase/config';
+//import persistState from 'redux-localstorage';
 
 const reducer = combineReducers({
   auth: authReducer,
   firestore: firestoreReducer,
   firebase: firebaseReducer,
-  user: userReducer,
+  //user: userReducer,
+  //token: tokenReducer,
 });
 const store = createStore(
   reducer,
@@ -30,6 +34,7 @@ const store = createStore(
       userProfile: 'usuarioConsumidor',
     }), // redux binding for firebase
     reduxFirestore(config), // redux bindings for firestore
+    //persistState('token', config),
   ),
 );
 

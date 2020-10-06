@@ -6,17 +6,14 @@ import {
   signInGoogle,
   signInFacebook,
   saveToken,
+  setUser,
 } from '../../../redux/actions/auth-actions';
 import * as Facebook from 'expo-facebook';
 import * as Google from 'expo-google-app-auth';
 import firebase from 'firebase';
 //import { StatusBar } from 'expo-status-bar';
 
-var credential = { appId: '3359296714151798', appName: 'greedy-me' };
-
 function IniciarSesionConRedes(props) {
-  const [user, setUser] = React.useState(null);
-
   //FUNCION DE LOGIN CON GOOGLE
 
   const signUpGoogle = async () => {
@@ -31,10 +28,28 @@ function IniciarSesionConRedes(props) {
       //ACA YA SE REGISTRA
       if (result.type === 'success') {
         var credential = firebase.auth.GoogleAuthProvider.credential(
-          result.getAuthResponse().accessToken,
+          result.idToken,
+          result.accessToken,
         );
-        props.saveToken(credential);
+        firebase
+          .auth()
+          .signInWithCredential(credential)
+          .then((result) => {
+            console.log('user signed in'); //no se por que no entra
+          })
+          .catch((error) => {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            // The email of the user's account used.
+            var email = error.email;
+            // The firebase.auth.AuthCredential type that was used.
+            var credential = error.credential;
+            // ...
+          });
+        return result;
       } else {
+        console.log('error');
         return { cancelled: true };
       }
     } catch (e) {
@@ -44,25 +59,38 @@ function IniciarSesionConRedes(props) {
 
   //VALIDACION DE USUARIO UNA VEZ REGISTRADO
   /*const onSignIn = (googleUser) => {
-    //var unsubscribe = firebase
-    //.auth()
-    //.onAuthStateChanged(function (firebaseUser) {
-    //unsubscribe();
-    // Check if we are already signed-in Firebase with the correct user.
-    //if (!isUserEqual(googleUser, firebaseUser)) {
-    // Build Firebase credential with the Google ID token.
-    var credential = firebase.auth.GoogleAuthProvider.credential(
-      googleUser.getAuthResponse().id_token,
-      googleUser.getAuthResponse().accessToken,
-    );
-    props.saveToken(credential.accessToken);
-    // Sign in with credential from the Google user.
-    props.signInGoogle(credential);
-    firebase
+    var unsubscribe = firebase
+      .auth()
+      .onAuthStateChanged(function (firebaseUser) {
+        unsubscribe();
+        // Check if we are already signed-in Firebase with the correct user.
+        if (!isUserEqual(googleUser, firebaseUser)) {
+          // Build Firebase credential with the Google ID token.
+          var credential = firebase.auth.GoogleAuthProvider.credential(
+            googleUser.id_token,
+            googleUser.accessToken,
+          );
+          console.log(googleUser);
+          //props.saveToken(credential.accessToken);
+          // Sign in with credential from the Google user.
+          //props.signInGoogle(credential);
+          firebase
             .auth()
             .signInWithCredential(credential)
-            .then(function (result) {
-              if (result.additionalUserInfo.isNewUser) {
+            .then(() => {
+              console.log('user signed in');})
+            .catch(function (error) {
+              // Handle Errors here.
+              var errorCode = error.code;
+              var errorMessage = error.message;
+              // The email of the user's account used.
+              var email = error.email;
+              // The firebase.auth.AuthCredential type that was used.
+              var credential = error.credential;
+              // ...
+            });
+          }
+              /*if (result.additionalUserInfo.isNewUser) {
                 firebase
                   .database()
                   .collection('usuarioConsumidor') //ESTO AGREGUÉ YO PERO NO SE SI ESTÁ BIEN.
@@ -73,7 +101,7 @@ function IniciarSesionConRedes(props) {
                     apellido: result.additionalUserInfo.profile.family_name,
                     last_logged_in: Date.now(),
                   })
-                  .then(function (snapshot) {
+                  .then((snapshot) => {
                     //console.log() no hace nada aca.
                   });
               } else {
@@ -95,11 +123,11 @@ function IniciarSesionConRedes(props) {
               var credential = error.credential;
               // ...
             });
-    //} else {
-    //console.log('User already signed-in Firebase.');
-    //}
-    //});
-  };*/
+        } else {
+          console.log('User already signed-in Firebase.');
+        }
+      });
+  };
   const isUserEqual = (googleUser, firebaseUser) => {
     if (firebaseUser) {
       var providerData = firebaseUser.providerData;
@@ -115,31 +143,46 @@ function IniciarSesionConRedes(props) {
       }
     }
     return false;
-  };
+  };*/
 
   //FUNCION DE LOGIN CON FACEBOOK
+
+  var credentialFacebook = { appId: '3359296714151798', appName: 'greedy-me' };
+
   const signUpFacebook = async () => {
     try {
-      await Facebook.initializeAsync(credential);
+      await Facebook.initializeAsync(credentialFacebook);
       const { type, token } = await Facebook.logInWithReadPermissionsAsync({
         permissions: ['public_profile', 'email'],
       });
       if (type === 'success') {
         // Get the user's name using Facebook's Graph API
-        const response = await fetch(
+        /*const response = await fetch(
           `https://graph.facebook.com/me?fields=id,name,email&access_token=${token}`, //SOLICITA A LA API EL ID, NOMBRE Y MAIL
-        );
-        const credentialFireBase = firebase.auth.FacebookAuthProvider.credential(
-          token,
-        );
-        props.saveToken(credentialFireBase);
-        const data = await response.json(); //TRAE LOS DATOS DE LA API: ID, NOMBRE Y EMAIL
-        setUser(data);
+        );*/
+        const credential = firebase.auth.FacebookAuthProvider.credential(token);
+        firebase
+          .auth()
+          .signInWithCredential(credential)
+          .then((result) => {
+            console.log('user signed in'); //no se por que no entra
+          })
+          .catch((error) => {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            // The email of the user's account used.
+            var email = error.email;
+            // The firebase.auth.AuthCredential type that was used.
+            var credential = error.credential;
+          });
+        /*const data = await response.json(); //TRAE LOS DATOS DE LA API: ID, NOMBRE Y EMAIL
+        //setUser(data);
         firebase.database().collection('usuarioConsumidor').doc(data.id).set({
           email: data.email,
           nombre: data.name,
           last_logged_in: Date.now(),
-        });
+        });*/
         //props.signInFacebook(data);
       } else {
         type === 'cancel';
@@ -148,6 +191,10 @@ function IniciarSesionConRedes(props) {
       alert(`Facebook Login Error: ${message}`);
     }
   };
+
+  if (props.auth.uid) {
+    props.navigation.navigate('Main');
+  }
 
   return (
     <View>
@@ -208,15 +255,15 @@ const mapStateToProps = (state) => {
   return {
     authError: state.auth.authError,
     auth: state.firebase.auth,
-    token: state.token,
+    //token: state.token,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    signInFacebook: (user) => dispatch(signInFacebook(user)),
-    signInGoogle: (user) => dispatch(signInGoogle(user)),
-    saveToken: (token) => dispatch(saveToken(token)),
+    //signInFacebook: (user) => dispatch(signInFacebook(user)),
+    //signInGoogle: (user) => dispatch(signInGoogle(user)),
+    //saveToken: (token) => dispatch(saveToken(token)),
   };
 };
 

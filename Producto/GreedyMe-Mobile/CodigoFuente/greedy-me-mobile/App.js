@@ -15,6 +15,8 @@ import Notificaciones from './src/components/Perfil/notificaciones';
 import Ubicacion from './src/components/Perfil/ubicacion';
 import CambiarContraseña from './src/components/Perfil/cambiarContraseña';
 import Proveedores from './src/components/Proveedores/ini-proveedores';
+import { setUser, clearUser } from './redux/actions/auth-actions';
+import firebase from 'firebase';
 
 const theme = {
   ...DefaultTheme,
@@ -27,6 +29,14 @@ const theme = {
     text: 'black',
   },
 };
+
+/*firebase.auth().onAuthStateChanged((user) => {
+  if (user) {
+    store.dispatch(setUser(user));
+  } else {
+    store.dispatch(clearUser(user));
+  }
+});*/
 
 //Funcion para determinar el color del header del componente
 // Main a partir del nombre de la ruta obtenida.

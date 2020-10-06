@@ -2,6 +2,7 @@ const initState = {
   authError: null,
   mailError: null,
   mandoMail: null,
+  user: null,
 };
 
 const authReducer = (state = initState, action) => {
@@ -35,6 +36,19 @@ const authReducer = (state = initState, action) => {
         mailError: 'email invalido',
         mandoMail: null,
       };
+    //LOGIN CON GMAIL
+    /*case 'LOGGED_IN':
+      console.log('Login con gmail');
+      return {
+        ...state,
+        user: action.user,
+      };
+    case 'SIGN_OUT':
+      console.log('logout con gmail');
+      return {
+        ...state,
+        user: null,
+      };*/
 
     default:
       return state;
