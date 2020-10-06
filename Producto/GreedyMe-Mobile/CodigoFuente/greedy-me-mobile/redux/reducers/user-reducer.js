@@ -5,6 +5,8 @@ const initState = {
   contraError: null,
   proveedor: null,
   proveedorError: null,
+  notificaciones: null,
+  notificacionesError: null,
 };
 
 const userReducer = (state = initState, action) => {
@@ -16,7 +18,7 @@ const userReducer = (state = initState, action) => {
         editData: 'se edito correctamente',
       };
     case 'ERROR_DATOS':
-      console.log('no se actualizaron perrito malvadito brodersito');
+      console.log('no se actualizaron');
       return {
         ...state,
         dataError: 'Ocurrio algun error',
@@ -48,6 +50,20 @@ const userReducer = (state = initState, action) => {
         ...state,
         proveedorError: 'no se cambio los proveedores',
         proveedor: null,
+      };
+    case 'EDITAR_NOTIFICACIONES':
+      console.log('se cambio las notificaciones');
+      return {
+        ...state,
+        notificaciones: 'se cambio las notificaciones',
+        notificacionesError: null,
+      };
+    case 'ERROR_NOTIFICACIONES':
+      console.log('no se cambio las notificaciones');
+      return {
+        ...state,
+        notificacionesError: 'no se cambio las notificaciones',
+        notificaciones: null,
       };
 
     default:
