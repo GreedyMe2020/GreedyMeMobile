@@ -17,9 +17,6 @@ function IniciarSesionConEmail(props) {
   //Variable que contiene un expresion regular de un email
   const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
-  //RegExp para contraseña que se de mas de 8 digitos menos de 16, por lo menos una mayuscula, una minuscula y un numero
-  const reg2 = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/;
-
   const handleChangeEmail = (email) => {
     setEmail(email);
   };
@@ -38,7 +35,7 @@ function IniciarSesionConEmail(props) {
     } else {
       setMensajeError('');
       if (errorContraseña === '' && errorEmail === '') {
-        props.signUp({
+        props.signIn({
           email: email,
           contraseña: password,
         });
@@ -64,15 +61,7 @@ function IniciarSesionConEmail(props) {
     if (password === '') {
       setErrorContraseña('* Este campo no puede estar vacio');
     } else {
-      if (password !== null) {
-        if (reg2.test(password) !== true) {
-          setErrorContraseña(
-            '* La contraseña debe tener entre 8 y 16 caracteres, una minúscula, una mayúscula y un caracter especial',
-          );
-        } else {
-          setErrorContraseña('');
-        }
-      }
+      setErrorContraseña('');
     }
   }, [password]);
 
