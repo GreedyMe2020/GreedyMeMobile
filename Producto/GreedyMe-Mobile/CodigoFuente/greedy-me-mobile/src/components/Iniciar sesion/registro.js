@@ -33,8 +33,9 @@ function Registro(props) {
 
   //Variable que contiene un expresion regular de un email
   const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-  //Variable para contra que se de mas de 8 digitos menos de 16, por lo menos una mayuscula, una minuscula y un numero
-  const reg2 = 'matchRegexp:^(?=.{8,16}$)(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])';
+
+  //RegExp para contraseña que se de mas de 8 digitos menos de 16, por lo menos una mayuscula, una minuscula y un numero
+  const reg2 = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/;
 
   const handleChangeNombre = (nombre) => {
     setNombre(nombre);
@@ -69,9 +70,14 @@ function Registro(props) {
       setMensajeError('Todos campos deben ser completados');
     } else {
       setMensajeError('');
-      if (password === repetido) {
+      if (
+        password === repetido &&
+        errorContraseñaNueva === '' &&
+        errorContraseñaRepe === '' &&
+        errorEmail === ''
+      ) {
         setEsDistinta('');
-        //Agregar funcion para registrar nuevo usuario
+        //Funcion para registrar nuevo usuario
         props.signUp({
           email: email,
           contraseña: password,
@@ -84,7 +90,7 @@ function Registro(props) {
     }
   };
 
-  //Funciones para manejar los errores individuales de cada input
+  //Funciones para manejar el renderizado de los errores individuales de cada input
   const nombreValidator = React.useEffect(() => {
     if (nombre === '') {
       setErrorNombre('* Este campo no puede estar vacio');
@@ -105,19 +111,29 @@ function Registro(props) {
     if (email === '') {
       setErrorEmail('* Este campo no puede estar vacio');
     } else {
-      if (reg.test(email) !== true) {
-        setErrorEmail('* Este campo no es correcto');
-      } else {
-        setErrorEmail('');
+      if (email !== null) {
+        if (reg.test(email) !== true) {
+          setErrorEmail('* Este campo no es correcto');
+        } else {
+          setErrorEmail('');
+        }
       }
     }
-  }, [email, reg]);
+  }, [email]);
 
   const passValidatorNueva = React.useEffect(() => {
     if (password === '') {
       setErrorContraseñaNueva('* Este campo no puede estar vacio');
     } else {
-      setErrorContraseñaNueva('');
+      if (password !== null) {
+        if (reg2.test(password) !== true) {
+          setErrorContraseñaNueva(
+            '* La contraseña debe tener entre 8 y 16 caracteres, una minúscula, una mayúscula y un caracter especial',
+          );
+        } else {
+          setErrorContraseñaNueva('');
+        }
+      }
     }
   }, [password]);
 
