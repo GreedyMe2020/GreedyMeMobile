@@ -1,21 +1,24 @@
 import React from 'react';
 import { Button } from 'react-native-paper';
-import { Image, View, StyleSheet } from 'react-native';
+import { StatusBar, StyleSheet, Image } from 'react-native';
+import SafeAreaView from 'react-native-safe-area-view';
 
 export default function PantallaLogo({ navigation }) {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="light-content" backgroundColor="#1E1B4D" />
       <Image
-        style={styles.logoPrincipal}
+        style={styles.stretch}
         source={require('../multimedia/logoPrincipal.png')}
       />
       <Button
-        mode="contained"
+        title="Next screen"
         onPress={() => navigation.navigate('IniciarSesion')}
+        color="#fff"
       >
-        Iniciar sesion
+        Siguiente
       </Button>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -24,10 +27,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#262262',
+    backgroundColor: '#1E1B4D',
   },
   logoPrincipal: {
-    width: '50%',
-    height: '50%',
+    width: '40%',
+    height: '40%',
   },
 });
