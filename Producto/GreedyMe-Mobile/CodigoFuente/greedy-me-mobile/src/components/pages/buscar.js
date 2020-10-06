@@ -1,12 +1,23 @@
 import * as React from 'react';
-import { View, Text } from 'react-native';
+import { StyleSheet, StatusBar, View, Text } from 'react-native';
+import SafeAreaView from 'react-native-safe-area-view';
 
 function Buscador() {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Buscador</Text>
-    </View>
+    <SafeAreaView style={[styles.container, { backgroundColor: '#76B39D' }]}>
+      <StatusBar barStyle="light-content" backgroundColor="#76B39D" />
+      <View style={styles.contenedor}>
+        <Text>Favoritos</Text>
+      </View>
+    </SafeAreaView>
   );
 }
 
+const styles = StyleSheet.create({
+  contenedor: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+  },
+});
 export default Buscador;
