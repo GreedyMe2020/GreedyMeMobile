@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
@@ -16,6 +16,9 @@ import Notificaciones from './src/components/Perfil/notificaciones';
 import Ubicacion from './src/components/Perfil/ubicacion';
 import CambiarContraseña from './src/components/Perfil/cambiarContraseña';
 import Proveedores from './src/components/Proveedores/ini-proveedores';
+import * as Font from 'expo-font';
+import OlvideContraseña from './src/components/Iniciar sesion/olvide-contraseña';
+import VerificarCuenta from './src/components/Iniciar sesion/verificar-cuenta';
 
 const theme = {
   ...DefaultTheme,
@@ -28,6 +31,14 @@ const theme = {
     text: 'black',
   },
 };
+
+/*firebase.auth().onAuthStateChanged((user) => {
+  if (user) {
+    store.dispatch(setUser(user));
+  } else {
+    store.dispatch(clearUser(user));
+  }
+});*/
 
 //Funcion para determinar el color del header del componente
 // Main a partir del nombre de la ruta obtenida.
@@ -44,6 +55,17 @@ function coloresHeaderTab(tabName) {
 const Stack = createStackNavigator();
 
 export default function App(props) {
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    if (!loaded) {
+      Font.loadAsync({
+        'Raleway-Regular': require('./src/fonts/Raleway-Regular.ttf'),
+        'Poppins-Regular': require('./src/fonts/Poppins-Regular.ttf'),
+        'Poppins-SemiBold': require('./src/fonts/Poppins-SemiBold.ttf'),
+      });
+    }
+  });
   return (
     <Provider store={store}>
       <SafeAreaProvider>
@@ -53,17 +75,41 @@ export default function App(props) {
               <Stack.Screen
                 name="Home"
                 component={PantallaLogo}
-                options={{ headerShown: false }}
+                options={{
+                  headerShown: false,
+                  animationEnabled: false,
+                  gestureDirection: 'horizontal',
+                }}
               />
               <Stack.Screen
                 name="IniciarSesion"
                 component={IniciarSesion}
-                options={{ title: '', headerShown: false }}
+                options={{
+                  title: '',
+                  headerShown: false,
+                  animationEnabled: false,
+                  gestureDirection: 'horizontal',
+                }}
+              />
+              <Stack.Screen
+                name="OlvideContraseña"
+                component={OlvideContraseña}
+                options={{
+                  title: 'Olvidé mi contraseña',
+                  headerShown: true,
+                  animationEnabled: false,
+                  gestureDirection: 'horizontal',
+                }}
               />
               <Stack.Screen
                 name="Registro"
                 component={Registro}
-                options={{ title: 'Registrate', headerShown: true }}
+                options={{ title: 'Registrarme', headerShown: true }}
+              />
+              <Stack.Screen
+                name="VerificarCuenta"
+                component={VerificarCuenta}
+                options={{ title: 'Verificar mi cuenta', headerShown: true }}
               />
               <Stack.Screen
                 name="Main"

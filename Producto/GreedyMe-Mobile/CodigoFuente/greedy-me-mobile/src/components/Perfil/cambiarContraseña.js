@@ -8,7 +8,7 @@ import {
   Text,
   TouchableWithoutFeedback,
 } from 'react-native';
-import { Button, TextInput } from 'react-native-paper';
+import { Button, TextInput, Snackbar } from 'react-native-paper';
 import { cambiarContraseña } from '../../../redux/actions/user-actions';
 import { connect } from 'react-redux';
 
@@ -23,6 +23,9 @@ function Registro(props) {
   const [errorContraseñaRepe, setErrorContraseñaRepe] = React.useState('');
   const [esDistinta, setEsDistinta] = React.useState('');
   const [estanCompletos, setCompletos] = React.useState('');
+
+  //Estado para abrir o cerrar el snackbar de confirmacion
+  const [visible, setVisible] = React.useState(false);
 
   //Expresion regular para comparar la contraseña (1 min, 1 may, 1 num, 8-16 caracteres, pueden usarse caract esp)
   const reg2 = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/;
@@ -42,11 +45,14 @@ function Registro(props) {
           errorContraseñaNueva === ''
         ) {
           setEsDistinta(null);
+          //Cambio la contraseña con firebase
           props.cambiarContraseña({
             email: props.profile.email,
             password: password,
             passwordNueva: passwordNueva,
           });
+          //Abro la confirmacion del cambio de contraseña
+          setVisible(true);
         } else {
           setEsDistinta('Ambos campos deben ser iguales');
         }
@@ -79,6 +85,9 @@ function Registro(props) {
     }
   }, [passwordRepetida]);
 
+  //Funcion para cerrar la confirmacion del cambio de contraseña
+  const onDismissSnackBar = () => setVisible(false);
+
   return (
     <KeyboardAvoidingView
       style={styles.containerTeclado}
@@ -88,70 +97,89 @@ function Registro(props) {
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
-          <TextInput
-            style={styles.inputPass}
-            mode="flat"
-            label="Contraseña actual"
-            underlineColor="#76B39D"
-            value={password}
-            secureTextEntry={true}
-            onChangeText={(text) => {
-              setPassword(text);
-            }}
-          />
-          <TextInput
-            style={styles.inputEmailPass}
-            mode="flat"
-            label="Nueva contraseña"
-            underlineColor="#76B39D"
-            onBlur={() => {
-              passValidatorNueva;
-            }}
-            secureTextEntry={true}
-            onChangeText={(text) => {
-              setPasswordNueva(text);
-            }}
-            error={errorContraseñaNueva}
-          />
-          <Text style={styles.errorPass}>{errorContraseñaNueva}</Text>
-          <TextInput
-            style={styles.inputEmailPass}
-            mode="flat"
-            label="Repetir contraseña"
-            underlineColor="#76B39D"
-            onBlur={() => {
-              passValidatorRepetida;
-            }}
-            secureTextEntry={true}
-            onChangeText={(text) => {
-              setPasswordRepetida(text);
-            }}
-            error={errorContraseñaRepe}
-          />
-          <Text style={styles.errorPass}>{errorContraseñaRepe}</Text>
-          <View style={styles.contenedorBoton}>
-            <Button
-              theme={{
-                colors: { primary: '#76B39D' },
+          <View style={styles.formContainer}>
+            <TextInput
+              style={styles.inputPass}
+              mode="flat"
+              label="Contraseña actual"
+              underlineColor="#76B39D"
+              value={password}
+              secureTextEntry={true}
+              onChangeText={(text) => {
+                setPassword(text);
               }}
-              style={styles.btnIngresar}
-              mode="contained"
-              title="Submit"
-              onPress={handleSubmit}
+            />
+            <TextInput
+              style={styles.inputEmailPass}
+              mode="flat"
+              label="Nueva contraseña"
+              underlineColor="#76B39D"
+              onBlur={() => {
+                passValidatorNueva;
+              }}
+              secureTextEntry={true}
+              onChangeText={(text) => {
+                setPasswordNueva(text);
+              }}
+              error={errorContraseñaNueva}
+            />
+            <Text style={styles.errorPass}>{errorContraseñaNueva}</Text>
+            <TextInput
+              style={styles.inputEmailPass}
+              mode="flat"
+              label="Repetir contraseña"
+              underlineColor="#76B39D"
+              onBlur={() => {
+                passValidatorRepetida;
+              }}
+              secureTextEntry={true}
+              onChangeText={(text) => {
+                setPasswordRepetida(text);
+              }}
+              error={errorContraseñaRepe}
+            />
+            <Text style={styles.errorPass}>{errorContraseñaRepe}</Text>
+            <View style={styles.contenedorBoton}>
+              <Button
+                theme={{
+                  colors: { primary: '#76B39D' },
+                }}
+                style={styles.btnIngresar}
+                mode="contained"
+                title="Submit"
+                onPress={handleSubmit}
+              >
+                Guardar datos
+              </Button>
+            </View>
+            <View style={styles.contenedorError}>
+              <Text style={styles.errorDistintos}>{esDistinta}</Text>
+            </View>
+            <View style={styles.contenedorError}>
+              <Text style={styles.errorDistintos}>{estanCompletos}</Text>
+            </View>
+            <View style={styles.contenedorError}>
+              <Text style={styles.errorDistintos}>
+                {props.contraError
+                  ? 'La contraseña actual es incorrecta'
+                  : null}
+              </Text>
+            </View>
+          </View>
+          <View style={styles.contenedorSnack}>
+            <Snackbar
+              visible={visible}
+              onDismiss={onDismissSnackBar}
+              action={{
+                label: 'Cerrar',
+                onPress: () => {
+                  onDismissSnackBar;
+                },
+              }}
+              style={styles.snackbar}
             >
-              Guardar datos
-            </Button>
-          </View>
-          <View style={styles.contenedorError}>
-            <Text style={styles.errorDistintos}>{esDistinta}</Text>
-          </View>
-          <View style={styles.contenedorError}>
-            <Text style={styles.errorDistintos}>{estanCompletos}</Text>
-          </View>
-          <View style={styles.contenedorError}>
-            <Text style={styles.errorDistintos}>
-              {props.contraError ? 'La contraseña actual es incorrecta' : null}
-            </Text>
+              La contraseña se cambió correctamente.
+            </Snackbar>
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -164,6 +192,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     top: 50,
+    justifyContent: 'space-between',
   },
   containerTeclado: {
     flex: 1,
@@ -212,6 +241,12 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     color: '#af1a1a',
     top: -13,
+  },
+  contenedorSnack: {
+    top: -50,
+  },
+  snackbar: {
+    backgroundColor: '#333333',
   },
 });
 
