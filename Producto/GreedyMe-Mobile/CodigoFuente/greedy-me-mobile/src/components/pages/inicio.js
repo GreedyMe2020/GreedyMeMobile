@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Text } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import * as Location from 'expo-location';
 import { LogBox } from 'react-native';
 //esconde los warnings
@@ -24,10 +24,18 @@ function Inicio(props) {
   }, []);
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <View style={styles.contenedor}>
       <Text>Ahora estas en el inicio</Text>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  contenedor: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+  },
+});
 
 export default Inicio;

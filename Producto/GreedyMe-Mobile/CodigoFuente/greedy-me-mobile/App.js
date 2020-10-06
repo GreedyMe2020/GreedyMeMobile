@@ -67,17 +67,31 @@ export default function App(props) {
               <Stack.Screen
                 name="Home"
                 component={PantallaLogo}
-                options={{ headerShown: false }}
+                options={{
+                  headerShown: false,
+                  animationEnabled: false,
+                  gestureDirection: 'horizontal',
+                }}
               />
               <Stack.Screen
                 name="IniciarSesion"
                 component={IniciarSesion}
-                options={{ title: '', headerShown: false }}
+                options={{
+                  title: '',
+                  headerShown: false,
+                  animationEnabled: false,
+                  gestureDirection: 'horizontal',
+                }}
               />
               <Stack.Screen
                 name="OlvideContraseña"
                 component={OlvideContraseña}
-                options={{ title: 'Olvidé mi contraseña', headerShown: true }}
+                options={{
+                  title: 'Olvidé mi contraseña',
+                  headerShown: true,
+                  animationEnabled: false,
+                  gestureDirection: 'horizontal',
+                }}
               />
               <Stack.Screen
                 name="Registro"
