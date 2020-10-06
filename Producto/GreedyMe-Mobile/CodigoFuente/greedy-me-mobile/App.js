@@ -32,6 +32,14 @@ const theme = {
   },
 };
 
+/*firebase.auth().onAuthStateChanged((user) => {
+  if (user) {
+    store.dispatch(setUser(user));
+  } else {
+    store.dispatch(clearUser(user));
+  }
+});*/
+
 //Funcion para determinar el color del header del componente
 // Main a partir del nombre de la ruta obtenida.
 function coloresHeaderTab(tabName) {
