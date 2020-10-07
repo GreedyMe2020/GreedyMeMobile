@@ -34,7 +34,7 @@ const userReducer = (state = initState, action) => {
       console.log('no se cambio la contraseña');
       return {
         ...state,
-        contraError: action.error,
+        contraError: 'error en la contraseña actual',
         contra: null,
       };
     case 'EDITAR_PROVEEDOR':
@@ -64,6 +64,13 @@ const userReducer = (state = initState, action) => {
         ...state,
         notificacionesError: 'no se cambio las notificaciones',
         notificaciones: null,
+      };
+    case 'RESETEAR_VALORES':
+      console.log('se resetearon');
+      return {
+        ...state,
+        contra: null,
+        contraError: null,
       };
 
     default:

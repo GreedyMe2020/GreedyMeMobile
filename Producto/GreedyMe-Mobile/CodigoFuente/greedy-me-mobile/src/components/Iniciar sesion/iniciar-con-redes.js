@@ -2,15 +2,10 @@ import * as React from 'react';
 import { Button } from 'react-native-paper';
 import { Image, StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
-import {
-  signInGoogle,
-  signInFacebook,
-  saveToken,
-  setUser,
-} from '../../../redux/actions/auth-actions';
 import * as Facebook from 'expo-facebook';
 import * as Google from 'expo-google-app-auth';
 import firebase from 'firebase';
+
 //import { StatusBar } from 'expo-status-bar';
 
 function IniciarSesionConRedes(props) {
@@ -25,29 +20,10 @@ function IniciarSesionConRedes(props) {
           '652418121698-idd1gmmbtp3bnuu8n65h6idp1oe7ncgd.apps.googleusercontent.com',
         scopes: ['profile', 'email'],
       });
-      //ACA YA SE REGISTRA
       if (result.type === 'success') {
-        var credential = firebase.auth.GoogleAuthProvider.credential(
-          result.idToken,
-          result.accessToken,
-        );
-        firebase
-          .auth()
-          .signInWithCredential(credential)
-          .then((result) => {
-            console.log('user signed in'); //no se por que no entra
-          })
-          .catch((error) => {
-            // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            // The email of the user's account used.
-            var email = error.email;
-            // The firebase.auth.AuthCredential type that was used.
-            var credential = error.credential;
-            // ...
-          });
-        return result;
+        onSignIn(result);
+
+        return result.accessToken;
       } else {
         console.log('error');
         return { cancelled: true };
@@ -58,92 +34,45 @@ function IniciarSesionConRedes(props) {
   };
 
   //VALIDACION DE USUARIO UNA VEZ REGISTRADO
-  /*const onSignIn = (googleUser) => {
-    var unsubscribe = firebase
+  const onSignIn = (googleUser) => {
+    // Check if we are already signed-in Firebase with the correct user.
+    // Build Firebase credential with the Google ID token.
+    var credential = firebase.auth.GoogleAuthProvider.credential(
+      googleUser.idToken,
+      googleUser.accessToken,
+    );
+    firebase
       .auth()
-      .onAuthStateChanged(function (firebaseUser) {
-        unsubscribe();
-        // Check if we are already signed-in Firebase with the correct user.
-        if (!isUserEqual(googleUser, firebaseUser)) {
-          // Build Firebase credential with the Google ID token.
-          var credential = firebase.auth.GoogleAuthProvider.credential(
-            googleUser.id_token,
-            googleUser.accessToken,
-          );
-          console.log(googleUser);
-          //props.saveToken(credential.accessToken);
-          // Sign in with credential from the Google user.
-          //props.signInGoogle(credential);
-          firebase
-            .auth()
-            .signInWithCredential(credential)
-            .then(() => {
-              console.log('user signed in');})
-            .catch(function (error) {
-              // Handle Errors here.
-              var errorCode = error.code;
-              var errorMessage = error.message;
-              // The email of the user's account used.
-              var email = error.email;
-              // The firebase.auth.AuthCredential type that was used.
-              var credential = error.credential;
-              // ...
-            });
-          }
-              /*if (result.additionalUserInfo.isNewUser) {
-                firebase
-                  .database()
-                  .collection('usuarioConsumidor') //ESTO AGREGUÉ YO PERO NO SE SI ESTÁ BIEN.
-                  .doc(result.user.uid)
-                  .set({
-                    email: result.user.email,
-                    nombre: result.additionalUserInfo.profile.given_name,
-                    apellido: result.additionalUserInfo.profile.family_name,
-                    last_logged_in: Date.now(),
-                  })
-                  .then((snapshot) => {
-                    //console.log() no hace nada aca.
-                  });
-              } else {
-                firebase
-                  .database()
-                  .ref('/users/' + result.user.uid)
-                  .update({
-                    last_logged_in: Date.now(),
-                  });
-              }
+      .signInWithCredential(credential)
+      .then((result) => {
+        if (result.additionalUserInfo.isNewUser) {
+          const firestore = firebase.firestore();
+          firestore
+            .collection('usuarioConsumidor')
+            .doc(result.user.uid)
+            .set({
+              email: result.user.email,
+              nombre: result.additionalUserInfo.profile.given_name,
+              apellido: result.additionalUserInfo.profile.family_name,
+              notificacionesFavoritas: false,
+              notificacionesUbicacion: false,
+              notificacionesTodas: true,
+              proveedoresAsociados: [],
             })
-            .catch(function (error) {
-              // Handle Errors here.
-              var errorCode = error.code;
-              var errorMessage = error.message;
-              // The email of the user's account used.
-              var email = error.email;
-              // The firebase.auth.AuthCredential type that was used.
-              var credential = error.credential;
-              // ...
-            });
-        } else {
-          console.log('User already signed-in Firebase.');
+            .then(function (snapshot) {});
         }
+      })
+      .catch(function (error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // The email of the user's account used.
+        var email = error.email;
+        // The firebase.auth.AuthCredential type that was used.
+        var credential = error.credential;
+        // ...
       });
   };
-  const isUserEqual = (googleUser, firebaseUser) => {
-    if (firebaseUser) {
-      var providerData = firebaseUser.providerData;
-      for (var i = 0; i < providerData.length; i++) {
-        if (
-          providerData[i].providerId ===
-            firebase.auth.GoogleAuthProvider.PROVIDER_ID &&
-          providerData[i].uid === googleUser.getBasicProfile().getId()
-        ) {
-          // We don't need to reauth the Firebase connection.
-          return true;
-        }
-      }
-    }
-    return false;
-  };*/
 
   //FUNCION DE LOGIN CON FACEBOOK
 
@@ -157,15 +86,40 @@ function IniciarSesionConRedes(props) {
       });
       if (type === 'success') {
         // Get the user's name using Facebook's Graph API
-        /*const response = await fetch(
-          `https://graph.facebook.com/me?fields=id,name,email&access_token=${token}`, //SOLICITA A LA API EL ID, NOMBRE Y MAIL
-        );*/
         const credential = firebase.auth.FacebookAuthProvider.credential(token);
         firebase
           .auth()
           .signInWithCredential(credential)
           .then((result) => {
-            console.log('user signed in'); //no se por que no entra
+            console.log(result);
+            if (result.additionalUserInfo.isNewUser) {
+              const firestore = firebase.firestore();
+              firestore
+                .collection('usuarioConsumidor')
+                .doc(result.user.uid)
+                .set({
+                  email: result.user.email,
+                  nombre: result.user.displayName,
+                  apellido: result.user.displayName,
+                  notificacionesFavoritas: false,
+                  notificacionesUbicacion: false,
+                  notificacionesTodas: true,
+                  proveedoresAsociados: [],
+                })
+                .then(function (snapshot) {});
+            }
+          });
+        /*
+            const firestore = firebase.firestore();
+            firestore.collection('usuarioConsumidor').doc(resp.user.uid).set({
+              email: data.email,
+              nombre: data.name,
+              //apellido: result.additionalUserInfo.profile.family_name,
+              notificacionesFavoritas: false,
+              notificacionesUbicacion: false,
+              notificacionesTodas: true,
+              proveedoresAsociados: [],
+            });
           })
           .catch((error) => {
             // Handle Errors here.

@@ -32,11 +32,9 @@ function MisDatos(props) {
 
   const handleChangeNombre = (nombre) => {
     setNombre(nombre);
-    console.log(nombre);
   };
   const handleChangeApellido = (apellido) => {
     setApellido(apellido);
-    console.log(apellido);
   };
   const handleChangeEmail = (email) => {
     setEmail(email);
@@ -135,6 +133,7 @@ function MisDatos(props) {
                 Cambiar mi contraseña
               </Text>
             </View>
+
             <View style={styles.contenedorBoton}>
               <Button
                 theme={{
@@ -150,6 +149,15 @@ function MisDatos(props) {
             </View>
             <View style={styles.contenedorError}>
               <Text style={styles.errorDistintos}>{mensajeError}</Text>
+            </View>
+            <View style={styles.contenedorError}>
+              <Text style={styles.emailVerificado}>
+                {props.auth.emailVerified === false
+                  ? 'El e-mail no ha sido verificado'
+                  : props.auth.emailVerified === true
+                  ? 'El e-mail ha sido verficado'
+                  : null}
+              </Text>
             </View>
           </View>
 
@@ -226,6 +234,10 @@ const styles = StyleSheet.create({
   },
   snackbar: {
     backgroundColor: '#333333',
+  },
+  emailVerificado: {
+    color: 'orange',
+    top: 25,
   },
 });
 

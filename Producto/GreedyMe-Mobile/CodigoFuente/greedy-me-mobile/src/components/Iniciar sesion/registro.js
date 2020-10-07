@@ -8,9 +8,12 @@ import {
   Text,
   TouchableWithoutFeedback,
 } from 'react-native';
-import { Button, TextInput } from 'react-native-paper';
+import { Button, TextInput, Snackbar } from 'react-native-paper';
 import { connect } from 'react-redux';
-import { signUp } from '../../../redux/actions/auth-actions';
+import {
+  signUp,
+  resetearValoresCreacionUsuario,
+} from '../../../redux/actions/auth-actions';
 
 function Registro(props) {
   //Estados para cada uno de los inputs del formulario de registro
@@ -30,6 +33,8 @@ function Registro(props) {
   const [mensajeError, setMensajeError] = React.useState('');
   //Estado para saber si las contraseñas son iguales
   const [esDistinta, setEsDistinta] = React.useState('');
+  //Estado para abrir o cerrar el snackbar de confirmacion
+  const [visible, setVisible] = React.useState(false);
 
   //Variable que contiene un expresion regular de un email
   const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -145,6 +150,15 @@ function Registro(props) {
     }
   }, [repetido]);
 
+  //funcion para cerrar el mensaje de error y para mostrarlo
+  const onDismissSnackBar = () => setVisible(false);
+  const abrirMensajeConfirmacion = React.useEffect(() => {
+    if (props.creacionError != null) {
+      setVisible(true);
+      props.resetearValoresCreacionUsuario();
+    }
+  }, [props.creacionError]);
+
   return (
     <KeyboardAvoidingView
       style={styles.containerTeclado}
@@ -252,10 +266,20 @@ function Registro(props) {
           <View style={styles.contenedorError}>
             <Text style={styles.errorDistintos}>{mensajeError}</Text>
           </View>
-          <View style={styles.contenedorError}>
-            <Text style={styles.errorDistintos}>
-              {props.creacionError ? 'El email ya esta siendo utilizado' : null}
-            </Text>
+          <View style={styles.contenedorSnack}>
+            <Snackbar
+              visible={visible}
+              onDismiss={onDismissSnackBar}
+              action={{
+                label: 'Cerrar',
+                onPress: () => {
+                  onDismissSnackBar;
+                },
+              }}
+              style={styles.snackbar}
+            >
+              El email ya esta siendo utilizado.
+            </Snackbar>
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -314,6 +338,12 @@ const styles = StyleSheet.create({
     color: '#af1a1a',
     top: -13,
   },
+  contenedorSnack: {
+    top: 120,
+  },
+  snackbar: {
+    backgroundColor: 'red',
+  },
 });
 
 const mapStateToProps = (state) => {
@@ -325,6 +355,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     signUp: (nuevoUsuario) => dispatch(signUp(nuevoUsuario)),
+    resetearValoresCreacionUsuario: () =>
+      dispatch(resetearValoresCreacionUsuario()),
   };
 };
 

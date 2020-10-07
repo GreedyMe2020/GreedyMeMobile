@@ -119,3 +119,9 @@ export const editarNotificacionesTodas = (datos, id) => {
       });
   };
 };
+
+export const resetearValores = () => {
+  return (dispatch, getState, { getFirestore }) => {
+    dispatch({ type: 'RESETEAR_VALORES' });
+  };
+};
