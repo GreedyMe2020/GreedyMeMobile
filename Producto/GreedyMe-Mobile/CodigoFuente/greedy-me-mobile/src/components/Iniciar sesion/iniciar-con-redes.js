@@ -11,6 +11,7 @@ import {
 import * as Facebook from 'expo-facebook';
 import * as Google from 'expo-google-app-auth';
 import firebase from 'firebase';
+
 //import { StatusBar } from 'expo-status-bar';
 
 function IniciarSesionConRedes(props) {
@@ -34,8 +35,18 @@ function IniciarSesionConRedes(props) {
         firebase
           .auth()
           .signInWithCredential(credential)
-          .then((result) => {
-            console.log('user signed in'); //no se por que no entra
+          .then((resp) => {
+            console.log('sadas');
+            /*const firestore = firebase.firestore();
+            firestore.collection('usuarioConsumidor').doc(resp.user.uid).set({
+              email: result.user.email,
+              nombre: result.additionalUserInfo.profile.given_name,
+              apellido: result.additionalUserInfo.profile.family_name,
+              notificacionesFavoritas: false,
+              notificacionesUbicacion: false,
+              notificacionesTodas: true,
+              proveedoresAsociados: [],
+            });*/
           })
           .catch((error) => {
             // Handle Errors here.
@@ -161,11 +172,23 @@ function IniciarSesionConRedes(props) {
           `https://graph.facebook.com/me?fields=id,name,email&access_token=${token}`, //SOLICITA A LA API EL ID, NOMBRE Y MAIL
         );*/
         const credential = firebase.auth.FacebookAuthProvider.credential(token);
+        //const data = await response.json();
         firebase
           .auth()
           .signInWithCredential(credential)
-          .then((result) => {
-            console.log('user signed in'); //no se por que no entra
+          .then((resp) => {
+            console.log('asdsa');
+            /*
+            const firestore = firebase.firestore();
+            firestore.collection('usuarioConsumidor').doc(resp.user.uid).set({
+              email: data.email,
+              nombre: data.name,
+              //apellido: result.additionalUserInfo.profile.family_name,
+              notificacionesFavoritas: false,
+              notificacionesUbicacion: false,
+              notificacionesTodas: true,
+              proveedoresAsociados: [],
+            });*/
           })
           .catch((error) => {
             // Handle Errors here.
