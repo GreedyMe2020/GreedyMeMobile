@@ -32,11 +32,9 @@ function MisDatos(props) {
 
   const handleChangeNombre = (nombre) => {
     setNombre(nombre);
-    console.log(nombre);
   };
   const handleChangeApellido = (apellido) => {
     setApellido(apellido);
-    console.log(apellido);
   };
   const handleChangeEmail = (email) => {
     setEmail(email);

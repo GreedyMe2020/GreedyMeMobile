@@ -159,7 +159,7 @@ function OlvideContraseña(props) {
               Enviar
             </Button>
           </View>
-          <View style={styles.contenedorSnack}>
+          <View style={styles.contenedorSnack2}>
             <Snackbar
               visible={visible}
               onDismiss={onDismissSnackBar}
@@ -243,6 +243,9 @@ const styles = StyleSheet.create({
   },
   contenedorSnack: {
     top: -50,
+  },
+  contenedorSnack2: {
+    top: 45,
   },
   snackbar: {
     backgroundColor: 'green',

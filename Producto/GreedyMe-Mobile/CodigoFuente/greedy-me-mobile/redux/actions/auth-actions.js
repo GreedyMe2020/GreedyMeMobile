@@ -104,6 +104,12 @@ export const resetearValores = () => {
   };
 };
 
+export const resetearValoresCreacionUsuario = () => {
+  return (dispatch, getState, { getFirestore }) => {
+    dispatch({ type: 'RESETEAR_VALORES_CREACION_USUARIO' });
+  };
+};
+
 /*const firebase = getFirebase();
     firebase
       .auth()

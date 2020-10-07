@@ -45,6 +45,12 @@ const authReducer = (state = initState, action) => {
         mailError: null,
         mandoMail: null,
       };
+    case 'RESETEAR_VALORES_CREACION_USUARIO':
+      console.log('se resetearon');
+      return {
+        ...state,
+        creacionError: null,
+      };
     //LOGIN CON GMAIL
     /*case 'LOGGED_IN':
       console.log('Login con gmail');
