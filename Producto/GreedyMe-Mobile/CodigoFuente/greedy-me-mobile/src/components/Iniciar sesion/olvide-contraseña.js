@@ -10,7 +10,10 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { forgotPass } from '../../../redux/actions/auth-actions';
+import {
+  forgotPass,
+  resetearValores,
+} from '../../../redux/actions/auth-actions';
 
 function OlvideContraseña(props) {
   //Estados para manejar los datos del email y la validacion del mismo
@@ -19,11 +22,11 @@ function OlvideContraseña(props) {
 
   //Estado para abrir o cerrar el snackbar de confirmacion
   const [visible, setVisible] = React.useState(false);
+  const [visible2, setVisible2] = React.useState(false);
 
   const handleChangeEmail = (email) => {
     setEmail(email);
   };
-
 
   const handleSubmit = () => {
     if (email === '' || email === null) {
@@ -31,18 +34,26 @@ function OlvideContraseña(props) {
     } else {
       setErrorEmail('');
       props.forgotPass(email);
-
-  //Funcion para cerrar la confirmacion del cambio de contraseña
-  const onDismissSnackBar = () => setVisible(false);
-
-  //Funcion que se ejecuta al hacer submit al boton enviar
-  const handleSubmit = (email) => {
-    if (errorEmail === '' && email !== null) {
-      //Abro la confirmacion del cambio de contraseña
-      setVisible(true);
-
     }
   };
+
+  //Funcion para cerrar la confirmacion y use effect para mostrar la confirmacion
+  const onDismissSnackBar = () => setVisible(false);
+  const abrirMensajeConfirmacion = React.useEffect(() => {
+    if (props.mandoMail != null) {
+      setVisible(true);
+      props.resetearValores();
+    }
+  }, [props.mandoMail]);
+
+  //Funcion para cerrar el error y use effect para mostrar el error
+  const onDismissSnackBar2 = () => setVisible2(false);
+  const abrirMensajeError = React.useEffect(() => {
+    if (props.mailError != null) {
+      setVisible2(true);
+      props.resetearValores();
+    }
+  }, [props.mailError]);
 
   //Variable que contiene un expresion regular de un email
   const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -79,7 +90,6 @@ function OlvideContraseña(props) {
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
-
           <Text style={styles.texto}>
             Ingresá tu email y te enviaremos un mail con una nueva contraseña,
             luego podrás cambiarla desde el perfil.
@@ -145,10 +155,9 @@ function OlvideContraseña(props) {
 
                 props.navigation.navigate('Main');
               }} */
-              >
-                Enviar
-              </Button>
-            </View>
+            >
+              Enviar
+            </Button>
           </View>
           <View style={styles.contenedorSnack}>
             <Snackbar
@@ -162,15 +171,26 @@ function OlvideContraseña(props) {
               }}
               style={styles.snackbar}
             >
-
-           
-            <Text style={styles.alerta}>
-              {props.mailError ? 'Email invalido' : null}
-            </Text>
-
+              <Text style={styles.alerta}>
+                {props.mailError ? 'Email invalido' : null}
+              </Text>
               Correo enviado.
             </Snackbar>
-
+          </View>
+          <View style={styles.contenedorSnack}>
+            <Snackbar
+              visible={visible2}
+              onDismiss={onDismissSnackBar2}
+              action={{
+                label: 'Cerrar',
+                onPress: () => {
+                  onDismissSnackBar2;
+                },
+              }}
+              style={styles.snackbar2}
+            >
+              El mail es invalido.
+            </Snackbar>
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -217,23 +237,25 @@ const styles = StyleSheet.create({
     color: '#af1a1a',
     top: -8,
   },
-
   alerta: {
     textAlign: 'center',
     color: '#af1a1a',
-
+  },
   contenedorSnack: {
     top: -50,
   },
   snackbar: {
-    backgroundColor: '#333333',
-
+    backgroundColor: 'green',
+  },
+  snackbar2: {
+    backgroundColor: 'red',
   },
 });
 
 const mapStateToProps = (state) => {
   return {
     mailError: state.auth.mailError,
+    mandoMail: state.auth.mandoMail,
     auth: state.firebase.auth,
   };
 };
@@ -241,6 +263,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     forgotPass: (email) => dispatch(forgotPass(email)),
+    resetearValores: () => dispatch(resetearValores()),
   };
 };
 

@@ -84,7 +84,7 @@ export const forgotPass = (email) => {
           return o.email === mail;
         });
         const id = usuarios[indiceACambiar].id;
-        firestore.collection('olvidoContraseña').doc().set({
+        firestore.collection('olvidoContra').doc().set({
           email: email,
           id: id,
         });
@@ -95,6 +95,12 @@ export const forgotPass = (email) => {
       .catch((error) => {
         dispatch({ type: 'EMAIL_INVALIDO', error });
       });
+  };
+};
+
+export const resetearValores = () => {
+  return (dispatch, getState, { getFirestore }) => {
+    dispatch({ type: 'RESETEAR_VALORES' });
   };
 };
 
