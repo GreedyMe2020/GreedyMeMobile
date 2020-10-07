@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, TextInput } from 'react-native-paper';
+import { Button, TextInput, Snackbar } from 'react-native-paper';
 import {
   View,
   StyleSheet,
@@ -13,12 +13,17 @@ import { connect } from 'react-redux';
 import { forgotPass } from '../../../redux/actions/auth-actions';
 
 function OlvideContraseña(props) {
+  //Estados para manejar los datos del email y la validacion del mismo
   const [email, setEmail] = React.useState(null);
   const [errorEmail, setErrorEmail] = React.useState('');
+
+  //Estado para abrir o cerrar el snackbar de confirmacion
+  const [visible, setVisible] = React.useState(false);
 
   const handleChangeEmail = (email) => {
     setEmail(email);
   };
+
 
   const handleSubmit = () => {
     if (email === '' || email === null) {
@@ -26,6 +31,16 @@ function OlvideContraseña(props) {
     } else {
       setErrorEmail('');
       props.forgotPass(email);
+
+  //Funcion para cerrar la confirmacion del cambio de contraseña
+  const onDismissSnackBar = () => setVisible(false);
+
+  //Funcion que se ejecuta al hacer submit al boton enviar
+  const handleSubmit = (email) => {
+    if (errorEmail === '' && email !== null) {
+      //Abro la confirmacion del cambio de contraseña
+      setVisible(true);
+
     }
   };
 
@@ -64,6 +79,7 @@ function OlvideContraseña(props) {
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
+
           <Text style={styles.texto}>
             Ingresá tu email y te enviaremos un mail con una nueva contraseña,
             luego podrás cambiarla desde el perfil.
@@ -93,14 +109,68 @@ function OlvideContraseña(props) {
               title="Submit"
               onPress={handleSubmit}
               /* onPress={() => {
+
+          <View style={styles.formContainer}>
+            <Text style={styles.texto}>
+              Ingresá tu email y te enviaremos una nueva contraseña que luego
+              podrás cambiar desde tu perfil.
+            </Text>
+            <TextInput
+              style={styles.inputEmailPass}
+              mode="flat"
+              label="Email de recuperación"
+              required
+              underlineColor="#76B39D"
+              onBlur={() => {
+                emailValidator;
+              }}
+              value={email}
+              onChangeText={handleChangeEmail}
+              error={errorEmail}
+            />
+            <Text style={styles.errorPass}>{errorEmail}</Text>
+
+            <View style={styles.contenedorBoton}>
+              <Button
+                theme={{
+                  colors: { primary: '#76B39D' },
+                }}
+                style={styles.btnIngresar}
+                mode="contained"
+                title="Submit"
+                onPress={() => {
+                  props.navigation.navigate('VerificarCuenta');
+                }}
+                /* onPress={() => {
+
                 props.navigation.navigate('Main');
               }} */
+              >
+                Enviar
+              </Button>
+            </View>
+          </View>
+          <View style={styles.contenedorSnack}>
+            <Snackbar
+              visible={visible}
+              onDismiss={onDismissSnackBar}
+              action={{
+                label: 'Cerrar',
+                onPress: () => {
+                  onDismissSnackBar;
+                },
+              }}
+              style={styles.snackbar}
             >
-              Enviar
-            </Button>
+
+           
             <Text style={styles.alerta}>
               {props.mailError ? 'Email invalido' : null}
             </Text>
+
+              Correo enviado.
+            </Snackbar>
+
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -116,6 +186,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     top: 50,
+    justifyContent: 'space-between',
   },
   texto: {
     marginRight: 20,
@@ -146,9 +217,17 @@ const styles = StyleSheet.create({
     color: '#af1a1a',
     top: -8,
   },
+
   alerta: {
     textAlign: 'center',
     color: '#af1a1a',
+
+  contenedorSnack: {
+    top: -50,
+  },
+  snackbar: {
+    backgroundColor: '#333333',
+
   },
 });
 
