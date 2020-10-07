@@ -1,3 +1,4 @@
+import _ from 'lodash';
 export const signUp = (nuevoUsuario) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firebase = getFirebase();
@@ -21,6 +22,9 @@ export const signUp = (nuevoUsuario) => {
             notificacionesTodas: true,
             proveedoresAsociados: [],
           });
+      })
+      .then(() => {
+        firebase.auth().currentUser.sendEmailVerification();
       })
       .then(() => {
         dispatch({ type: 'USUARIO_CREADO' });
@@ -58,12 +62,33 @@ export const signOut = () => {
   };
 };
 
-export const forgotPass = (usuario) => {
-  return (dispatch, getState, { getFirebase }) => {
-    const firebase = getFirebase();
-    firebase
-      .auth()
-      .sendPasswordResetEmail(usuario.email)
+export const forgotPass = (email) => {
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firestore = getFirestore();
+    const mail = email;
+    const usuarios = [];
+    firestore
+      .collection('usuarioConsumidor')
+      .get()
+      .then((snapShots) => {
+        snapShots.forEach((doc) => {
+          const data = doc.data();
+          usuarios.push({
+            ...data,
+            id: doc.id,
+          });
+        });
+      })
+      .then(() => {
+        const indiceACambiar = _.findIndex(usuarios, function (o) {
+          return o.email === mail;
+        });
+        const id = usuarios[indiceACambiar].id;
+        firestore.collection('olvidoContra').doc().set({
+          email: email,
+          id: id,
+        });
+      })
       .then(() => {
         dispatch({ type: 'CONTRASEÑA_REESTABLECIDA' });
       })
@@ -72,29 +97,3 @@ export const forgotPass = (usuario) => {
       });
   };
 };
-
-/*export const saveToken = (token) => {
-  return {
-    type: 'SET_TOKEN',
-    token: token,
-  };
-};
-
-export const clearToken = () => {
-  return {
-    type: 'CLEAR_TOKEN',
-  };
-};*/
-
-/*export const setUser = (user) => {
-  return {
-    type: 'LOGGED_IN',
-    user: user,
-  };
-};
-
-export const clearUser = () => {
-  return {
-    type: 'SIGN_OUT',
-  };
-};*/
