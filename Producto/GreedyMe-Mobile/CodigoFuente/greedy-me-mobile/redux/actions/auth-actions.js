@@ -110,6 +110,11 @@ export const resetearValoresCreacionUsuario = () => {
   };
 };
 
+export const resetearValoresInicioSesion = () => {
+  return (dispatch, getState, { getFirestore }) => {
+    dispatch({ type: 'RESETEAR_VALORES_INICIO_SESION' });
+  };
+};
 /*const firebase = getFirebase();
     firebase
       .auth()
