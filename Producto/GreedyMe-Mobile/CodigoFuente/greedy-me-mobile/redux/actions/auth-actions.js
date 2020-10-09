@@ -81,7 +81,7 @@ export const forgotPass = (email) => {
       })
       .then(() => {
         const indiceACambiar = _.findIndex(usuarios, function (o) {
-          return o.email === mail;
+          return o.email.toLowerCase() === mail.toLowerCase();
         });
         const id = usuarios[indiceACambiar].id;
         firestore.collection('olvidoContra').doc().set({
