@@ -65,9 +65,9 @@ function IniciarSesionConEmail(props) {
     }
   }, [password]);
 
-  if (props.auth.uid) {
+  /*if (props.auth.uid) {
     props.navigation.navigate('Main');
-  }
+  }*/
 
   return (
     <View>

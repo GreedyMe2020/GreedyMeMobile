@@ -5,12 +5,14 @@ import { connect } from 'react-redux';
 import * as Facebook from 'expo-facebook';
 import * as Google from 'expo-google-app-auth';
 import firebase from 'firebase';
-
+import {
+  signInFacebook,
+  signInGoogle,
+} from '../../../redux/actions/auth-actions';
 //import { StatusBar } from 'expo-status-bar';
 
 function IniciarSesionConRedes(props) {
   //FUNCION DE LOGIN CON GOOGLE
-
   const signUpGoogle = async () => {
     try {
       const result = await Google.logInAsync({
@@ -22,7 +24,6 @@ function IniciarSesionConRedes(props) {
       });
       if (result.type === 'success') {
         onSignIn(result);
-
         return result.accessToken;
       } else {
         console.log('error');
@@ -41,7 +42,9 @@ function IniciarSesionConRedes(props) {
       googleUser.idToken,
       googleUser.accessToken,
     );
-    firebase
+    //props.logeado('No');
+    props.signInGoogle(credential);
+    /*firebase
       .auth()
       .signInWithCredential(credential)
       .then((result) => {
@@ -71,7 +74,7 @@ function IniciarSesionConRedes(props) {
         // The firebase.auth.AuthCredential type that was used.
         var credential = error.credential;
         // ...
-      });
+      });*/
   };
 
   //FUNCION DE LOGIN CON FACEBOOK
@@ -84,10 +87,13 @@ function IniciarSesionConRedes(props) {
       const { type, token } = await Facebook.logInWithReadPermissionsAsync({
         permissions: ['public_profile', 'email'],
       });
+
       if (type === 'success') {
         // Get the user's name using Facebook's Graph API
         const credential = firebase.auth.FacebookAuthProvider.credential(token);
-        firebase
+
+        props.signInFacebook(credential);
+        /*firebase
           .auth()
           .signInWithCredential(credential)
           .then((result) => {
@@ -105,10 +111,9 @@ function IniciarSesionConRedes(props) {
                   notificacionesUbicacion: false,
                   notificacionesTodas: true,
                   proveedoresAsociados: [],
-                })
-                .then(function (snapshot) {});
+                });
             }
-          });
+          });*/
         /*
             const firestore = firebase.firestore();
             firestore.collection('usuarioConsumidor').doc(resp.user.uid).set({
@@ -145,10 +150,6 @@ function IniciarSesionConRedes(props) {
       alert(`Facebook Login Error: ${message}`);
     }
   };
-
-  if (props.auth.uid) {
-    props.navigation.navigate('Main');
-  }
 
   return (
     <View>
@@ -209,14 +210,16 @@ const mapStateToProps = (state) => {
   return {
     authError: state.auth.authError,
     auth: state.firebase.auth,
+    logeado: state.auth.logeado,
     //token: state.token,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    //signInFacebook: (user) => dispatch(signInFacebook(user)),
-    //signInGoogle: (user) => dispatch(signInGoogle(user)),
+    //signInWithCredential: (user) => dispatch(signInWithCredential(user)),
+    signInFacebook: (user) => dispatch(signInFacebook(user)),
+    signInGoogle: (user) => dispatch(signInGoogle(user)),
     //saveToken: (token) => dispatch(saveToken(token)),
   };
 };

@@ -5,6 +5,7 @@ const initState = {
   user: null,
   crearUsuario: null,
   creacionError: null,
+  logeado: null,
 };
 
 const authReducer = (state = initState, action) => {
@@ -15,15 +16,19 @@ const authReducer = (state = initState, action) => {
         ...state,
         authError: 'Fallo el inicio de sesión',
       };
+
     case 'INICIO_CORRECTO':
       console.log('login succes wachin');
       return {
         ...state,
         authError: null,
+        logeado: null,
       };
+
     case 'SESION_CERRADA':
       console.log('te fuiste');
       return state;
+
     case 'CONTRASEÑA_REESTABLECIDA':
       console.log('se envio un mail');
       return {
@@ -51,19 +56,6 @@ const authReducer = (state = initState, action) => {
         ...state,
         creacionError: null,
       };
-    //LOGIN CON GMAIL
-    /*case 'LOGGED_IN':
-      console.log('Login con gmail');
-      return {
-        ...state,
-        user: action.user,
-      };
-    case 'SIGN_OUT':
-      console.log('logout con gmail');
-      return {
-        ...state,
-        user: null,
-      };*/
 
     case 'USUARIO_CREADO':
       console.log('se creo usuario');

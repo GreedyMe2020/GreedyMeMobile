@@ -62,6 +62,87 @@ export const signOut = () => {
   };
 };
 
+export const signInGoogle = (credential) => {
+  return (dispatch, getState, { getFirebase }) => {
+    const firebase = getFirebase();
+    firebase
+      .auth()
+      .signInWithCredential(credential)
+      .then((result) => {
+        if (result.additionalUserInfo.isNewUser) {
+          const firestore = firebase.firestore();
+          firestore
+            .collection('usuarioConsumidor')
+            .doc(result.user.uid)
+            .set({
+              email: result.user.email,
+              nombre: result.additionalUserInfo.profile.given_name,
+              apellido: result.additionalUserInfo.profile.family_name,
+              notificacionesFavoritas: false,
+              notificacionesUbicacion: false,
+              notificacionesTodas: true,
+              proveedoresAsociados: [],
+            })
+            .then(() => {
+              dispatch({ type: 'USUARIO_CREADO' });
+            })
+            .catch((error) => {
+              dispatch({ type: 'FALLO_CREACION', error });
+            });
+        } else {
+          dispatch({ type: 'INICIO_CORRECTO' });
+        }
+      })
+      .catch(function (error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // The email of the user's account used.
+        var email = error.email;
+        // The firebase.auth.AuthCredential type that was used.
+        var credential = error.credential;
+        // ...
+      });
+  };
+};
+
+export const signInFacebook = (credential) => {
+  return (dispatch, getState, { getFirebase }) => {
+    const firebase = getFirebase();
+    firebase
+      .auth()
+      .signInWithCredential(credential)
+      .then((result) => {
+        if (result.additionalUserInfo.isNewUser) {
+          const firestore = firebase.firestore();
+          firestore
+            .collection('usuarioConsumidor')
+            .doc(result.user.uid)
+            .set({
+              email: result.user.email,
+              nombre: result.user.displayName,
+              apellido: result.user.displayName,
+              notificacionesFavoritas: false,
+              notificacionesUbicacion: false,
+              notificacionesTodas: true,
+              proveedoresAsociados: [],
+            })
+            .then(() => {
+              dispatch({ type: 'USUARIO_CREADO' });
+            })
+            .catch((error) => {
+              dispatch({ type: 'FALLO_CREACION', error });
+            });
+        } else {
+          dispatch({ type: 'INICIO_CORRECTO' });
+        }
+      })
+      .catch((error) => {
+        dispatch({ type: 'INICIO_FALLIDO', error });
+      });
+  };
+};
+
 export const forgotPass = (email) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firestore = getFirestore();

@@ -9,6 +9,7 @@ import {
   Text,
   TouchableWithoutFeedback,
   View,
+  ActivityIndicator,
 } from 'react-native';
 import SafeAreaView from 'react-native-safe-area-view';
 import { connect } from 'react-redux';
@@ -17,6 +18,9 @@ import IniciarSesionConEmail from './iniciar-con-email';
 import IniciarSesionConRedes from './iniciar-con-redes';
 
 function IniciarSesion(props) {
+  if (props.auth.uid) {
+    props.navigation.navigate('Main');
+  }
   return (
     <KeyboardAvoidingView
       style={styles.containerTeclado}
@@ -24,7 +28,11 @@ function IniciarSesion(props) {
       keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
       enabled={Platform.OS === 'ios'}
     >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <TouchableWithoutFeedback
+        onPress={() => {
+          Keyboard.dismiss;
+        }}
+      >
         <SafeAreaView style={styles.container}>
           <StatusBar backgroundColor="#ececec" />
           <View style={styles.titulo}>
@@ -55,7 +63,11 @@ function IniciarSesion(props) {
                 Registrate acá
               </Text>
               <Divider
-                style={{ backgroundColor: '#F7941E', height: 2, marginLeft: 8 }}
+                style={{
+                  backgroundColor: '#F7941E',
+                  height: 2,
+                  marginLeft: 8,
+                }}
               />
             </View>
           </View>
@@ -164,6 +176,7 @@ const mapStateToProps = (state) => {
   return {
     authError: state.auth.authError,
     auth: state.firebase.auth,
+    logeado: state.auth.logeado,
   };
 };
 
