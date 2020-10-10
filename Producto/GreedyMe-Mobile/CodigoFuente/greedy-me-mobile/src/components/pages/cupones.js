@@ -1,15 +1,20 @@
 import * as React from 'react';
 import { StyleSheet, StatusBar, View, Text } from 'react-native';
 import SafeAreaView from 'react-native-safe-area-view';
+import { connect } from 'react-redux';
 
 function Cupones() {
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: '#F7941E' }]}>
-      <StatusBar barStyle="light-content" backgroundColor="#F7941E" />
-      <View style={styles.contenedor}>
-        <Text>Favoritos</Text>
+    <View style={styles.contenedor}>
+      <StatusBar
+        barStyle="light-content"
+        translucent={true}
+        backgroundColor={'transparent'}
+      />
+      <View>
+        <Text>Cupones</Text>
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -20,4 +25,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
-export default Cupones;
+
+const mapStateToProps = (state) => {
+  return {
+    auth: state.firebase.auth,
+    profile: state.firebase.profile,
+  };
+};
+
+export default connect(mapStateToProps)(Cupones);

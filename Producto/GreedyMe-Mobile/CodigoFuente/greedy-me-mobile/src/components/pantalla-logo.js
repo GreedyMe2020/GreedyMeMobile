@@ -1,5 +1,4 @@
 import React from 'react';
-import { Button } from 'react-native-paper';
 import { StatusBar, StyleSheet, Image } from 'react-native';
 import SafeAreaView from 'react-native-safe-area-view';
 
@@ -11,13 +10,6 @@ export default function PantallaLogo({ navigation }) {
         style={styles.stretch}
         source={require('../multimedia/logoPrincipal.png')}
       />
-      <Button
-        title="Next screen"
-        onPress={() => navigation.navigate('IniciarSesion')}
-        color="#fff"
-      >
-        Siguiente
-      </Button>
     </SafeAreaView>
   );
 }

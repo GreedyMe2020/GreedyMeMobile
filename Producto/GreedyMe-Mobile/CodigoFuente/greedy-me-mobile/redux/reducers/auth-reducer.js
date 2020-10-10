@@ -11,14 +11,14 @@ const initState = {
 const authReducer = (state = initState, action) => {
   switch (action.type) {
     case 'INICIO_FALLIDO':
-      console.log('login errrrrrr f');
+      console.log('login error');
       return {
         ...state,
         authError: 'Fallo el inicio de sesión',
       };
 
     case 'INICIO_CORRECTO':
-      console.log('login succes wachin');
+      console.log('login correcto');
       return {
         ...state,
         authError: null,
@@ -26,7 +26,7 @@ const authReducer = (state = initState, action) => {
       };
 
     case 'SESION_CERRADA':
-      console.log('te fuiste');
+      console.log('se cerró la sesión');
       return state;
 
     case 'CONTRASEÑA_REESTABLECIDA':
@@ -37,7 +37,7 @@ const authReducer = (state = initState, action) => {
         mandoMail: 'mail enviado',
       };
     case 'EMAIL_INVALIDO':
-      console.log('mal ahi man le erraste en el mail');
+      console.log('mail incorrecto');
       return {
         ...state,
         mailError: 'email invalido',
@@ -65,7 +65,7 @@ const authReducer = (state = initState, action) => {
         crearUsuario: 'se creo usuario',
       };
     case 'FALLO_CREACION':
-      console.log('no se creo el pinche usuario');
+      console.log('no se creo el usuario');
       return {
         ...state,
         creacionError: action.error.message,
