@@ -37,11 +37,11 @@ function NavegadorPrincipal(props) {
     if (props.auth.uid) {
       setTimeout(() => {
         setEstaLogeado(true);
-      }, 3000);
+      }, 2000);
     } else {
       setTimeout(() => {
         setEstaLogeado(false);
-      }, 3000);
+      }, 2000);
     }
   }, [props.auth.uid]);
 
