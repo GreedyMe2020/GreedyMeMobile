@@ -20,7 +20,7 @@ import * as Font from 'expo-font';
 import OlvideContraseña from './src/components/Iniciar sesion/olvide-contraseña';
 import VerificarCuenta from './src/components/Iniciar sesion/verificar-cuenta';
 import { connect } from 'react-redux';
-import Prueba from './src/components/pages/prueba';
+import NavegadorPrincipal from './src/components/pages/navegador-principal';
 
 const theme = {
   ...DefaultTheme,
@@ -73,7 +73,7 @@ export default function App(props) {
     <Provider store={store}>
       <SafeAreaProvider>
         <PaperProvider theme={theme}>
-          <Prueba />
+          <NavegadorPrincipal />
         </PaperProvider>
       </SafeAreaProvider>
     </Provider>

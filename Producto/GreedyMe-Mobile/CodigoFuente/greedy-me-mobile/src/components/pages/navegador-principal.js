@@ -30,14 +30,18 @@ function coloresHeaderTab(tabName) {
 
 const Stack = createStackNavigator();
 
-function Prueba(props) {
+function NavegadorPrincipal(props) {
   const [estaLogeado, setEstaLogeado] = useState(null);
 
   useEffect(() => {
     if (props.auth.uid) {
-      setEstaLogeado(true);
+      setTimeout(() => {
+        setEstaLogeado(true);
+      }, 3000);
     } else {
-      setEstaLogeado(null);
+      setTimeout(() => {
+        setEstaLogeado(false);
+      }, 3000);
     }
   }, [props.auth.uid]);
 
@@ -120,17 +124,8 @@ function Prueba(props) {
               })}
             />
           </>
-        ) : (
+        ) : estaLogeado === false ? (
           <>
-            <Stack.Screen
-              name="Home"
-              component={PantallaLogo}
-              options={{
-                headerShown: false,
-                animationEnabled: false,
-                gestureDirection: 'horizontal',
-              }}
-            />
             <Stack.Screen
               name="IniciarSesion"
               component={IniciarSesion}
@@ -165,6 +160,16 @@ function Prueba(props) {
               }}
             />
           </>
+        ) : (
+          <Stack.Screen
+            name="Home"
+            component={PantallaLogo}
+            options={{
+              title: 'Verificar mi cuenta',
+              headerShown: false,
+              headerLeft: null,
+            }}
+          />
         )}
       </Stack.Navigator>
     </NavigationContainer>
@@ -177,4 +182,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(Prueba);
+export default connect(mapStateToProps)(NavegadorPrincipal);
