@@ -19,7 +19,6 @@ import Proveedores from './src/components/Proveedores/ini-proveedores';
 import * as Font from 'expo-font';
 import OlvideContraseña from './src/components/Iniciar sesion/olvide-contraseña';
 import VerificarCuenta from './src/components/Iniciar sesion/verificar-cuenta';
-import { StatusBar } from 'react-native';
 
 const theme = {
   ...DefaultTheme,

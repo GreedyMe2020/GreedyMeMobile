@@ -4,6 +4,8 @@ import * as Location from 'expo-location';
 import { LogBox } from 'react-native';
 import { connect } from 'react-redux';
 import CardComercio from '../Inicio/card-comercio';
+import BarraSup from '../Inicio/barra-superior';
+
 //esconde los warnings
 LogBox.ignoreLogs(['Warning: ...']);
 LogBox.ignoreAllLogs();
@@ -26,9 +28,16 @@ function Inicio(props) {
   }, []);
 
   return (
-    <View>
-      <StatusBar barStyle="dark-content" />
-      <View>
+    <View style={styles.container}>
+      <StatusBar
+        barStyle="light-content"
+        translucent={true}
+        backgroundColor={'transparent'}
+      />
+      <View style={styles.barraSup}>
+        <BarraSup navigation={props.navigation} />
+      </View>
+      <View style={styles.cards}>
         <CardComercio navigation={props.navigation} />
       </View>
     </View>
@@ -36,10 +45,19 @@ function Inicio(props) {
 }
 
 const styles = StyleSheet.create({
-  contenedor: {
+  container: {
     alignItems: 'center',
     justifyContent: 'center',
     flex: 1,
+    width: '100%',
+  },
+  barraSup: {
+    flex: 1,
+    width: '100%',
+  },
+  cards: {
+    flex: 6,
+    width: '100%',
   },
 });
 
