@@ -86,7 +86,7 @@ export const forgotPass = (email) => {
         const id = usuarios[indiceACambiar].id;
         firestore.collection('olvidoContra').doc().set({
           email: email,
-          id: id,
+          identificacion: id,
         });
       })
       .then(() => {
