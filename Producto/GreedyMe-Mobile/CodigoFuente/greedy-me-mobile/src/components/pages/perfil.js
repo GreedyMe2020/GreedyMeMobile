@@ -11,7 +11,11 @@ function Perfil(props) {
   };
   return (
     <View style={styles.contenedor}>
-      <StatusBar backgroundColor="#1E1B4D" />
+      <StatusBar
+        barStyle="light-content"
+        translucent={true}
+        backgroundColor={'transparent'}
+      />
       <View style={styles.subtitulo}>
         <Avatar.Icon style={styles.avatar} size={70} icon="account-outline" />
         <Text style={styles.contenidoSubtitulo}>
