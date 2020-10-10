@@ -19,6 +19,8 @@ import Proveedores from './src/components/Proveedores/ini-proveedores';
 import * as Font from 'expo-font';
 import OlvideContraseña from './src/components/Iniciar sesion/olvide-contraseña';
 import VerificarCuenta from './src/components/Iniciar sesion/verificar-cuenta';
+import { connect } from 'react-redux';
+import Prueba from './src/components/pages/prueba';
 
 const theme = {
   ...DefaultTheme,
@@ -66,126 +68,12 @@ export default function App(props) {
       });
     }
   });
+
   return (
     <Provider store={store}>
       <SafeAreaProvider>
         <PaperProvider theme={theme}>
-          <NavigationContainer>
-            <Stack.Navigator headerMode="screen">
-              <Stack.Screen
-                name="Home"
-                component={PantallaLogo}
-                options={{
-                  headerShown: false,
-                  animationEnabled: false,
-                  gestureDirection: 'horizontal',
-                }}
-              />
-              <Stack.Screen
-                name="IniciarSesion"
-                component={IniciarSesion}
-                options={{
-                  title: '',
-                  headerShown: false,
-                  animationEnabled: false,
-                  gestureDirection: 'horizontal',
-                }}
-              />
-              <Stack.Screen
-                name="OlvideContraseña"
-                component={OlvideContraseña}
-                options={{
-                  title: 'Olvidé mi contraseña',
-                  headerShown: true,
-                  animationEnabled: false,
-                  gestureDirection: 'horizontal',
-                }}
-              />
-              <Stack.Screen
-                name="Registro"
-                component={Registro}
-                options={{ title: 'Registrarme', headerShown: true }}
-              />
-              <Stack.Screen
-                name="VerificarCuenta"
-                component={VerificarCuenta}
-                options={{ title: 'Verificar mi cuenta', headerShown: true }}
-              />
-              <Stack.Screen
-                name="Main"
-                component={Main}
-                options={({ route }) => ({
-                  headerTitle: obtenerTitulo(route),
-                  headerShown: obtenerTitulo(route) === 'Inicio' ? false : true,
-                  headerLeft: null,
-                  headerStyle: {
-                    backgroundColor: coloresHeaderTab(obtenerTitulo(route)),
-                  },
-                  headerTitleStyle: { color: 'white' },
-                })}
-              />
-              <Stack.Screen
-                name="MisDatos"
-                component={MisDatos}
-                options={({ route }) => ({
-                  title: 'Mis datos personales',
-                  headerShown: true,
-                  headerTintColor: 'white',
-                  headerStyle: {
-                    backgroundColor: '#1E1B4D',
-                  },
-                })}
-              />
-              <Stack.Screen
-                name="GestionarNotificaciones"
-                component={Notificaciones}
-                options={({ route }) => ({
-                  title: 'Gestionar mis notificaciones',
-                  headerShown: true,
-                  headerTintColor: 'white',
-                  headerStyle: {
-                    backgroundColor: '#1E1B4D',
-                  },
-                })}
-              />
-              <Stack.Screen
-                name="GestionarUbicacion"
-                component={Ubicacion}
-                options={({ route }) => ({
-                  title: 'Gestionar mi ubicación',
-                  headerShown: true,
-                  headerTintColor: 'white',
-                  headerStyle: {
-                    backgroundColor: '#1E1B4D',
-                  },
-                })}
-              />
-              <Stack.Screen
-                name="GestionarProveedores"
-                component={Proveedores}
-                options={({ route }) => ({
-                  title: 'Gestionar mis proveedores',
-                  headerShown: true,
-                  headerTintColor: 'white',
-                  headerStyle: {
-                    backgroundColor: '#1E1B4D',
-                  },
-                })}
-              />
-              <Stack.Screen
-                name="CambiarContraseña"
-                component={CambiarContraseña}
-                options={({ route }) => ({
-                  title: 'Cambiar contraseña',
-                  headerShown: true,
-                  headerTintColor: 'white',
-                  headerStyle: {
-                    backgroundColor: '#1E1B4D',
-                  },
-                })}
-              />
-            </Stack.Navigator>
-          </NavigationContainer>
+          <Prueba />
         </PaperProvider>
       </SafeAreaProvider>
     </Provider>
