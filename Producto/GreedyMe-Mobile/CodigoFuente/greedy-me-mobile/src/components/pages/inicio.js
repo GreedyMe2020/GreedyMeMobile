@@ -1,7 +1,9 @@
 import * as React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, StatusBar, View, Text } from 'react-native';
 import * as Location from 'expo-location';
 import { LogBox } from 'react-native';
+import { connect } from 'react-redux';
+import CardComercio from '../Inicio/card-comercio';
 //esconde los warnings
 LogBox.ignoreLogs(['Warning: ...']);
 LogBox.ignoreAllLogs();
@@ -24,8 +26,11 @@ function Inicio(props) {
   }, []);
 
   return (
-    <View style={styles.contenedor}>
-      <Text>Ahora estas en el inicio</Text>
+    <View>
+      <StatusBar barStyle="dark-content" />
+      <View>
+        <CardComercio navigation={props.navigation} />
+      </View>
     </View>
   );
 }
@@ -38,4 +43,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Inicio;
+const mapStateToProps = (state) => {
+  return {
+    auth: state.firebase.auth,
+    profile: state.firebase.profile,
+  };
+};
+
+export default connect(mapStateToProps)(Inicio);
