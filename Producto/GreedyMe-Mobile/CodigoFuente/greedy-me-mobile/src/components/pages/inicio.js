@@ -5,6 +5,7 @@ import { LogBox } from 'react-native';
 import { connect } from 'react-redux';
 import CardComercio from '../Inicio/card-comercio';
 import BarraSup from '../Inicio/barra-superior';
+import ButtonCategorias from '../Inicio/button-categorias';
 
 //esconde los warnings
 LogBox.ignoreLogs(['Warning: ...']);
@@ -36,6 +37,7 @@ function Inicio({ navigation }, props) {
       />
       <BarraSup navigation={props.navigation} />
       <View style={styles.cards}>
+        <ButtonCategorias navigation={props.navigation} />
         <CardComercio navigation={props.navigation} />
       </View>
     </View>
