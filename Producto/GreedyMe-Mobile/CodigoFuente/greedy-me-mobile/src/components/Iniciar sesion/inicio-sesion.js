@@ -59,7 +59,7 @@ function IniciarSesion(props) {
                   fontWeight: '500',
                 }}
               >
-                Ingresando...
+                Cargando...
               </Text>
             </View>
           ) : (
