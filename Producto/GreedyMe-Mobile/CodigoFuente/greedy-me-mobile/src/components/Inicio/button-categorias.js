@@ -33,8 +33,8 @@ const styles = StyleSheet.create({
   image: {
     padding: 10,
     margin: 5,
-    height: 25,
-    width: 25,
+    height: 32,
+    width: 32,
     resizeMode: 'stretch',
   },
   texto: {

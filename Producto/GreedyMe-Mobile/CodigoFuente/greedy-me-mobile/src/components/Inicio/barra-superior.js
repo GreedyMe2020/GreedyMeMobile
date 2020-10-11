@@ -7,6 +7,7 @@ import {
   Keyboard,
   View,
   TouchableWithoutFeedback,
+  TouchableOpacity,
 } from 'react-native';
 import { Appbar, IconButton, List, Searchbar } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -18,29 +19,24 @@ function BarraSup(props) {
   const onChangeSearch = (query) => setSearchQuery(query);
 
   return (
-    <KeyboardAvoidingView
-      style={styles.containerTeclado}
-      behavior={Platform.OS === 'ios' ? '' : 'height'}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
-      enabled={Platform.OS === 'ios'}
-    >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <SafeAreaView style={styles.container}>
-          <View style={styles.searchcont}>
-            <Searchbar
-              placeholder="Buscar comercio"
-              onChangeText={onChangeSearch}
-              value={searchQuery}
-              style={styles.search}
-            />
-          </View>
-          <View style={styles.ico}>
-            <IconButton icon="map-marker-outline" color="black" />
-            <IconButton icon="bell-outline" color="black" />
-          </View>
-        </SafeAreaView>
-      </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.searchcont}>
+        <Searchbar
+          placeholder="Buscar comercio"
+          onChangeText={onChangeSearch}
+          value={searchQuery}
+          style={styles.search}
+        />
+      </View>
+      <View style={styles.ico}>
+        <IconButton
+          icon="map-marker-outline"
+          style={{ paddingLeft: 6 }}
+          color="black"
+        />
+        <IconButton icon="bell-outline" color="black" />
+      </View>
+    </SafeAreaView>
   );
 }
 
@@ -53,11 +49,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     flexDirection: 'row',
-    top: 10,
-  },
-  list: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    top: 5,
   },
   searchcont: {
     marginLeft: 10,
@@ -65,12 +57,17 @@ const styles = StyleSheet.create({
   },
   search: {
     borderRadius: 100,
-    height: 38,
+    height: 36,
+    backgroundColor: '#FBFBFB',
+    borderBottomColor: 'transparent',
+    borderTopColor: 'transparent',
+    borderWidth: 0, //no effect
+    shadowColor: 'white', //no effect
   },
   ico: {
     flexDirection: 'row',
     flex: 1,
-    marginRight: 10,
+    marginRight: 20,
   },
 });
 
