@@ -156,12 +156,12 @@ export const forgotPass = (email) => {
       })
       .then(() => {
         const indiceACambiar = _.findIndex(usuarios, function (o) {
-          return o.email === mail;
+          return o.email.toLowerCase() === mail.toLowerCase();
         });
         const id = usuarios[indiceACambiar].id;
         firestore.collection('olvidoContra').doc().set({
           email: email,
-          id: id,
+          identificacion: id,
         });
       })
       .then(() => {
@@ -172,6 +172,7 @@ export const forgotPass = (email) => {
       });
   };
 };
+
 export const setearLogeo = (flag) => {
   return (dispatch, getState, { getFirestore }) => {
     if (flag === 'True') {
@@ -189,5 +190,23 @@ export const setearDesLogeo = (flag) => {
     } else {
       dispatch({ type: 'SETEAR_DESLOGEO_FALSE' });
     }
+  };
+};
+
+export const resetearValores = () => {
+  return (dispatch, getState, { getFirestore }) => {
+    dispatch({ type: 'RESETEAR_VALORES' });
+  };
+};
+
+export const resetearValoresCreacionUsuario = () => {
+  return (dispatch, getState, { getFirestore }) => {
+    dispatch({ type: 'RESETEAR_VALORES_CREACION_USUARIO' });
+  };
+};
+
+export const resetearValoresInicioSesion = () => {
+  return (dispatch, getState, { getFirestore }) => {
+    dispatch({ type: 'RESETEAR_VALORES_INICIO_SESION' });
   };
 };

@@ -60,6 +60,13 @@ const authReducer = (state = initState, action) => {
         ...state,
         creacionError: null,
       };
+
+    case 'RESETEAR_VALORES_INICIO_SESION':
+      console.log('se resetearon');
+      return {
+        ...state,
+        authError: null,
+      };
     case 'SETEAR_LOGEO_TRUE':
       console.log('se reseteó login true');
       return {

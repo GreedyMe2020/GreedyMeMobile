@@ -32,7 +32,7 @@ function IniciarSesion(props) {
   return (
     <KeyboardAvoidingView
       style={styles.containerTeclado}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      behavior={Platform.OS === 'ios' ? '' : 'height'}
       keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
       enabled={Platform.OS === 'ios'}
     >
