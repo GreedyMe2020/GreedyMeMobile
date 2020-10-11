@@ -10,7 +10,7 @@ import BarraSup from '../Inicio/barra-superior';
 LogBox.ignoreLogs(['Warning: ...']);
 LogBox.ignoreAllLogs();
 
-function Inicio(props) {
+function Inicio({ navigation }, props) {
   //estados para el permiso de ubicacion
   const [estadoGeo, setEstadoGeo] = React.useState(null);
   const [errorMsgGeo, setErrorMsgGeo] = React.useState(null);
@@ -30,13 +30,11 @@ function Inicio(props) {
   return (
     <View style={styles.container}>
       <StatusBar
-        barStyle="light-content"
+        barStyle="dark-content"
         translucent={true}
         backgroundColor={'transparent'}
       />
-      <View style={styles.barraSup}>
-        <BarraSup navigation={props.navigation} />
-      </View>
+      <BarraSup navigation={props.navigation} />
       <View style={styles.cards}>
         <CardComercio navigation={props.navigation} />
       </View>
@@ -53,7 +51,6 @@ const styles = StyleSheet.create({
   },
   barraSup: {
     flex: 1,
-    width: '100%',
   },
   cards: {
     flex: 6,

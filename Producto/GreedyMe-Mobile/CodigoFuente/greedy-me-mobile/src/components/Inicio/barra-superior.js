@@ -1,13 +1,15 @@
 import * as React from 'react';
 import {
   StyleSheet,
+  StatusBar,
   Platform,
   KeyboardAvoidingView,
   Keyboard,
   View,
   TouchableWithoutFeedback,
 } from 'react-native';
-import { Appbar, Searchbar } from 'react-native-paper';
+import { Appbar, IconButton, List, Searchbar } from 'react-native-paper';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { connect } from 'react-redux';
 
 function BarraSup(props) {
@@ -18,29 +20,25 @@ function BarraSup(props) {
   return (
     <KeyboardAvoidingView
       style={styles.containerTeclado}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      behavior={Platform.OS === 'ios' ? '' : 'height'}
       keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
       enabled={Platform.OS === 'ios'}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <Appbar style={styles.container}>
-          <Searchbar
-            style={styles.search}
-            placeholder="Search"
-            onChangeText={onChangeSearch}
-            value={searchQuery}
-          />
-          <Appbar.Action
-            icon="map-marker-outline"
-            onPress={() => console.log('Pressed mail')}
-            style={styles.ico}
-          />
-          <Appbar.Action
-            icon="bell-outline"
-            onPress={() => console.log('Pressed label')}
-            style={styles.ico}
-          />
-        </Appbar>
+        <SafeAreaView style={styles.container}>
+          <View style={styles.searchcont}>
+            <Searchbar
+              placeholder="Buscar comercio"
+              onChangeText={onChangeSearch}
+              value={searchQuery}
+              style={styles.search}
+            />
+          </View>
+          <View style={styles.ico}>
+            <IconButton icon="map-marker-outline" color="black" />
+            <IconButton icon="bell-outline" color="black" />
+          </View>
+        </SafeAreaView>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   );
@@ -51,19 +49,28 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   container: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    flexDirection: 'row',
+    top: 10,
+  },
+  list: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: '100%',
-    top: 30,
+  },
+  searchcont: {
+    marginLeft: 10,
+    flex: 3,
   },
   search: {
-    width: '70%',
+    borderRadius: 100,
+    height: 38,
   },
   ico: {
-    width: '15%',
-  },
-  header: {
     flexDirection: 'row',
+    flex: 1,
+    marginRight: 10,
   },
 });
 
