@@ -1,15 +1,7 @@
 import * as React from 'react';
-import {
-  StyleSheet,
-  StatusBar,
-  Platform,
-  KeyboardAvoidingView,
-  Keyboard,
-  View,
-  TouchableWithoutFeedback,
-  TouchableOpacity,
-} from 'react-native';
-import { Appbar, IconButton, List, Searchbar } from 'react-native-paper';
+import { StyleSheet, View } from 'react-native';
+import { IconButton } from 'react-native-paper';
+import { SearchBar } from 'react-native-elements';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { connect } from 'react-redux';
 
@@ -21,11 +13,18 @@ function BarraSup(props) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.searchcont}>
-        <Searchbar
+        <SearchBar
           placeholder="Buscar comercio"
           onChangeText={onChangeSearch}
           value={searchQuery}
-          style={styles.search}
+          inputContainerStyle={{
+            backgroundColor: '#ececec',
+            borderRadius: 100,
+            height: 38,
+          }}
+          containerStyle={styles.searchcontainer}
+          lightTheme
+          round
         />
       </View>
       <View style={styles.ico}>
@@ -55,14 +54,12 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     flex: 3,
   },
-  search: {
-    borderRadius: 100,
-    height: 36,
-    backgroundColor: '#FBFBFB',
-    borderBottomColor: 'transparent',
-    borderTopColor: 'transparent',
+  searchcontainer: {
+    backgroundColor: 'white',
     borderWidth: 0, //no effect
     shadowColor: 'white', //no effect
+    borderBottomColor: 'transparent',
+    borderTopColor: 'transparent',
   },
   ico: {
     flexDirection: 'row',
