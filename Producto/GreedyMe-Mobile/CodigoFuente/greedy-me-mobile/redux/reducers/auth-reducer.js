@@ -5,7 +5,8 @@ const initState = {
   user: null,
   crearUsuario: null,
   creacionError: null,
-  logeado: null,
+  logeo: null,
+  deslogeo: null,
 };
 
 const authReducer = (state = initState, action) => {
@@ -14,6 +15,7 @@ const authReducer = (state = initState, action) => {
       console.log('login error');
       return {
         ...state,
+        logeo: null,
         authError: 'Fallo el inicio de sesión',
       };
 
@@ -22,12 +24,14 @@ const authReducer = (state = initState, action) => {
       return {
         ...state,
         authError: null,
-        logeado: null,
       };
 
     case 'SESION_CERRADA':
-      console.log('se cerró la sesión');
-      return state;
+      console.log('se cerró la sesión, login true');
+      return {
+        ...state,
+        deslogeo: 'TRUE',
+      };
 
     case 'CONTRASEÑA_REESTABLECIDA':
       console.log('se envio un mail');
@@ -56,7 +60,30 @@ const authReducer = (state = initState, action) => {
         ...state,
         creacionError: null,
       };
-
+    case 'SETEAR_LOGEO_TRUE':
+      console.log('se reseteó login true');
+      return {
+        ...state,
+        logeo: 'TRUE',
+      };
+    case 'SETEAR_LOGEO_FALSE':
+      console.log('se reseteó login false');
+      return {
+        ...state,
+        logeo: null,
+      };
+    case 'SETEAR_DESLOGEO_TRUE':
+      console.log('se reseteó deslogin true');
+      return {
+        ...state,
+        deslogeo: 'TRUE',
+      };
+    case 'SETEAR_DESLOGEO_FALSE':
+      console.log('se reseteó deslogin false');
+      return {
+        ...state,
+        deslogeo: null,
+      };
     case 'USUARIO_CREADO':
       console.log('se creo usuario');
       return {

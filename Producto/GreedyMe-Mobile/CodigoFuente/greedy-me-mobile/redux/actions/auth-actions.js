@@ -93,14 +93,8 @@ export const signInGoogle = (credential) => {
           dispatch({ type: 'INICIO_CORRECTO' });
         }
       })
-      .catch(function (error) {
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        // The email of the user's account used.
-        var email = error.email;
-        // The firebase.auth.AuthCredential type that was used.
-        var credential = error.credential;
+      .catch((error) => {
+        dispatch({ type: 'INICIO_FALLIDO', error });
         // ...
       });
   };
@@ -121,7 +115,7 @@ export const signInFacebook = (credential) => {
             .set({
               email: result.user.email,
               nombre: result.user.displayName,
-              apellido: result.user.displayName,
+              apellido: '',
               notificacionesFavoritas: false,
               notificacionesUbicacion: false,
               notificacionesTodas: true,
@@ -176,5 +170,24 @@ export const forgotPass = (email) => {
       .catch((error) => {
         dispatch({ type: 'EMAIL_INVALIDO', error });
       });
+  };
+};
+export const setearLogeo = (flag) => {
+  return (dispatch, getState, { getFirestore }) => {
+    if (flag === 'True') {
+      dispatch({ type: 'SETEAR_LOGEO_TRUE' });
+    } else {
+      dispatch({ type: 'SETEAR_LOGEO_FALSE' });
+    }
+  };
+};
+
+export const setearDesLogeo = (flag) => {
+  return (dispatch, getState, { getFirestore }) => {
+    if (flag === 'True') {
+      dispatch({ type: 'SETEAR_DESLOGEO_TRUE' });
+    } else {
+      dispatch({ type: 'SETEAR_DESLOGEO_FALSE' });
+    }
   };
 };

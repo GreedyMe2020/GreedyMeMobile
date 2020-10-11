@@ -6,10 +6,15 @@ import Cupones from './cupones';
 import Favoritos from './favoritos';
 import Buscador from './buscar';
 import Perfil from './perfil';
+import { connect } from 'react-redux';
+import { setearLogeo } from '../../../redux/actions/auth-actions';
 
 const Tab = createMaterialBottomTabNavigator();
 
-function Main() {
+function Main(props) {
+  if (props.logeo) {
+    props.setearLogeo('False');
+  }
   return (
     <Tab.Navigator initialRouteName="Inicio" activeColor="white">
       <Tab.Screen
@@ -75,4 +80,17 @@ function Main() {
   );
 }
 
-export default Main;
+const mapStateToProps = (state) => {
+  return {
+    auth: state.firebase.auth,
+    logeo: state.auth.logeo,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setearLogeo: (flag) => dispatch(setearLogeo(flag)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
