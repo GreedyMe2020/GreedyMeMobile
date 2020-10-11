@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Image } from 'react-native';
 import { IconButton } from 'react-native-paper';
 import { SearchBar } from 'react-native-elements';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -28,12 +28,22 @@ function BarraSup(props) {
         />
       </View>
       <View style={styles.ico}>
-        <IconButton
+        <TouchableOpacity style={styles.ubicacion} activeOpacity={0.5}>
+          <IconButton
+            icon="map-marker-outline"
+            style={styles.image}
+            color="black"
+          />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.notificacion} activeOpacity={0.5}>
+          <IconButton icon="bell-outline" color="black" />
+        </TouchableOpacity>
+        {/* <IconButton
           icon="map-marker-outline"
           style={{ paddingLeft: 6 }}
           color="black"
         />
-        <IconButton icon="bell-outline" color="black" />
+        <IconButton icon="bell-outline" color="black" /> */}
       </View>
     </SafeAreaView>
   );
@@ -52,7 +62,7 @@ const styles = StyleSheet.create({
   },
   searchcont: {
     marginLeft: 10,
-    flex: 3,
+    flex: 2.7,
   },
   searchcontainer: {
     backgroundColor: 'white',
@@ -64,7 +74,31 @@ const styles = StyleSheet.create({
   ico: {
     flexDirection: 'row',
     flex: 1,
-    marginRight: 20,
+    marginRight: 15,
+    marginLeft: 5,
+  },
+  ubicacion: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 38,
+    height: 38,
+    backgroundColor: '#c9ded7',
+    borderRadius: 50,
+    marginRight: 5,
+  },
+  notificacion: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 38,
+    height: 38,
+    backgroundColor: '#eacaa1',
+    borderRadius: 50,
+    marginLeft: 5,
+  },
+  image: {
+    height: 32,
+    width: 32,
+    resizeMode: 'stretch',
   },
 });
 
