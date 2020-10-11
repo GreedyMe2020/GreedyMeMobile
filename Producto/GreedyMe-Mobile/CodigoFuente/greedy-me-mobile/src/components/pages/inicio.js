@@ -4,6 +4,7 @@ import * as Location from 'expo-location';
 import { LogBox } from 'react-native';
 import { connect } from 'react-redux';
 import CardComercio from '../Inicio/card-comercio';
+import ButtonCategorias from '../Inicio/button-categorias';
 //esconde los warnings
 LogBox.ignoreLogs(['Warning: ...']);
 LogBox.ignoreAllLogs();
@@ -29,6 +30,7 @@ function Inicio(props) {
     <View>
       <StatusBar barStyle="dark-content" />
       <View>
+        <ButtonCategorias navigation={props.navigation} />
         <CardComercio navigation={props.navigation} />
       </View>
     </View>
