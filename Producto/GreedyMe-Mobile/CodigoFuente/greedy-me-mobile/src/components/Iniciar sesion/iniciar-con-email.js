@@ -2,7 +2,10 @@ import * as React from 'react';
 import { Button, TextInput } from 'react-native-paper';
 import { StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
-import { signIn } from '../../../redux/actions/auth-actions';
+import {
+  signIn,
+  resetearValoresInicioSesion,
+} from '../../../redux/actions/auth-actions';
 
 function IniciarSesionConEmail(props) {
   const [email, setEmail] = React.useState(null);
@@ -35,6 +38,7 @@ function IniciarSesionConEmail(props) {
     } else {
       setMensajeError('');
       if (errorContraseña === '' && errorEmail === '') {
+        props.resetearValoresInicioSesion();
         props.signIn({
           email: email,
           contraseña: password,
@@ -65,9 +69,9 @@ function IniciarSesionConEmail(props) {
     }
   }, [password]);
 
-  if (props.auth.uid) {
+  /*if (props.auth.uid) {
     props.navigation.navigate('Main');
-  }
+  }*/
 
   return (
     <View>
@@ -193,6 +197,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     signIn: (user) => dispatch(signIn(user)),
+    resetearValoresInicioSesion: () => dispatch(resetearValoresInicioSesion()),
   };
 };
 

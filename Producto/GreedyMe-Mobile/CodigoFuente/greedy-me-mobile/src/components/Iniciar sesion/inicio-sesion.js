@@ -9,56 +9,101 @@ import {
   Text,
   TouchableWithoutFeedback,
   View,
+  ActivityIndicator,
 } from 'react-native';
 import SafeAreaView from 'react-native-safe-area-view';
 import { connect } from 'react-redux';
 import { signIn } from '../../../redux/actions/auth-actions';
 import IniciarSesionConEmail from './iniciar-con-email';
 import IniciarSesionConRedes from './iniciar-con-redes';
+import {
+  setearLogeo,
+  setearDesLogeo,
+} from '../../../redux/actions/auth-actions';
 
 function IniciarSesion(props) {
+  if (props.deslogeo) {
+    props.setearDesLogeo('False');
+  }
+
+  if (props.auth.uid) {
+    props.navigation.navigate('Main');
+  }
   return (
     <KeyboardAvoidingView
       style={styles.containerTeclado}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      behavior={Platform.OS === 'ios' ? '' : 'height'}
       keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
       enabled={Platform.OS === 'ios'}
     >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <TouchableWithoutFeedback
+        onPress={() => {
+          Keyboard.dismiss;
+        }}
+      >
         <SafeAreaView style={styles.container}>
           <StatusBar backgroundColor="#ececec" />
-          <View style={styles.titulo}>
-            <Text style={styles.letraBlanca}>gre</Text>
-            <Text style={styles.letraVerde}>edy</Text>
-            <Text style={styles.letraNaranja}>me </Text>
-          </View>
-          <View style={styles.inputSesion}>
-            <IniciarSesionConEmail navigation={props.navigation} />
-          </View>
-          <View style={styles.or}>
-            <Divider style={styles.dividerIzq} />
-            <Text style={styles.orcontent}>O</Text>
-            <Divider style={styles.dividerDer} />
-          </View>
-          <View style={styles.ingresoConRedes}>
-            <IniciarSesionConRedes navigation={props.navigation} />
-          </View>
-          <View style={styles.contenedorCrearCuenta}>
-            <Text style={styles.textoPreguntaCuenta}>¿No tenés cuenta?</Text>
-            <View>
+
+          {props.logeo ? (
+            <View
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <ActivityIndicator size="large" color="orange" />
+              <Text></Text>
               <Text
-                style={styles.textoCrearCuenta}
-                onPress={() => {
-                  props.navigation.navigate('Registro');
+                style={{
+                  fontFamily: 'Roboto',
+                  fontWeight: '500',
                 }}
               >
-                Registrate acá
+                Cargando...
               </Text>
-              <Divider
-                style={{ backgroundColor: '#F7941E', height: 2, marginLeft: 8 }}
-              />
             </View>
-          </View>
+          ) : (
+            <>
+              <View style={styles.titulo}>
+                <Text style={styles.letraBlanca}>gre</Text>
+                <Text style={styles.letraVerde}>edy</Text>
+                <Text style={styles.letraNaranja}>me </Text>
+              </View>
+              <View style={styles.inputSesion}>
+                <IniciarSesionConEmail navigation={props.navigation} />
+              </View>
+              <View style={styles.or}>
+                <Divider style={styles.dividerIzq} />
+                <Text style={styles.orcontent}>O</Text>
+                <Divider style={styles.dividerDer} />
+              </View>
+              <View style={styles.ingresoConRedes}>
+                <IniciarSesionConRedes navigation={props.navigation} />
+              </View>
+              <View style={styles.contenedorCrearCuenta}>
+                <Text style={styles.textoPreguntaCuenta}>
+                  ¿No tenés cuenta?
+                </Text>
+                <View>
+                  <Text
+                    style={styles.textoCrearCuenta}
+                    onPress={() => {
+                      props.navigation.navigate('Registro');
+                    }}
+                  >
+                    Registrate acá
+                  </Text>
+                  <Divider
+                    style={{
+                      backgroundColor: '#F7941E',
+                      height: 2,
+                      marginLeft: 8,
+                    }}
+                  />
+                </View>
+              </View>
+            </>
+          )}
         </SafeAreaView>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
@@ -164,12 +209,16 @@ const mapStateToProps = (state) => {
   return {
     authError: state.auth.authError,
     auth: state.firebase.auth,
+    logeo: state.auth.logeo,
+    deslogeo: state.auth.deslogeo,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     signIn: (user) => dispatch(signIn(user)),
+    setearLogeo: (flag) => dispatch(setearLogeo(flag)),
+    setearDesLogeo: (flag) => dispatch(setearDesLogeo(flag)),
   };
 };
 

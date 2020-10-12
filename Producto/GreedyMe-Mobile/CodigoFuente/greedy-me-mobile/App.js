@@ -20,14 +20,6 @@ const theme = {
   },
 };
 
-/*firebase.auth().onAuthStateChanged((user) => {
-  if (user) {
-    store.dispatch(setUser(user));
-  } else {
-    store.dispatch(clearUser(user));
-  }
-});*/
-
 export default function App(props) {
   const [loaded, setLoaded] = useState(false);
 

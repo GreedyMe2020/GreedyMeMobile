@@ -5,6 +5,8 @@ const initState = {
   user: null,
   crearUsuario: null,
   creacionError: null,
+  logeo: null,
+  deslogeo: null,
 };
 
 const authReducer = (state = initState, action) => {
@@ -13,17 +15,24 @@ const authReducer = (state = initState, action) => {
       console.log('login error');
       return {
         ...state,
+        logeo: null,
         authError: 'Fallo el inicio de sesión',
       };
+
     case 'INICIO_CORRECTO':
       console.log('login correcto');
       return {
         ...state,
         authError: null,
       };
+
     case 'SESION_CERRADA':
-      console.log('se cerró la sesión');
-      return state;
+      console.log('se cerró la sesión, login true');
+      return {
+        ...state,
+        deslogeo: 'TRUE',
+      };
+
     case 'CONTRASEÑA_REESTABLECIDA':
       console.log('se envio un mail');
       return {
@@ -51,20 +60,37 @@ const authReducer = (state = initState, action) => {
         ...state,
         creacionError: null,
       };
-    //LOGIN CON GMAIL
-    /*case 'LOGGED_IN':
-      console.log('Login con gmail');
-      return {
-        ...state,
-        user: action.user,
-      };
-    case 'SIGN_OUT':
-      console.log('logout con gmail');
-      return {
-        ...state,
-        user: null,
-      };*/
 
+    case 'RESETEAR_VALORES_INICIO_SESION':
+      console.log('se resetearon');
+      return {
+        ...state,
+        authError: null,
+      };
+    case 'SETEAR_LOGEO_TRUE':
+      console.log('se reseteó login true');
+      return {
+        ...state,
+        logeo: 'TRUE',
+      };
+    case 'SETEAR_LOGEO_FALSE':
+      console.log('se reseteó login false');
+      return {
+        ...state,
+        logeo: null,
+      };
+    case 'SETEAR_DESLOGEO_TRUE':
+      console.log('se reseteó deslogin true');
+      return {
+        ...state,
+        deslogeo: 'TRUE',
+      };
+    case 'SETEAR_DESLOGEO_FALSE':
+      console.log('se reseteó deslogin false');
+      return {
+        ...state,
+        deslogeo: null,
+      };
     case 'USUARIO_CREADO':
       console.log('se creo usuario');
       return {
