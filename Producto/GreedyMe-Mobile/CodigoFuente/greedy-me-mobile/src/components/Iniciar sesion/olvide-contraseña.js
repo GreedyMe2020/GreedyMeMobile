@@ -90,71 +90,78 @@ function OlvideContraseña(props) {
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
-          <Text style={styles.texto}>
-            Ingresá tu email y te enviaremos un mail con una nueva contraseña,
-            luego podrás cambiarla desde el perfil.
-          </Text>
-          <TextInput
-            style={styles.inputEmailPass}
-            mode="flat"
-            label="Email de recuperación"
-            required
-            underlineColor="#76B39D"
-            onBlur={() => {
-              emailValidator;
-            }}
-            value={email}
-            onChangeText={handleChangeEmail}
-            error={errorEmail}
-          />
-          <Text style={styles.errorPass}>{errorEmail}</Text>
+          <View>
+            <Text style={styles.texto}>
+              Ingresá tu email y te enviaremos un mail con una nueva contraseña,
+              luego podrás cambiarla desde el perfil.
+            </Text>
+            <TextInput
+              style={styles.inputEmailPass}
+              mode="flat"
+              label="Email de recuperación"
+              required
+              underlineColor="#76B39D"
+              onBlur={() => {
+                emailValidator;
+              }}
+              value={email}
+              onChangeText={handleChangeEmail}
+              error={errorEmail}
+            />
+            <Text style={styles.errorPass}>{errorEmail}</Text>
 
-          <View style={styles.contenedorBoton}>
-            <Button
-              theme={{
-                colors: { primary: '#76B39D' },
-              }}
-              style={styles.btnIngresar}
-              mode="contained"
-              title="Submit"
-              onPress={handleSubmit}
-            >
-              Enviar
-            </Button>
-          </View>
-          <View style={styles.contenedorSnack2}>
-            <Snackbar
-              visible={visible}
-              onDismiss={onDismissSnackBar}
-              theme={{ colors: { accent: '#76B39D' } }}
-              action={{
-                label: 'Cerrar',
-                onPress: () => {
-                  onDismissSnackBar;
-                },
-              }}
-              style={styles.snackbar}
-            >
-              <Text style={styles.alerta}>
-                {props.mailError ? 'Email invalido' : null}
-              </Text>
-              Correo enviado.
-            </Snackbar>
+            <View style={styles.contenedorBoton}>
+              <Button
+                theme={{
+                  colors: { primary: '#76B39D' },
+                }}
+                style={styles.btnIngresar}
+                mode="contained"
+                title="Submit"
+                onPress={handleSubmit}
+              >
+                Enviar
+              </Button>
+            </View>
           </View>
           <View style={styles.contenedorSnack}>
-            <Snackbar
-              visible={visible2}
-              onDismiss={onDismissSnackBar2}
-              action={{
-                label: 'Cerrar',
-                onPress: () => {
-                  onDismissSnackBar2;
-                },
-              }}
-              style={styles.snackbar2}
-            >
-              El mail es invalido.
-            </Snackbar>
+            {visible ? (
+              <Snackbar
+                visible={visible}
+                onDismiss={onDismissSnackBar}
+                action={{
+                  label: 'Cerrar',
+                  onPress: () => {
+                    onDismissSnackBar;
+                  },
+                }}
+                style={styles.snackbar}
+              >
+                <Text style={styles.alerta}>
+                  {props.mailError ? 'Email invalido' : null}
+                </Text>
+                Correo enviado.
+              </Snackbar>
+            ) : (
+              ''
+            )}
+            {visible2 ? (
+              <Snackbar
+                visible={visible2}
+                onDismiss={onDismissSnackBar2}
+                action={{
+                  label: 'Cerrar',
+                  onPress: () => {
+                    onDismissSnackBar2;
+                  },
+                }}
+                style={styles.snackbar2}
+              >
+                El mail es invalido.
+              </Snackbar>
+            ) : (
+              ''
+            )}
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -207,9 +214,6 @@ const styles = StyleSheet.create({
   },
   contenedorSnack: {
     top: -50,
-  },
-  contenedorSnack2: {
-    top: 45,
   },
   snackbar: {
     backgroundColor: 'green',

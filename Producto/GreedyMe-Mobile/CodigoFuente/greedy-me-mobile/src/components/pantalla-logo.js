@@ -2,7 +2,7 @@ import React from 'react';
 import { StatusBar, StyleSheet, Image } from 'react-native';
 import SafeAreaView from 'react-native-safe-area-view';
 
-export default function PantallaLogo({ navigation }) {
+export default function PantallaLogo() {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#1E1B4D" />
