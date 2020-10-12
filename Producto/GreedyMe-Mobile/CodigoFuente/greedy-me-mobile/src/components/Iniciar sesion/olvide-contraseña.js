@@ -112,9 +112,6 @@ function OlvideContraseña(props) {
 
             <View style={styles.contenedorBoton}>
               <Button
-                theme={{
-                  colors: { primary: '#76B39D' },
-                }}
                 style={styles.btnIngresar}
                 mode="contained"
                 title="Submit"
@@ -129,8 +126,11 @@ function OlvideContraseña(props) {
               <Snackbar
                 visible={visible}
                 onDismiss={onDismissSnackBar}
+                theme={{
+                  colors: { primary: '#76B39D' },
+                }}
                 action={{
-                  label: 'Cerrar',
+                  label: 'OK',
                   onPress: () => {
                     onDismissSnackBar;
                   },
@@ -142,15 +142,16 @@ function OlvideContraseña(props) {
                 </Text>
                 Correo enviado.
               </Snackbar>
-            ) : (
-              ''
-            )}
+            ) : null}
             {visible2 ? (
               <Snackbar
                 visible={visible2}
                 onDismiss={onDismissSnackBar2}
+                theme={{
+                  colors: { primary: 'white' },
+                }}
                 action={{
-                  label: 'Cerrar',
+                  label: 'OK',
                   onPress: () => {
                     onDismissSnackBar2;
                   },
@@ -159,9 +160,7 @@ function OlvideContraseña(props) {
               >
                 El mail es invalido.
               </Snackbar>
-            ) : (
-              ''
-            )}
+            ) : null}
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -216,7 +215,7 @@ const styles = StyleSheet.create({
     top: -50,
   },
   snackbar: {
-    backgroundColor: 'green',
+    backgroundColor: '#333333',
   },
   snackbar2: {
     backgroundColor: '#801010',

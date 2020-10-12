@@ -1,6 +1,14 @@
 import * as React from 'react';
-import { Button, TextInput, Snackbar } from 'react-native-paper';
-import { StyleSheet, Text, View } from 'react-native';
+import { Button, TextInput, Snackbar, IconButton } from 'react-native-paper';
+import {
+  StyleSheet,
+  Text,
+  View,
+  KeyboardAvoidingView,
+  Keyboard,
+  Platform,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import { connect } from 'react-redux';
 import {
   signIn,
@@ -111,15 +119,13 @@ function IniciarSesionConEmail(props) {
         />
         <Icon
           name={hidePass ? 'eye-slash' : 'eye'}
-          size={15}
+          size={20}
           color="grey"
           onPress={() => setHidePass(!hidePass)}
           style={styles.icon}
         />
       </View>
-
       <Text style={styles.errorPass}>{errorContraseña}</Text>
-
       <View style={styles.contOlvidePass}>
         <Text
           style={styles.olvideMiPass}
@@ -200,6 +206,7 @@ const styles = StyleSheet.create({
   },
   snackbar: {
     backgroundColor: '#333333',
+  },
   icon: {
     position: 'absolute',
     marginRight: 18,

@@ -55,7 +55,7 @@ function IniciarSesion(props) {
         }}
       >
         <SafeAreaView style={styles.container}>
-          <StatusBar backgroundColor="#ececec" />
+          <StatusBar barStyle="dark-content" backgroundColor="#ececec" />
           {props.logeo ? (
             <View
               style={{
@@ -121,8 +121,9 @@ function IniciarSesion(props) {
                   <Snackbar
                     visible={visible}
                     onDismiss={onDismissSnackBar}
+                    theme={{ colors: { accent: 'white' } }}
                     action={{
-                      label: 'Cerrar',
+                      label: 'OK',
                       onPress: () => {
                         onDismissSnackBar;
                       },
@@ -248,7 +249,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   snackbar: {
-    backgroundColor: '#333333',
+    backgroundColor: '#801010',
+    top: 10,
   },
 });
 

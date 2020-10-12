@@ -106,6 +106,8 @@ function Registro(props) {
 
   //Para que funcione el ojito de mostrar contraseña
   const [hidePass, setHidePass] = React.useState(true);
+  const [hidePass2, setHidePass2] = React.useState(true);
+  const [hidePass3, setHidePass3] = React.useState(true);
 
   return (
     <KeyboardAvoidingView
@@ -146,17 +148,17 @@ function Registro(props) {
                 onBlur={() => {
                   passValidatorNueva;
                 }}
-                secureTextEntry={hidePass ? true : false}
+                secureTextEntry={hidePass2 ? true : false}
                 onChangeText={(text) => {
                   setPasswordNueva(text);
                 }}
                 error={errorContraseñaNueva}
               />
               <Icon
-                name={hidePass ? 'eye-slash' : 'eye'}
+                name={hidePass2 ? 'eye-slash' : 'eye'}
                 size={15}
                 color="grey"
-                onPress={() => setHidePass(!hidePass)}
+                onPress={() => setHidePass2(!hidePass2)}
                 style={styles.icon}
               />
               <Text style={styles.errorPass}>{errorContraseñaNueva}</Text>
@@ -170,17 +172,17 @@ function Registro(props) {
                 onBlur={() => {
                   passValidatorRepetida;
                 }}
-                secureTextEntry={hidePass ? true : false}
+                secureTextEntry={hidePass3 ? true : false}
                 onChangeText={(text) => {
                   setPasswordRepetida(text);
                 }}
                 error={errorContraseñaRepe}
               />
               <Icon
-                name={hidePass ? 'eye-slash' : 'eye'}
+                name={hidePass3 ? 'eye-slash' : 'eye'}
                 size={15}
                 color="grey"
-                onPress={() => setHidePass(!hidePass)}
+                onPress={() => setHidePass3(!hidePass3)}
                 style={styles.icon}
               />
               <Text style={styles.errorPass}>{errorContraseñaRepe}</Text>
@@ -206,37 +208,39 @@ function Registro(props) {
               <Text style={styles.errorDistintos}>{estanCompletos}</Text>
             </View>
           </View>
-          <View style={styles.contenedorSnack2}>
-            <Snackbar
-              visible={visible}
-              onDismiss={onDismissSnackBar}
-              theme={{ colors: { accent: '#76B39D' } }}
-              action={{
-                label: 'Cerrar',
-                onPress: () => {
-                  onDismissSnackBar;
-                },
-              }}
-              style={styles.snackbar}
-            >
-              La contraseña se cambió correctamente.
-            </Snackbar>
-          </View>
           <View style={styles.contenedorSnack}>
-            <Snackbar
-              visible={visible2}
-              onDismiss={onDismissSnackBar2}
-              theme={{ colors: { accent: 'black' } }}
-              action={{
-                label: 'Cerrar',
-                onPress: () => {
-                  onDismissSnackBar2;
-                },
-              }}
-              style={styles.snackbar2}
-            >
-              La contraseña actual es incorrecta.
-            </Snackbar>
+            {visible ? (
+              <Snackbar
+                visible={visible}
+                onDismiss={onDismissSnackBar}
+                theme={{ colors: { accent: '#76B39D' } }}
+                action={{
+                  label: 'OK',
+                  onPress: () => {
+                    onDismissSnackBar;
+                  },
+                }}
+                style={styles.snackbar}
+              >
+                La contraseña se cambió correctamente.
+              </Snackbar>
+            ) : null}
+            {visible2 ? (
+              <Snackbar
+                visible={visible2}
+                onDismiss={onDismissSnackBar2}
+                theme={{ colors: { accent: 'white' } }}
+                action={{
+                  label: 'OK',
+                  onPress: () => {
+                    onDismissSnackBar2;
+                  },
+                }}
+                style={styles.snackbar2}
+              >
+                La contraseña actual es incorrecta.
+              </Snackbar>
+            ) : null}
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -305,7 +309,7 @@ const styles = StyleSheet.create({
     top: 130,
   },
   snackbar: {
-    backgroundColor: 'green',
+    backgroundColor: '#333333',
   },
   snackbar2: {
     backgroundColor: '#801010',
