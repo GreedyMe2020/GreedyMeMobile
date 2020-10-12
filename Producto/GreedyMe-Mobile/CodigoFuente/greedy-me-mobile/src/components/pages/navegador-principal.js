@@ -73,6 +73,8 @@ function NavegadorPrincipal(props) {
                 headerStyle: {
                   backgroundColor: '#1E1B4D',
                 },
+                animationEnabled: false,
+                gestureDirection: 'horizontal',
               })}
             />
             <Stack.Screen
@@ -85,6 +87,8 @@ function NavegadorPrincipal(props) {
                 headerStyle: {
                   backgroundColor: '#1E1B4D',
                 },
+                animationEnabled: false,
+                gestureDirection: 'horizontal',
               })}
             />
             <Stack.Screen
@@ -97,6 +101,8 @@ function NavegadorPrincipal(props) {
                 headerStyle: {
                   backgroundColor: '#1E1B4D',
                 },
+                animationEnabled: false,
+                gestureDirection: 'horizontal',
               })}
             />
             <Stack.Screen
@@ -109,6 +115,8 @@ function NavegadorPrincipal(props) {
                 headerStyle: {
                   backgroundColor: '#1E1B4D',
                 },
+                animationEnabled: false,
+                gestureDirection: 'horizontal',
               })}
             />
             <Stack.Screen
@@ -121,6 +129,8 @@ function NavegadorPrincipal(props) {
                 headerStyle: {
                   backgroundColor: '#1E1B4D',
                 },
+                animationEnabled: false,
+                gestureDirection: 'horizontal',
               })}
             />
           </>
@@ -149,7 +159,12 @@ function NavegadorPrincipal(props) {
             <Stack.Screen
               name="Registro"
               component={Registro}
-              options={{ title: 'Registrarme', headerShown: true }}
+              options={{
+                title: 'Registrarme',
+                headerShown: true,
+                animationEnabled: false,
+                gestureDirection: 'horizontal',
+              }}
             />
             <Stack.Screen
               name="VerificarCuenta"
@@ -157,6 +172,8 @@ function NavegadorPrincipal(props) {
               options={{
                 title: 'Verificar mi cuenta',
                 headerShown: true,
+                animationEnabled: false,
+                gestureDirection: 'horizontal',
               }}
             />
           </>
@@ -165,9 +182,10 @@ function NavegadorPrincipal(props) {
             name="Home"
             component={PantallaLogo}
             options={{
-              title: 'Verificar mi cuenta',
               headerShown: false,
               headerLeft: null,
+              animationEnabled: false,
+              gestureDirection: 'horizontal',
             }}
           />
         )}

@@ -14,6 +14,7 @@ import {
   resetearValores,
 } from '../../../redux/actions/user-actions';
 import { connect } from 'react-redux';
+import { colors } from 'react-native-elements';
 
 function Registro(props) {
   //Estados para manejar los valores de los inputs
@@ -178,6 +179,7 @@ function Registro(props) {
             <Snackbar
               visible={visible}
               onDismiss={onDismissSnackBar}
+              theme={{ colors: { accent: '#76B39D' } }}
               action={{
                 label: 'Cerrar',
                 onPress: () => {
@@ -193,6 +195,7 @@ function Registro(props) {
             <Snackbar
               visible={visible2}
               onDismiss={onDismissSnackBar2}
+              theme={{ colors: { accent: 'black' } }}
               action={{
                 label: 'Cerrar',
                 onPress: () => {
@@ -259,7 +262,6 @@ const styles = StyleSheet.create({
     color: '#af1a1a',
     top: 25,
   },
-
   errorPass: {
     marginLeft: 20,
     color: '#af1a1a',
@@ -275,7 +277,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'green',
   },
   snackbar2: {
-    backgroundColor: 'red',
+    backgroundColor: '#801010',
   },
 });
 

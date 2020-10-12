@@ -165,6 +165,7 @@ function MisDatos(props) {
             <Snackbar
               visible={visible}
               onDismiss={onDismissSnackBar}
+              theme={{ colors: { accent: '#76B39D' } }}
               action={{
                 label: 'Cerrar',
                 onPress: () => {

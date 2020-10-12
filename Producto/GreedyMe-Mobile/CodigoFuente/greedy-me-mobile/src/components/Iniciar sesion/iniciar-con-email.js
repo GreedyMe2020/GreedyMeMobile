@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, TextInput } from 'react-native-paper';
+import { Button, TextInput, Snackbar } from 'react-native-paper';
 import { StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import {
@@ -37,6 +37,7 @@ function IniciarSesionConEmail(props) {
       setMensajeError('Todos campos deben ser completados');
     } else {
       setMensajeError('');
+      //Abro alerta
       if (errorContraseña === '' && errorEmail === '') {
         props.resetearValoresInicioSesion();
         props.signIn({
@@ -129,11 +130,6 @@ function IniciarSesionConEmail(props) {
         </Button>
         <View style={styles.contenedorError}>
           <Text style={styles.errorPass}>{mensajeError}</Text>
-          {props.authError ? (
-            <Text style={styles.alerta}>
-              Los datos ingresados son incorrectos
-            </Text>
-          ) : null}
         </View>
       </View>
     </View>
@@ -184,6 +180,12 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     color: '#af1a1a',
     top: -8,
+  },
+  contenedorSnack: {
+    top: -50,
+  },
+  snackbar: {
+    backgroundColor: '#333333',
   },
 });
 
