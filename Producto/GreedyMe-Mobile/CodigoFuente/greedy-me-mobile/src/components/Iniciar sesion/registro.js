@@ -7,6 +7,7 @@ import {
   Platform,
   Text,
   TouchableWithoutFeedback,
+  ScrollView,
 } from 'react-native';
 import { Button, TextInput, Snackbar } from 'react-native-paper';
 import { connect } from 'react-redux';
@@ -162,127 +163,131 @@ function Registro(props) {
   return (
     <KeyboardAvoidingView
       style={styles.containerTeclado}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      behavior={Platform.OS === 'ios' ? 'padding' : ''}
       keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
       enabled={Platform.OS === 'ios'}
     >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.container}>
-          <TextInput
-            style={styles.inputEmailPass}
-            mode="flat"
-            label="Nombre"
-            name="nombre"
-            required
-            underlineColor="#76B39D"
-            value={nombre}
-            onBlur={() => {
-              nombreValidator;
-            }}
-            onChangeText={handleChangeNombre}
-            error={errorNombre}
-          />
-          <Text style={styles.errorPass}>{errorNombre}</Text>
-
-          <TextInput
-            style={styles.inputEmailPass}
-            mode="flat"
-            label="Apellido"
-            name="apellido"
-            required
-            underlineColor="#76B39D"
-            onBlur={() => {
-              apellidoValidator;
-            }}
-            value={apellido}
-            onChangeText={handleChangeApellido}
-            error={errorApellido}
-          />
-          <Text style={styles.errorPass}>{errorApellido}</Text>
-
-          <TextInput
-            style={styles.inputEmailPass}
-            mode="flat"
-            label="Email"
-            required
-            underlineColor="#76B39D"
-            onBlur={() => {
-              emailValidator;
-            }}
-            value={email}
-            onChangeText={handleChangeEmail}
-            error={errorEmail}
-          />
-          <Text style={styles.errorPass}>{errorEmail}</Text>
-
-          <TextInput
-            style={styles.inputEmailPass}
-            mode="flat"
-            label="Contraseña"
-            required
-            underlineColor="#76B39D"
-            onBlur={() => {
-              passValidatorNueva;
-            }}
-            value={password}
-            onChangeText={handleChangePassword}
-            secureTextEntry={true}
-            error={errorContraseñaNueva}
-          />
-          <Text style={styles.errorPass}>{errorContraseñaNueva}</Text>
-
-          <TextInput
-            style={styles.inputEmailPass}
-            mode="flat"
-            label="Repita la contraseña"
-            required
-            underlineColor="#76B39D"
-            onBlur={() => {
-              passValidatorRepetida;
-            }}
-            value={repetido}
-            secureTextEntry={true}
-            onChangeText={handleChangePasswordRep}
-            error={errorContraseñaRepe}
-          />
-          <Text style={styles.errorPass}>{errorContraseñaRepe}</Text>
-
-          <View style={styles.contenedorBoton}>
-            <Button
-              theme={{
-                colors: { primary: '#76B39D' },
+      <ScrollView>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.container}>
+            <TextInput
+              style={styles.inputEmailPass}
+              mode="flat"
+              label="Nombre"
+              name="nombre"
+              required
+              underlineColor="#76B39D"
+              value={nombre}
+              onBlur={() => {
+                nombreValidator;
               }}
-              style={styles.btnIngresar}
-              mode="contained"
-              title="Submit"
-              onPress={handleSubmit}
-            >
-              Registrarme
-            </Button>
-          </View>
-          <View style={styles.contenedorError}>
-            <Text style={styles.errorDistintos}>{esDistinta}</Text>
-          </View>
-          <View style={styles.contenedorError}>
-            <Text style={styles.errorDistintos}>{mensajeError}</Text>
-          </View>
-          <View style={styles.contenedorSnack}>
-            <Snackbar
-              visible={visible}
-              onDismiss={onDismissSnackBar}
-              action={{
-                label: 'Cerrar',
-                onPress: () => {
-                  onDismissSnackBar;
-                },
+              onChangeText={handleChangeNombre}
+              error={errorNombre}
+            />
+            <Text style={styles.errorPass}>{errorNombre}</Text>
+
+            <TextInput
+              style={styles.inputEmailPass}
+              mode="flat"
+              label="Apellido"
+              name="apellido"
+              required
+              underlineColor="#76B39D"
+              onBlur={() => {
+                apellidoValidator;
               }}
-              style={styles.snackbar}
-            >
-              El email ya esta siendo utilizado.
-            </Snackbar>
+              value={apellido}
+              onChangeText={handleChangeApellido}
+              error={errorApellido}
+            />
+            <Text style={styles.errorPass}>{errorApellido}</Text>
+
+            <TextInput
+              style={styles.inputEmailPass}
+              mode="flat"
+              label="Email"
+              required
+              underlineColor="#76B39D"
+              onBlur={() => {
+                emailValidator;
+              }}
+              value={email}
+              onChangeText={handleChangeEmail}
+              error={errorEmail}
+            />
+            <Text style={styles.errorPass}>{errorEmail}</Text>
+
+            <TextInput
+              style={styles.inputEmailPass}
+              mode="flat"
+              label="Contraseña"
+              focus="true"
+              required
+              underlineColor="#76B39D"
+              onBlur={() => {
+                passValidatorNueva;
+              }}
+              value={password}
+              onChangeText={handleChangePassword}
+              secureTextEntry={true}
+              error={errorContraseñaNueva}
+            />
+            <Text style={styles.errorPass}>{errorContraseñaNueva}</Text>
+
+            <TextInput
+              style={styles.inputEmailPass}
+              mode="flat"
+              label="Repita la contraseña"
+              required
+              underlineColor="#76B39D"
+              onBlur={() => {
+                passValidatorRepetida;
+              }}
+              value={repetido}
+              secureTextEntry={true}
+              onChangeText={handleChangePasswordRep}
+              error={errorContraseñaRepe}
+            />
+
+            <Text style={styles.errorPass}>{errorContraseñaRepe}</Text>
+
+            <View style={styles.contenedorBoton}>
+              <Button
+                theme={{
+                  colors: { primary: '#76B39D' },
+                }}
+                style={styles.btnIngresar}
+                mode="contained"
+                title="Submit"
+                onPress={handleSubmit}
+              >
+                Registrarme
+              </Button>
+            </View>
+            <View style={styles.contenedorError}>
+              <Text style={styles.errorDistintos}>{esDistinta}</Text>
+            </View>
+            <View style={styles.contenedorError}>
+              <Text style={styles.errorDistintos}>{mensajeError}</Text>
+            </View>
+            <View style={styles.contenedorSnack}>
+              <Snackbar
+                visible={visible}
+                onDismiss={onDismissSnackBar}
+                action={{
+                  label: 'Cerrar',
+                  onPress: () => {
+                    onDismissSnackBar;
+                  },
+                }}
+                style={styles.snackbar}
+              >
+                El email ya esta siendo utilizado.
+              </Snackbar>
+            </View>
           </View>
-        </View>
-      </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback>
+      </ScrollView>
     </KeyboardAvoidingView>
   );
 }
@@ -291,6 +296,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: '100%',
+    padding: 24,
     top: 50,
   },
   containerTeclado: {
@@ -315,7 +321,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   contenedorBoton: {
-    top: 15,
+    top: 5,
   },
   btnIngresar: {
     marginRight: 20,
