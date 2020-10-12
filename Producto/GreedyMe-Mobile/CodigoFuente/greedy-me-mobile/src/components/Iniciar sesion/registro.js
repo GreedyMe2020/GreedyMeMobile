@@ -161,13 +161,13 @@ function Registro(props) {
   }, [props.creacionError]);
 
   return (
-    <KeyboardAvoidingView
-      style={styles.containerTeclado}
-      behavior={Platform.OS === 'ios' ? 'padding' : ''}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
-      enabled={Platform.OS === 'ios'}
-    >
-      <ScrollView>
+    <ScrollView>
+      <KeyboardAvoidingView
+        style={styles.containerTeclado}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
+        enabled={Platform.OS === 'ios'}
+      >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.container}>
             <TextInput
@@ -264,6 +264,7 @@ function Registro(props) {
                 Registrarme
               </Button>
             </View>
+
             <View style={styles.contenedorError}>
               <Text style={styles.errorDistintos}>{esDistinta}</Text>
             </View>
@@ -287,8 +288,8 @@ function Registro(props) {
             </View>
           </View>
         </TouchableWithoutFeedback>
-      </ScrollView>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </ScrollView>
   );
 }
 
@@ -297,7 +298,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     padding: 24,
-    top: 50,
   },
   containerTeclado: {
     flex: 1,
@@ -331,7 +331,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   contenedorError: {
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     alignItems: 'center',
     width: '100%',
   },
