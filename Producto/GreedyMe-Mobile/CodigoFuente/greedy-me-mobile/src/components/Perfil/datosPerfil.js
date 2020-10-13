@@ -128,7 +128,7 @@ function MisDatos(props) {
                 {props.auth.emailVerified === false
                   ? 'E-mail sin verificar'
                   : props.auth.emailVerified === true
-                  ? 'E-mail verficado'
+                  ? 'E-mail verificado'
                   : null}
               </Text>
               <Text
