@@ -155,6 +155,7 @@ function Registro(props) {
   const onDismissSnackBar = () => setVisible(false);
   const abrirMensajeConfirmacion = React.useEffect(() => {
     if (props.creacionError != null) {
+      setMensajeError('El email ya está siendo utilizado');
       setVisible(true);
       props.resetearValoresCreacionUsuario();
     }
