@@ -22,25 +22,24 @@ export const cambiarContraseña = (datos) => {
   return (dispatch, getState, { getFirestore, getFirebase }) => {
     //codigo asincrono
     const firebase = getFirebase();
-    firebase.auth().onAuthStateChanged(function (user) {
-      if (user) {
-        var credentials = firebase.auth.EmailAuthProvider.credential(
-          user.email,
-          datos.password,
-        );
-        user
-          .reauthenticateWithCredential(credentials)
-          .then(() => {
-            user.updatePassword(datos.passwordNueva);
-          })
-          .then(() => {
-            dispatch({ type: 'CAMBIAR_CONTRASEÑA' });
-          })
-          .catch((error) => {
-            dispatch({ type: 'ERROR_CONTRASEÑA', error });
-          });
-      }
-    });
+    var user = firebase.auth().currentUser;
+    if (user) {
+      var credentials = firebase.auth.EmailAuthProvider.credential(
+        user.email,
+        datos.password,
+      );
+      user
+        .reauthenticateWithCredential(credentials)
+        .then(() => {
+          user.updatePassword(datos.passwordNueva);
+        })
+        .then(() => {
+          dispatch({ type: 'CAMBIAR_CONTRASEÑA' });
+        })
+        .catch((error) => {
+          dispatch({ type: 'ERROR_CONTRASEÑA', error });
+        });
+    }
   };
 };
 
