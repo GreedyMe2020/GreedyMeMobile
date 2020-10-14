@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Divider } from 'react-native-paper';
+import { Divider, Snackbar } from 'react-native-paper';
 import {
   KeyboardAvoidingView,
   Keyboard,
@@ -19,6 +19,7 @@ import IniciarSesionConRedes from './iniciar-con-redes';
 import {
   setearLogeo,
   setearDesLogeo,
+  resetearValoresInicioSesion,
 } from '../../../redux/actions/auth-actions';
 
 function IniciarSesion(props) {
@@ -29,6 +30,18 @@ function IniciarSesion(props) {
   if (props.auth.uid) {
     props.navigation.navigate('Main');
   }
+
+  //Estado para abrir o cerrar el snackbar de confirmacion
+  const [visible, setVisible] = React.useState(false);
+
+  //Funcion para cerrar la confirmacion del cambio de contraseña
+  const onDismissSnackBar = () => setVisible(false);
+  React.useEffect(() => {
+    if (props.authError != null) {
+      setVisible(true);
+    }
+  }, [props.authError]);
+
   return (
     <KeyboardAvoidingView
       style={styles.containerTeclado}
@@ -42,8 +55,7 @@ function IniciarSesion(props) {
         }}
       >
         <SafeAreaView style={styles.container}>
-          <StatusBar backgroundColor="#ececec" />
-
+          <StatusBar barStyle="dark-content" backgroundColor="#ececec" />
           {props.logeo ? (
             <View
               style={{
@@ -70,7 +82,10 @@ function IniciarSesion(props) {
                 <Text style={styles.letraNaranja}>me </Text>
               </View>
               <View style={styles.inputSesion}>
-                <IniciarSesionConEmail navigation={props.navigation} />
+                <IniciarSesionConEmail
+                  navigation={props.navigation}
+                  setVisible={setVisible}
+                />
               </View>
               <View style={styles.or}>
                 <Divider style={styles.dividerIzq} />
@@ -80,6 +95,7 @@ function IniciarSesion(props) {
               <View style={styles.ingresoConRedes}>
                 <IniciarSesionConRedes navigation={props.navigation} />
               </View>
+
               <View style={styles.contenedorCrearCuenta}>
                 <Text style={styles.textoPreguntaCuenta}>
                   ¿No tenés cuenta?
@@ -101,6 +117,22 @@ function IniciarSesion(props) {
                     }}
                   />
                 </View>
+                {visible ? (
+                  <Snackbar
+                    visible={visible}
+                    onDismiss={onDismissSnackBar}
+                    theme={{ colors: { accent: 'white' } }}
+                    action={{
+                      label: 'OK',
+                      onPress: () => {
+                        onDismissSnackBar;
+                      },
+                    }}
+                    style={styles.snackbar}
+                  >
+                    Los datos ingresados son incorrectos.
+                  </Snackbar>
+                ) : null}
               </View>
             </>
           )}
@@ -185,6 +217,14 @@ const styles = StyleSheet.create({
     width: '100%',
     flex: 0.1,
   },
+  contenedorSnackTodo: {
+    bottom: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    flex: 0.1,
+  },
 
   textoPreguntaCuenta: {
     fontSize: 16,
@@ -203,6 +243,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  contenedorSnack: {
+    width: 50,
+    height: 100,
+    flex: 1,
+  },
+  snackbar: {
+    backgroundColor: '#801010',
+    top: 10,
+  },
 });
 
 const mapStateToProps = (state) => {
@@ -219,6 +268,7 @@ const mapDispatchToProps = (dispatch) => {
     signIn: (user) => dispatch(signIn(user)),
     setearLogeo: (flag) => dispatch(setearLogeo(flag)),
     setearDesLogeo: (flag) => dispatch(setearDesLogeo(flag)),
+    resetearValoresInicioSesion: () => dispatch(resetearValoresInicioSesion()),
   };
 };
 

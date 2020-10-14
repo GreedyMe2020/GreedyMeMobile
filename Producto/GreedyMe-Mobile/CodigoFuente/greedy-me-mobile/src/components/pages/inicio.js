@@ -45,11 +45,7 @@ function Inicio({ navigation }, props) {
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
-          <StatusBar
-            barStyle="dark-content"
-            translucent={true}
-            backgroundColor="white"
-          />
+          <StatusBar barStyle="dark-content" backgroundColor="#ececec" />
           <View style={styles.barraSup}>
             <BarraSup navigation={props.navigation} />
           </View>

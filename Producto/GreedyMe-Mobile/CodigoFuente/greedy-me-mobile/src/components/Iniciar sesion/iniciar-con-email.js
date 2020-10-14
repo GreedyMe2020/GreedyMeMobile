@@ -1,11 +1,20 @@
 import * as React from 'react';
-import { Button, TextInput } from 'react-native-paper';
-import { StyleSheet, Text, View } from 'react-native';
+import { Button, TextInput, Snackbar, IconButton } from 'react-native-paper';
+import {
+  StyleSheet,
+  Text,
+  View,
+  KeyboardAvoidingView,
+  Keyboard,
+  Platform,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import { connect } from 'react-redux';
 import {
   signIn,
   resetearValoresInicioSesion,
 } from '../../../redux/actions/auth-actions';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 function IniciarSesionConEmail(props) {
   const [email, setEmail] = React.useState(null);
@@ -27,6 +36,9 @@ function IniciarSesionConEmail(props) {
     setPassword(password);
   };
 
+  //Para que funcione el ojito de mostrar contraseña
+  const [hidePass, setHidePass] = React.useState(true);
+
   const handleSubmit = () => {
     if (
       email === '' ||
@@ -37,6 +49,7 @@ function IniciarSesionConEmail(props) {
       setMensajeError('Todos campos deben ser completados');
     } else {
       setMensajeError('');
+      //Abro alerta
       if (errorContraseña === '' && errorEmail === '') {
         props.resetearValoresInicioSesion();
         props.signIn({
@@ -89,22 +102,30 @@ function IniciarSesionConEmail(props) {
         error={errorEmail}
       />
       <Text style={styles.errorPass}>{errorEmail}</Text>
-      <TextInput
-        style={styles.inputEmailPass}
-        mode="flat"
-        label="Contraseña"
-        required
-        underlineColor="#76B39D"
-        onBlur={() => {
-          passValidator;
-        }}
-        value={password}
-        onChangeText={handleChangePassword}
-        secureTextEntry={true}
-        error={errorContraseña}
-      />
+      <View>
+        <TextInput
+          style={styles.inputEmailPass}
+          mode="flat"
+          label="Contraseña"
+          required
+          underlineColor="#76B39D"
+          onBlur={() => {
+            passValidator;
+          }}
+          value={password}
+          onChangeText={handleChangePassword}
+          secureTextEntry={hidePass ? true : false}
+          error={errorContraseña}
+        />
+        <Icon
+          name={hidePass ? 'eye-slash' : 'eye'}
+          size={20}
+          color="grey"
+          onPress={() => setHidePass(!hidePass)}
+          style={styles.icon}
+        />
+      </View>
       <Text style={styles.errorPass}>{errorContraseña}</Text>
-
       <View style={styles.contOlvidePass}>
         <Text
           style={styles.olvideMiPass}
@@ -129,11 +150,6 @@ function IniciarSesionConEmail(props) {
         </Button>
         <View style={styles.contenedorError}>
           <Text style={styles.errorPass}>{mensajeError}</Text>
-          {props.authError ? (
-            <Text style={styles.alerta}>
-              Los datos ingresados son incorrectos
-            </Text>
-          ) : null}
         </View>
       </View>
     </View>
@@ -184,6 +200,20 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     color: '#af1a1a',
     top: -8,
+  },
+  contenedorSnack: {
+    top: -50,
+  },
+  snackbar: {
+    backgroundColor: '#333333',
+  },
+  icon: {
+    position: 'absolute',
+    marginRight: 18,
+    marginTop: 18,
+    fontSize: 18,
+    right: 20,
+    backgroundColor: '#e8e8e8',
   },
 });
 

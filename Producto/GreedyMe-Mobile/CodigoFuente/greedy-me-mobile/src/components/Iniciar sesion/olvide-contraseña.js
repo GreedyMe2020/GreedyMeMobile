@@ -48,7 +48,7 @@ function OlvideContraseña(props) {
 
   //Funcion para cerrar el error y use effect para mostrar el error
   const onDismissSnackBar2 = () => setVisible2(false);
-  const abrirMensajeError = React.useEffect(() => {
+  React.useEffect(() => {
     if (props.mailError != null) {
       setVisible2(true);
       props.resetearValores();
@@ -112,50 +112,10 @@ function OlvideContraseña(props) {
 
             <View style={styles.contenedorBoton}>
               <Button
-                theme={{
-                  colors: { primary: '#76B39D' },
-                }}
                 style={styles.btnIngresar}
                 mode="contained"
                 title="Submit"
                 onPress={handleSubmit}
-                /* onPress={() => {
-
-            <View style={styles.formContainer}>
-              <Text style={styles.texto}>
-                Ingresá tu email y te enviaremos una nueva contraseña que luego
-                podrás cambiar desde tu perfil.
-              </Text>
-              <TextInput
-                style={styles.inputEmailPass}
-                mode="flat"
-                label="Email de recuperación"
-                required
-                underlineColor="#76B39D"
-                onBlur={() => {
-                  emailValidator;
-                }}
-                value={email}
-                onChangeText={handleChangeEmail}
-                error={errorEmail}
-              />
-              <Text style={styles.errorPass}>{errorEmail}</Text>
-
-              <View style={styles.contenedorBoton}>
-                <Button
-                  theme={{
-                    colors: { primary: '#76B39D' },
-                  }}
-                  style={styles.btnIngresar}
-                  mode="contained"
-                  title="Submit"
-                  onPress={() => {
-                    props.navigation.navigate('VerificarCuenta');
-                  }}
-                  /* onPress={() => {
-
-                  props.navigation.navigate('Main');
-                }} */
               >
                 Enviar
               </Button>
@@ -166,8 +126,11 @@ function OlvideContraseña(props) {
               <Snackbar
                 visible={visible}
                 onDismiss={onDismissSnackBar}
+                theme={{
+                  colors: { primary: '#76B39D' },
+                }}
                 action={{
-                  label: 'Cerrar',
+                  label: 'OK',
                   onPress: () => {
                     onDismissSnackBar;
                   },
@@ -179,15 +142,16 @@ function OlvideContraseña(props) {
                 </Text>
                 Correo enviado.
               </Snackbar>
-            ) : (
-              ''
-            )}
+            ) : null}
             {visible2 ? (
               <Snackbar
                 visible={visible2}
                 onDismiss={onDismissSnackBar2}
+                theme={{
+                  colors: { primary: 'white' },
+                }}
                 action={{
-                  label: 'Cerrar',
+                  label: 'OK',
                   onPress: () => {
                     onDismissSnackBar2;
                   },
@@ -196,9 +160,7 @@ function OlvideContraseña(props) {
               >
                 El mail es invalido.
               </Snackbar>
-            ) : (
-              ''
-            )}
+            ) : null}
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -253,10 +215,10 @@ const styles = StyleSheet.create({
     top: -50,
   },
   snackbar: {
-    backgroundColor: 'green',
+    backgroundColor: '#333333',
   },
   snackbar2: {
-    backgroundColor: 'red',
+    backgroundColor: '#801010',
   },
 });
 

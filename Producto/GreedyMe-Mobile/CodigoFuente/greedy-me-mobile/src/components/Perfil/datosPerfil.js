@@ -124,6 +124,13 @@ function MisDatos(props) {
               errorMessages={['* Este campo es obligatorio']}
             />
             <View style={styles.contOlvidePass}>
+              <Text style={styles.emailVerificado}>
+                {props.auth.emailVerified === false
+                  ? 'E-mail sin verificar'
+                  : props.auth.emailVerified === true
+                  ? 'E-mail verificado'
+                  : null}
+              </Text>
               <Text
                 style={styles.olvideMiPass}
                 onPress={() => {
@@ -133,7 +140,6 @@ function MisDatos(props) {
                 Cambiar mi contraseña
               </Text>
             </View>
-
             <View style={styles.contenedorBoton}>
               <Button
                 theme={{
@@ -150,21 +156,13 @@ function MisDatos(props) {
             <View style={styles.contenedorError}>
               <Text style={styles.errorDistintos}>{mensajeError}</Text>
             </View>
-            <View style={styles.contenedorError}>
-              <Text style={styles.emailVerificado}>
-                {props.auth.emailVerified === false
-                  ? 'El e-mail no ha sido verificado'
-                  : props.auth.emailVerified === true
-                  ? 'El e-mail ha sido verficado'
-                  : null}
-              </Text>
-            </View>
           </View>
 
           <View style={styles.contenedorSnack}>
             <Snackbar
               visible={visible}
               onDismiss={onDismissSnackBar}
+              theme={{ colors: { accent: '#76B39D' } }}
               action={{
                 label: 'Cerrar',
                 onPress: () => {
@@ -201,10 +199,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#e8e8e8',
   },
   contOlvidePass: {
-    alignItems: 'flex-end',
-    justifyContent: 'flex-end',
     marginBottom: 15,
-    marginRight: 25,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginRight: 22,
+    marginLeft: 22,
   },
   olvideMiPass: {
     color: '#707070',
@@ -236,8 +235,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#333333',
   },
   emailVerificado: {
-    color: 'orange',
-    top: 25,
+    color: '#76B39D',
+    fontSize: 15,
   },
 });
 

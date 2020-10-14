@@ -210,3 +210,9 @@ export const resetearValoresInicioSesion = () => {
     dispatch({ type: 'RESETEAR_VALORES_INICIO_SESION' });
   };
 };
+
+export const setearValidacionMail = () => {
+  return (dispatch, getState, { getFirestore }) => {
+    dispatch({ type: 'INICIO_FALLIDO' });
+  };
+};
