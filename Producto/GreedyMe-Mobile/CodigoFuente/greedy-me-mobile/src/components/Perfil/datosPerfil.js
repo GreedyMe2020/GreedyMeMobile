@@ -11,6 +11,8 @@ import {
 import { Button, TextInput, Snackbar } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { editarDatos } from '../../../redux/actions/user-actions';
+import { colors } from '../../styles/colores';
+import ButtonEj from '../button';
 
 /* Función para validar que Nombre y Apellido no tengan números */
 function Validate(expression) {
@@ -82,7 +84,7 @@ function MisDatos(props) {
               label="Nombre"
               name="nombre"
               required
-              underlineColor="#76B39D"
+              underlineColor={colors.celeste}
               value={nombre}
               onChangeText={handleChangeNombre}
               validators={['required']}
@@ -94,7 +96,7 @@ function MisDatos(props) {
               label="Apellido"
               name="apellido"
               required
-              underlineColor="#76B39D"
+              underlineColor={colors.celeste}
               value={apellido}
               onChangeText={handleChangeApellido}
               validators={['required']}
@@ -106,7 +108,7 @@ function MisDatos(props) {
               label="Email"
               required
               disabled
-              underlineColor="#76B39D"
+              underlineColor={colors.celeste}
               value={email}
               onChangeText={handleChangeEmail}
               validators={['required']}
@@ -118,7 +120,7 @@ function MisDatos(props) {
               label="Contraseña"
               required
               disabled
-              underlineColor="#76B39D"
+              underlineColor={colors.celeste}
               value={password}
               onChangeText={handleChangePassword}
               validators={['required']}
@@ -142,17 +144,7 @@ function MisDatos(props) {
               </Text>
             </View>
             <View style={styles.contenedorBoton}>
-              <Button
-                theme={{
-                  colors: { primary: '#76B39D' },
-                }}
-                style={styles.btnIngresar}
-                mode="contained"
-                title="Submit"
-                onPress={handleSubmit}
-              >
-                Guardar datos
-              </Button>
+              <ButtonEj text="Guardar datos" onPress={handleSubmit} />
             </View>
             <View style={styles.contenedorError}>
               <Text style={styles.errorDistintos}>{mensajeError}</Text>
@@ -165,7 +157,7 @@ function MisDatos(props) {
               onDismiss={onDismissSnackBar}
               theme={{ colors: { accent: '#76B39D' } }}
               action={{
-                label: 'Cerrar',
+                label: 'OK',
                 onPress: () => {
                   onDismissSnackBar;
                 },
@@ -197,7 +189,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     height: 55,
     fontSize: 18,
-    backgroundColor: '#e8e8e8',
+    backgroundColor: colors.grey,
   },
   contOlvidePass: {
     marginBottom: 15,
@@ -226,17 +218,17 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   errorDistintos: {
-    color: '#af1a1a',
+    color: colors.error,
     top: 25,
   },
   contenedorSnack: {
     top: -50,
   },
   snackbar: {
-    backgroundColor: '#333333',
+    backgroundColor: colors.alertGrey,
   },
   emailVerificado: {
-    color: '#76B39D',
+    color: colors.celeste,
     fontSize: 15,
   },
 });

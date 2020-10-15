@@ -7,6 +7,7 @@ import {
   editarNotificacionesUbicacion,
   editarNotificacionesTodas,
 } from '../../../redux/actions/user-actions';
+import { colors } from '../../styles/colores';
 
 function Notificaciones(props) {
   const [swiComerciosFav, setSwiComerciosFav] = React.useState(

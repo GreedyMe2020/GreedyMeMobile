@@ -21,7 +21,7 @@ function Main(props) {
         name="Inicio"
         component={Inicio}
         options={{
-          tabBarLabel: 'Home',
+          tabBarLabel: 'Inicio',
           tabBarColor: '#1E1B4D',
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="home" color={color} size={26} />
@@ -32,7 +32,7 @@ function Main(props) {
         name="Buscador"
         component={Buscador}
         options={{
-          tabBarLabel: 'Buscador',
+          tabBarLabel: 'Buscar',
           tabBarColor: '#76B39D',
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="magnify" color={color} size={26} />
