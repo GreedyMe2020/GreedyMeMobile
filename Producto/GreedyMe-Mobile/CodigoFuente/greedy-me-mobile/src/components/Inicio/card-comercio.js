@@ -11,6 +11,7 @@ import {
   Divider,
 } from 'react-native-paper';
 import { connect } from 'react-redux';
+import { colors } from '../../styles/colores';
 
 function CardComercio(props) {
   return (
@@ -23,7 +24,7 @@ function CardComercio(props) {
           right={(props) => (
             <IconButton
               icon="heart"
-              color="#e1e1e1"
+              color={colors.avatar}
               size={25}
               style={styles.corazonIcon}
               onPress={() => console.log('Pressed')}

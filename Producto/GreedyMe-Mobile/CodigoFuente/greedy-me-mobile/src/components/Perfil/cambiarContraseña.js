@@ -15,6 +15,8 @@ import {
 } from '../../../redux/actions/user-actions';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { colors } from '../../styles/colores';
+import ButtonEj from '../button';
 
 function Registro(props) {
   //Estados para manejar los valores de los inputs
@@ -124,7 +126,7 @@ function Registro(props) {
                 style={styles.inputPass}
                 mode="flat"
                 label="Contraseña actual"
-                underlineColor="#76B39D"
+                underlineColor={colors.celeste}
                 value={password}
                 secureTextEntry={hidePass ? true : false}
                 onChangeText={(text) => {
@@ -144,7 +146,7 @@ function Registro(props) {
                 style={styles.inputEmailPass}
                 mode="flat"
                 label="Nueva contraseña"
-                underlineColor="#76B39D"
+                underlineColor={colors.celeste}
                 onBlur={() => {
                   passValidatorNueva;
                 }}
@@ -168,7 +170,7 @@ function Registro(props) {
                 style={styles.inputEmailPass}
                 mode="flat"
                 label="Repetir contraseña"
-                underlineColor="#76B39D"
+                underlineColor={colors.celeste}
                 onBlur={() => {
                   passValidatorRepetida;
                 }}
@@ -189,17 +191,7 @@ function Registro(props) {
             </View>
 
             <View style={styles.contenedorBoton}>
-              <Button
-                theme={{
-                  colors: { primary: '#76B39D' },
-                }}
-                style={styles.btnIngresar}
-                mode="contained"
-                title="Submit"
-                onPress={handleSubmit}
-              >
-                Guardar datos
-              </Button>
+              <ButtonEj text="Guardar datos" onPress={handleSubmit} />
             </View>
             <View style={styles.contenedorError}>
               <Text style={styles.errorDistintos}>{esDistinta}</Text>
@@ -264,7 +256,7 @@ const styles = StyleSheet.create({
     marginBottom: 25,
     height: 55,
     fontSize: 18,
-    backgroundColor: '#e8e8e8',
+    backgroundColor: colors.grey,
     borderRadius: 3,
     paddingStart: 10,
   },
@@ -274,7 +266,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     height: 55,
     fontSize: 18,
-    backgroundColor: '#e8e8e8',
+    backgroundColor: colors.grey,
     borderRadius: 3,
     paddingStart: 10,
   },
@@ -294,12 +286,12 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   errorDistintos: {
-    color: '#af1a1a',
+    color: colors.error,
     top: 25,
   },
   errorPass: {
     marginLeft: 20,
-    color: '#af1a1a',
+    color: colors.error,
     top: -13,
   },
   contenedorSnack: {
@@ -309,10 +301,10 @@ const styles = StyleSheet.create({
     top: 130,
   },
   snackbar: {
-    backgroundColor: '#333333',
+    backgroundColor: colors.alertGrey,
   },
   snackbar2: {
-    backgroundColor: '#801010',
+    backgroundColor: colors.error,
   },
   icon: {
     position: 'absolute',

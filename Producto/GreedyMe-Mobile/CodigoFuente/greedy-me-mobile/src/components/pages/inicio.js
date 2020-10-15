@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 import CardComercio from '../Inicio/card-comercio';
 import BarraSup from '../Inicio/barra-superior';
 import ButtonCategorias from '../Inicio/button-categorias';
+import { colors } from '../../styles/colores';
 
 //esconde los warnings
 LogBox.ignoreLogs(['Warning: ...']);
@@ -45,7 +46,7 @@ function Inicio({ navigation }, props) {
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
-          <StatusBar barStyle="dark-content" backgroundColor="#ececec" />
+          <StatusBar barStyle="dark-content" backgroundColor={colors.avatar} />
           <View style={styles.barraSup}>
             <BarraSup navigation={props.navigation} />
           </View>
@@ -69,7 +70,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flex: 1,
     width: '100%',
-    backgroundColor: 'white',
+    backgroundColor: colors.white,
   },
   barraSup: {
     flex: 1,

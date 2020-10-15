@@ -21,6 +21,7 @@ import {
   setearDesLogeo,
   resetearValoresInicioSesion,
 } from '../../../redux/actions/auth-actions';
+import { colors } from '../../styles/colores';
 
 function IniciarSesion(props) {
   if (props.deslogeo) {
@@ -159,19 +160,19 @@ const styles = StyleSheet.create({
     marginLeft: 15, //igual este no deberia estar nose porque no lo centra
   },
   letraBlanca: {
-    color: '#1E1B4D',
+    color: colors.azul,
     fontSize: 45,
     letterSpacing: 5,
     fontFamily: 'Poppins-Regular',
   },
   letraVerde: {
-    color: '#76B39D',
+    color: colors.celeste,
     fontSize: 45,
     letterSpacing: 5,
     fontFamily: 'Poppins-Regular',
   },
   letraNaranja: {
-    color: '#F7941E',
+    color: colors.naranja,
     fontSize: 45,
     letterSpacing: 5,
     fontFamily: 'Poppins-SemiBold',
@@ -233,7 +234,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginLeft: 8,
     fontWeight: 'bold',
-    color: '#F7941E',
+    color: colors.naranja,
   },
   btnVolver: {
     marginTop: 20,
@@ -249,7 +250,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   snackbar: {
-    backgroundColor: '#801010',
+    backgroundColor: colors.error,
     top: 10,
   },
 });
