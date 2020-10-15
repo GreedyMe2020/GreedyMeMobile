@@ -11,32 +11,57 @@ import {
   Divider,
 } from 'react-native-paper';
 import { connect } from 'react-redux';
+import firebaseapp from '../../../firebase/config';
+import _ from 'lodash';
+
+const firestore = firebaseapp.firestore();
+const comercios = [];
+const obtenerComercios = () => {
+  firestore.collection('usuarioComercio').onSnapshot((snapShots) => {
+    snapShots.forEach((doc) => {
+      const data = doc.data();
+      comercios.push({
+        ...data,
+        id: doc.id,
+      });
+    });
+  });
+};
+obtenerComercios();
 
 function CardComercio(props) {
   return (
     <View style={styles.cardCom}>
-      <Card style={styles.cardCom}>
-        <List.Item
-          title="Nombre comercio"
-          description="Sucursal"
-          onPress={''}
-          right={(props) => (
-            <IconButton
-              icon="heart"
-              color="#e1e1e1"
-              size={25}
-              style={styles.corazonIcon}
-              onPress={() => console.log('Pressed')}
-            />
-          )}
-          left={(props) => (
-            <Image
-              style={styles.image}
-              source={require('../../multimedia/adidas.jpg')}
-            />
-          )}
-        />
-      </Card>
+      {comercios
+        ? comercios.map((com) => {
+            return (
+              <Card style={styles.cardCom}>
+                <List.Item
+                  title={com.nombreComercio}
+                  description={com.sucursal}
+                  onPress={''}
+                  right={(props) => (
+                    <IconButton
+                      icon="heart"
+                      color="#e1e1e1"
+                      size={25}
+                      style={styles.corazonIcon}
+                      onPress={() => console.log('Pressed')}
+                    />
+                  )}
+                  left={(props) => (
+                    <Image
+                      style={styles.image}
+                      source={{
+                        uri: com.photoURL,
+                      }}
+                    />
+                  )}
+                />
+              </Card>
+            );
+          })
+        : null}
       {/* <Divider style={{ height: 0.5 }} /> */}
     </View>
   );

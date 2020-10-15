@@ -45,11 +45,12 @@ function MisDatos(props) {
   const handleSubmit = () => {
     if (nombre === '' || apellido === '') {
       setMensajeError('Ambos campos deben ser completados');
-    }
-    if (Validate(nombre) === true || Validate(apellido) === true) {
+    } else if (Validate(nombre) === true || Validate(apellido) === true) {
       setMensajeError(
-        'Los campos de Nombre y Apellido no pueden contener números',
+        'Los campos Nombre y Apellido no pueden contener números',
       );
+    } else if (props.auth.emailVerified === false) {
+      setMensajeError('Debe verificar el email para modificar sus datos');
     } else {
       setMensajeError('');
       props.editarDatos({
