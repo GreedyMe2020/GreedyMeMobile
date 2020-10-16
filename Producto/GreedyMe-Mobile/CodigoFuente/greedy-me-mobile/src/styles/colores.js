@@ -9,4 +9,5 @@ export const colors = {
   error: '#801010',
   alertGrey: '#333333',
   avatar: '#eeeeee',
+  darkGrey: '#707070',
 };

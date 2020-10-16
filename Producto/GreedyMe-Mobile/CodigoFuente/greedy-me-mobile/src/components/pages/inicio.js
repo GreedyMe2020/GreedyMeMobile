@@ -1,11 +1,15 @@
 import * as React from 'react';
 import {
+  FlatList,
   StyleSheet,
   StatusBar,
   Platform,
   KeyboardAvoidingView,
   Keyboard,
   View,
+  Text,
+  ScrollView,
+  SafeAreaView,
   TouchableWithoutFeedback,
 } from 'react-native';
 import * as Location from 'expo-location';
@@ -15,6 +19,8 @@ import CardComercio from '../Inicio/card-comercio';
 import BarraSup from '../Inicio/barra-superior';
 import ButtonCategorias from '../Inicio/button-categorias';
 import { colors } from '../../styles/colores';
+import CardPremium from '../Inicio/card-premium';
+import Constants from 'expo-constants';
 
 //esconde los warnings
 LogBox.ignoreLogs(['Warning: ...']);
@@ -51,9 +57,15 @@ function Inicio({ navigation }, props) {
             <BarraSup navigation={props.navigation} />
           </View>
           <View style={styles.categorias}>
+            <Text style={styles.texto}>Categorías</Text>
             <ButtonCategorias navigation={props.navigation} />
           </View>
+          <View style={styles.premium}>
+            <Text style={styles.texto}>Locales premium</Text>
+            <CardPremium navigation={props.navigation} />
+          </View>
           <View style={styles.cards}>
+            <Text style={styles.texto}>Locales</Text>
             <CardComercio navigation={props.navigation} />
           </View>
         </View>
@@ -67,22 +79,32 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   container: {
-    justifyContent: 'center',
     flex: 1,
-    width: '100%',
     backgroundColor: colors.white,
   },
   barraSup: {
-    flex: 1,
+    flex: 0.5,
   },
   categorias: {
     flex: 2,
-    top: 35,
+    marginTop: 30,
     marginLeft: 20,
   },
-  cards: {
-    flex: 6,
+  premium: {
+    flex: 4,
     width: '100%',
+    marginTop: 50,
+  },
+  cards: {
+    flex: 7,
+    width: '100%',
+  },
+  texto: {
+    marginBottom: 10,
+    fontWeight: 'bold',
+    fontSize: 18,
+    fontFamily: 'Poppins-SemiBold',
+    color: colors.darkGrey,
   },
 });
 
