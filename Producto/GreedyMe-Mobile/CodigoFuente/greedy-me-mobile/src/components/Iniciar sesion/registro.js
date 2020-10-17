@@ -172,7 +172,7 @@ function Registro(props) {
     <ScrollView>
       <KeyboardAvoidingView
         style={styles.containerTeclado}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        behavior={Platform.OS === 'ios' ? 'padding' : ''}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
         enabled={Platform.OS === 'ios'}
       >

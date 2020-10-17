@@ -1,5 +1,14 @@
 import * as React from 'react';
-import { StyleSheet, Image, StatusBar, View, Text } from 'react-native';
+import {
+  StyleSheet,
+  Image,
+  StatusBar,
+  View,
+  Text,
+  FlatList,
+  SafeAreaView,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import {
   Avatar,
   Button,
@@ -32,37 +41,40 @@ obtenerComercios();
 
 function CardComercio(props) {
   return (
-    <View style={styles.cardCom}>
-      {comercios
-        ? comercios.map((com) => {
-            return (
-              <Card style={styles.cardCom}>
-                <List.Item
-                  title={com.nombreComercio}
-                  description={com.sucursal}
-                  right={(props) => (
-                    <IconButton
-                      icon="heart"
-                      color={colors.avatar}
-                      size={25}
-                      style={styles.corazonIcon}
-                      onPress={() => console.log('Pressed')}
-                    />
-                  )}
-                  left={(props) => (
-                    <Image
-                      style={styles.image}
-                      source={{
-                        uri: com.photoURL,
-                      }}
-                    />
-                  )}
-                />
-              </Card>
-            );
-          })
-        : null}
-    </View>
+    <SafeAreaView>
+      <FlatList
+        data={comercios}
+        keyExtractor={(item) => item}
+        showsVerticalScrollIndicator={false}
+        renderItem={(data) => (
+          <TouchableWithoutFeedback onPress={() => {}}>
+            <Card style={styles.cardCom}>
+              <List.Item
+                title={data.item.nombreComercio}
+                description={data.item.sucursal}
+                right={() => (
+                  <IconButton
+                    icon="heart"
+                    color={colors.avatar}
+                    size={25}
+                    style={styles.corazonIcon}
+                    onPress={() => console.log('Pressed')}
+                  />
+                )}
+                left={() => (
+                  <Image
+                    style={styles.image}
+                    source={{
+                      uri: data.item.photoURL,
+                    }}
+                  />
+                )}
+              />
+            </Card>
+          </TouchableWithoutFeedback>
+        )}
+      />
+    </SafeAreaView>
   );
 }
 
@@ -104,3 +116,39 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps)(CardComercio);
+
+/*function CardComercio(props) {
+  return (
+    <View style={styles.cardCom}>
+      {comercios
+        ? comercios.map((com) => {
+            return (
+              <Card style={styles.cardCom}>
+                <List.Item
+                  title={com.nombreComercio}
+                  description={com.sucursal}
+                  right={(props) => (
+                    <IconButton
+                      icon="heart"
+                      color={colors.avatar}
+                      size={25}
+                      style={styles.corazonIcon}
+                      onPress={() => console.log('Pressed')}
+                    />
+                  )}
+                  left={(props) => (
+                    <Image
+                      style={styles.image}
+                      source={{
+                        uri: com.photoURL,
+                      }}
+                    />
+                  )}
+                />
+              </Card>
+            );
+          })
+        : null}
+    </View>
+  );
+}*/

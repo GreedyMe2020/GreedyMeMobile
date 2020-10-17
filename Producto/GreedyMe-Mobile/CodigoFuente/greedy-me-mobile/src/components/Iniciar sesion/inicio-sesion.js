@@ -10,6 +10,7 @@ import {
   TouchableWithoutFeedback,
   View,
   ActivityIndicator,
+  ScrollView,
 } from 'react-native';
 import SafeAreaView from 'react-native-safe-area-view';
 import { connect } from 'react-redux';
@@ -46,99 +47,101 @@ function IniciarSesion(props) {
   return (
     <KeyboardAvoidingView
       style={styles.containerTeclado}
-      behavior={Platform.OS === 'ios' ? '' : 'height'}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
       enabled={Platform.OS === 'ios'}
     >
-      <TouchableWithoutFeedback
-        onPress={() => {
-          Keyboard.dismiss;
-        }}
-      >
-        <SafeAreaView style={styles.container}>
-          <StatusBar barStyle="dark-content" backgroundColor="#ececec" />
-          {props.logeo ? (
-            <View
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <ActivityIndicator size="large" color="orange" />
-              <Text></Text>
-              <Text
+      <SafeAreaView style={styles.container}>
+        <TouchableWithoutFeedback
+          onPress={() => {
+            Keyboard.dismiss;
+          }}
+        >
+          <>
+            <StatusBar barStyle="dark-content" backgroundColor="#ececec" />
+            {props.logeo ? (
+              <View
                 style={{
-                  fontFamily: 'Roboto',
-                  fontWeight: '500',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                 }}
               >
-                Cargando...
-              </Text>
-            </View>
-          ) : (
-            <>
-              <View style={styles.titulo}>
-                <Text style={styles.letraBlanca}>gre</Text>
-                <Text style={styles.letraVerde}>edy</Text>
-                <Text style={styles.letraNaranja}>me </Text>
-              </View>
-              <View style={styles.inputSesion}>
-                <IniciarSesionConEmail
-                  navigation={props.navigation}
-                  setVisible={setVisible}
-                />
-              </View>
-              <View style={styles.or}>
-                <Divider style={styles.dividerIzq} />
-                <Text style={styles.orcontent}>O</Text>
-                <Divider style={styles.dividerDer} />
-              </View>
-              <View style={styles.ingresoConRedes}>
-                <IniciarSesionConRedes navigation={props.navigation} />
-              </View>
-
-              <View style={styles.contenedorCrearCuenta}>
-                <Text style={styles.textoPreguntaCuenta}>
-                  ¿No tenés cuenta?
+                <ActivityIndicator size="large" color="orange" />
+                <Text></Text>
+                <Text
+                  style={{
+                    fontFamily: 'Roboto',
+                    fontWeight: '500',
+                  }}
+                >
+                  Cargando...
                 </Text>
-                <View>
-                  <Text
-                    style={styles.textoCrearCuenta}
-                    onPress={() => {
-                      props.navigation.navigate('Registro');
-                    }}
-                  >
-                    Registrate acá
-                  </Text>
-                  <Divider
-                    style={{
-                      backgroundColor: '#F7941E',
-                      height: 2,
-                      marginLeft: 8,
-                    }}
+              </View>
+            ) : (
+              <>
+                <View style={styles.titulo}>
+                  <Text style={styles.letraBlanca}>gre</Text>
+                  <Text style={styles.letraVerde}>edy</Text>
+                  <Text style={styles.letraNaranja}>me </Text>
+                </View>
+                <View style={styles.inputSesion}>
+                  <IniciarSesionConEmail
+                    navigation={props.navigation}
+                    setVisible={setVisible}
                   />
                 </View>
-                {visible ? (
-                  <Snackbar
-                    visible={visible}
-                    onDismiss={onDismissSnackBar}
-                    theme={{ colors: { accent: 'white' } }}
-                    action={{
-                      label: 'OK',
-                      onPress: () => {
-                        onDismissSnackBar;
-                      },
-                    }}
-                    style={styles.snackbar}
-                  >
-                    Los datos ingresados son incorrectos.
-                  </Snackbar>
-                ) : null}
-              </View>
-            </>
-          )}
-        </SafeAreaView>
-      </TouchableWithoutFeedback>
+                <View style={styles.or}>
+                  <Divider style={styles.dividerIzq} />
+                  <Text style={styles.orcontent}>O</Text>
+                  <Divider style={styles.dividerDer} />
+                </View>
+                <View style={styles.ingresoConRedes}>
+                  <IniciarSesionConRedes navigation={props.navigation} />
+                </View>
+
+                <View style={styles.contenedorCrearCuenta}>
+                  <Text style={styles.textoPreguntaCuenta}>
+                    ¿No tenés cuenta?
+                  </Text>
+                  <View>
+                    <Text
+                      style={styles.textoCrearCuenta}
+                      onPress={() => {
+                        props.navigation.navigate('Registro');
+                      }}
+                    >
+                      Registrate acá
+                    </Text>
+                    <Divider
+                      style={{
+                        backgroundColor: '#F7941E',
+                        height: 2,
+                        marginLeft: 8,
+                      }}
+                    />
+                  </View>
+                  {visible ? (
+                    <Snackbar
+                      visible={visible}
+                      onDismiss={onDismissSnackBar}
+                      theme={{ colors: { accent: 'white' } }}
+                      action={{
+                        label: 'OK',
+                        onPress: () => {
+                          onDismissSnackBar;
+                        },
+                      }}
+                      style={styles.snackbar}
+                    >
+                      Los datos ingresados son incorrectos.
+                    </Snackbar>
+                  ) : null}
+                </View>
+              </>
+            )}
+          </>
+        </TouchableWithoutFeedback>
+      </SafeAreaView>
     </KeyboardAvoidingView>
   );
 }
@@ -148,6 +151,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flex: 1,
+    marginBottom: 15,
   },
   containerTeclado: {
     flex: 1,
@@ -204,7 +208,7 @@ const styles = StyleSheet.create({
   },
   ingresoConRedes: {
     flex: 0.5,
-    minHeight: 100,
+    minHeight: 120,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
@@ -216,7 +220,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
-    flex: 0.1,
+    flex: 0.2,
+    marginBottom: 20,
   },
   contenedorSnackTodo: {
     bottom: 20,
