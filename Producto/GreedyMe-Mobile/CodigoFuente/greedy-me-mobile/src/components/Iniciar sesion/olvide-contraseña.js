@@ -14,6 +14,8 @@ import {
   forgotPass,
   resetearValores,
 } from '../../../redux/actions/auth-actions';
+import { colors } from '../../styles/colores';
+import ButtonEj from '../button';
 
 function OlvideContraseña(props) {
   //Estados para manejar los datos del email y la validacion del mismo
@@ -100,7 +102,7 @@ function OlvideContraseña(props) {
               mode="flat"
               label="Email de recuperación"
               required
-              underlineColor="#76B39D"
+              underlineColor={colors.celeste}
               onBlur={() => {
                 emailValidator;
               }}
@@ -111,14 +113,7 @@ function OlvideContraseña(props) {
             <Text style={styles.errorPass}>{errorEmail}</Text>
 
             <View style={styles.contenedorBoton}>
-              <Button
-                style={styles.btnIngresar}
-                mode="contained"
-                title="Submit"
-                onPress={handleSubmit}
-              >
-                Enviar
-              </Button>
+              <ButtonEj text="Enviar" onPress={handleSubmit} />
             </View>
           </View>
           <View style={styles.contenedorSnack}>
@@ -190,7 +185,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     height: 55,
     fontSize: 18,
-    backgroundColor: '#e8e8e8',
+    backgroundColor: colors.grey,
   },
   contenedorBoton: {
     top: 15,
@@ -204,21 +199,21 @@ const styles = StyleSheet.create({
   },
   errorPass: {
     marginLeft: 20,
-    color: '#af1a1a',
+    color: colors.error,
     top: -8,
   },
   alerta: {
     textAlign: 'center',
-    color: '#af1a1a',
+    color: colors.error,
   },
   contenedorSnack: {
     top: -50,
   },
   snackbar: {
-    backgroundColor: '#333333',
+    backgroundColor: colors.alertGrey,
   },
   snackbar2: {
-    backgroundColor: '#801010',
+    backgroundColor: colors.error,
   },
 });
 

@@ -15,6 +15,9 @@ import {
   signUp,
   resetearValoresCreacionUsuario,
 } from '../../../redux/actions/auth-actions';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import { colors } from '../../styles/colores';
+import ButtonEj from '../button';
 
 function Registro(props) {
   //Estados para cada uno de los inputs del formulario de registro
@@ -161,6 +164,10 @@ function Registro(props) {
     }
   }, [props.creacionError]);
 
+  //Para que funcione el ojito de mostrar contraseña
+  const [hidePass1, setHidePass1] = React.useState(true);
+  const [hidePass2, setHidePass2] = React.useState(true);
+
   return (
     <ScrollView>
       <KeyboardAvoidingView
@@ -177,7 +184,7 @@ function Registro(props) {
               label="Nombre"
               name="nombre"
               required
-              underlineColor="#76B39D"
+              underlineColor={colors.celeste}
               value={nombre}
               onBlur={() => {
                 nombreValidator;
@@ -193,7 +200,7 @@ function Registro(props) {
               label="Apellido"
               name="apellido"
               required
-              underlineColor="#76B39D"
+              underlineColor={colors.celeste}
               onBlur={() => {
                 apellidoValidator;
               }}
@@ -208,7 +215,7 @@ function Registro(props) {
               mode="flat"
               label="Email"
               required
-              underlineColor="#76B39D"
+              underlineColor={colors.celeste}
               onBlur={() => {
                 emailValidator;
               }}
@@ -217,53 +224,62 @@ function Registro(props) {
               error={errorEmail}
             />
             <Text style={styles.errorPass}>{errorEmail}</Text>
-
-            <TextInput
-              style={styles.inputEmailPass}
-              mode="flat"
-              label="Contraseña"
-              focus="true"
-              required
-              underlineColor="#76B39D"
-              onBlur={() => {
-                passValidatorNueva;
-              }}
-              value={password}
-              onChangeText={handleChangePassword}
-              secureTextEntry={true}
-              error={errorContraseñaNueva}
-            />
-            <Text style={styles.errorPass}>{errorContraseñaNueva}</Text>
-
-            <TextInput
-              style={styles.inputEmailPass}
-              mode="flat"
-              label="Repita la contraseña"
-              required
-              underlineColor="#76B39D"
-              onBlur={() => {
-                passValidatorRepetida;
-              }}
-              value={repetido}
-              secureTextEntry={true}
-              onChangeText={handleChangePasswordRep}
-              error={errorContraseñaRepe}
-            />
-
-            <Text style={styles.errorPass}>{errorContraseñaRepe}</Text>
+            <View>
+              <TextInput
+                style={styles.inputEmailPass}
+                mode="flat"
+                label="Contraseña"
+                focus="true"
+                required
+                underlineColor={colors.celeste}
+                onBlur={() => {
+                  passValidatorNueva;
+                }}
+                value={password}
+                onChangeText={handleChangePassword}
+                secureTextEntry={hidePass1 ? true : false}
+                error={errorContraseñaNueva}
+              />
+              <Icon
+                name={hidePass1 ? 'eye-slash' : 'eye'}
+                size={15}
+                color="grey"
+                onPress={() => setHidePass1(!hidePass1)}
+                style={styles.icon}
+              />
+              <Text style={styles.errorPass}>{errorContraseñaNueva}</Text>
+            </View>
+            <View>
+              <TextInput
+                style={styles.inputEmailPass}
+                mode="flat"
+                label="Repita la contraseña"
+                required
+                underlineColor={colors.celeste}
+                onBlur={() => {
+                  passValidatorRepetida;
+                }}
+                value={repetido}
+                secureTextEntry={hidePass2 ? true : false}
+                onChangeText={handleChangePasswordRep}
+                error={errorContraseñaRepe}
+              />
+              <Icon
+                name={hidePass2 ? 'eye-slash' : 'eye'}
+                size={15}
+                color="grey"
+                onPress={() => setHidePass2(!hidePass2)}
+                style={styles.icon}
+              />
+              <Text style={styles.errorPass}>{errorContraseñaRepe}</Text>
+            </View>
 
             <View style={styles.contenedorBoton}>
-              <Button
-                theme={{
-                  colors: { primary: '#76B39D' },
-                }}
-                style={styles.btnIngresar}
-                mode="contained"
-                title="Submit"
+              <ButtonEj
+                text="Registrarme"
                 onPress={handleSubmit}
-              >
-                Registrarme
-              </Button>
+                style={{ marginBottom: 30 }}
+              />
             </View>
 
             <View style={styles.contenedorError}>
@@ -277,7 +293,7 @@ function Registro(props) {
                 visible={visible}
                 onDismiss={onDismissSnackBar}
                 action={{
-                  label: 'Cerrar',
+                  label: 'OK',
                   onPress: () => {
                     onDismissSnackBar;
                   },
@@ -298,7 +314,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: '100%',
-    padding: 24,
+    marginTop: 50,
+    justifyContent: 'space-between',
   },
   containerTeclado: {
     flex: 1,
@@ -306,10 +323,12 @@ const styles = StyleSheet.create({
   inputEmailPass: {
     marginRight: 20,
     marginLeft: 20,
-    marginBottom: 15,
+    marginBottom: 5,
     height: 55,
     fontSize: 18,
-    backgroundColor: '#e8e8e8',
+    backgroundColor: colors.grey,
+    borderRadius: 3,
+    paddingStart: 10,
   },
   contOlvidePass: {
     alignItems: 'flex-end',
@@ -337,19 +356,27 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   errorDistintos: {
-    color: '#af1a1a',
+    color: colors.error,
     top: 25,
   },
   errorPass: {
     marginLeft: 20,
-    color: '#af1a1a',
+    color: colors.error,
     top: -13,
   },
   contenedorSnack: {
     top: 120,
   },
   snackbar: {
-    backgroundColor: 'red',
+    backgroundColor: colors.error,
+  },
+  icon: {
+    position: 'absolute',
+    marginRight: 18,
+    marginTop: 18,
+    fontSize: 18,
+    right: 20,
+    backgroundColor: colors.grey,
   },
 });
 

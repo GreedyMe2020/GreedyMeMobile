@@ -9,6 +9,7 @@ import {
 import { Avatar, Divider, List } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { signOut } from '../../../redux/actions/auth-actions';
+import { colors } from '../../styles/colores';
 
 function Perfil(props) {
   const handleCerrarSesion = () => {
@@ -144,17 +145,17 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
   },
   contenidoSubtitulo: {
-    color: 'black',
+    color: colors.black,
     paddingLeft: 20,
     fontSize: 18,
   },
   avatar: {
-    backgroundColor: '#e0e0e0',
+    backgroundColor: colors.avatar,
   },
   misDatos: {
     flex: 1,
     width: '100%',
-    backgroundColor: 'white',
+    backgroundColor: colors.white,
   },
   listItem: {
     alignItems: 'center',
@@ -164,7 +165,7 @@ const styles = StyleSheet.create({
   miConfig: {
     flex: 3,
     width: '100%',
-    backgroundColor: 'white',
+    backgroundColor: colors.white,
   },
 });
 

@@ -13,6 +13,7 @@ import { IconButton } from 'react-native-paper';
 import { SearchBar } from 'react-native-elements';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { connect } from 'react-redux';
+import { colors } from '../../styles/colores';
 
 function BarraSup(props) {
   const [searchQuery, setSearchQuery] = React.useState('');
@@ -87,9 +88,9 @@ const styles = StyleSheet.create({
     flex: 0.1,
   },
   searchcontainer: {
-    backgroundColor: 'white',
+    backgroundColor: colors.white,
     borderWidth: 0, //no effect
-    shadowColor: 'white', //no effect
+    shadowColor: colors.white, //no effect
     borderBottomColor: 'transparent',
     borderTopColor: 'transparent',
   },
@@ -103,7 +104,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: 38,
     height: 38,
-    backgroundColor: '#c9ded7',
+    backgroundColor: '#c9ded7', //celeste claro
     borderRadius: 50,
     marginRight: 5,
   },
@@ -112,7 +113,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: 38,
     height: 38,
-    backgroundColor: '#eacaa1',
+    backgroundColor: '#eacaa1', //naranja claro
     borderRadius: 50,
     marginLeft: 5,
   },

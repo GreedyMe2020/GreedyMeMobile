@@ -15,6 +15,8 @@ import {
   resetearValoresInicioSesion,
 } from '../../../redux/actions/auth-actions';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { colors } from '../../styles/colores';
+import ButtonEj from '../button';
 
 function IniciarSesionConEmail(props) {
   const [email, setEmail] = React.useState(null);
@@ -93,7 +95,7 @@ function IniciarSesionConEmail(props) {
         mode="flat"
         label="Email"
         required
-        underlineColor="#76B39D"
+        underlineColor={colors.celeste}
         onBlur={() => {
           emailValidator;
         }}
@@ -108,7 +110,7 @@ function IniciarSesionConEmail(props) {
           mode="flat"
           label="Contraseña"
           required
-          underlineColor="#76B39D"
+          underlineColor={colors.celeste}
           onBlur={() => {
             passValidator;
           }}
@@ -137,17 +139,7 @@ function IniciarSesionConEmail(props) {
         </Text>
       </View>
       <View>
-        <Button
-          theme={{
-            colors: { primary: '#76B39D' },
-          }}
-          style={styles.btnIngresar}
-          mode="contained"
-          title="Submit"
-          onPress={handleSubmit}
-        >
-          Ingresar
-        </Button>
+        <ButtonEj text="Ingresar" onPress={handleSubmit} />
         <View style={styles.contenedorError}>
           <Text style={styles.errorPass}>{mensajeError}</Text>
         </View>
@@ -167,7 +159,7 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
     height: 55,
     fontSize: 18,
-    backgroundColor: '#e8e8e8',
+    backgroundColor: colors.grey,
   },
   contOlvidePass: {
     alignItems: 'flex-end',

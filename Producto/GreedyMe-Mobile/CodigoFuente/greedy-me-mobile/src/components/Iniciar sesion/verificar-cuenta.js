@@ -11,6 +11,8 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { signIn } from '../../../redux/actions/auth-actions';
+import { colors } from '../../styles/colores';
+import ButtonEj from '../button';
 
 function VerificarCuenta(props) {
   const [codigoVerificacion, setCodigoVerificacion] = React.useState('');
@@ -54,32 +56,15 @@ function VerificarCuenta(props) {
           {/*Aca deberia hacer que el boton solo se active si ingreso el codigo correcto*/}
           <View style={styles.contenedorBoton}>
             {codigoVerificacion === codigoEnviado ? (
-              <Button
+              <ButtonEj
                 disabled
-                theme={{
-                  colors: { primary: '#76B39D' },
-                }}
-                style={styles.btnIngresar}
-                mode="contained"
-                title="Submit"
+                text="Ingresar"
                 onPress={() => {
                   props.navigation.navigate('Main');
                 }}
-              >
-                Ingresar
-              </Button>
+              />
             ) : (
-              <Button
-                theme={{
-                  colors: { primary: '#76B39D' },
-                }}
-                style={styles.btnIngresar}
-                mode="contained"
-                title="Submit"
-                //onPress={handleSubmit}
-              >
-                Ingresar
-              </Button>
+              <ButtonEj text="Ingresar" onPress="" />
             )}
           </View>
         </View>
@@ -109,7 +94,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     height: 55,
     fontSize: 18,
-    backgroundColor: '#e8e8e8',
+    backgroundColor: colors.grey,
   },
   contenedorBoton: {
     top: 15,

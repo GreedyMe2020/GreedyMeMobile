@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 import firebaseapp from '../../../firebase/config';
 import _ from 'lodash';
 import { colors } from '../../styles/colores';
+import Carousel from 'react-native-snap-carousel';
 
 const firestore = firebaseapp.firestore();
 const comercios = [];
@@ -29,35 +30,42 @@ const obtenerComercios = () => {
   });
 };
 obtenerComercios();
+/* const renderItem = ({ com, item, index }) => {
+  return (
+    <Card style={styles.cardComercio}>
+      <Card.Cover
+        style={styles.image}
+        source={{
+          uri: com.photoURL,
+        }}
+      />
+      <Card.Content>
+        <Title style={styles.tittle}>{com.nombreComercio}</Title>
+        <Paragraph style={styles.subtittle}>{com.sucursal}</Paragraph>
+      </Card.Content>
+    </Card>
+  );
+};
 
-function CardComercio(props) {
+const carousel = React.createRef(); */
+
+function CardPremium(props) {
   return (
     <View style={styles.cardCom}>
       {comercios
         ? comercios.map((com) => {
             return (
-              <Card style={styles.cardCom}>
-                <List.Item
-                  title={com.nombreComercio}
-                  description={com.sucursal}
-                  right={(props) => (
-                    <IconButton
-                      icon="heart"
-                      color={colors.avatar}
-                      size={25}
-                      style={styles.corazonIcon}
-                      onPress={() => console.log('Pressed')}
-                    />
-                  )}
-                  left={(props) => (
-                    <Image
-                      style={styles.image}
-                      source={{
-                        uri: com.photoURL,
-                      }}
-                    />
-                  )}
+              <Card style={styles.cardComercio}>
+                <Card.Cover
+                  style={styles.image}
+                  source={{
+                    uri: com.photoURL,
+                  }}
                 />
+                <Card.Content>
+                  <Title style={styles.tittle}>{com.nombreComercio}</Title>
+                  <Paragraph style={styles.subtittle}>{com.sucursal}</Paragraph>
+                </Card.Content>
               </Card>
             );
           })
@@ -68,31 +76,27 @@ function CardComercio(props) {
 
 const styles = StyleSheet.create({
   cardCom: {
-    height: 100,
+    height: 30,
     marginRight: 10,
     marginLeft: 10,
-    elevation: 3,
-    marginBottom: 5,
-  },
-  cardComercio: {
-    height: 100,
-    marginRight: 10,
-    marginLeft: 10,
-  },
-  contenidoCard: {
     flexDirection: 'row',
   },
+  cardComercio: {
+    height: 235,
+    width: 200,
+    marginRight: 10,
+    marginLeft: 10,
+  },
   image: {
-    height: 80,
-    width: 80,
+    height: 170,
+    width: 200,
     borderRadius: 3,
   },
-  corazonIcon: {
-    marginRight: 0,
-    marginTop: 0,
+  tittle: {
+    marginTop: 5,
   },
-  texto: {
-    marginTop: 10,
+  subtittle: {
+    color: colors.darkGrey,
   },
 });
 
@@ -103,4 +107,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(CardComercio);
+export default connect(mapStateToProps)(CardPremium);
