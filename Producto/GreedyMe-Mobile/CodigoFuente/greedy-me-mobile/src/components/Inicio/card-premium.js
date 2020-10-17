@@ -1,5 +1,15 @@
 import * as React from 'react';
-import { StyleSheet, Image, StatusBar, View, Text } from 'react-native';
+import {
+  StyleSheet,
+  Image,
+  StatusBar,
+  View,
+  Text,
+  SafeAreaView,
+  FlatList,
+  ScrollView,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import {
   Avatar,
   Button,
@@ -51,26 +61,32 @@ const carousel = React.createRef(); */
 
 function CardPremium(props) {
   return (
-    <View style={styles.cardCom}>
-      {comercios
-        ? comercios.map((com) => {
-            return (
-              <Card style={styles.cardComercio}>
-                <Card.Cover
-                  style={styles.image}
-                  source={{
-                    uri: com.photoURL,
-                  }}
-                />
-                <Card.Content>
-                  <Title style={styles.tittle}>{com.nombreComercio}</Title>
-                  <Paragraph style={styles.subtittle}>{com.sucursal}</Paragraph>
-                </Card.Content>
-              </Card>
-            );
-          })
-        : null}
-    </View>
+    <SafeAreaView>
+      <FlatList
+        data={comercios}
+        keyExtractor={(item) => item}
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        renderItem={(data) => (
+          <TouchableWithoutFeedback onPress={() => {}}>
+            <Card style={styles.cardComercio}>
+              <Card.Cover
+                style={styles.image}
+                source={{
+                  uri: data.item.photoURL,
+                }}
+              />
+              <Card.Content>
+                <Title style={styles.tittle}>{data.item.nombreComercio}</Title>
+                <Paragraph style={styles.subtittle}>
+                  {data.item.sucursal}
+                </Paragraph>
+              </Card.Content>
+            </Card>
+          </TouchableWithoutFeedback>
+        )}
+      />
+    </SafeAreaView>
   );
 }
 
@@ -86,7 +102,10 @@ const styles = StyleSheet.create({
     width: 200,
     marginRight: 10,
     marginLeft: 10,
+    marginBottom: 5,
+    marginTop: 5,
   },
+
   image: {
     height: 170,
     width: 200,
@@ -108,3 +127,28 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps)(CardPremium);
+
+/*function CardPremium(props) {
+  return (
+    <View style={styles.cardCom}>
+      {comercios
+        ? comercios.map((com) => {
+            return (
+              <Card style={styles.cardComercio}>
+                <Card.Cover
+                  style={styles.image}
+                  source={{
+                    uri: com.photoURL,
+                  }}
+                />
+                <Card.Content>
+                  <Title style={styles.tittle}>{com.nombreComercio}</Title>
+                  <Paragraph style={styles.subtittle}>{com.sucursal}</Paragraph>
+                </Card.Content>
+              </Card>
+            );
+          })
+        : null}
+    </View>
+  );
+}*/
