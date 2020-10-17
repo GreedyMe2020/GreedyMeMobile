@@ -10,6 +10,7 @@ import {
   TouchableWithoutFeedback,
   View,
   ActivityIndicator,
+  ScrollView,
 } from 'react-native';
 import SafeAreaView from 'react-native-safe-area-view';
 import { connect } from 'react-redux';
@@ -203,7 +204,7 @@ const styles = StyleSheet.create({
   },
   ingresoConRedes: {
     flex: 0.5,
-    minHeight: 100,
+    minHeight: 120,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
@@ -215,7 +216,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
-    flex: 0.1,
+    flex: 0.2,
   },
   contenedorSnackTodo: {
     bottom: 20,
