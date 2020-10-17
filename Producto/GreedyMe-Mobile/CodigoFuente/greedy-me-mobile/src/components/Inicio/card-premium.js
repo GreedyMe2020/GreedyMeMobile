@@ -14,7 +14,6 @@ import { connect } from 'react-redux';
 import firebaseapp from '../../../firebase/config';
 import _ from 'lodash';
 import { colors } from '../../styles/colores';
-import Carousel from 'react-native-snap-carousel';
 
 const firestore = firebaseapp.firestore();
 const comercios = [];
@@ -30,24 +29,6 @@ const obtenerComercios = () => {
   });
 };
 obtenerComercios();
-/* const renderItem = ({ com, item, index }) => {
-  return (
-    <Card style={styles.cardComercio}>
-      <Card.Cover
-        style={styles.image}
-        source={{
-          uri: com.photoURL,
-        }}
-      />
-      <Card.Content>
-        <Title style={styles.tittle}>{com.nombreComercio}</Title>
-        <Paragraph style={styles.subtittle}>{com.sucursal}</Paragraph>
-      </Card.Content>
-    </Card>
-  );
-};
-
-const carousel = React.createRef(); */
 
 function CardPremium(props) {
   return (
