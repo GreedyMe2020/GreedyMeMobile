@@ -64,7 +64,7 @@ function CardPremium(props) {
     <SafeAreaView>
       <FlatList
         data={comercios}
-        keyExtractor={(item) => item}
+        keyExtractor={(item) => item.id}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         renderItem={(data) => (

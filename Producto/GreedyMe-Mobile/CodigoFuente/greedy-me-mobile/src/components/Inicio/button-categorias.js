@@ -1,53 +1,60 @@
 import * as React from 'react';
 import { TouchableOpacity, Image } from 'react-native';
-import { StyleSheet, StatusBar, View, Text } from 'react-native';
+import {
+  StyleSheet,
+  StatusBar,
+  View,
+  Text,
+  SafeAreaView,
+  TouchableWithoutFeedback,
+  FlatList,
+} from 'react-native';
+import { Card, Title, Paragraph } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { colors } from '../../styles/colores';
-import Carousel from 'react-native-snap-carousel';
+import firebaseapp from '../../../firebase/config';
+
+const firestore = firebaseapp.firestore();
+const rubros = [];
+const obtenerRubros = () => {
+  firestore.collection('rubros').onSnapshot((snapShots) => {
+    snapShots.forEach((doc) => {
+      const data = doc.data();
+      rubros.push({
+        ...data,
+        id: doc.id,
+      });
+    });
+  });
+};
+obtenerRubros();
 
 function ButtonCategorias() {
-  /*   const { activeIndex, setActive } = React.useState(0);
-
-  const categorias = [
-    {
-      title: 'Indumentaria',
-      ico: 'Text 1',
-    },
-    {
-      title: 'Hogar',
-      text: 'Text 2',
-    },
-    {
-      title: 'Supermercado',
-      text: 'Text 3',
-    },
-    {
-      title: 'Supermercado',
-      text: 'Text 4',
-    },
-    {
-      title: 'Supermercado',
-      text: 'Text 5',
-    },
-  ];
-
-  const renderItem = ({ tittle, item, index }) => {
-    return (
-      <View>
-        <TouchableOpacity style={styles.categorias} activeOpacity={0.5}>
-          <Image
-            source={require('../../multimedia/categorias/shirt.png')}
-            style={styles.image}
-          />
-        </TouchableOpacity>
-        <Text style={styles.texto}>{tittle}</Text>
-      </View>
-    );
-  };
-
-  const carousel = React.createRef(); */
-
+  //LAU TE TRAIGO EL CODIGO COPIADO DE LA CARD-PREMIUM, LO UNICO QUE TENDRIAS QUE CAMBIAR ES EL ESTILO DENTRO DEL renderItem de la FlatList
   return (
+    <SafeAreaView>
+      <FlatList
+        data={rubros}
+        keyExtractor={(item) => item.id}
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        renderItem={(data) => (
+          <TouchableWithoutFeedback onPress={() => {}}>
+            <Card style={styles.categorias}>
+              <Card.Cover
+                style={styles.image}
+                source={{
+                  uri: data.item.photoURL, //ACA TRAE LA IMAGEN Y ABAJO EN EL data.item.nombre TRAE EL NOMBRE
+                }}
+              />
+              <Card.Content>
+                <Title style={styles.tittle}>{data.item.nombre}</Title>
+              </Card.Content>
+            </Card>
+          </TouchableWithoutFeedback>
+        )}
+      />
+      {/*</SafeAreaView>
     <View>
       <TouchableOpacity style={styles.categorias} activeOpacity={0.5}>
         <Image
@@ -66,8 +73,9 @@ function ButtonCategorias() {
           renderItem={renderItem}
           onSnapToItem={(index) => setActive({ activeIndex: index })}
         />
-      </View> */}
     </View>
+      </View> */}
+    </SafeAreaView>
   );
 }
 
