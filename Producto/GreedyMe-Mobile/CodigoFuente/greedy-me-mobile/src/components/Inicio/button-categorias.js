@@ -6,7 +6,7 @@ import { colors } from '../../styles/colores';
 import Carousel from 'react-native-snap-carousel';
 
 function ButtonCategorias() {
-  const { activeIndex, setActive } = React.useState(0);
+  /*   const { activeIndex, setActive } = React.useState(0);
 
   const categorias = [
     {
@@ -45,11 +45,18 @@ function ButtonCategorias() {
     );
   };
 
-  const carousel = React.createRef();
+  const carousel = React.createRef(); */
 
   return (
     <View>
-      <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
+      <TouchableOpacity style={styles.categorias} activeOpacity={0.5}>
+        <Image
+          source={require('../../multimedia/categorias/shirt.png')}
+          style={styles.image}
+        />
+      </TouchableOpacity>
+      <Text style={styles.texto}>Indumentaria</Text>
+      {/* <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
         <Carousel
           layout={'default'}
           ref={carousel}
@@ -59,7 +66,7 @@ function ButtonCategorias() {
           renderItem={renderItem}
           onSnapToItem={(index) => setActive({ activeIndex: index })}
         />
-      </View>
+      </View> */}
     </View>
   );
 }

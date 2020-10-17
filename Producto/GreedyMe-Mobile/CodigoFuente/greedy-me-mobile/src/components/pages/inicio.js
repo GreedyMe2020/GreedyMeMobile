@@ -86,18 +86,19 @@ const styles = StyleSheet.create({
     flex: 0.5,
   },
   categorias: {
-    flex: 2,
-    marginTop: 30,
+    flex: 3,
+    marginTop: 40,
     marginLeft: 20,
   },
   premium: {
-    flex: 4,
+    flex: 7,
     width: '100%',
     marginTop: 50,
   },
   cards: {
-    flex: 7,
+    flex: 4,
     width: '100%',
+    marginTop: 20,
   },
   texto: {
     marginBottom: 10,

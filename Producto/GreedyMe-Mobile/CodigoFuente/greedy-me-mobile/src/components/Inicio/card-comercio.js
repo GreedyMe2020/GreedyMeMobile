@@ -62,7 +62,6 @@ function CardComercio(props) {
             );
           })
         : null}
-      {/* <Divider style={{ height: 0.5 }} /> */}
     </View>
   );
 }
@@ -73,6 +72,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginLeft: 10,
     elevation: 3,
+    marginBottom: 5,
   },
   cardComercio: {
     height: 100,
