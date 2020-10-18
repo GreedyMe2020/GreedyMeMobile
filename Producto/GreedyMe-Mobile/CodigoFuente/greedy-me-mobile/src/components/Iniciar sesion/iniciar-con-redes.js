@@ -157,7 +157,7 @@ function IniciarSesionConRedes(props) {
   };
 
   return (
-    <View>
+    <View style={styles.cont}>
       <Button
         icon={({ padding }) => (
           <Image
@@ -168,7 +168,7 @@ function IniciarSesionConRedes(props) {
         theme={{
           colors: { primary: '#e1e1e1' }, ///1E1B4D
         }}
-        style={styles.btnRedesSociales}
+        style={styles.btnRedesSociales1}
         mode="contained"
         title="Submit"
         onPress={signUpGoogle}
@@ -197,12 +197,18 @@ function IniciarSesionConRedes(props) {
 }
 
 const styles = StyleSheet.create({
-  btnRedesSociales: {
-    marginBottom: 20,
+  cont: {
+    justifyContent: 'space-between',
+    flex: 0.7,
+  },
+  btnRedesSociales1: {
     marginRight: 20,
     marginLeft: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
+    borderRadius: 70,
+  },
+  btnRedesSociales: {
+    marginRight: 20,
+    marginLeft: 20,
     borderRadius: 70,
   },
   iconRedes: {

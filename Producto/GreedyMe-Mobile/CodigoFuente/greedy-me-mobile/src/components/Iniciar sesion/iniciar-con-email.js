@@ -149,6 +149,9 @@ function IniciarSesionConEmail(props) {
 }
 
 const styles = StyleSheet.create({
+  containerTeclado: {
+    flex: 1,
+  },
   iconSesion: {
     marginLeft: 20,
   },

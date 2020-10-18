@@ -43,9 +43,10 @@ function ButtonCategorias() {
             <Card style={styles.categorias}>
               <Card.Cover
                 style={styles.image}
-                source={{
-                  uri: data.item.photoURL, //ACA TRAE LA IMAGEN Y ABAJO EN EL data.item.nombre TRAE EL NOMBRE
-                }}
+                // source={{
+                //   uri: data.item.photoURL, //ACA TRAE LA IMAGEN Y ABAJO EN EL data.item.nombre TRAE EL NOMBRE
+                // }}
+                source={require('../../multimedia/categorias/shirt.png')}
               />
               <Card.Content>
                 <Title style={styles.tittle}>{data.item.nombre}</Title>
