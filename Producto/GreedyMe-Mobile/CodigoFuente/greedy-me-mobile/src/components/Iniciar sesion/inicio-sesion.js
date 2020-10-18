@@ -47,11 +47,11 @@ function IniciarSesion(props) {
   return (
     <KeyboardAvoidingView
       style={styles.containerTeclado}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      behavior={Platform.OS === 'ios' ? '' : 'height'}
       keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
       enabled={Platform.OS === 'ios'}
     >
-      <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <>
             <StatusBar barStyle="dark-content" backgroundColor="#ececec" />
@@ -137,7 +137,7 @@ function IniciarSesion(props) {
             )}
           </>
         </TouchableWithoutFeedback>
-      </SafeAreaView>
+      </View>
     </KeyboardAvoidingView>
   );
 }

@@ -30,99 +30,61 @@ const obtenerRubros = () => {
 obtenerRubros();
 
 function ButtonCategorias() {
-  //LAU TE TRAIGO EL CODIGO COPIADO DE LA CARD-PREMIUM, LO UNICO QUE TENDRIAS QUE CAMBIAR ES EL ESTILO DENTRO DEL renderItem de la FlatList
   return (
     <SafeAreaView style={styles.cont}>
-      <View style={styles.cat}>
-        <TouchableOpacity style={styles.categorias} activeOpacity={0.5}>
-          <Image
-            source={require('../../multimedia/categorias/gastronomia.png')}
-            style={styles.image}
-          />
-        </TouchableOpacity>
-        <Text style={styles.texto}>Gastronomia</Text>
-      </View>
-      <View style={styles.cat}>
-        <TouchableOpacity style={styles.categorias} activeOpacity={0.5}>
-          <Image
-            source={require('../../multimedia/categorias/tienda.png')}
-            style={styles.image}
-          />
-        </TouchableOpacity>
-        <Text style={styles.texto}>Indumentaria</Text>
-      </View>
-      <View style={styles.cat}>
-        <TouchableOpacity style={styles.categorias} activeOpacity={0.5}>
-          <Image
-            source={require('../../multimedia/categorias/libreria.png')}
-            style={styles.image}
-          />
-        </TouchableOpacity>
-        <Text style={styles.texto}>Farmacias</Text>
-      </View>
-      <View style={styles.cat}>
-        <TouchableOpacity style={styles.categorias} activeOpacity={0.5}>
-          <Image
-            source={require('../../multimedia/categorias/hogar.png')}
-            style={styles.image}
-          />
-        </TouchableOpacity>
-        <Text style={styles.texto}>Deporte</Text>
-      </View>
-      {/* <FlatList
+      <FlatList
         data={rubros}
         keyExtractor={(item) => item.id}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         renderItem={(data) => (
           <TouchableWithoutFeedback onPress={() => {}}>
-            <Card style={styles.categorias}>
-              <Card.Cover
-                style={styles.image}
-                // source={{
-                //   uri: data.item.photoURL, //ACA TRAE LA IMAGEN Y ABAJO EN EL data.item.nombre TRAE EL NOMBRE
-                // }}
-                source={require('../../multimedia/categorias/shirt.png')}
-              />
-              <Card.Content>
-                <Title style={styles.tittle}>{data.item.nombre}</Title>
-              </Card.Content>
-            </Card>
+            <View style={styles.cat}>
+              <TouchableOpacity style={styles.categorias} activeOpacity={0.5}>
+                <Image
+                  source={{
+                    uri: data.item.photoURL,
+                  }}
+                  style={styles.image}
+                />
+              </TouchableOpacity>
+              <Text style={styles.texto}>{data.item.titulo}</Text>
+            </View>
           </TouchableWithoutFeedback>
         )}
-      /> */}
+      />
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  cont: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+  },
   cat: {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+    paddingRight: 15,
   },
   categorias: {
     alignItems: 'center',
     justifyContent: 'center',
     width: 70,
     height: 70,
-    backgroundColor: colors.white,
+    backgroundColor: '#EFEFEF',
     borderRadius: 50,
-    marginLeft: 5,
-    marginRight: 15,
   },
   image: {
     margin: 5,
-    height: 60,
-    width: 60,
+    height: 45,
+    width: 45,
     resizeMode: 'stretch',
   },
   texto: {
     marginTop: 10,
-  },
-  cont: {
-    flexDirection: 'row',
-    justifyContent: 'center',
+    marginBottom: 10,
   },
 });
 

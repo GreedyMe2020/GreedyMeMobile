@@ -51,12 +51,14 @@ function CardComercio(props) {
             <Card style={styles.cardCom}>
               <List.Item
                 title={data.item.nombreComercio}
+                titleStyle={styles.titulo}
                 description={data.item.sucursal}
+                style={styles.lista}
                 right={() => (
                   <IconButton
                     icon="heart"
                     color={colors.avatar}
-                    size={25}
+                    size={27}
                     style={styles.corazonIcon}
                     onPress={() => console.log('Pressed')}
                   />
@@ -81,30 +83,25 @@ function CardComercio(props) {
 const styles = StyleSheet.create({
   cardCom: {
     height: 100,
-    marginRight: 10,
-    marginLeft: 10,
+    marginRight: 20,
     elevation: 3,
-    marginBottom: 5,
+    marginBottom: 15,
   },
-  cardComercio: {
-    height: 100,
-    marginRight: 10,
-    marginLeft: 10,
-  },
-  contenidoCard: {
-    flexDirection: 'row',
+  lista: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   image: {
     height: 80,
     width: 80,
-    borderRadius: 3,
+    marginRight: 10,
   },
   corazonIcon: {
     marginRight: 0,
     marginTop: 0,
   },
-  texto: {
-    marginTop: 10,
+  titulo: {
+    marginBottom: 5,
   },
 });
 

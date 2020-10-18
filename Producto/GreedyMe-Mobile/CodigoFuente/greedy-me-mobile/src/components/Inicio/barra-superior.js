@@ -78,7 +78,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     flexDirection: 'row',
-    top: 5,
   },
   searchcont: {
     marginLeft: 10,
@@ -88,11 +87,12 @@ const styles = StyleSheet.create({
     flex: 0.1,
   },
   searchcontainer: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.azul,
     borderWidth: 0, //no effect
     shadowColor: colors.white, //no effect
     borderBottomColor: 'transparent',
     borderTopColor: 'transparent',
+    color: colors.black,
   },
   ico: {
     flexDirection: 'row',

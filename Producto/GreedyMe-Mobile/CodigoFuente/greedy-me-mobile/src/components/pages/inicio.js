@@ -44,40 +44,28 @@ function Inicio({ navigation }, props) {
   }, []);
 
   return (
-    <KeyboardAvoidingView
-      style={styles.containerTeclado}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
-      enabled={Platform.OS === 'ios'}
-    >
-      <SafeAreaView style={styles.container}>
-        <View style={styles.barraSup}>
-          <BarraSup navigation={props.navigation} />
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="light-content" backgroundColor={colors.avatar} />
+      <View style={styles.barraSup}>
+        <BarraSup navigation={props.navigation} />
+      </View>
+      <ScrollView style={styles.scroll}>
+        <View>
+          <View style={styles.categorias}>
+            <Text style={styles.texto}>Categorías</Text>
+            <ButtonCategorias navigation={props.navigation} />
+          </View>
+          <View style={styles.premium}>
+            <Text style={styles.textoP}>Locales Premium</Text>
+            <CardPremium navigation={props.navigation} />
+          </View>
+          <View style={styles.cards}>
+            <Text style={styles.texto}>Locales</Text>
+            <CardComercio navigation={props.navigation} />
+          </View>
         </View>
-        <ScrollView style={styles.scroll}>
-          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View>
-              <StatusBar
-                barStyle="dark-content"
-                backgroundColor={colors.avatar}
-              />
-              <View style={styles.categorias}>
-                <Text style={styles.texto}>Categorías</Text>
-                <ButtonCategorias navigation={props.navigation} />
-              </View>
-              <View style={styles.premium}>
-                <Text style={styles.texto}>Locales premium</Text>
-                <CardPremium navigation={props.navigation} />
-              </View>
-              <View style={styles.cards}>
-                <Text style={styles.texto}>Locales</Text>
-                <CardComercio navigation={props.navigation} />
-              </View>
-            </View>
-          </TouchableWithoutFeedback>
-        </ScrollView>
-      </SafeAreaView>
-    </KeyboardAvoidingView>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
@@ -90,34 +78,44 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   scroll: {
-    flex: 0.5,
+    flex: 1,
   },
   barraSup: {
-    marginTop: 5,
-    marginBottom: 5,
-    flex: 0.1,
+    height: 90,
+    backgroundColor: colors.azul,
   },
   categorias: {
-    flex: 3,
-    marginTop: 15,
-    marginLeft: 20,
+    flex: 1,
+    paddingLeft: 20,
+    marginTop: 5,
   },
   premium: {
-    flex: 7,
+    flex: 1,
     width: '100%',
-    marginTop: 50,
+    marginTop: 5,
   },
   cards: {
-    flex: 4,
+    flex: 1,
     width: '100%',
-    marginTop: 20,
+    paddingLeft: 20,
+    marginTop: 5,
   },
   texto: {
     marginBottom: 15,
+    marginTop: 10,
     fontWeight: 'bold',
-    fontSize: 18,
+    fontSize: 20,
     fontFamily: 'Poppins-SemiBold',
-    color: colors.darkGrey,
+    color: colors.black,
+  },
+  textoP: {
+    marginBottom: 15,
+    marginLeft: 15,
+    marginTop: 10,
+    fontWeight: 'bold',
+    fontSize: 20,
+    fontFamily: 'Poppins-SemiBold',
+    color: colors.black,
   },
 });
 

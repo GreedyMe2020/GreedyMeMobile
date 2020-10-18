@@ -42,7 +42,7 @@ obtenerComercios();
 
 function CardPremium(props) {
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.flatlist}>
       <FlatList
         data={comercios}
         keyExtractor={(item) => item.id}
@@ -72,31 +72,26 @@ function CardPremium(props) {
 }
 
 const styles = StyleSheet.create({
-  cardCom: {
-    height: 30,
-    marginRight: 10,
-    marginLeft: 10,
-    flexDirection: 'row',
-  },
   cardComercio: {
     height: 235,
     width: 200,
     marginRight: 10,
-    marginLeft: 10,
-    marginBottom: 5,
+    marginLeft: 15,
+    marginBottom: 15,
     marginTop: 5,
+    elevation: 3,
   },
-
   image: {
     height: 170,
     width: 200,
     borderRadius: 3,
   },
   tittle: {
-    marginTop: 5,
+    marginTop: 8,
   },
   subtittle: {
     color: colors.darkGrey,
+    marginTop: -2,
   },
 });
 
