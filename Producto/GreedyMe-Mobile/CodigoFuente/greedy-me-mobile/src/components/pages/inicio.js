@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
   },
   categorias: {
     flex: 3,
-    marginTop: 10,
+    marginTop: 15,
     marginLeft: 20,
   },
   premium: {
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   texto: {
-    marginBottom: 10,
+    marginBottom: 15,
     fontWeight: 'bold',
     fontSize: 18,
     fontFamily: 'Poppins-SemiBold',
