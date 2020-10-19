@@ -17,21 +17,25 @@ import firebaseapp from '../../../firebase/config';
 const firestore = firebaseapp.firestore();
 const rubros = [];
 const obtenerRubros = () => {
-  firestore.collection('rubros').onSnapshot((snapShots) => {
-    snapShots.forEach((doc) => {
-      const data = doc.data();
-      rubros.push({
-        ...data,
-        id: doc.id,
+  firestore
+    .collection('rubros')
+    .orderBy('prioridad')
+    .onSnapshot((snapShots) => {
+      snapShots.forEach((doc) => {
+        const data = doc.data();
+        rubros.push({
+          ...data,
+          id: doc.id,
+        });
       });
     });
-  });
 };
 obtenerRubros();
 
 function ButtonCategorias() {
   return (
     <SafeAreaView style={styles.cont}>
+      {console.log(rubros)}
       <FlatList
         data={rubros}
         keyExtractor={(item) => item.id}
@@ -48,7 +52,7 @@ function ButtonCategorias() {
                   style={styles.image}
                 />
               </TouchableOpacity>
-              <Text style={styles.texto}>{data.item.titulo}</Text>
+              <Text style={styles.texto}>{data.item.nombre}</Text>
             </View>
           </TouchableWithoutFeedback>
         )}
