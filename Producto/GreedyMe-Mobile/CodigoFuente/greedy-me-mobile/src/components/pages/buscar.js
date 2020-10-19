@@ -6,103 +6,61 @@ import {
   Text,
   Platform,
   Keyboard,
-  ScrollView,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
 } from 'react-native';
-import { SearchBar } from 'react-native-elements';
+import SearchBarBuscar from '../buscador/search-bar-buscar';
 import SafeAreaView from 'react-native-safe-area-view';
 import BuscadorProveedores from '../buscador/buscador';
 import { colors } from '../../styles/colores';
 import CardComercio from '../Inicio/card-comercio';
-
 import { connect } from 'react-redux';
-import cardComercio from '../Inicio/card-comercio';
 
 function Buscador() {
+  //Estado que trae lo que se quiere buscar
   const [searchQuery, setSearchQuery] = React.useState('');
 
+  //Funcion para setear lo que se quiere buscar
   const onChangeSearch = (query) => setSearchQuery(query);
+
   return (
-    <KeyboardAvoidingView
-      style={styles.containerTeclado}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
-      enabled={Platform.OS === 'ios'}
-    >
-      <SafeAreaView style={styles.container}>
-        <StatusBar
-          barStyle="light-content"
-          translucent={true}
-          backgroundColor={'transparent'}
+    <SafeAreaView style={styles.container}>
+      <StatusBar
+        barStyle="light-content"
+        translucent={true}
+        backgroundColor={'transparent'}
+      />
+      <View style={styles.searchcont}>
+        <SearchBarBuscar
+          onChangeSearch={onChangeSearch}
+          searchQuery={searchQuery}
         />
-        <View style={styles.barraSup}>
-          <View style={styles.searchcont}>
-            <SearchBar
-              placeholder="Buscar comercio"
-              onChangeText={onChangeSearch}
-              value={searchQuery}
-              inputContainerStyle={{
-                backgroundColor: '#F6F8F7',
-                borderRadius: 100,
-                height: 40,
-              }}
-              containerStyle={styles.searchcontainer}
-              lightTheme
-              round
-            />
-          </View>
-          <View style={styles.contFiltros}>
-            <BuscadorProveedores />
-          </View>
-        </View>
-        <View style={styles.proveedores}>
-          <Text style={styles.texto}>Locales</Text>
-          <CardComercio />
-        </View>
-      </SafeAreaView>
-    </KeyboardAvoidingView>
+      </View>
+      <View style={styles.contFiltros}>
+        <BuscadorProveedores />
+      </View>
+      <View style={styles.proveedores}>
+        <Text style={styles.texto}>Locales</Text>
+        <CardComercio />
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  containerTeclado: {
-    flex: 1,
-  },
   container: {
     flex: 1,
     backgroundColor: colors.white,
   },
-  scroll: {
-    flex: 2,
-  },
-  barraSup: {
-    marginTop: 5,
-    marginBottom: 5,
-    flex: 1,
-    width: '100%',
-  },
   searchcont: {
-    marginLeft: 10,
+    marginLeft: 13,
     marginRight: 20,
-    flex: 3,
+    height: 75,
     top: 13,
   },
-  searchcontainer: {
-    backgroundColor: colors.white,
-    borderWidth: 0, //no effect
-    shadowColor: colors.white, //no effect
-    borderBottomColor: 'transparent',
-    borderTopColor: 'transparent',
-  },
   contFiltros: {
-    flex: 2,
-    marginRight: 10,
-  },
-  cards: {
     flex: 1,
-    width: '100%',
-    marginTop: 20,
+    marginRight: 10,
   },
   texto: {
     marginBottom: 15,
@@ -113,7 +71,7 @@ const styles = StyleSheet.create({
     color: colors.black,
   },
   proveedores: {
-    flex: 3,
+    flex: 4,
     justifyContent: 'flex-start',
     marginLeft: 22,
     marginRight: 10,

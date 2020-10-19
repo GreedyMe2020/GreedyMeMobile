@@ -1,10 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
+import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { connect } from 'react-redux';
-import { editarProveedores } from '../../../redux/actions/user-actions';
-import firebaseapp from '../../../firebase/config';
 import { colors } from 'react-native-elements';
 
 const items = [
@@ -90,7 +88,16 @@ export default function BuscadorProveedores(props) {
         IconRenderer={Icon}
         uniqueKey="id"
         subKey="promociones"
-        selectText="Seleccione filtros..."
+        selectText={
+          selectedItems.length > 1 ? (
+            'Filtros'
+          ) : (
+            <View style={styles.filtroText}>
+              <Icons name="filter-outline" size={18} color="#838d9e" />
+              <Text style={styles.icons}>    Seleccionar filtros</Text>
+            </View>
+          )
+        }
         showDropDowns={true}
         readOnlyHeadings={true}
         onSelectedItemsChange={onSelectedItemsChange}
@@ -109,14 +116,14 @@ export default function BuscadorProveedores(props) {
           chipText: { fontSize: 16, fontWeight: 'bold' },
           selectToggle: {
             marginLeft: 22,
-            marginRight: 22,
+            marginRight: 18,
             marginBottom: 10,
             backgroundColor: '#F6F8F7',
-            borderRadius: 5,
+            borderRadius: 100,
             height: 40,
             paddingTop: 8,
-            paddingLeft: 10,
-            paddingRight: 5,
+            paddingLeft: 7,
+            paddingRight: 8,
           },
           selectToggleText: {
             fontSize: 17,
@@ -168,8 +175,12 @@ const styles = StyleSheet.create({
   },
   filtroText: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
   icons: {
-    marginRight: 10,
+    marginLeft: 0,
+    fontSize: 17,
+    letterSpacing: 0.4,
+    color: '#838d9e',
   },
 });
