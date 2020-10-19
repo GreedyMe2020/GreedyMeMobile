@@ -7,7 +7,6 @@ import {
   TouchableWithoutFeedback,
   Platform,
   Keyboard,
-  Image,
 } from 'react-native';
 import { IconButton } from 'react-native-paper';
 import { SearchBar } from 'react-native-elements';
@@ -56,12 +55,6 @@ function BarraSup(props) {
             <TouchableOpacity style={styles.notificacion} activeOpacity={0.5}>
               <IconButton icon="bell-outline" color="black" />
             </TouchableOpacity>
-            {/* <IconButton
-          icon="map-marker-outline"
-          style={{ paddingLeft: 6 }}
-          color="black"
-        />
-        <IconButton icon="bell-outline" color="black" /> */}
           </View>
         </SafeAreaView>
       </TouchableWithoutFeedback>
@@ -78,6 +71,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     flexDirection: 'row',
+    height: 90,
   },
   searchcont: {
     marginLeft: 10,
@@ -106,7 +100,7 @@ const styles = StyleSheet.create({
     height: 38,
     backgroundColor: '#c9ded7', //celeste claro
     borderRadius: 50,
-    marginRight: 5,
+    marginRight: 6,
   },
   notificacion: {
     alignItems: 'center',
@@ -115,7 +109,7 @@ const styles = StyleSheet.create({
     height: 38,
     backgroundColor: '#eacaa1', //naranja claro
     borderRadius: 50,
-    marginLeft: 5,
+    marginLeft: 6,
   },
   image: {
     height: 32,

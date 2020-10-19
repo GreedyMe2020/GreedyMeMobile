@@ -12,6 +12,7 @@ import {
   SafeAreaView,
   TouchableWithoutFeedback,
 } from 'react-native';
+import { Divider } from 'react-native-paper';
 import * as Location from 'expo-location';
 import { LogBox } from 'react-native';
 import { connect } from 'react-redux';
@@ -20,7 +21,6 @@ import BarraSup from '../Inicio/barra-superior';
 import ButtonCategorias from '../Inicio/button-categorias';
 import { colors } from '../../styles/colores';
 import CardPremium from '../Inicio/card-premium';
-import Constants from 'expo-constants';
 
 //esconde los warnings
 LogBox.ignoreLogs(['Warning: ...']);
@@ -45,7 +45,11 @@ function Inicio({ navigation }, props) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor={colors.avatar} />
+      <StatusBar
+        barStyle="light-content"
+        translucent={true}
+        backgroundColor={'transparent'}
+      />
       <View style={styles.barraSup}>
         <BarraSup navigation={props.navigation} />
       </View>
@@ -55,10 +59,12 @@ function Inicio({ navigation }, props) {
             <Text style={styles.texto}>Categorías</Text>
             <ButtonCategorias navigation={props.navigation} />
           </View>
+          <Divider style={{ height: 7, backgroundColor: '#f8f8f8' }} />
           <View style={styles.premium}>
-            <Text style={styles.textoP}>Locales Premium</Text>
+            <Text style={styles.texto}>Locales Premium</Text>
             <CardPremium navigation={props.navigation} />
           </View>
+          <Divider style={{ height: 7, backgroundColor: '#f8f8f8' }} />
           <View style={styles.cards}>
             <Text style={styles.texto}>Locales</Text>
             <CardComercio navigation={props.navigation} />
@@ -86,32 +92,25 @@ const styles = StyleSheet.create({
   },
   categorias: {
     flex: 1,
-    paddingLeft: 20,
     marginTop: 5,
+    marginBottom: 20,
   },
   premium: {
     flex: 1,
     width: '100%',
     marginTop: 5,
+    marginBottom: 20,
   },
   cards: {
     flex: 1,
     width: '100%',
-    paddingLeft: 20,
     marginTop: 5,
   },
+
   texto: {
     marginBottom: 15,
-    marginTop: 10,
-    fontWeight: 'bold',
-    fontSize: 20,
-    fontFamily: 'Poppins-SemiBold',
-    color: colors.black,
-  },
-  textoP: {
-    marginBottom: 15,
-    marginLeft: 15,
-    marginTop: 10,
+    paddingLeft: 20,
+    marginTop: 12,
     fontWeight: 'bold',
     fontSize: 20,
     fontFamily: 'Poppins-SemiBold',
