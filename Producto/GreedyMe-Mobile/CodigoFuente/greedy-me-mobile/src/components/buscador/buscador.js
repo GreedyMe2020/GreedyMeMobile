@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { connect } from 'react-redux';
 import { editarProveedores } from '../../../redux/actions/user-actions';
 import firebaseapp from '../../../firebase/config';
+import { colors } from 'react-native-elements';
 
 const items = [
   {
@@ -89,7 +90,7 @@ export default function BuscadorProveedores(props) {
         IconRenderer={Icon}
         uniqueKey="id"
         subKey="promociones"
-        selectText="Filtros..."
+        selectText="Seleccione filtros..."
         showDropDowns={true}
         readOnlyHeadings={true}
         onSelectedItemsChange={onSelectedItemsChange}
@@ -161,9 +162,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: '100%',
-    top: 23,
   },
   containerTeclado: {
     flex: 1,
+  },
+  filtroText: {
+    flexDirection: 'row',
+  },
+  icons: {
+    marginRight: 10,
   },
 });

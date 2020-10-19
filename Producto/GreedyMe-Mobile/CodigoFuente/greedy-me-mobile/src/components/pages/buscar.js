@@ -84,6 +84,7 @@ const styles = StyleSheet.create({
   },
   searchcont: {
     marginLeft: 10,
+    marginRight: 20,
     flex: 3,
     top: 13,
   },
@@ -104,18 +105,19 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   texto: {
-    marginBottom: 10,
+    marginBottom: 15,
+    marginTop: 10,
     fontWeight: 'bold',
-    fontSize: 18,
+    fontSize: 20,
     fontFamily: 'Poppins-SemiBold',
-    color: colors.darkGrey,
-    marginLeft: 10,
+    color: colors.black,
   },
   proveedores: {
     flex: 3,
     justifyContent: 'flex-start',
-    marginLeft: 10,
+    marginLeft: 22,
     marginRight: 10,
+    paddingBottom: 50,
   },
 });
 
