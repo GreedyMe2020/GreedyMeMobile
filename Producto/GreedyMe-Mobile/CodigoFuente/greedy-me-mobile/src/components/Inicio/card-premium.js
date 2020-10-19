@@ -24,7 +24,6 @@ import { connect } from 'react-redux';
 import firebaseapp from '../../../firebase/config';
 import _ from 'lodash';
 import { colors } from '../../styles/colores';
-import Carousel from 'react-native-snap-carousel';
 
 const firestore = firebaseapp.firestore();
 const comercios = [];
@@ -40,28 +39,10 @@ const obtenerComercios = () => {
   });
 };
 obtenerComercios();
-/* const renderItem = ({ com, item, index }) => {
-  return (
-    <Card style={styles.cardComercio}>
-      <Card.Cover
-        style={styles.image}
-        source={{
-          uri: com.photoURL,
-        }}
-      />
-      <Card.Content>
-        <Title style={styles.tittle}>{com.nombreComercio}</Title>
-        <Paragraph style={styles.subtittle}>{com.sucursal}</Paragraph>
-      </Card.Content>
-    </Card>
-  );
-};
-
-const carousel = React.createRef(); */
 
 function CardPremium(props) {
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.flatlist}>
       <FlatList
         data={comercios}
         keyExtractor={(item) => item.id}
@@ -91,31 +72,26 @@ function CardPremium(props) {
 }
 
 const styles = StyleSheet.create({
-  cardCom: {
-    height: 30,
-    marginRight: 10,
-    marginLeft: 10,
-    flexDirection: 'row',
-  },
   cardComercio: {
     height: 235,
     width: 200,
     marginRight: 10,
-    marginLeft: 10,
-    marginBottom: 5,
+    marginLeft: 15,
+    marginBottom: 15,
     marginTop: 5,
+    elevation: 3,
   },
-
   image: {
     height: 170,
     width: 200,
     borderRadius: 3,
   },
   tittle: {
-    marginTop: 5,
+    marginTop: 8,
   },
   subtittle: {
     color: colors.darkGrey,
+    marginTop: -2,
   },
 });
 

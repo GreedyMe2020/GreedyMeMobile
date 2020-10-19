@@ -17,22 +17,25 @@ import firebaseapp from '../../../firebase/config';
 const firestore = firebaseapp.firestore();
 const rubros = [];
 const obtenerRubros = () => {
-  firestore.collection('rubros').onSnapshot((snapShots) => {
-    snapShots.forEach((doc) => {
-      const data = doc.data();
-      rubros.push({
-        ...data,
-        id: doc.id,
+  firestore
+    .collection('rubros')
+    .orderBy('prioridad')
+    .onSnapshot((snapShots) => {
+      snapShots.forEach((doc) => {
+        const data = doc.data();
+        rubros.push({
+          ...data,
+          id: doc.id,
+        });
       });
     });
-  });
 };
 obtenerRubros();
 
 function ButtonCategorias() {
-  //LAU TE TRAIGO EL CODIGO COPIADO DE LA CARD-PREMIUM, LO UNICO QUE TENDRIAS QUE CAMBIAR ES EL ESTILO DENTRO DEL renderItem de la FlatList
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.cont}>
+      {console.log(rubros)}
       <FlatList
         data={rubros}
         keyExtractor={(item) => item.id}
@@ -40,67 +43,52 @@ function ButtonCategorias() {
         showsHorizontalScrollIndicator={false}
         renderItem={(data) => (
           <TouchableWithoutFeedback onPress={() => {}}>
-            <Card style={styles.categorias}>
-              <Card.Cover
-                style={styles.image}
-                source={{
-                  uri: data.item.photoURL, //ACA TRAE LA IMAGEN Y ABAJO EN EL data.item.nombre TRAE EL NOMBRE
-                }}
-              />
-              <Card.Content>
-                <Title style={styles.tittle}>{data.item.nombre}</Title>
-              </Card.Content>
-            </Card>
+            <View style={styles.cat}>
+              <TouchableOpacity style={styles.categorias} activeOpacity={0.5}>
+                <Image
+                  source={{
+                    uri: data.item.photoURL,
+                  }}
+                  style={styles.image}
+                />
+              </TouchableOpacity>
+              <Text style={styles.texto}>{data.item.nombre}</Text>
+            </View>
           </TouchableWithoutFeedback>
         )}
       />
-      {/*</SafeAreaView>
-    <View>
-      <TouchableOpacity style={styles.categorias} activeOpacity={0.5}>
-        <Image
-          source={require('../../multimedia/categorias/shirt.png')}
-          style={styles.image}
-        />
-      </TouchableOpacity>
-      <Text style={styles.texto}>Indumentaria</Text>
-      {/* <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
-        <Carousel
-          layout={'default'}
-          ref={carousel}
-          data={categorias}
-          sliderWidth={300}
-          itemWidth={300}
-          renderItem={renderItem}
-          onSnapToItem={(index) => setActive({ activeIndex: index })}
-        />
-    </View>
-      </View> */}
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  cont: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+  },
+  cat: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingRight: 15,
+  },
   categorias: {
-    borderWidth: 1,
-    borderColor: colors.avatar,
     alignItems: 'center',
     justifyContent: 'center',
     width: 70,
     height: 70,
-    backgroundColor: colors.avatar,
+    backgroundColor: '#EFEFEF',
     borderRadius: 50,
-    marginLeft: 5,
-    marginRight: 5,
   },
   image: {
-    padding: 10,
     margin: 5,
-    height: 32,
-    width: 32,
+    height: 45,
+    width: 45,
     resizeMode: 'stretch',
   },
   texto: {
     marginTop: 10,
+    marginBottom: 10,
   },
 });
 

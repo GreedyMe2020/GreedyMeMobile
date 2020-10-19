@@ -47,16 +47,12 @@ function IniciarSesion(props) {
   return (
     <KeyboardAvoidingView
       style={styles.containerTeclado}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
+      behavior={Platform.OS === 'ios' ? '' : 'height'}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
       enabled={Platform.OS === 'ios'}
     >
-      <SafeAreaView style={styles.container}>
-        <TouchableWithoutFeedback
-          onPress={() => {
-            Keyboard.dismiss;
-          }}
-        >
+      <View style={styles.container}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <>
             <StatusBar barStyle="dark-content" backgroundColor="#ececec" />
             {props.logeo ? (
@@ -141,7 +137,7 @@ function IniciarSesion(props) {
             )}
           </>
         </TouchableWithoutFeedback>
-      </SafeAreaView>
+      </View>
     </KeyboardAvoidingView>
   );
 }
@@ -151,17 +147,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flex: 1,
-    marginBottom: 15,
+    display: 'flex',
+    width: '100%',
   },
   containerTeclado: {
     flex: 1,
   },
   titulo: {
+    flex: 1.7,
     flexDirection: 'row',
-    flex: 1.5,
     alignItems: 'center',
     justifyContent: 'center',
-    marginLeft: 15, //igual este no deberia estar nose porque no lo centra
+    backgroundColor: colors.white,
+    width: '100%',
   },
   letraBlanca: {
     color: colors.azul,
@@ -182,56 +180,49 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-SemiBold',
   },
   inputSesion: {
-    flex: 1.5,
+    flex: 2,
     width: '100%',
+    backgroundColor: colors.white,
   },
   or: {
     flex: 0.5,
-    top: 20,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
+    backgroundColor: colors.white,
   },
   orcontent: {
     width: 10,
   },
   dividerIzq: {
-    width: '50%',
+    width: '40%',
     height: 1,
-    marginRight: 15,
+    marginRight: 10,
+    marginLeft: 10,
   },
   dividerDer: {
-    width: '50%',
+    width: '40%',
     height: 1,
-    marginLeft: 15,
+    marginLeft: 10,
+    marginRight: 10,
   },
   ingresoConRedes: {
-    flex: 0.5,
-    minHeight: 120,
+    flex: 1,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    top: -10,
+    backgroundColor: colors.white,
   },
   contenedorCrearCuenta: {
-    bottom: 20,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
-    flex: 0.2,
-    marginBottom: 20,
+    flex: 0.5,
+    backgroundColor: colors.white,
+    paddingBottom: 8,
   },
-  contenedorSnackTodo: {
-    bottom: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
-    flex: 0.1,
-  },
-
   textoPreguntaCuenta: {
     fontSize: 16,
   },
@@ -241,22 +232,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: colors.naranja,
   },
-  btnVolver: {
-    marginTop: 20,
-    marginRight: 20,
-    marginLeft: 20,
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  contenedorSnack: {
-    width: 50,
-    height: 100,
-    flex: 1,
-  },
   snackbar: {
     backgroundColor: colors.error,
-    top: 10,
   },
 });
 
