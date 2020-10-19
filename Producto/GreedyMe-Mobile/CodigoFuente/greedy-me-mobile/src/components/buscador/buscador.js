@@ -96,7 +96,7 @@ export default function BuscadorProveedores(props) {
         selectedItems={selectedItems}
         confirmText="Confirmar"
         selectedText="seleccionados"
-        searchPlaceholderText="Buscar proveedor"
+        searchPlaceholderText="Buscar filtro..."
         noResultsComponent={<Text>Lo siento, no encontramos resultados.</Text>}
         colors={{
           primary: '#1E1B4D',
@@ -110,12 +110,12 @@ export default function BuscadorProveedores(props) {
             marginLeft: 22,
             marginRight: 22,
             marginBottom: 10,
-            backgroundColor: '#ececec',
-            borderRadius: 100,
+            backgroundColor: '#F6F8F7',
+            borderRadius: 5,
             height: 40,
             paddingTop: 8,
-            paddingLeft: 20,
-            paddingRight: 20,
+            paddingLeft: 10,
+            paddingRight: 5,
           },
           selectToggleText: {
             fontSize: 17,
