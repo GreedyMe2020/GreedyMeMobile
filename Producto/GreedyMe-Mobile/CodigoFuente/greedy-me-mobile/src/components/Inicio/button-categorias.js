@@ -2,14 +2,12 @@ import * as React from 'react';
 import { TouchableOpacity, Image } from 'react-native';
 import {
   StyleSheet,
-  StatusBar,
   View,
   Text,
   SafeAreaView,
   TouchableWithoutFeedback,
   FlatList,
 } from 'react-native';
-import { Card, Title, Paragraph } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { colors } from '../../styles/colores';
 import firebaseapp from '../../../firebase/config';
@@ -70,7 +68,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingRight: 15,
+    width: 95,
+    marginLeft: 10,
   },
   categorias: {
     alignItems: 'center',
@@ -88,7 +87,8 @@ const styles = StyleSheet.create({
   },
   texto: {
     marginTop: 10,
-    marginBottom: 10,
+    fontSize: 13,
+    color: colors.darkGrey,
   },
 });
 

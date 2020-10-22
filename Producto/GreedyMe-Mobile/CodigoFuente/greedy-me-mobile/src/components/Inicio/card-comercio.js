@@ -2,23 +2,12 @@ import * as React from 'react';
 import {
   StyleSheet,
   Image,
-  StatusBar,
   View,
-  Text,
   FlatList,
   SafeAreaView,
   TouchableWithoutFeedback,
 } from 'react-native';
-import {
-  Avatar,
-  Button,
-  Card,
-  IconButton,
-  List,
-  Title,
-  Paragraph,
-  Divider,
-} from 'react-native-paper';
+import { IconButton, List, Divider } from 'react-native-paper';
 import { connect } from 'react-redux';
 import firebaseapp from '../../../firebase/config';
 import _ from 'lodash';
@@ -40,6 +29,8 @@ const obtenerComercios = () => {
 obtenerComercios();
 
 function CardComercio(props) {
+  //Para que funcione mostrar corazon rojo
+  const [corazon, setCorazon] = React.useState(false);
   return (
     <SafeAreaView>
       <FlatList
@@ -48,31 +39,41 @@ function CardComercio(props) {
         showsVerticalScrollIndicator={false}
         renderItem={(data) => (
           <TouchableWithoutFeedback onPress={() => {}}>
-            <Card style={styles.cardCom}>
-              <List.Item
-                title={data.item.nombreComercio}
-                titleStyle={styles.titulo}
-                description={data.item.sucursal}
-                style={styles.lista}
-                right={() => (
-                  <IconButton
-                    icon="heart"
-                    color={colors.avatar}
-                    size={27}
-                    style={styles.corazonIcon}
-                    onPress={() => console.log('Pressed')}
-                  />
-                )}
-                left={() => (
-                  <Image
-                    style={styles.image}
-                    source={{
-                      uri: data.item.photoURL,
-                    }}
-                  />
-                )}
+            <View>
+              <View style={styles.contList}>
+                <List.Item
+                  title={data.item.nombreComercio}
+                  titleStyle={styles.titulo}
+                  description={data.item.sucursal}
+                  style={styles.lista}
+                  right={() => (
+                    <IconButton
+                      icon={corazon ? 'heart-outline' : 'heart'}
+                      color={corazon ? colors.grey : '#cf3434'}
+                      size={27}
+                      style={styles.corazonIcon}
+                      onPress={() => setCorazon(!corazon)}
+                    />
+                  )}
+                  left={() => (
+                    <Image
+                      style={styles.image}
+                      source={{
+                        uri: data.item.photoURL,
+                      }}
+                    />
+                  )}
+                />
+              </View>
+              <Divider
+                style={{
+                  height: 1,
+                  backgroundColor: colors.avatar,
+                  marginLeft: 20,
+                  marginRight: 20,
+                }}
               />
-            </Card>
+            </View>
           </TouchableWithoutFeedback>
         )}
       />
@@ -81,27 +82,30 @@ function CardComercio(props) {
 }
 
 const styles = StyleSheet.create({
-  cardCom: {
-    height: 100,
+  contList: {
+    marginLeft: 20,
     marginRight: 20,
-    elevation: 3,
-    marginBottom: 15,
+    marginBottom: 8,
+    marginTop: 8,
   },
   lista: {
-    justifyContent: 'center',
     alignItems: 'center',
+    justifyContent: 'center',
   },
   image: {
     height: 80,
     width: 80,
     marginRight: 10,
+    borderRadius: 3,
   },
   corazonIcon: {
     marginRight: 0,
-    marginTop: 0,
+    alignSelf: 'center',
+    //opacity: 0.8,
   },
   titulo: {
-    marginBottom: 5,
+    marginBottom: 4,
+    fontSize: 17,
   },
 });
 

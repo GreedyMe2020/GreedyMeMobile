@@ -73,25 +73,27 @@ function CardPremium(props) {
 
 const styles = StyleSheet.create({
   cardComercio: {
-    height: 235,
-    width: 200,
-    marginRight: 10,
-    marginLeft: 15,
-    marginBottom: 15,
-    marginTop: 5,
+    marginRight: 7,
+    marginLeft: 20,
+    marginBottom: 5,
+    marginTop: 3,
     elevation: 3,
+    borderRadius: 7,
+    borderColor: colors.avatar,
   },
   image: {
     height: 170,
-    width: 200,
+    width: 180,
     borderRadius: 3,
   },
   tittle: {
     marginTop: 8,
+    fontSize: 18,
   },
   subtittle: {
     color: colors.darkGrey,
     marginTop: -2,
+    fontSize: 14,
   },
 });
 
