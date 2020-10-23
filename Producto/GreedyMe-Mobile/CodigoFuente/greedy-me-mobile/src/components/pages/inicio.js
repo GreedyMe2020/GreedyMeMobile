@@ -26,7 +26,7 @@ import CardPremium from '../Inicio/card-premium';
 LogBox.ignoreLogs(['Warning: ...']);
 LogBox.ignoreAllLogs();
 
-function Inicio({ navigation }, props) {
+function Inicio(props) {
   //estados para el permiso de ubicacion
   const [estadoGeo, setEstadoGeo] = React.useState(null);
   const [errorMsgGeo, setErrorMsgGeo] = React.useState(null);

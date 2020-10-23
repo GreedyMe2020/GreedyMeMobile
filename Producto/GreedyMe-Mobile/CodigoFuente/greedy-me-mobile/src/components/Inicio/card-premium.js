@@ -49,7 +49,11 @@ function CardPremium(props) {
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         renderItem={(data) => (
-          <TouchableWithoutFeedback onPress={() => {}}>
+          <TouchableWithoutFeedback
+            onPress={() => {
+              props.navigation.navigate('ComerciosNavegador');
+            }}
+          >
             <Card style={styles.cardComercio}>
               <Card.Cover
                 style={styles.image}

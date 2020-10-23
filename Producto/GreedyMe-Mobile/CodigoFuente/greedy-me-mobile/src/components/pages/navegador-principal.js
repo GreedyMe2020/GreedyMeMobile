@@ -14,6 +14,7 @@ import CambiarContraseña from '../Perfil/cambiarContraseña';
 import Proveedores from '../Proveedores/ini-proveedores';
 import OlvideContraseña from '../Iniciar sesion/olvide-contraseña';
 import VerificarCuenta from '../Iniciar sesion/verificar-cuenta';
+import ComerciosNav from '../comercios/comercios-principal';
 import { connect } from 'react-redux';
 
 //Funcion para determinar el color del header del componente
@@ -124,6 +125,20 @@ function NavegadorPrincipal(props) {
               component={CambiarContraseña}
               options={({ route }) => ({
                 title: 'Cambiar contraseña',
+                headerShown: true,
+                headerTintColor: 'white',
+                headerStyle: {
+                  backgroundColor: '#1E1B4D',
+                },
+                animationEnabled: false,
+                gestureDirection: 'horizontal',
+              })}
+            />
+            <Stack.Screen
+              name="ComerciosNavegador"
+              component={ComerciosNav}
+              options={({ route }) => ({
+                title: 'Comercios',
                 headerShown: true,
                 headerTintColor: 'white',
                 headerStyle: {

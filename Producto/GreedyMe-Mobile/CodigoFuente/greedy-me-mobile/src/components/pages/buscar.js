@@ -16,7 +16,7 @@ import { colors } from '../../styles/colores';
 import CardComercio from '../Inicio/card-comercio';
 import { connect } from 'react-redux';
 
-function Buscador() {
+function Buscador(props) {
   //Estado que trae lo que se quiere buscar
   const [searchQuery, setSearchQuery] = React.useState('');
 
@@ -41,7 +41,7 @@ function Buscador() {
       </View>
       <View style={styles.proveedores}>
         <Text style={styles.texto}>Locales</Text>
-        <CardComercio />
+        <CardComercio navigation={props.navigation}/>
       </View>
     </SafeAreaView>
   );

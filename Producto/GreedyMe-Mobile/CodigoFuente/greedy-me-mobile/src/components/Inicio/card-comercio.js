@@ -46,6 +46,9 @@ function CardComercio(props) {
                   titleStyle={styles.titulo}
                   description={data.item.sucursal}
                   style={styles.lista}
+                  onPress={() => {
+                    props.navigation.navigate('ComerciosNavegador');
+                  }}
                   right={() => (
                     <IconButton
                       icon={corazon ? 'heart-outline' : 'heart'}
