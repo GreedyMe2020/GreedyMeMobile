@@ -47,7 +47,9 @@ function CardComercio(props) {
                   description={data.item.sucursal}
                   style={styles.lista}
                   onPress={() => {
-                    props.navigation.navigate('ComerciosNavegador');
+                    props.navigation.navigate('ComerciosNavegador', {
+                      data: data,
+                    });
                   }}
                   right={() => (
                     <IconButton

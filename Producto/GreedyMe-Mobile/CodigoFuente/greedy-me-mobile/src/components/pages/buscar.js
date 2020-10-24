@@ -41,7 +41,7 @@ function Buscador(props) {
       </View>
       <View style={styles.proveedores}>
         <Text style={styles.texto}>Locales</Text>
-        <CardComercio navigation={props.navigation}/>
+        <CardComercio navigation={props.navigation} />
       </View>
     </SafeAreaView>
   );

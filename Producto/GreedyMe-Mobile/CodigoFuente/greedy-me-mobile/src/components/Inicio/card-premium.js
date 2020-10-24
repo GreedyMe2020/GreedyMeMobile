@@ -51,7 +51,9 @@ function CardPremium(props) {
         renderItem={(data) => (
           <TouchableWithoutFeedback
             onPress={() => {
-              props.navigation.navigate('ComerciosNavegador');
+              props.navigation.navigate('ComerciosNavegador', {
+                data: data,
+              });
             }}
           >
             <Card style={styles.cardComercio}>

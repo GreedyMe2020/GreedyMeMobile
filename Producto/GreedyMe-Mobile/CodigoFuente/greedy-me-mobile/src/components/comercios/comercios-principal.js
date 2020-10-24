@@ -8,6 +8,7 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
+  Image,
 } from 'react-native';
 import SearchBarBuscar from '../buscador/search-bar-buscar';
 import SafeAreaView from 'react-native-safe-area-view';
@@ -23,11 +24,27 @@ import ReseñasComercio from './reseñas-comercio';
 const Tab = createMaterialTopTabNavigator();
 
 export default function ComerciosNav(props) {
+  const { data } = props.route.params;
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="Informacion" component={DetalleComercio} />
-      <Tab.Screen name="Cupones" component={CuponesComercio} />
-      <Tab.Screen name="Reseña" component={ReseñasComercio} />
-    </Tab.Navigator>
+    <View style={styles.container}>
+      <View>
+        <Image style={styles.logo} source={{ uri: data.item.photoURL }} />
+      </View>
+      <Tab.Navigator>
+        <Tab.Screen name="Informacion" component={DetalleComercio} />
+        <Tab.Screen name="Cupones" component={CuponesComercio} />
+        <Tab.Screen name="Reseña" component={ReseñasComercio} />
+      </Tab.Navigator>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  logo: {
+    height: 200,
+    width: '100%',
+  },
+});
