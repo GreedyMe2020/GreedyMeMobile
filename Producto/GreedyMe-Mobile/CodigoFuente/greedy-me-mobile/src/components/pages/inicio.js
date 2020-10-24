@@ -61,12 +61,12 @@ function Inicio(props) {
           </View>
           <Divider style={{ height: 7, backgroundColor: '#f8f8f8' }} />
           <View style={styles.premium}>
-            <Text style={styles.texto}>Locales Premium</Text>
+            <Text style={styles.texto}>Locales destacados</Text>
             <CardPremium navigation={props.navigation} />
           </View>
           <Divider style={{ height: 7, backgroundColor: '#f8f8f8' }} />
           <View style={styles.cards}>
-            <Text style={styles.texto}>Locales</Text>
+            <Text style={styles.texto}>Todos los locales</Text>
             <CardComercio navigation={props.navigation} />
           </View>
         </View>
