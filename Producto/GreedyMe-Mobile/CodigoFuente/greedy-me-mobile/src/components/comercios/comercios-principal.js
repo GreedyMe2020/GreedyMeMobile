@@ -30,10 +30,33 @@ export default function ComerciosNav(props) {
       <View>
         <Image style={styles.logo} source={{ uri: data.item.photoURL }} />
       </View>
-      <Tab.Navigator>
-        <Tab.Screen name="Informacion" component={DetalleComercio} />
+      <Tab.Navigator
+        backBehavior="none"
+        initialRouteName="Cupones"
+        tabBarOptions={{
+          labelStyle: {
+            fontSize: 15,
+            letterSpacing: 0.5,
+            fontWeight: '600',
+          },
+          activeTintColor: colors.white,
+          inactiveTintColor: colors.white,
+          //pressColor: '#324D43',
+          indicatorStyle: {
+            backgroundColor: '#324D43',
+            height: 50,
+            opacity: 0.4,
+          },
+          // indicatorStyle: {
+          //   backgroundColor: colors.azul,
+          // },
+          style: { backgroundColor: colors.celeste },
+          activeBackgroundColor: { backgroundColor: '#324D43' },
+        }}
+      >
+        <Tab.Screen name="Información" component={DetalleComercio} />
         <Tab.Screen name="Cupones" component={CuponesComercio} />
-        <Tab.Screen name="Reseña" component={ReseñasComercio} />
+        <Tab.Screen name="Reseñas" component={ReseñasComercio} />
       </Tab.Navigator>
     </View>
   );

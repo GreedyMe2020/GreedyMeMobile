@@ -13,52 +13,37 @@ import { SearchBar } from 'react-native-elements';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { connect } from 'react-redux';
 import { colors } from '../../styles/colores';
+import SearchBarBuscar from '../buscador/search-bar-buscar';
 
 function BarraSup(props) {
   const [searchQuery, setSearchQuery] = React.useState('');
 
-  const onChangeSearch = (query) => setSearchQuery(query);
+  const onChangeSearch = (searchQuery) => setSearchQuery(searchQuery);
 
   return (
-    <KeyboardAvoidingView
-      style={styles.containerTeclado}
-      behavior={Platform.OS === 'ios' ? '' : 'height'}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
-      enabled={Platform.OS === 'ios'}
-    >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <SafeAreaView style={styles.container}>
-          <View style={styles.searchcont}>
-            <SearchBar
-              placeholder="Buscar comercio"
-              onChangeText={onChangeSearch}
-              value={searchQuery}
-              inputContainerStyle={{
-                backgroundColor: '#ececec',
-                borderRadius: 100,
-                height: 38,
-              }}
-              containerStyle={styles.searchcontainer}
-              lightTheme
-              round
-            />
-          </View>
-          <View style={styles.separador}></View>
-          <View style={styles.ico}>
-            <TouchableOpacity style={styles.ubicacion} activeOpacity={0.5}>
-              <IconButton
-                icon="map-marker-outline"
-                style={styles.image}
-                color="black"
-              />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.notificacion} activeOpacity={0.5}>
-              <IconButton icon="bell-outline" color="black" />
-            </TouchableOpacity>
-          </View>
-        </SafeAreaView>
-      </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.searchcont}>
+        <SearchBarBuscar
+          navigation={props.navigation}
+          styleContainer={styles.searchcontainer}
+          onChangeSearch={onChangeSearch}
+          searchQuery={searchQuery}
+        />
+      </View>
+      <View style={styles.separador}></View>
+      <View style={styles.ico}>
+        <TouchableOpacity style={styles.ubicacion} activeOpacity={0.5}>
+          <IconButton
+            icon="map-marker-outline"
+            style={styles.image}
+            color="black"
+          />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.notificacion} activeOpacity={0.5}>
+          <IconButton icon="bell-outline" color="black" />
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
   );
 }
 

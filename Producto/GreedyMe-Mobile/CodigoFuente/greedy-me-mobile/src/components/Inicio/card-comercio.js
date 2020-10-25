@@ -30,7 +30,7 @@ obtenerComercios();
 
 function CardComercio(props) {
   //Para que funcione mostrar corazon rojo
-  const [corazon, setCorazon] = React.useState(false);
+  const [corazon, setCorazon] = React.useState(true);
   return (
     <SafeAreaView>
       <FlatList
