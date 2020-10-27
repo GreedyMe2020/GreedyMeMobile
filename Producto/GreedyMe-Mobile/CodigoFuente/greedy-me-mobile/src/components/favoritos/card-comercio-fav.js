@@ -7,29 +7,15 @@ import {
   SafeAreaView,
   TouchableWithoutFeedback,
 } from 'react-native';
-import { IconButton, List, Divider } from 'react-native-paper';
+import { List, Divider } from 'react-native-paper';
 import { connect } from 'react-redux';
 import firebaseapp from '../../../firebase/config';
 import _ from 'lodash';
 import { colors } from '../../styles/colores';
-import { comercioFavorito } from '../../../redux/actions/comercio-actions';
 
 const firestore = firebaseapp.firestore();
-const comercios = [];
-const obtenerComercios = () => {
-  firestore.collection('usuarioComercio').onSnapshot((snapShots) => {
-    snapShots.forEach((doc) => {
-      const data = doc.data();
-      comercios.push({
-        ...data,
-        id: doc.id,
-      });
-    });
-  });
-};
-obtenerComercios();
 
-const comerciosFavoritos = [];
+const comerciosAdheridos = [];
 const obtenerComerciosFavoritos = () => {
   firebaseapp.auth().onAuthStateChanged(function (user) {
     if (user) {
@@ -37,11 +23,11 @@ const obtenerComerciosFavoritos = () => {
       firestore
         .collection('usuarioConsumidor')
         .doc(id)
-        .collection('favoritos')
+        .collection('comerciosAdheridos')
         .onSnapshot((snapShots) => {
           snapShots.forEach((doc) => {
             const data = doc.data();
-            comerciosFavoritos.push({
+            comerciosAdheridos.push({
               ...data,
               id: doc.id,
             });
@@ -96,15 +82,6 @@ function CardComercio(props) {
                       data: data,
                     });
                   }}
-                  right={() => (
-                    <IconButton
-                      icon={corazon ? 'heart-outline' : 'heart'}
-                      color={corazon ? colors.grey : '#cf3434'}
-                      size={27}
-                      style={styles.corazonIcon}
-                      onPress={() => setCorazon(!corazon)}
-                    />
-                  )}
                   left={() => (
                     <Image
                       style={styles.image}
@@ -148,11 +125,6 @@ const styles = StyleSheet.create({
     marginRight: 10,
     borderRadius: 3,
   },
-  corazonIcon: {
-    marginRight: 0,
-    alignSelf: 'center',
-    //opacity: 0.8,
-  },
   titulo: {
     marginBottom: 4,
     fontSize: 17,
@@ -166,10 +138,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    comercioFavorito: (datos) => dispatch(comercioFavorito(datos)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(CardComercio);
+export default connect(mapStateToProps)(CardComercio);

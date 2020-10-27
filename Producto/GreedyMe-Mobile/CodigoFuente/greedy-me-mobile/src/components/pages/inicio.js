@@ -21,10 +21,28 @@ import BarraSup from '../Inicio/barra-superior';
 import ButtonCategorias from '../Inicio/button-categorias';
 import { colors } from '../../styles/colores';
 import CardPremium from '../Inicio/card-premium';
+import firebaseapp from '../../../firebase/config';
+import { cargarComerciosAdheridos } from '../../../redux/actions/comercio-actions';
 
 //esconde los warnings
 LogBox.ignoreLogs(['Warning: ...']);
 LogBox.ignoreAllLogs();
+
+const firestore = firebaseapp.firestore();
+const comercios = [];
+const obtenerComercios = () => {
+  firestore.collection('usuarioComercio').onSnapshot((snapShots) => {
+    snapShots.forEach((doc) => {
+      const data = doc.data();
+      comercios.push({
+        ...data,
+        id: doc.id,
+      });
+    });
+  });
+};
+obtenerComercios();
+cargarComerciosAdheridos(comercios);
 
 function Inicio(props) {
   //estados para el permiso de ubicacion
@@ -125,4 +143,10 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(Inicio);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    cargarComerciosAdheridos: () => dispatch(cargarComerciosAdheridos()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Inicio);
