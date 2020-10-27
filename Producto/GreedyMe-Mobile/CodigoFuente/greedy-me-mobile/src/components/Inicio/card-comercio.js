@@ -9,11 +9,11 @@ import {
 } from 'react-native';
 import { IconButton, List, Divider } from 'react-native-paper';
 import { connect } from 'react-redux';
-import firebaseapp from '../../../firebase/config';
 import _ from 'lodash';
 import { colors } from '../../styles/colores';
 import { comercioFavorito } from '../../../redux/actions/comercio-actions';
 
+/*
 const firestore = firebaseapp.firestore();
 const comercios = [];
 const obtenerComercios = () => {
@@ -51,7 +51,7 @@ const obtenerComerciosFavoritos = () => {
   });
 };
 obtenerComerciosFavoritos();
-
+*/
 function CardComercio(props) {
   //Guardo el id de mi usuario .
 
@@ -62,7 +62,7 @@ function CardComercio(props) {
   });
 
   const [favorito, setFavorito] = React.useState(true);
-
+  /*
   function manejarFavorito(props) {
     //Si es true se elimina el comercio de favoritos, si es false se agrega.
     const favorito = false;
@@ -74,12 +74,14 @@ function CardComercio(props) {
       }
     });
     setFormData({ ...formData });
-  }
+  }*/
+
+  const [corazon, setCorazon] = React.useState(true);
 
   return (
     <SafeAreaView>
       <FlatList
-        data={comercios}
+        data={props.comercios}
         keyExtractor={(item) => item}
         showsVerticalScrollIndicator={false}
         renderItem={(data) => (

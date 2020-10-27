@@ -34,6 +34,7 @@ function Buscador(props) {
         <SearchBarBuscar
           onChangeSearch={onChangeSearch}
           searchQuery={searchQuery}
+          styleContainer={styles.searchcontainer}
         />
       </View>
       <View style={styles.contFiltros}>
@@ -76,6 +77,13 @@ const styles = StyleSheet.create({
     marginLeft: 22,
     marginRight: 10,
     paddingBottom: 50,
+  },
+  searchcontainer: {
+    backgroundColor: colors.white,
+    borderWidth: 0, //no effect
+    shadowColor: colors.white, //no effect
+    borderBottomColor: 'transparent',
+    borderTopColor: 'transparent',
   },
 });
 
