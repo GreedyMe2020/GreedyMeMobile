@@ -9,24 +9,8 @@ import {
 } from 'react-native';
 import { IconButton, List, Divider } from 'react-native-paper';
 import { connect } from 'react-redux';
-import firebaseapp from '../../../firebase/config';
 import _ from 'lodash';
 import { colors } from '../../styles/colores';
-
-const firestore = firebaseapp.firestore();
-const comercios = [];
-const obtenerComercios = () => {
-  firestore.collection('usuarioComercio').onSnapshot((snapShots) => {
-    snapShots.forEach((doc) => {
-      const data = doc.data();
-      comercios.push({
-        ...data,
-        id: doc.id,
-      });
-    });
-  });
-};
-obtenerComercios();
 
 function CardComercio(props) {
   //Para que funcione mostrar corazon rojo
@@ -34,7 +18,7 @@ function CardComercio(props) {
   return (
     <SafeAreaView>
       <FlatList
-        data={comercios}
+        data={props.comercios}
         keyExtractor={(item) => item}
         showsVerticalScrollIndicator={false}
         renderItem={(data) => (

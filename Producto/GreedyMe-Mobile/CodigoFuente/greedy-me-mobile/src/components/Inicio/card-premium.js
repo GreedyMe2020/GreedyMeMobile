@@ -26,17 +26,20 @@ import _ from 'lodash';
 import { colors } from '../../styles/colores';
 
 const firestore = firebaseapp.firestore();
-const comercios = [];
+const comerciosPremium = [];
 const obtenerComercios = () => {
-  firestore.collection('usuarioComercio').onSnapshot((snapShots) => {
-    snapShots.forEach((doc) => {
-      const data = doc.data();
-      comercios.push({
-        ...data,
-        id: doc.id,
+  firestore
+    .collection('usuarioComercio')
+    .where('tipoSuscripcion', '==', 2)
+    .onSnapshot((snapShots) => {
+      snapShots.forEach((doc) => {
+        const data = doc.data();
+        comerciosPremium.push({
+          ...data,
+          id: doc.id,
+      });
       });
     });
-  });
 };
 obtenerComercios();
 
@@ -44,7 +47,7 @@ function CardPremium(props) {
   return (
     <SafeAreaView style={styles.flatlist}>
       <FlatList
-        data={comercios}
+        data={comerciosPremium}
         keyExtractor={(item) => item.id}
         horizontal={true}
         showsHorizontalScrollIndicator={false}

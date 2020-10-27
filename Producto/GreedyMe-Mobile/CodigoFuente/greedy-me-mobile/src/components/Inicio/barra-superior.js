@@ -16,19 +16,32 @@ import { colors } from '../../styles/colores';
 import SearchBarBuscar from '../buscador/search-bar-buscar';
 
 function BarraSup(props) {
-  const [searchQuery, setSearchQuery] = React.useState('');
-
-  const onChangeSearch = (searchQuery) => setSearchQuery(searchQuery);
+  //const [searchQuery, setSearchQuery] = React.useState('');
+  //const onChangeSearch = (searchQuery) => setSearchQuery(searchQuery);
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.searchcont}>
-        <SearchBarBuscar
+        <SearchBar
+          placeholder="Buscar comercio"
+          onChangeText={props.onChangeText}
+          value={props.texto}
+          inputContainerStyle={{
+            backgroundColor: '#F6F8F7',
+            borderRadius: 100,
+            height: 40,
+          }}
+          containerStyle={styles.searchcontainer}
+          lightTheme
+          round
+        />
+        {/*<SearchBarBuscar
           navigation={props.navigation}
           styleContainer={styles.searchcontainer}
+          //onChangeText={props.onChangeText}
           onChangeSearch={onChangeSearch}
           searchQuery={searchQuery}
-        />
+        />*/}
       </View>
       <View style={styles.separador}></View>
       <View style={styles.ico}>
