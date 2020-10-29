@@ -16,6 +16,7 @@ import OlvideContraseña from '../Iniciar sesion/olvide-contraseña';
 import VerificarCuenta from '../Iniciar sesion/verificar-cuenta';
 import ComerciosNav from '../comercios/comercios-principal';
 import { connect } from 'react-redux';
+import { IconButton, Button } from 'react-native-paper';
 
 //Funcion para determinar el color del header del componente
 // Main a partir del nombre de la ruta obtenida.
@@ -139,10 +140,10 @@ function NavegadorPrincipal(props) {
               component={ComerciosNav}
               options={({ route }) => ({
                 title: 'Comercios',
-                headerShown: true,
-                headerTintColor: 'white',
+                headerShown: false,
+                headerTintColor: 'black',
                 headerStyle: {
-                  backgroundColor: '#1E1B4D',
+                  backgroundColor: 'white',
                 },
                 animationEnabled: false,
                 gestureDirection: 'horizontal',

@@ -10,8 +10,10 @@ import {
   TouchableWithoutFeedback,
   Image,
 } from 'react-native';
+import { IconButton } from 'react-native-paper';
+
 import SearchBarBuscar from '../buscador/search-bar-buscar';
-import SafeAreaView from 'react-native-safe-area-view';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import BuscadorProveedores from '../buscador/buscador';
 import { colors } from '../../styles/colores';
 import CardComercio from '../Inicio/card-comercio';
@@ -26,31 +28,49 @@ const Tab = createMaterialTopTabNavigator();
 export default function ComerciosNav(props) {
   const { data } = props.route.params;
   return (
-    <View style={styles.container}>
-      <View>
-        <Image style={styles.logo} source={{ uri: data.item.photoURL }} />
+    <SafeAreaView style={styles.container}>
+      <StatusBar
+        barStyle="light-content"
+        translucent={false}
+        backgroundColor={colors.azul}
+      />
+      <View style={styles.comercioImg}>
+        <Image
+          resizeMode="cover"
+          style={styles.logo}
+          source={{ uri: data.item.photoURL }}
+        />
+        <IconButton
+          icon="arrow-left"
+          color={colors.white}
+          size={25}
+          onPress={() => props.navigation.goBack()}
+          style={styles.icon}
+        />
       </View>
+
       <Tab.Navigator
         backBehavior="none"
         initialRouteName="Cupones"
         tabBarOptions={{
           labelStyle: {
-            fontSize: 15,
-            letterSpacing: 0.5,
+            fontSize: 14,
+            letterSpacing: 0.4,
             fontWeight: '600',
           },
-          activeTintColor: colors.white,
-          inactiveTintColor: colors.white,
+          activeTintColor: colors.naranja,
+          inactiveTintColor: colors.azul,
           //pressColor: '#324D43',
-          indicatorStyle: {
-            backgroundColor: '#324D43',
-            height: 50,
-            opacity: 0.4,
-          },
+          pressColor: colors.naranja,
           // indicatorStyle: {
-          //   backgroundColor: colors.azul,
+          //   backgroundColor: colors.celeste,
+          //   height: 50,
+          //   opacity: 0.4,
           // },
-          style: { backgroundColor: colors.celeste },
+          indicatorStyle: {
+            backgroundColor: colors.naranja,
+          },
+          style: { backgroundColor: colors.white },
           activeBackgroundColor: { backgroundColor: '#324D43' },
         }}
       >
@@ -58,7 +78,7 @@ export default function ComerciosNav(props) {
         <Tab.Screen name="Cupones" component={CuponesComercio} />
         <Tab.Screen name="Reseñas" component={ReseñasComercio} />
       </Tab.Navigator>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -70,4 +90,14 @@ const styles = StyleSheet.create({
     height: 200,
     width: '100%',
   },
+  icon: {
+    position: 'absolute',
+    top: 5,
+    left: 5,
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+  },
+  comercioImg: {
+    width: '100%',
+  },
+  img: {},
 });
