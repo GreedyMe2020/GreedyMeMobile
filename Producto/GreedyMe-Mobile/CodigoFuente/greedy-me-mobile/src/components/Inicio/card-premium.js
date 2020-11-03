@@ -37,7 +37,7 @@ const obtenerComercios = () => {
         comerciosPremium.push({
           ...data,
           id: doc.id,
-      });
+        });
       });
     });
 };
