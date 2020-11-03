@@ -4,90 +4,81 @@ import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { colors } from 'react-native-elements';
+import firebaseapp from '../../../firebase/config';
 
-const items = [
-  {
-    name: 'Promoción',
-    id: 0,
-    promociones: [
-      {
-        name: '2x1',
-        id: 10,
-      },
-      {
-        name: '5x4',
-        id: 20,
-      },
-      {
-        name: '3x2',
-        id: 30,
-      },
-      {
-        name: '3x1',
-        id: 40,
-      },
-    ],
-  },
-  {
-    name: 'Descuento',
-    id: 0,
-    promociones: [
-      {
-        name: '10%',
-        id: 12,
-      },
-      {
-        name: '15%',
-        id: 22,
-      },
-      {
-        name: '25%',
-        id: 32,
-      },
-      {
-        name: '50%',
-        id: 42,
-      },
-    ],
-  },
-  {
-    name: 'Rubro',
-    id: 0,
-    promociones: [
-      {
-        name: 'Indumentaria',
-        id: 13,
-      },
-      {
-        name: 'Deporte',
-        id: 23,
-      },
-      {
-        name: 'Gastonomia',
-        id: 33,
-      },
-      {
-        name: 'Hogar',
-        id: 43,
-      },
-    ],
-  },
-];
+const firestore = firebaseapp.firestore();
+const items = [];
+const obtenerPromociones = () => {
+  firestore
+    .collection('tipoPromocion')
+    .get()
+    .then((snapShots) => {
+      snapShots.forEach((doc) => {
+        const data = doc.data();
+        items.push({
+          ...data,
+          id: doc.id,
+        });
+      });
+    });
+};
+obtenerPromociones();
+
+const rubros = [];
+const obtenerRubros = () => {
+  firestore
+    .collection('rubros')
+    .orderBy('prioridad')
+    .onSnapshot((snapShots) => {
+      snapShots.forEach((doc) => {
+        const data = doc.data();
+        rubros.push({
+          ...data,
+          id: doc.id,
+        });
+      });
+    });
+};
+obtenerRubros();
+
 
 export default function BuscadorProveedores(props) {
+  //estado para controlar el use Effect
+  const [yaPaso, setYaPaso] = React.useState(false);
+  //estado para el useEffect de los rubros
+  const [listaRubros, setListaRubros] = React.useState(rubros);
+  //estado de los items seleccionados
   const [selectedItems, setSelectedItems] = React.useState([]);
-
+  //funcion que selecciona los items
   const onSelectedItemsChange = (selectedItems) => {
     setSelectedItems(selectedItems);
+    //paso los items seleccionados al componente padre buscar de pages
+    props.filtrar(selectedItems);
   };
+  //use effect para acomodar los rubros en el selectionedMultiSelect
+  React.useEffect(() => {
+    if (listaRubros.length > 1) {
+      const lista = [];
+      rubros.forEach((rubro) => {
+        lista.push({
+          name: rubro.nombre,
+          id: rubro.prioridad + Math.random() * 100,
+        });
+      });
+      items.push({
+        name: 'Rubros',
+        lista: lista,
+      });
+    }
+  }, [listaRubros]);
 
   return (
     <View style={styles.container}>
       <SectionedMultiSelect
         items={items}
         IconRenderer={Icon}
-        uniqueKey="id"
-        subKey="promociones"
+        uniqueKey="name"
+        subKey="lista"
         selectText={
           selectedItems.length > 1 ? (
             'Filtros'

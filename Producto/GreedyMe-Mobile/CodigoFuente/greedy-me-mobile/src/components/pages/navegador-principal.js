@@ -15,6 +15,7 @@ import Proveedores from '../Proveedores/ini-proveedores';
 import OlvideContraseña from '../Iniciar sesion/olvide-contraseña';
 import VerificarCuenta from '../Iniciar sesion/verificar-cuenta';
 import ComerciosNav from '../comercios/comercios-principal';
+import ComerciosPorRubro from '../comercios/comercios-rubro';
 import { connect } from 'react-redux';
 import { IconButton, Button } from 'react-native-paper';
 
@@ -144,6 +145,20 @@ function NavegadorPrincipal(props) {
                 headerTintColor: 'black',
                 headerStyle: {
                   backgroundColor: 'white',
+                },
+                animationEnabled: false,
+                gestureDirection: 'horizontal',
+              })}
+            />
+            <Stack.Screen
+              name="ComerciosPorRubro"
+              component={ComerciosPorRubro}
+              options={({ route }) => ({
+                title: 'Rubro',
+                headerShown: true,
+                headerTintColor: 'white',
+                headerStyle: {
+                  backgroundColor: '#1E1B4D',
                 },
                 animationEnabled: false,
                 gestureDirection: 'horizontal',

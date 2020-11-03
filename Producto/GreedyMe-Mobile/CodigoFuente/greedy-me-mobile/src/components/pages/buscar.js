@@ -15,13 +15,75 @@ import BuscadorProveedores from '../buscador/buscador';
 import { colors } from '../../styles/colores';
 import CardComercio from '../Inicio/card-comercio';
 import { connect } from 'react-redux';
+import firebaseapp from '../../../firebase/config';
 
+const firestore = firebaseapp.firestore();
+const comercios = [];
+const obtenerComercios = () => {
+  firestore.collection('usuarioComercio').onSnapshot((snapShots) => {
+    snapShots.forEach((doc) => {
+      const data = doc.data();
+      comercios.push({
+        ...data,
+        id: doc.id,
+      });
+    });
+  });
+};
+obtenerComercios();
+const promociones = [];
+const obtenerPromociones = () => {
+  firestore.collection('promociones').onSnapshot((snapShots) => {
+    snapShots.forEach((doc) => {
+      const data = doc.data();
+      promociones.push({
+        ...data,
+        id: doc.id,
+      });
+    });
+  });
+};
+obtenerPromociones();
 function Buscador(props) {
+  //estado de lista de comercios
+  const [listaComercios, setListaComercios] = React.useState([]);
   //Estado que trae lo que se quiere buscar
   const [searchQuery, setSearchQuery] = React.useState('');
-
   //Funcion para setear lo que se quiere buscar
   const onChangeSearch = (query) => setSearchQuery(query);
+
+  const filtrar = (itemSeleccionados) => {
+    const idComercios = [];
+    itemSeleccionados.forEach((item) => {
+      promociones.forEach((promo) => {
+        if (promo.valuePromo === item){
+          idComercios.push(promo.idComercio);
+        }
+      });
+    });
+    itemSeleccionados.forEach((item) => {
+      comercios.forEach((comercio) => {
+        if (comercio.rubro === item){
+          idComercios.push(comercio.id);
+        }
+      });
+    });
+    for (var i = idComercios.length - 1; i >= 0; i--) {
+      if (idComercios.indexOf(idComercios[i]) !== i) {
+        idComercios.splice(i, 1);
+      }
+    }
+    const comerciosFinales = [];
+    comercios.forEach((comercio) => {
+      idComercios.forEach((idComercio) => {
+        if (comercio.id === idComercio) {
+          comerciosFinales.push(comercio);
+        }
+      });
+    });
+    setListaComercios(comerciosFinales);
+    return;
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -38,11 +100,14 @@ function Buscador(props) {
         />
       </View>
       <View style={styles.contFiltros}>
-        <BuscadorProveedores />
+        <BuscadorProveedores filtrar={filtrar} />
       </View>
       <View style={styles.proveedores}>
         <Text style={styles.texto}>Locales</Text>
-        <CardComercio navigation={props.navigation} />
+        <CardComercio
+          comercios={listaComercios}
+          navigation={props.navigation}
+        />
       </View>
     </SafeAreaView>
   );

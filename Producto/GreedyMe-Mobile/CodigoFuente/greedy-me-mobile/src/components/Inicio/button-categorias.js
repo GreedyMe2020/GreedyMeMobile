@@ -30,7 +30,7 @@ const obtenerRubros = () => {
 };
 obtenerRubros();
 
-function ButtonCategorias() {
+function ButtonCategorias(props) {
   return (
     <SafeAreaView style={styles.cont}>
       {console.log(rubros)}
@@ -40,7 +40,13 @@ function ButtonCategorias() {
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         renderItem={(data) => (
-          <TouchableWithoutFeedback onPress={() => {}}>
+          <TouchableWithoutFeedback
+            onPress={() => {
+              props.navigation.navigate('ComerciosPorRubro', {
+                data: data,
+              });
+            }}
+          >
             <View style={styles.cat}>
               <TouchableOpacity style={styles.categorias} activeOpacity={0.5}>
                 <Image
