@@ -20,45 +20,85 @@ import {
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { colors } from '../../styles/colores';
+import firebaseapp from '../../../firebase/config';
+import { format } from 'date-fns';
+
+const firestore = firebaseapp.firestore();
+const promociones = [];
+const obtenerPromociones = () => {
+  firestore.collection('promociones').onSnapshot((snapShots) => {
+    snapShots.forEach((doc) => {
+      const data = doc.data();
+      promociones.push({
+        ...data,
+        id: doc.id,
+      });
+    });
+  });
+};
+obtenerPromociones();
 
 function CuponesComercio(props) {
+  const [idComercio, setIdComercio] = React.useState(props.idcomercio);
+  const [listaPromociones, setListaPromociones] = React.useState([]);
+  React.useEffect(() => {
+    const promocionesIntermedio = [];
+    promociones.forEach((promocion) => {
+      if (promocion.visible === true) {
+        if (promocion.idComercio === idComercio) {
+          promocionesIntermedio.push(promocion);
+        }
+      }
+    });
+    for (var i = promocionesIntermedio.length - 1; i >= 0; i--) {
+      if (promocionesIntermedio.indexOf(promocionesIntermedio[i]) !== i) {
+        promocionesIntermedio.splice(i, 1);
+      }
+    }
+    setListaPromociones(promocionesIntermedio);
+  }, [idComercio]);
   return (
     <SafeAreaView style={styles.container}>
-      {/* <FlatList
-        data={props.comercios}
+      <FlatList
+        data={listaPromociones}
         keyExtractor={(item) => item}
         showsVerticalScrollIndicator={false}
         renderItem={(data) => (
-          <TouchableWithoutFeedback onPress={() => {}}> */}
-      <View style={styles.content}>
-        <View style={styles.card}>
-          <View style={styles.contCirculo}>
-            <View style={styles.circulo} />
-          </View>
-          <View style={styles.contCirculo2}>
-            <View style={styles.circuloEnd} />
-          </View>
-          <View style={styles.contenido}>
-            <Avatar.Image
-              style={styles.contImagen}
-              size={72}
-              source={require('../../multimedia/personal1.png')}
-            />
-            <Divider style={styles.divider} />
-            <View style={styles.texto}>
-              <Title>Club Personal</Title>
-              <Title style={styles.beneficio}>10% OFF</Title>
-              <Text style={{ color: colors.darkGrey }}>
-                Válido hasta el 31/10/2020
-              </Text>
+          <TouchableWithoutFeedback onPress={() => {}}>
+            <View style={styles.content}>
+              <View style={styles.card} id={data.item.id}>
+                <View style={styles.contCirculo}>
+                  <View style={styles.circulo} />
+                </View>
+                <View style={styles.contCirculo2}>
+                  <View style={styles.circuloEnd} />
+                </View>
+                <View style={styles.contenido}>
+                  <Avatar.Image
+                    style={styles.contImagen}
+                    size={72}
+                    source={{
+                      uri: data.item.photoURL,
+                    }}
+                  />
+                  <Divider style={styles.divider} />
+                  <View style={styles.texto}>
+                    <Title>{data.item.valueProveedor}</Title>
+                    <Title style={styles.beneficio}>
+                      {data.item.valuePromo}
+                    </Title>
+                    <Text style={{ color: colors.darkGrey }}>
+                      {'Válido hasta el ' +
+                        format(data.item.hastaVigencia.toDate(), 'dd/MM/yyyy') +
+                        '.'}
+                    </Text>
+                  </View>
+                </View>
+              </View>
             </View>
-          </View>
-        </View>
-      </View>
-
-      {/* </TouchableWithoutFeedback>
+          </TouchableWithoutFeedback>
         )}
-      /> */}
+      />
     </SafeAreaView>
   );
 }
