@@ -1,9 +1,10 @@
 import React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StatusBar, StyleSheet } from 'react-native';
 import SafeAreaView from 'react-native-safe-area-view';
 import CardComercio from '../Inicio/card-comercio';
 import firebaseapp from '../../../firebase/config';
 import { colors } from '../../styles/colores';
+import { IconButton } from 'react-native-paper';
 
 const firestore = firebaseapp.firestore();
 const comercios = [];
@@ -37,8 +38,20 @@ function ComerciosPorRubro(props) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View styles={styles.container}>
-        <Text>{data.item.nombre}</Text>
+      <StatusBar
+        barStyle="light-content"
+        translucent={true}
+        backgroundColor={'transparent'}
+      />
+      <View style={styles.barraSup}>
+        <IconButton
+          icon="arrow-left"
+          color={colors.white}
+          size={30}
+          onPress={() => props.navigation.goBack()}
+          style={styles.icon}
+        />
+        <Text style={styles.header}>{data.item.nombre}</Text>
       </View>
       <View style={styles.proveedores}>
         <CardComercio
@@ -55,12 +68,28 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.white,
   },
+  barraSup: {
+    width: '100%',
+    height: 90,
+    backgroundColor: colors.azul,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  header: {
+    color: colors.white,
+    fontSize: 22,
+    marginTop: 25,
+    marginLeft: 10,
+  },
+  icon: {
+    marginTop: 30,
+    marginLeft: 15,
+  },
   proveedores: {
     flex: 4,
     justifyContent: 'flex-start',
-    marginLeft: 22,
-    marginRight: 10,
-    paddingBottom: 50,
+    marginTop: 15,
   },
 });
 
