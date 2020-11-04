@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { colors } from '../../styles/colores';
-import { Rating } from 'react-native-elements';
+import { Rating, SocialIcon } from 'react-native-elements';
 import IconButton from '../icon-button';
 
 export default function DetalleComercio(props) {
@@ -52,7 +52,9 @@ export default function DetalleComercio(props) {
         </View>
       </View>
       <View style={styles.contGeneral}>
-        <Text style={styles.informacion}>Redes sociales</Text>
+        <Text style={styles.informacion}>Seguinos en las redes sociales</Text>
+        <SocialIcon button type="facebook" />
+        <SocialIcon button type="instagram" />
       </View>
     </View>
   );
