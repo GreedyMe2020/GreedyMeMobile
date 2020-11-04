@@ -74,7 +74,10 @@ export default function ComerciosNav(props) {
           activeBackgroundColor: { backgroundColor: '#324D43' },
         }}
       >
-        <Tab.Screen name="Información" component={DetalleComercio} />
+        <Tab.Screen
+          name="Información"
+          component={() => <DetalleComercio data={data} />}
+        />
         <Tab.Screen name="Cupones" component={CuponesComercio} />
         <Tab.Screen name="Reseñas" component={ReseñasComercio} />
       </Tab.Navigator>
