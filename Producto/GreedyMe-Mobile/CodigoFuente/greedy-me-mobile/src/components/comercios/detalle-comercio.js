@@ -15,24 +15,9 @@ export default function DetalleComercio(props) {
 
   const FACEBOOK_URL = 'https://www.facebook.com/';
 
-  const handleFacebook = (url) => {
-    AppLink.maybeOpenURL('fb://profile/' + url, {
-      appName,
-      appStoreId,
-      appStoreLocale,
-      playStoreId,
-    })
-      .then(() => {
-        // do stuff
-      })
-      .catch((err) => {
-        // handle error
-      });
-  };
-
   return (
-    <ScrollView>
-      <View style={styles.container}>
+    <View style={styles.container}>
+      <ScrollView style={styles.background}>
         <View style={styles.tituloCont}>
           <Text style={styles.titulo}>{props.data.item.nombreComercio}</Text>
           <Text style={styles.sucursal}>{props.data.item.sucursal}</Text>
@@ -88,8 +73,8 @@ export default function DetalleComercio(props) {
             ) : null}
           </View>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 }
 
@@ -144,4 +129,5 @@ const styles = StyleSheet.create({
   redesBtn: {
     marginLeft: 0,
   },
+  background: {},
 });
