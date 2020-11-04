@@ -13,7 +13,7 @@ export default function IconButton({ text, onPress, color, icon, textColor }) {
       icon={icon}
       title="Submit"
       onPress={onPress}
-      labelStyle={{ fontSize: 16, color: textColor }}
+      labelStyle={{ fontSize: 15, color: textColor }}
     >
       {text}
     </Button>
