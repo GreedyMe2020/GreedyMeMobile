@@ -79,6 +79,12 @@ export default function ComerciosNav(props) {
           component={() => <DetalleComercio data={data} />}
         />
         <Tab.Screen name="Cupones" component={CuponesComercio} />
+        <Tab.Screen
+          name="Cupones"
+          children={() => <CuponesComercio idcomercio={data.item.id} />}
+          //component={CuponesComercio}
+          //options={{ title: data.item.id }}
+        />
         <Tab.Screen name="Reseñas" component={ReseñasComercio} />
       </Tab.Navigator>
     </SafeAreaView>

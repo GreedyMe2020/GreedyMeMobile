@@ -47,17 +47,20 @@ obtenerPromociones();
 function Buscador(props) {
   //estado de lista de comercios
   const [listaComercios, setListaComercios] = React.useState([]);
-  //Estado que trae lo que se quiere buscar
-  const [searchQuery, setSearchQuery] = React.useState('');
-  //Funcion para setear lo que se quiere buscar
-  const onChangeSearch = (query) => setSearchQuery(query);
+  //estado lista de comercios para el buscador
+  const [listaComercios2, setListaComercios2] = React.useState([]);
+  //estado texto del buscador
+  const [text, setText] = React.useState('');
 
+  //funcion que filtra los resultados
   const filtrar = (itemSeleccionados) => {
     const idComercios = [];
     itemSeleccionados.forEach((item) => {
       promociones.forEach((promo) => {
-        if (promo.valuePromo === item){
-          idComercios.push(promo.idComercio);
+        if (promo.visible === true) {
+          if (promo.valuePromo === item) {
+            idComercios.push(promo.idComercio);
+          }
         }
       });
     });
@@ -82,9 +85,23 @@ function Buscador(props) {
       });
     });
     setListaComercios(comerciosFinales);
+    setListaComercios2(comerciosFinales);
     return;
   };
 
+  //funcion para el buscador de comercios por nombre de comercio
+  const filter = (texto) => {
+    let textoBuscar = texto;
+    const datos = listaComercios2;
+    const newDatos = datos.filter(function (item) {
+      const itemNombreComercio = item.nombreComercio.toUpperCase();
+      const campo = itemNombreComercio;
+      const textData = textoBuscar.toUpperCase();
+      return campo.indexOf(textData) > -1;
+    });
+    setListaComercios(newDatos);
+    setText(texto);
+  };
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar
@@ -94,8 +111,8 @@ function Buscador(props) {
       />
       <View style={styles.searchcont}>
         <SearchBarBuscar
-          onChangeSearch={onChangeSearch}
-          searchQuery={searchQuery}
+          onChangeText={filter}
+          texto={text}
           styleContainer={styles.searchcontainer}
         />
       </View>

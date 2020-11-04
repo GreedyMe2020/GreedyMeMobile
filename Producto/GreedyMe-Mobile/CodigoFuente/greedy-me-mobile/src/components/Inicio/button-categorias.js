@@ -40,15 +40,17 @@ function ButtonCategorias(props) {
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         renderItem={(data) => (
-          <TouchableWithoutFeedback
-            onPress={() => {
-              props.navigation.navigate('ComerciosPorRubro', {
-                data: data,
-              });
-            }}
-          >
+          <TouchableWithoutFeedback>
             <View style={styles.cat}>
-              <TouchableOpacity style={styles.categorias} activeOpacity={0.5}>
+              <TouchableOpacity
+                style={styles.categorias}
+                activeOpacity={0.5}
+                onPress={() => {
+                  props.navigation.navigate('ComerciosPorRubro', {
+                    data: data,
+                  });
+                }}
+              >
                 <Image
                   source={{
                     uri: data.item.photoURL,

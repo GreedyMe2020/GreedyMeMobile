@@ -155,7 +155,7 @@ function NavegadorPrincipal(props) {
               component={ComerciosPorRubro}
               options={({ route }) => ({
                 title: 'Rubro',
-                headerShown: true,
+                headerShown: false,
                 headerTintColor: 'white',
                 headerStyle: {
                   backgroundColor: '#1E1B4D',
