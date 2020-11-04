@@ -53,8 +53,16 @@ export default function DetalleComercio(props) {
       </View>
       <View style={styles.contGeneral}>
         <Text style={styles.informacion}>Seguinos en las redes sociales</Text>
-        <SocialIcon button type="facebook" />
-        <SocialIcon button type="instagram" />
+        {props.data.item.facebook ? (
+          <SocialIcon button type="facebook" />
+        ) : (
+          <SocialIcon button disabled type="facebook" />
+        )}
+        {props.data.item.instagram ? (
+          <SocialIcon button type="instagram" />
+        ) : (
+          <SocialIcon button disabled type="instagram" />
+        )}
       </View>
     </View>
   );
