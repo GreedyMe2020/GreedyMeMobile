@@ -55,18 +55,12 @@ export default function ComerciosNav(props) {
         tabBarOptions={{
           labelStyle: {
             fontSize: 14,
-            letterSpacing: 0.4,
+            letterSpacing: 0.2,
             fontWeight: '600',
           },
           activeTintColor: colors.naranja,
           inactiveTintColor: colors.azul,
-          //pressColor: '#324D43',
           pressColor: colors.naranja,
-          // indicatorStyle: {
-          //   backgroundColor: colors.celeste,
-          //   height: 50,
-          //   opacity: 0.4,
-          // },
           indicatorStyle: {
             backgroundColor: colors.naranja,
           },
@@ -83,6 +77,7 @@ export default function ComerciosNav(props) {
           children={() => (
             <CuponesComercio
               idcomercio={data.item.id}
+              navigation={props.navigation}
               fotocomercio={data.item.photoURL}
               nombrecomercio={data.item.nombreComercio}
             />
