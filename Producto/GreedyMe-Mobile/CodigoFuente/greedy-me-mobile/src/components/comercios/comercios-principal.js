@@ -80,7 +80,13 @@ export default function ComerciosNav(props) {
         />
         <Tab.Screen
           name="Cupones"
-          children={() => <CuponesComercio idcomercio={data.item.id} />}
+          children={() => (
+            <CuponesComercio
+              idcomercio={data.item.id}
+              fotocomercio={data.item.photoURL}
+              nombrecomercio={data.item.nombreComercio}
+            />
+          )}
           //component={CuponesComercio}
           //options={{ title: data.item.id }}
         />
