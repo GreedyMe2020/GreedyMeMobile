@@ -78,6 +78,8 @@ export default function ComerciosNav(props) {
             <CuponesComercio
               idcomercio={data.item.id}
               navigation={props.navigation}
+              fotocomercio={data.item.photoURL}
+              nombrecomercio={data.item.nombreComercio}
             />
           )}
           //component={CuponesComercio}

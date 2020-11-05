@@ -42,6 +42,9 @@ obtenerPromociones();
 function CuponesComercio(props) {
   const [idComercio, setIdComercio] = React.useState(props.idcomercio);
   const [listaPromociones, setListaPromociones] = React.useState([]);
+  console.log(props.fotocomercio);
+  console.log(props.idcomercio);
+  console.log(props.nombrecomercio);
   React.useEffect(() => {
     const promocionesIntermedio = [];
     promociones.forEach((promocion) => {
@@ -80,17 +83,37 @@ function CuponesComercio(props) {
                     <View style={styles.circuloEnd} />
                   </View>
                   <View style={styles.contenido}>
-                    <Image
+                    <Avatar.Image
                       style={styles.contImagen}
+                      size={72}
                       source={{
-                        uri: data.item.photoURL,
+                        uri:
+                          data.item.tipoProveedor === 'Propias'
+                            ? props.fotocomercio
+                            : data.item.valueProveedor === 'Otro'
+                            ? 'https://firebasestorage.googleapis.com/v0/b/greedyme-d6c6c.appspot.com/o/proveedores%2F1.jpg?alt=media&token=d186f078-7cfa-437c-9287-1bbfd9de8c00'
+                            : data.item.valueProveedor === 'Todos'
+                            ? 'https://firebasestorage.googleapis.com/v0/b/greedyme-d6c6c.appspot.com/o/proveedores%2F1.jpg?alt=media&token=d186f078-7cfa-437c-9287-1bbfd9de8c00'
+                            : data.item.photoURL,
                       }}
                     />
                     <Divider style={styles.divider} />
                     <View style={styles.texto}>
-                      <Title>{data.item.valueProveedor}</Title>
+                      <Title>
+                        {data.item.valueProveedor === 'Otro'
+                          ? data.item.otroProveedor
+                          : data.item.valueProveedor === 'Propio'
+                          ? props.nombrecomercio
+                          : data.item.valueProveedor === 'Todos'
+                          ? data.item.valueProveedor + ' los Bancos'
+                          : data.item.valueProveedor}
+                      </Title>
                       <Title style={styles.beneficio}>
-                        {data.item.valuePromo}
+                        {data.item.valuePromo === 'Otro'
+                          ? data.item.otraPromo
+                          : data.item.tipoPromo === 'Descuento'
+                          ? data.item.valuePromo + ' OFF'
+                          : data.item.valuePromo}
                       </Title>
                       <Text style={{ color: colors.darkGrey }}>
                         {'Válido hasta el ' +
