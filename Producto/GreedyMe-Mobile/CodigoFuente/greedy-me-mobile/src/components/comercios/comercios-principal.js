@@ -60,13 +60,7 @@ export default function ComerciosNav(props) {
           },
           activeTintColor: colors.naranja,
           inactiveTintColor: colors.azul,
-          //pressColor: '#324D43',
           pressColor: colors.naranja,
-          // indicatorStyle: {
-          //   backgroundColor: colors.celeste,
-          //   height: 50,
-          //   opacity: 0.4,
-          // },
           indicatorStyle: {
             backgroundColor: colors.naranja,
           },
@@ -80,7 +74,12 @@ export default function ComerciosNav(props) {
         />
         <Tab.Screen
           name="Cupones"
-          children={() => <CuponesComercio idcomercio={data.item.id} />}
+          children={() => (
+            <CuponesComercio
+              idcomercio={data.item.id}
+              navigation={props.navigation}
+            />
+          )}
           //component={CuponesComercio}
           //options={{ title: data.item.id }}
         />

@@ -7,6 +7,7 @@ import {
   Text,
   SafeAreaView,
   TouchableWithoutFeedback,
+  TouchableOpacity,
 } from 'react-native';
 import {
   Avatar,
@@ -64,37 +65,45 @@ function CuponesComercio(props) {
         keyExtractor={(item) => item}
         showsVerticalScrollIndicator={false}
         renderItem={(data) => (
-          <TouchableWithoutFeedback onPress={() => {}}>
+          <TouchableWithoutFeedback>
             <View style={styles.content}>
-              <View style={styles.card} id={data.item.id}>
-                <View style={styles.contCirculo}>
-                  <View style={styles.circulo} />
-                </View>
-                <View style={styles.contCirculo2}>
-                  <View style={styles.circuloEnd} />
-                </View>
-                <View style={styles.contenido}>
-                  <Avatar.Image
-                    style={styles.contImagen}
-                    size={72}
-                    source={{
-                      uri: data.item.photoURL,
-                    }}
-                  />
-                  <Divider style={styles.divider} />
-                  <View style={styles.texto}>
-                    <Title>{data.item.valueProveedor}</Title>
-                    <Title style={styles.beneficio}>
-                      {data.item.valuePromo}
-                    </Title>
-                    <Text style={{ color: colors.darkGrey }}>
-                      {'Válido hasta el ' +
-                        format(data.item.hastaVigencia.toDate(), 'dd/MM/yyyy') +
-                        '.'}
-                    </Text>
+              <TouchableOpacity
+                onPress={() => {
+                  props.navigation.navigate('Cupon');
+                }}
+              >
+                <View style={styles.card} id={data.item.id}>
+                  <View style={styles.contCirculo}>
+                    <View style={styles.circulo} />
+                  </View>
+                  <View style={styles.contCirculo2}>
+                    <View style={styles.circuloEnd} />
+                  </View>
+                  <View style={styles.contenido}>
+                    <Image
+                      style={styles.contImagen}
+                      source={{
+                        uri: data.item.photoURL,
+                      }}
+                    />
+                    <Divider style={styles.divider} />
+                    <View style={styles.texto}>
+                      <Title>{data.item.valueProveedor}</Title>
+                      <Title style={styles.beneficio}>
+                        {data.item.valuePromo}
+                      </Title>
+                      <Text style={{ color: colors.darkGrey }}>
+                        {'Válido hasta el ' +
+                          format(
+                            data.item.hastaVigencia.toDate(),
+                            'dd/MM/yyyy',
+                          ) +
+                          '.'}
+                      </Text>
+                    </View>
                   </View>
                 </View>
-              </View>
+              </TouchableOpacity>
             </View>
           </TouchableWithoutFeedback>
         )}
@@ -107,10 +116,10 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.avatar,
     flex: 1,
+    marginTop: 30,
   },
   content: {
     backgroundColor: colors.avatar,
-    marginTop: 30,
   },
   card: {
     backgroundColor: colors.white,
@@ -155,6 +164,9 @@ const styles = StyleSheet.create({
     marginRight: 20,
     backgroundColor: 'transparent',
     alignSelf: 'center',
+    height: 70,
+    width: 70,
+    borderRadius: 3,
   },
   divider: {
     height: 100,
