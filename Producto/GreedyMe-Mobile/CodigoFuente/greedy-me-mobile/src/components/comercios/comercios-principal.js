@@ -55,7 +55,7 @@ export default function ComerciosNav(props) {
         tabBarOptions={{
           labelStyle: {
             fontSize: 14,
-            letterSpacing: 0.4,
+            letterSpacing: 0.2,
             fontWeight: '600',
           },
           activeTintColor: colors.naranja,
