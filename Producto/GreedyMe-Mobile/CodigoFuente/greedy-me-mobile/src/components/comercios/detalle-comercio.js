@@ -5,6 +5,7 @@ import { Rating, SocialIcon } from 'react-native-elements';
 import IconButton from '../icon-button';
 import * as Linking from 'expo-linking';
 import AppLink from 'react-native-app-link';
+import { color } from 'react-native-reanimated';
 
 export default function DetalleComercio(props) {
   //Funcion para linkear a una pagina cuando se haga boton en
@@ -31,14 +32,11 @@ export default function DetalleComercio(props) {
           <Text style={styles.direccion}>{props.data.item.direccion}</Text>
         </View>
         <View style={styles.contGeneral}>
-          <Text style={styles.informacion}>Información</Text>
-          <Text style={styles.infoDetalle}>
-            Aca supuestamente va info pero no se info de que va a ir porque no
-            pusimos nada xdxdxdlol killmeplis quiero terminar la tesis.
-          </Text>
-        </View>
-        <View style={styles.contGeneral}>
-          <Text style={styles.informacion}>Contacto</Text>
+          {props.data.item.web ||
+          props.data.item.facebook ||
+          props.data.item.instagram ? (
+            <Text style={styles.informacion}>Contacto</Text>
+          ) : null}
           <View style={styles.contactoCont}>
             {props.data.item.web ? (
               <SocialIcon
@@ -64,6 +62,7 @@ export default function DetalleComercio(props) {
               <SocialIcon
                 type="instagram"
                 style={styles.redesBtn}
+                iconColor="#DA08A7" //#813CB0 - violeta
                 onPress={() =>
                   handlePress(
                     'instagram://user?username=' + props.data.item.instagram,
