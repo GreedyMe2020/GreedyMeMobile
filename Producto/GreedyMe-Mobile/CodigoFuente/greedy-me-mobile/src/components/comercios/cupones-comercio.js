@@ -63,74 +63,88 @@ function CuponesComercio(props) {
   }, [idComercio]);
   return (
     <SafeAreaView style={styles.container}>
-      <FlatList
-        data={listaPromociones}
-        keyExtractor={(item) => item}
-        showsVerticalScrollIndicator={false}
-        renderItem={(data) => (
-          <TouchableWithoutFeedback>
-            <View style={styles.content}>
-              <TouchableOpacity
-                onPress={() => {
-                  props.navigation.navigate('Cupon');
-                }}
-              >
-                <View style={styles.card} id={data.item.id}>
-                  <View style={styles.contCirculo}>
-                    <View style={styles.circulo} />
-                  </View>
-                  <View style={styles.contCirculo2}>
-                    <View style={styles.circuloEnd} />
-                  </View>
-                  <View style={styles.contenido}>
-                    <Avatar.Image
-                      style={styles.contImagen}
-                      size={72}
-                      source={{
-                        uri:
-                          data.item.tipoProveedor === 'Propias'
-                            ? props.fotocomercio
-                            : data.item.valueProveedor === 'Otro'
-                            ? 'https://firebasestorage.googleapis.com/v0/b/greedyme-d6c6c.appspot.com/o/proveedores%2F1.jpg?alt=media&token=d186f078-7cfa-437c-9287-1bbfd9de8c00'
+      {listaPromociones.length > 0 ? (
+        <FlatList
+          data={listaPromociones}
+          keyExtractor={(item) => item}
+          showsVerticalScrollIndicator={false}
+          renderItem={(data) => (
+            <TouchableWithoutFeedback>
+              <View style={styles.content}>
+                <TouchableOpacity
+                  onPress={() => {
+                    props.navigation.navigate('Cupon', {
+                      data: data,
+                      sucursal: props.sucursalcomercio,
+                      comercio: props.nombrecomercio,
+                    });
+                  }}
+                >
+                  <View style={styles.card} id={data.item.id}>
+                    <View style={styles.contCirculo}>
+                      <View style={styles.circulo} />
+                    </View>
+                    <View style={styles.contCirculo2}>
+                      <View style={styles.circuloEnd} />
+                    </View>
+                    <View style={styles.contenido}>
+                      <Avatar.Image
+                        style={styles.contImagen}
+                        size={72}
+                        source={{
+                          uri:
+                            data.item.tipoProveedor === 'Propias'
+                              ? props.fotocomercio
+                              : data.item.valueProveedor === 'Otro'
+                              ? 'https://firebasestorage.googleapis.com/v0/b/greedyme-d6c6c.appspot.com/o/proveedores%2F1.jpg?alt=media&token=d186f078-7cfa-437c-9287-1bbfd9de8c00'
+                              : data.item.valueProveedor === 'Todos'
+                              ? 'https://firebasestorage.googleapis.com/v0/b/greedyme-d6c6c.appspot.com/o/proveedores%2F1.jpg?alt=media&token=d186f078-7cfa-437c-9287-1bbfd9de8c00'
+                              : data.item.photoURL,
+                        }}
+                      />
+                      <Divider style={styles.divider} />
+                      <View style={styles.texto}>
+                        <Title>
+                          {data.item.valueProveedor === 'Otro'
+                            ? data.item.otroProveedor
+                            : data.item.valueProveedor === 'Propio'
+                            ? props.nombrecomercio
                             : data.item.valueProveedor === 'Todos'
-                            ? 'https://firebasestorage.googleapis.com/v0/b/greedyme-d6c6c.appspot.com/o/proveedores%2F1.jpg?alt=media&token=d186f078-7cfa-437c-9287-1bbfd9de8c00'
-                            : data.item.photoURL,
-                      }}
-                    />
-                    <Divider style={styles.divider} />
-                    <View style={styles.texto}>
-                      <Title>
-                        {data.item.valueProveedor === 'Otro'
-                          ? data.item.otroProveedor
-                          : data.item.valueProveedor === 'Propio'
-                          ? props.nombrecomercio
-                          : data.item.valueProveedor === 'Todos'
-                          ? data.item.valueProveedor + ' los Bancos'
-                          : data.item.valueProveedor}
-                      </Title>
-                      <Title style={styles.beneficio}>
-                        {data.item.valuePromo === 'Otro'
-                          ? data.item.otraPromo
-                          : data.item.tipoPromo === 'Descuento'
-                          ? data.item.valuePromo + ' OFF'
-                          : data.item.valuePromo}
-                      </Title>
-                      <Text style={{ color: colors.darkGrey }}>
-                        {'Válido hasta el ' +
-                          format(
-                            data.item.hastaVigencia.toDate(),
-                            'dd/MM/yyyy',
-                          ) +
-                          '.'}
-                      </Text>
+                            ? data.item.valueProveedor + ' los Bancos'
+                            : data.item.valueProveedor}
+                        </Title>
+                        <Title style={styles.beneficio}>
+                          {data.item.valuePromo === 'Otro'
+                            ? data.item.otraPromo
+                            : data.item.tipoPromo === 'Descuento'
+                            ? data.item.valuePromo + ' OFF'
+                            : data.item.valuePromo}
+                        </Title>
+                        <Text style={{ color: colors.darkGrey }}>
+                          {'Válido hasta el ' +
+                            format(
+                              data.item.hastaVigencia.toDate(),
+                              'dd/MM/yyyy',
+                            ) +
+                            '.'}
+                        </Text>
+                      </View>
                     </View>
                   </View>
-                </View>
-              </TouchableOpacity>
-            </View>
-          </TouchableWithoutFeedback>
-        )}
-      />
+                </TouchableOpacity>
+              </View>
+            </TouchableWithoutFeedback>
+          )}
+        />
+      ) : (
+        <View style={styles.contenedor}>
+          <Image
+            style={styles.image}
+            source={require('../../multimedia/no-promociones.png')}
+          />
+          <Text style={styles.text}>No hay promociones por el momento...</Text>
+        </View>
+      )}
     </SafeAreaView>
   );
 }
@@ -139,17 +153,22 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.avatar,
     flex: 1,
-    marginTop: 30,
+  },
+  contenedor: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
   },
   content: {
     backgroundColor: colors.avatar,
+    marginTop: 12,
   },
   card: {
     backgroundColor: colors.white,
     borderRadius: 5,
     marginLeft: 20,
     marginRight: 20,
-    marginBottom: 25,
+    marginBottom: 13,
     height: 110,
     justifyContent: 'center',
     alignContent: 'center',
@@ -205,6 +224,13 @@ const styles = StyleSheet.create({
     marginTop: -2,
     marginBottom: 5,
     fontSize: 23,
+  },
+  image: {
+    width: 350,
+    height: 350,
+  },
+  text: {
+    fontSize: 17,
   },
 });
 

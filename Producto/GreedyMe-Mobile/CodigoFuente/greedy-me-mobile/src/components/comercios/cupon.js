@@ -25,6 +25,9 @@ import firebaseapp from '../../../firebase/config';
 import { format } from 'date-fns';
 
 function Cupon(props) {
+  //Traigo la info del beneficio y se la asigno a la variable data,
+  //y los datos del comercio a las otras variables:
+  const { data, sucursal, comercio } = props.route.params;
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
@@ -32,28 +35,77 @@ function Cupon(props) {
           <View style={styles.contenido}>
             <Image
               style={styles.contImagen}
-              source={require('../../multimedia/personal.png')}
+              source={{
+                uri:
+                  data.item.tipoProveedor === 'Propias'
+                    ? props.fotocomercio
+                    : data.item.valueProveedor === 'Otro'
+                    ? 'https://firebasestorage.googleapis.com/v0/b/greedyme-d6c6c.appspot.com/o/proveedores%2F1.jpg?alt=media&token=d186f078-7cfa-437c-9287-1bbfd9de8c00'
+                    : data.item.valueProveedor === 'Todos'
+                    ? 'https://firebasestorage.googleapis.com/v0/b/greedyme-d6c6c.appspot.com/o/proveedores%2F1.jpg?alt=media&token=d186f078-7cfa-437c-9287-1bbfd9de8c00'
+                    : data.item.photoURL,
+              }}
             />
             <View style={styles.texto}>
-              <Title style={styles.titulo}>Club Personal</Title>
-              <Title style={styles.beneficio}>10% OFF</Title>
+              <Title style={styles.titulo}>
+                {data.item.valueProveedor === 'Otro'
+                  ? data.item.otroProveedor
+                  : data.item.valueProveedor === 'Propio'
+                  ? props.nombrecomercio
+                  : data.item.valueProveedor === 'Todos'
+                  ? data.item.valueProveedor + ' los Bancos'
+                  : data.item.valueProveedor}
+              </Title>
+              <Title style={styles.beneficio}>
+                {data.item.valuePromo === 'Otro'
+                  ? data.item.otraPromo
+                  : data.item.tipoPromo === 'Descuento'
+                  ? data.item.valuePromo + ' OFF'
+                  : data.item.valuePromo}
+              </Title>
               <Text style={styles.validez}>
-                Válido desde el 05/11/2020 al 31/11/2020
+                {'Válido desde el ' +
+                  format(data.item.desdeVigencia.toDate(), 'dd/MM/yyyy')}
+              </Text>
+              <Text style={styles.validez}>
+                {' hasta el ' +
+                  format(data.item.hastaVigencia.toDate(), 'dd/MM/yyyy')}
               </Text>
               {/* Si no tiene sucursal no deberia mostrar la palabra , sucursal */}
               <Text style={styles.validez}>
-                en Adidas, sucursal Patio Olmos
+                {'en ' + comercio + ', sucursal ' + sucursal + '.'}
               </Text>
             </View>
             <View style={styles.textoSecundario}>
-              <Text style={styles.validez}>- Medio de pago: tal</Text>
-              <Text style={styles.validez}>- Aplica: Dias</Text>
-              <Text style={styles.validez}>- Medio de pago: tal</Text>
-              <Text style={styles.validez}>- Entidad crediticia: tal </Text>
-              <Text style={styles.validez}>- Descripción: </Text>
+              <Text style={styles.validez2}>
+                {'- Aplica: ' +
+                  ((data.item.diaAplicacion.lunes ? 'Lunes ' : '') +
+                    (data.item.diaAplicacion.martes ? 'Martes ' : '') +
+                    (data.item.diaAplicacion.miercoles ? 'Miercoles ' : '') +
+                    (data.item.diaAplicacion.jueves ? 'Jueves ' : '') +
+                    (data.item.diaAplicacion.viernes ? 'Viernes ' : '') +
+                    (data.item.diaAplicacion.sabado ? 'Sábado ' : '') +
+                    (data.item.diaAplicacion.domingo ? 'Domingo ' : '') +
+                    (data.item.diaAplicacion.todoslosdias
+                      ? 'Todos los días' + '.'
+                      : ''))}
+              </Text>
+              <Text style={styles.validez2}>
+                {'- Medio de pago: ' + data.item.medioPago + '.'}
+              </Text>
+
+              {data.item.otroProveedor ? (
+                <Text style={styles.validez2}>
+                  {'- Entidad crediticia: ' + data.item.otroProveedor + '.'}
+                </Text>
+              ) : null}
+
+              <Text style={styles.validez2}>
+                {data.item.descripcion ? data.item.descripcion + '.' : ''}
+              </Text>
               <Text style={styles.validez1}>
-                - Guardá este cupón y pedí el código en la tienda para sumar
-                GreedyPoints
+                ¡Guardá este cupón y pedí el código en la tienda para sumar
+                GreedyPoints!
               </Text>
             </View>
           </View>
@@ -98,6 +150,7 @@ const styles = StyleSheet.create({
   },
   content: {
     backgroundColor: colors.avatar,
+    flex: 1,
   },
   card: {
     backgroundColor: colors.white,
@@ -105,7 +158,7 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     marginRight: 30,
     marginBottom: 25,
-    height: 560,
+    flex: 1,
     alignContent: 'center',
     elevation: 1,
   },
@@ -166,14 +219,27 @@ const styles = StyleSheet.create({
     fontSize: 28,
   },
   validez: {
-    color: colors.darkGrey,
+    color: colors.black,
     marginBottom: 3,
     fontSize: 16,
+    textAlign: 'center',
+    paddingLeft: 2,
+    paddingRight: 2,
   },
   validez1: {
     color: colors.darkGrey,
-    marginRight: 30,
+    marginTop: 15,
+    marginBottom: -15,
+    marginRight: 39,
     fontSize: 16,
+    textAlign: 'center',
+  },
+  validez2: {
+    color: colors.black,
+    marginBottom: 3,
+    fontSize: 16,
+    marginRight: 39,
+    textAlign: 'center',
   },
   textoSecundario: {
     marginTop: 20,

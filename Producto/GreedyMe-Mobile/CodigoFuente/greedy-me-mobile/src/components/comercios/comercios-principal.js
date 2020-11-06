@@ -26,6 +26,7 @@ import ReseñasComercio from './reseñas-comercio';
 const Tab = createMaterialTopTabNavigator();
 
 export default function ComerciosNav(props) {
+  //Traigo la info del comerico y se la asigno a la variable data:
   const { data } = props.route.params;
   return (
     <SafeAreaView style={styles.container}>
@@ -80,6 +81,7 @@ export default function ComerciosNav(props) {
               navigation={props.navigation}
               fotocomercio={data.item.photoURL}
               nombrecomercio={data.item.nombreComercio}
+              sucursalcomercio={data.item.sucursal}
             />
           )}
           //component={CuponesComercio}
