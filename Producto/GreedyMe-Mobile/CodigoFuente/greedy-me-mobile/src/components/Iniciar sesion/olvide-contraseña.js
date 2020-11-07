@@ -16,6 +16,7 @@ import {
 } from '../../../redux/actions/auth-actions';
 import { colors } from '../../styles/colores';
 import ButtonEj from '../button';
+import { NavigationContainer } from '@react-navigation/native';
 
 function OlvideContraseña(props) {
   //Estados para manejar los datos del email y la validacion del mismo
@@ -36,6 +37,9 @@ function OlvideContraseña(props) {
     } else {
       setErrorEmail('');
       props.forgotPass(email);
+      setTimeout(() => {
+        props.navigation.goBack();
+      }, 6000);
     }
   };
 

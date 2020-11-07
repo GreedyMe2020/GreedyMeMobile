@@ -8,6 +8,7 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
+  ScrollView,
 } from 'react-native';
 import SearchBarBuscar from '../buscador/search-bar-buscar';
 import SafeAreaView from 'react-native-safe-area-view';
@@ -66,7 +67,7 @@ function Buscador(props) {
     });
     itemSeleccionados.forEach((item) => {
       comercios.forEach((comercio) => {
-        if (comercio.rubro === item){
+        if (comercio.rubro === item) {
           idComercios.push(comercio.id);
         }
       });
@@ -109,23 +110,25 @@ function Buscador(props) {
         translucent={true}
         backgroundColor={'transparent'}
       />
-      <View style={styles.searchcont}>
-        <SearchBarBuscar
-          onChangeText={filter}
-          texto={text}
-          styleContainer={styles.searchcontainer}
-        />
-      </View>
-      <View style={styles.contFiltros}>
-        <BuscadorProveedores filtrar={filtrar} />
-      </View>
-      <View style={styles.proveedores}>
-        <Text style={styles.texto}>Locales</Text>
-        <CardComercio
-          comercios={listaComercios}
-          navigation={props.navigation}
-        />
-      </View>
+      <ScrollView style={styles.container}>
+        <View style={styles.searchcont}>
+          <SearchBarBuscar
+            onChangeText={filter}
+            texto={text}
+            styleContainer={styles.searchcontainer}
+          />
+        </View>
+        <View style={styles.contFiltros}>
+          <BuscadorProveedores filtrar={filtrar} />
+        </View>
+        <View style={styles.proveedores}>
+          <Text style={styles.texto}>Locales</Text>
+          <CardComercio
+            comercios={listaComercios}
+            navigation={props.navigation}
+          />
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -147,7 +150,8 @@ const styles = StyleSheet.create({
   },
   texto: {
     marginBottom: 15,
-    marginTop: 10,
+    paddingLeft: 25,
+    marginTop: 30,
     fontWeight: 'bold',
     fontSize: 20,
     fontFamily: 'Poppins-SemiBold',
@@ -156,9 +160,7 @@ const styles = StyleSheet.create({
   proveedores: {
     flex: 4,
     justifyContent: 'flex-start',
-    marginLeft: 22,
-    marginRight: 10,
-    paddingBottom: 50,
+    paddingBottom: 40,
   },
   searchcontainer: {
     backgroundColor: colors.white,
