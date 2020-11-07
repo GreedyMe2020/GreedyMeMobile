@@ -1,11 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { colors } from '../../styles/colores';
-import { Rating, SocialIcon } from 'react-native-elements';
+import { Rating, Icon, SocialIcon } from 'react-native-elements';
 import IconButton from '../icon-button';
 import * as Linking from 'expo-linking';
 import AppLink from 'react-native-app-link';
-import { color } from 'react-native-reanimated';
 
 export default function DetalleComercio(props) {
   //Funcion para linkear a una pagina cuando se haga boton en
@@ -26,7 +25,7 @@ export default function DetalleComercio(props) {
             imageSize={24}
             readonly
             startingValue={3.5}
-            tintColor={colors.avatar}
+            tintColor={'#f3f3f3'}
             style={styles.rating}
           />
           <Text style={styles.direccion}>{props.data.item.direccion}</Text>
@@ -39,9 +38,19 @@ export default function DetalleComercio(props) {
           ) : null}
           <View style={styles.contactoCont}>
             {props.data.item.web ? (
-              <SocialIcon
-                type="google"
-                style={styles.redesBtn}
+              // <SocialIcon
+              //   type="google"
+              //   style={styles.redesBtn}
+              //   onPress={() => handlePress(props.data.item.web)}
+              // />
+              <Icon
+                raised
+                containerStyle={styles.redesBtn}
+                name="world-o"
+                type="fontisto"
+                color="#266d58"
+                reverse={true}
+                size={24.8}
                 onPress={() => handlePress(props.data.item.web)}
               />
             ) : null}
@@ -61,8 +70,12 @@ export default function DetalleComercio(props) {
             {props.data.item.instagram ? (
               <SocialIcon
                 type="instagram"
-                style={styles.redesBtn}
-                iconColor="#DA08A7" //#813CB0 - violeta
+                style={{
+                  backgroundColor: '#C434A3',
+                  marginTop: 10,
+                  marginLeft: 0,
+                }}
+                iconColor={colors.white} //#813CB0 - violeta - "#DA08A7"
                 onPress={() =>
                   handlePress(
                     'instagram://user?username=' + props.data.item.instagram,
@@ -83,7 +96,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    backgroundColor: colors.avatar,
+    backgroundColor: '#f3f3f3',
   },
   tituloCont: {
     marginBottom: 15,
@@ -98,10 +111,12 @@ const styles = StyleSheet.create({
   },
   sucursal: {
     fontSize: 16,
+    marginTop: 5,
+    marginBottom: 5,
     fontFamily: 'Poppins',
   },
   rating: {
-    marginTop: 2,
+    marginBottom: 5,
     flexDirection: 'row',
     justifyContent: 'flex-start',
   },
@@ -127,6 +142,7 @@ const styles = StyleSheet.create({
   },
   redesBtn: {
     marginLeft: 0,
+    marginTop: 10,
   },
   background: {},
 });
