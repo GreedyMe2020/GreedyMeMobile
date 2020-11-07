@@ -88,9 +88,9 @@ function CuponesComercio(props) {
                       <View style={styles.circuloEnd} />
                     </View>
                     <View style={styles.contenido}>
-                      <Avatar.Image
+                      <Image
                         style={styles.contImagen}
-                        size={72}
+                        resizeMode="cover"
                         source={{
                           uri:
                             data.item.tipoProveedor === 'Propias'
@@ -142,7 +142,7 @@ function CuponesComercio(props) {
             style={styles.image}
             source={require('../../multimedia/no-promociones.png')}
           />
-          <Text style={styles.text}>No hay promociones por el momento...</Text>
+          <Text style={styles.text}>No hay promociones por el momento</Text>
         </View>
       )}
     </SafeAreaView>
@@ -151,7 +151,7 @@ function CuponesComercio(props) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.avatar,
+    backgroundColor: '#f3f3f3',
     flex: 1,
   },
   contenedor: {
@@ -160,15 +160,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   content: {
-    backgroundColor: colors.avatar,
-    marginTop: 12,
+    backgroundColor: '#f3f3f3',
+    marginTop: 23,
   },
   card: {
     backgroundColor: colors.white,
     borderRadius: 5,
     marginLeft: 20,
     marginRight: 20,
-    marginBottom: 13,
+    marginBottom: 4,
     height: 110,
     justifyContent: 'center',
     alignContent: 'center',
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
   circulo: {
     height: 40,
     width: 40,
-    backgroundColor: colors.avatar,
+    backgroundColor: '#f3f3f3',
     borderRadius: 100,
     marginLeft: -22,
   },
@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
   circuloEnd: {
     height: 40,
     width: 40,
-    backgroundColor: colors.avatar,
+    backgroundColor: '#f3f3f3',
     borderRadius: 100,
     marginRight: -22,
   },
@@ -206,9 +206,9 @@ const styles = StyleSheet.create({
     marginRight: 20,
     backgroundColor: 'transparent',
     alignSelf: 'center',
-    height: 70,
-    width: 70,
-    borderRadius: 3,
+    height: 68,
+    width: 68,
+    borderRadius: 5,
   },
   divider: {
     height: 100,

@@ -12,6 +12,7 @@ import Notificaciones from '../Perfil/notificaciones';
 import Ubicacion from '../Perfil/ubicacion';
 import CambiarContraseña from '../Perfil/cambiarContraseña';
 import Proveedores from '../Proveedores/ini-proveedores';
+import ProveedoresLogin from '../Proveedores/login-proveedores';
 import OlvideContraseña from '../Iniciar sesion/olvide-contraseña';
 import VerificarCuenta from '../Iniciar sesion/verificar-cuenta';
 import ComerciosNav from '../comercios/comercios-principal';
@@ -114,6 +115,21 @@ function NavegadorPrincipal(props) {
               options={({ route }) => ({
                 title: 'Gestionar mis proveedores',
                 headerShown: true,
+                headerTintColor: 'white',
+                headerStyle: {
+                  backgroundColor: '#1E1B4D',
+                },
+                animationEnabled: false,
+                gestureDirection: 'horizontal',
+              })}
+            />
+            <Stack.Screen
+              name="ProveedoresLogin"
+              component={ProveedoresLogin}
+              options={({ route }) => ({
+                title: 'Gestionar mis proveedores',
+                headerShown: true,
+                headerLeft: null,
                 headerTintColor: 'white',
                 headerStyle: {
                   backgroundColor: '#1E1B4D',

@@ -74,15 +74,6 @@ function OlvideContraseña(props) {
     }
   }, [email]);
 
-  /* const handleSubmit = () => {
-    if (email === '' || email === null) {
-      setErrorEmail('* Ingresá tu email para continuar');
-    } else {
-      setErrorEmail('');
-      //
-    }
-  }; */
-
   return (
     <KeyboardAvoidingView
       style={styles.containerTeclado}

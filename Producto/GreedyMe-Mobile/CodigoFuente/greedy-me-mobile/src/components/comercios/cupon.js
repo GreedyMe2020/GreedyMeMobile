@@ -71,7 +71,6 @@ function Cupon(props) {
                 {' hasta el ' +
                   format(data.item.hastaVigencia.toDate(), 'dd/MM/yyyy')}
               </Text>
-              {/* Si no tiene sucursal no deberia mostrar la palabra , sucursal */}
               <Text style={styles.validez}>
                 {'en ' + comercio + ', sucursal ' + sucursal + '.'}
               </Text>
@@ -131,7 +130,7 @@ function Cupon(props) {
               icon="content-save-outline"
               mode="outlined"
               style={styles.botonGuardar}
-              labelStyle={{ fontSize: 18, color: colors.naranja }}
+              labelStyle={{ fontSize: 18, color: colors.white }}
             >
               Guardar
             </Button>
@@ -144,13 +143,14 @@ function Cupon(props) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.avatar,
     flex: 1,
-    marginTop: 30,
+    backgroundColor: colors.avatar,
   },
   content: {
     backgroundColor: colors.avatar,
     flex: 1,
+    marginTop: 30,
+    marginBottom: 30,
   },
   card: {
     backgroundColor: colors.white,
@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     height: 125,
     width: 125,
-    borderRadius: 3,
+    borderRadius: 5,
   },
   divider: {
     width: 2,
@@ -251,10 +251,7 @@ const styles = StyleSheet.create({
   },
   botonGuardar: {
     alignSelf: 'center',
-    //backgroundColor: colors.celeste,
-    borderWidth: 2,
-    borderColor: colors.naranja,
-    backgroundColor: colors.white,
+    backgroundColor: colors.celeste,
   },
 });
 

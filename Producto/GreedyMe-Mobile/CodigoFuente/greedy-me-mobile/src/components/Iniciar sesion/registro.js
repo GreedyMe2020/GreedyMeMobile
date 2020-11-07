@@ -102,7 +102,7 @@ function Registro(props) {
   //Funciones para manejar el renderizado de los errores individuales de cada input
   const nombreValidator = React.useEffect(() => {
     if (nombre === '') {
-      setErrorNombre('* Este campo no puede estar vacio');
+      setErrorNombre('* Este campo no puede estar vacío');
     } else {
       setErrorNombre('');
     }
@@ -110,7 +110,7 @@ function Registro(props) {
 
   const apellidoValidator = React.useEffect(() => {
     if (apellido === '') {
-      setErrorApellido('* Este campo no puede estar vacio');
+      setErrorApellido('* Este campo no puede estar vacío');
     } else {
       setErrorApellido('');
     }
@@ -118,7 +118,7 @@ function Registro(props) {
 
   const emailValidator = React.useEffect(() => {
     if (email === '') {
-      setErrorEmail('* Este campo no puede estar vacio');
+      setErrorEmail('* Este campo no puede estar vacío');
     } else {
       if (email !== null) {
         if (reg.test(email) !== true) {
@@ -132,7 +132,7 @@ function Registro(props) {
 
   const passValidatorNueva = React.useEffect(() => {
     if (password === '') {
-      setErrorContraseñaNueva('* Este campo no puede estar vacio');
+      setErrorContraseñaNueva('* Este campo no puede estar vacío');
     } else {
       if (password !== null) {
         if (reg2.test(password) !== true) {
@@ -148,7 +148,7 @@ function Registro(props) {
 
   const passValidatorRepetida = React.useEffect(() => {
     if (repetido === '') {
-      setErrorContraseñaRepe('* Este campo no puede estar vacio');
+      setErrorContraseñaRepe('* Este campo no puede estar vacío');
     } else {
       setErrorContraseñaRepe('');
     }
@@ -323,7 +323,7 @@ const styles = StyleSheet.create({
   inputEmailPass: {
     marginRight: 20,
     marginLeft: 20,
-    marginBottom: 5,
+    marginBottom: 8,
     height: 55,
     fontSize: 18,
     backgroundColor: colors.grey,
@@ -362,7 +362,7 @@ const styles = StyleSheet.create({
   errorPass: {
     marginLeft: 20,
     color: colors.error,
-    top: -13,
+    top: -5,
   },
   contenedorSnack: {
     top: 120,

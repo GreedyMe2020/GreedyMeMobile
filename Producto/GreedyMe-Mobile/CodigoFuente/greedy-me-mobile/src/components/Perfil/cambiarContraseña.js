@@ -292,7 +292,7 @@ const styles = StyleSheet.create({
   errorPass: {
     marginLeft: 20,
     color: colors.error,
-    top: -13,
+    top: -10,
   },
   contenedorSnack: {
     top: -50,

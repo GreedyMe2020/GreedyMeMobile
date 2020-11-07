@@ -64,7 +64,7 @@ function IniciarSesionConEmail(props) {
 
   const emailValidator = React.useEffect(() => {
     if (email === '') {
-      setErrorEmail('* Este campo no puede estar vacio');
+      setErrorEmail('* Este campo no puede estar vacío');
     } else {
       if (email !== null) {
         if (reg.test(email) !== true) {
@@ -78,7 +78,7 @@ function IniciarSesionConEmail(props) {
 
   const passValidator = React.useEffect(() => {
     if (password === '') {
-      setErrorContraseña('* Este campo no puede estar vacio');
+      setErrorContraseña('* Este campo no puede estar vacío');
     } else {
       setErrorContraseña('');
     }
