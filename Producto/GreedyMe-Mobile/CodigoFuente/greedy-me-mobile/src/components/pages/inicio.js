@@ -13,6 +13,7 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import { Divider } from 'react-native-paper';
+import _ from 'lodash';
 import * as Location from 'expo-location';
 import { LogBox } from 'react-native';
 import { connect } from 'react-redux';
@@ -22,41 +23,32 @@ import ButtonCategorias from '../Inicio/button-categorias';
 import { colors } from '../../styles/colores';
 import CardPremium from '../Inicio/card-premium';
 import firebaseapp from '../../../firebase/config';
-import { cargarComerciosAdheridos } from '../../../redux/actions/comercio-actions';
-
+import { setearFavorito } from '../../../redux/actions/comercio-actions';
+import { map } from 'lodash';
+import { agregarComercioFavorito } from '../../../redux/actions/comercio-actions';
+//Obtengo todos los comercios que en un principio solo deberian estar los que tienen proveedor de servicio del usuario
 const firestore = firebaseapp.firestore();
 const comercios = [];
 const obtenerComercios = () => {
-  firestore.collection('usuarioComercio').onSnapshot((snapShots) => {
-    snapShots.forEach((doc) => {
-      const data = doc.data();
-      comercios.push({
-        ...data,
-        id: doc.id,
+  firebaseapp.auth().onAuthStateChanged(function (user) {
+    if (user) {
+      firestore.collection('usuarioComercio').onSnapshot((snapShots) => {
+        snapShots.forEach((doc) => {
+          const data = doc.data();
+          comercios.push({
+            ...data,
+            id: doc.id,
+          });
+        });
       });
-    });
+    }
   });
 };
 obtenerComercios();
+
 //esconde los warnings
 LogBox.ignoreLogs(['Warning: ...']);
 LogBox.ignoreAllLogs();
-
-/*const firestore = firebaseapp.firestore();
-const comercios = [];
-const obtenerComercios = () => {
-  firestore.collection('usuarioComercio').onSnapshot((snapShots) => {
-    snapShots.forEach((doc) => {
-      const data = doc.data();
-      comercios.push({
-        ...data,
-        id: doc.id,
-      });
-    });
-  });
-};
-obtenerComercios();
-cargarComerciosAdheridos(comercios);*/
 
 function Inicio(props) {
   //estados para el permiso de ubicacion
@@ -64,6 +56,8 @@ function Inicio(props) {
   const [errorMsgGeo, setErrorMsgGeo] = React.useState(null);
   //estado lista comercios
   const [listaComercios, setListaComercios] = React.useState(comercios);
+  const [currentId, setCurrentId] = React.useState(null);
+  const [value, setValue] = React.useState(null);
   //estado texto del buscador
   const [text, setText] = React.useState('');
   //funcion para el buscador de comercios por nombre de comercio
@@ -80,6 +74,7 @@ function Inicio(props) {
     setListaComercios(newDatos);
     setText(texto);
   };
+
   //use effect para pedir permiso de ubicacion cuando abre por primera vez
   React.useEffect(() => {
     (async () => {
@@ -93,8 +88,45 @@ function Inicio(props) {
     })();
   }, []);
 
+  const obtenerDatosComercio = React.useCallback(({ comercios }) => {
+    //setListaComercios(comercios);
+  }, []);
+
+  /*React.useEffect(() => {
+    if (currentId) {
+      const indiceACambiar = _.findIndex(listaComercios, function (o) {
+        return o.id === currentId;
+      });
+
+      const objCambiar = _.nth(listaComercios, indiceACambiar);
+
+      listaComercios.splice(indiceACambiar, 1, {
+        id: objCambiar.id,
+        cuit: objCambiar.cuit,
+        direccion: objCambiar.direccion,
+        email: objCambiar.email,
+        facebook: objCambiar.facebook,
+        fechaCreacion: objCambiar.fechaCreacion,
+        instagram: objCambiar.instagram,
+        nombreComercio: objCambiar.nombreComercio,
+        photoURL: objCambiar.photoURL,
+        rubro: objCambiar.rubro,
+        sucursal: objCambiar.sucursal,
+        favorito: value,
+        telefono: objCambiar.telefono,
+        tipoSuscripcion: objCambiar.tipoSuscripcion,
+        web: objCambiar.web,
+      });
+      props.agregarComercioFavorito(currentId, value);
+      setListaComercios(listaComercios);
+    }
+
+    setCurrentId(null);
+  }, [currentId]);*/
+
   return (
     <SafeAreaView style={styles.container}>
+      {console.log(listaComercios)}
       <StatusBar
         barStyle="light-content"
         translucent={true}
@@ -124,6 +156,7 @@ function Inicio(props) {
             <CardComercio
               navigation={props.navigation}
               comercios={listaComercios}
+              obtenerDatosComercio={obtenerDatosComercio}
             />
           </View>
         </View>
@@ -179,12 +212,14 @@ const mapStateToProps = (state) => {
   return {
     auth: state.firebase.auth,
     profile: state.firebase.profile,
+    favoritos: state.comercio.favoritos,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    cargarComerciosAdheridos: () => dispatch(cargarComerciosAdheridos()),
+    agregarComercioFavorito: (comercio, favorito) =>
+      dispatch(agregarComercioFavorito(comercio, favorito)),
   };
 };
 

@@ -8,8 +8,25 @@ import Buscador from './buscar';
 import Perfil from './perfil';
 import { connect } from 'react-redux';
 import { setearLogeo } from '../../../redux/actions/auth-actions';
+import firebaseapp from '../../../firebase/config';
+
+const firestore = firebaseapp.firestore();
 
 const Tab = createMaterialBottomTabNavigator();
+
+const comercios = [];
+const obtenerComercios = () => {
+  firestore.collection('usuarioComercio').onSnapshot((snapShots) => {
+    snapShots.forEach((doc) => {
+      const data = doc.data();
+      comercios.push({
+        ...data,
+        id: doc.id,
+      });
+    });
+  });
+};
+obtenerComercios();
 
 function Main(props) {
   if (props.logeo) {

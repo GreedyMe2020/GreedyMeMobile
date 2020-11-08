@@ -37,7 +37,7 @@ const obtenerComercios = () => {
         comerciosPremium.push({
           ...data,
           id: doc.id,
-      });
+        });
       });
     });
 };
@@ -52,14 +52,15 @@ function CardPremium(props) {
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         renderItem={(data) => (
-          <TouchableWithoutFeedback
-            onPress={() => {
-              props.navigation.navigate('ComerciosNavegador', {
-                data: data,
-              });
-            }}
-          >
-            <Card style={styles.cardComercio}>
+          <TouchableWithoutFeedback>
+            <Card
+              style={styles.cardComercio}
+              onPress={() => {
+                props.navigation.navigate('ComerciosNavegador', {
+                  data: data,
+                });
+              }}
+            >
               <Card.Cover
                 style={styles.image}
                 source={{

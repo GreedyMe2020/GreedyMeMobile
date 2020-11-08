@@ -5,23 +5,23 @@ const initState = {
 
 const comercioReducer = (state = initState, action) => {
   switch (action.type) {
-    case 'COMERCIO_AGREGADO':
+    case 'CAMBIAR_FAVORITO':
       console.log('Comercio agregado');
       return {
         ...state,
-        favoritos: 'se agregó como favorito un comercio',
-      };
-    case 'COMERCIO_QUITADO':
-      console.log('Comercio quitado');
-      return {
-        ...state,
-        favoritos: null,
+        favoritos: 'Se cambió favorito',
       };
     case 'ERROR_FAVORITOS':
       console.log('Error');
       return {
         ...state,
         errorFavoritos: 'Ocurrió algún error',
+      };
+    case 'SETEAR_FAVORITO':
+      console.log('SeteoFav');
+      return {
+        ...state,
+        favoritos: null,
       };
     default:
       return state;

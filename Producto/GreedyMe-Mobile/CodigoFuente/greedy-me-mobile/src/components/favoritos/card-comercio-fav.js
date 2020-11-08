@@ -14,53 +14,39 @@ import _ from 'lodash';
 import { colors } from '../../styles/colores';
 
 const firestore = firebaseapp.firestore();
-
-const comerciosAdheridos = [];
-const obtenerComerciosFavoritos = () => {
-  firebaseapp.auth().onAuthStateChanged(function (user) {
-    if (user) {
-      const id = user.uid;
-      firestore
-        .collection('usuarioConsumidor')
-        .doc(id)
-        .collection('comerciosAdheridos')
-        .onSnapshot((snapShots) => {
-          snapShots.forEach((doc) => {
-            const data = doc.data();
-            comerciosAdheridos.push({
-              ...data,
-              id: doc.id,
-            });
-          });
+const comercios = [];
+const obtenerComercios = () => {
+  firestore
+    .collection('usuarioComercio')
+    .where('favorito', '==', true)
+    .onSnapshot(function (snapShots) {
+      snapShots.forEach((doc) => {
+        const data = doc.data();
+        comercios.push({
+          ...data,
+          id: doc.id,
         });
-    }
-  });
+      });
+    });
 };
-obtenerComerciosFavoritos();
+obtenerComercios();
 
 function CardComercio(props) {
   //Guardo el id de mi usuario .
 
-  const [formData, setFormData] = React.useState({
-    id: props.auth.uid,
-    idComercio: '',
-    favorito: '',
-  });
+  /*React.useEffect(() => {
+    obtenerComerciosFavoritos();
+  }, [props.countFavorito]);*/
+  /*ListEmptyComponent={
+          <Text>Todavía no tienes locales favoritos... </Text>
+        }*/
+  //const [listaComercios, setListaComercios] = React.useState(comercios);
 
-  const [favorito, setFavorito] = React.useState(true);
-
-  function manejarFavorito(props) {
-    //Si es true se elimina el comercio de favoritos, si es false se agrega.
-    const favorito = false;
-    comerciosFavoritos.map((comercio) => {
-      if (comercio.idComercio == props.id) {
-        console.log('igual');
-      } else {
-        console.log('distinto');
-      }
-    });
-    setFormData({ ...formData });
-  }
+  /*React.useEffect(() => {
+    setListaComercios([]);
+    setListaComercios(comercios);
+    console.log(props.favoritos);
+  }, [props.favoritos]);*/
 
   return (
     <SafeAreaView>
@@ -71,35 +57,39 @@ function CardComercio(props) {
         renderItem={(data) => (
           <TouchableWithoutFeedback onPress={() => {}}>
             <View>
-              <View style={styles.contList}>
-                <List.Item
-                  title={data.item.nombreComercio}
-                  titleStyle={styles.titulo}
-                  description={data.item.sucursal}
-                  style={styles.lista}
-                  onPress={() => {
-                    props.navigation.navigate('ComerciosNavegador', {
-                      data: data,
-                    });
-                  }}
-                  left={() => (
-                    <Image
-                      style={styles.image}
-                      source={{
-                        uri: data.item.photoURL,
+              {data.item.favorito === true ? (
+                <>
+                  <View style={styles.contList}>
+                    <List.Item
+                      title={data.item.nombreComercio}
+                      titleStyle={styles.titulo}
+                      description={data.item.sucursal}
+                      style={styles.lista}
+                      onPress={() => {
+                        props.navigation.navigate('ComerciosNavegador', {
+                          data: data,
+                        });
                       }}
+                      left={() => (
+                        <Image
+                          style={styles.image}
+                          source={{
+                            uri: data.item.photoURL,
+                          }}
+                        />
+                      )}
                     />
-                  )}
-                />
-              </View>
-              <Divider
-                style={{
-                  height: 1,
-                  backgroundColor: colors.avatar,
-                  marginLeft: 20,
-                  marginRight: 20,
-                }}
-              />
+                  </View>
+                  <Divider
+                    style={{
+                      height: 1,
+                      backgroundColor: colors.avatar,
+                      marginLeft: 20,
+                      marginRight: 20,
+                    }}
+                  />
+                </>
+              ) : null}
             </View>
           </TouchableWithoutFeedback>
         )}
@@ -135,6 +125,7 @@ const mapStateToProps = (state) => {
   return {
     auth: state.firebase.auth,
     profile: state.firebase.profile,
+    favoritos: state.comercio.favoritos,
   };
 };
 

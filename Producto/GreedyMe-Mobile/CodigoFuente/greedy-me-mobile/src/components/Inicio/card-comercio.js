@@ -11,81 +11,75 @@ import { IconButton, List, Divider } from 'react-native-paper';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { colors } from '../../styles/colores';
-import { comercioFavorito } from '../../../redux/actions/comercio-actions';
+import { agregarComercioFavorito } from '../../../redux/actions/comercio-actions';
+import firebaseapp from '../../../firebase/config';
+import { LogBox } from 'react-native';
 
-/*
+LogBox.ignoreLogs(['Warning: ...']);
+LogBox.ignoreAllLogs();
 const firestore = firebaseapp.firestore();
-const comercios = [];
-const obtenerComercios = () => {
-  firestore.collection('usuarioComercio').onSnapshot((snapShots) => {
-    snapShots.forEach((doc) => {
-      const data = doc.data();
-      comercios.push({
-        ...data,
-        id: doc.id,
-      });
-    });
-  });
-};
-obtenerComercios();
 
-const comerciosFavoritos = [];
-const obtenerComerciosFavoritos = () => {
-  firebaseapp.auth().onAuthStateChanged(function (user) {
-    if (user) {
-      const id = user.uid;
-      firestore
-        .collection('usuarioConsumidor')
-        .doc(id)
-        .collection('favoritos')
-        .onSnapshot((snapShots) => {
-          snapShots.forEach((doc) => {
-            const data = doc.data();
-            comerciosFavoritos.push({
-              ...data,
-              id: doc.id,
-            });
-          });
-        });
-    }
-  });
-};
-obtenerComerciosFavoritos();
-*/
+//obtengo los comercios favoritos solamente para el fucking corazoncito, despues vemos como lo podemos mejorar
+
 function CardComercio(props) {
-  //Guardo el id de mi usuario .
+  //Seteo la variable favorito
 
-  const [formData, setFormData] = React.useState({
-    id: props.auth.uid,
-    idComercio: '',
-    favorito: '',
-  });
+  const [listaComercios, setListaComercios] = React.useState(props.comercios);
+  const [currentId, setCurrentId] = React.useState(null);
+  const [value, setValue] = React.useState(null);
 
-  const [favorito, setFavorito] = React.useState(true);
-  /*
-  function manejarFavorito(props) {
-    //Si es true se elimina el comercio de favoritos, si es false se agrega.
-    const favorito = false;
-    comerciosFavoritos.map((comercio) => {
-      if (comercio.idComercio == props.id) {
-        console.log('igual');
-      } else {
-        console.log('distinto');
-      }
-    });
-    setFormData({ ...formData });
-  }*/
+  const getCurrentComercio = (comercioId, comercioFavorito) => {
+    props.agregarComercioFavorito(comercioId, comercioFavorito);
+    setCurrentId(comercioId);
+    setValue(!comercioFavorito);
 
-  const [corazon, setCorazon] = React.useState(true);
+    //props.obtenerDatosComercio({ comercioId, comercioFavorito });
+  };
+
+  /*React.useEffect(() => {
+    setListaComercios(props.comercios);
+  }, [favorito, props.comercios]);*/
+
+  React.useEffect(() => {
+    if (currentId) {
+      const indiceACambiar = _.findIndex(listaComercios, function (o) {
+        return o.id === currentId;
+      });
+
+      const objCambiar = _.nth(listaComercios, indiceACambiar);
+
+      listaComercios.splice(indiceACambiar, 1, {
+        id: objCambiar.id,
+        cuit: objCambiar.cuit,
+        direccion: objCambiar.direccion,
+        email: objCambiar.email,
+        facebook: objCambiar.facebook,
+        fechaCreacion: objCambiar.fechaCreacion,
+        instagram: objCambiar.instagram,
+        nombreComercio: objCambiar.nombreComercio,
+        photoURL: objCambiar.photoURL,
+        rubro: objCambiar.rubro,
+        sucursal: objCambiar.sucursal,
+        favorito: value,
+        telefono: objCambiar.telefono,
+        tipoSuscripcion: objCambiar.tipoSuscripcion,
+        web: objCambiar.web,
+      });
+      //props.obtener
+      //setListaComercios(listaComercios);
+      props.obtenerDatosComercio([listaComercios]);
+    }
+    setCurrentId(null);
+  }, [currentId]);
 
   return (
     <SafeAreaView>
       <FlatList
-        data={props.comercios}
+        data={listaComercios}
         keyExtractor={(item) => item}
         showsVerticalScrollIndicator={false}
         renderItem={(data) => (
-          <TouchableWithoutFeedback onPress={() => {}}>
+          <TouchableWithoutFeedback>
             <View>
               <View style={styles.contList}>
                 <List.Item
@@ -100,11 +94,19 @@ function CardComercio(props) {
                   }}
                   right={() => (
                     <IconButton
-                      icon={corazon ? 'heart-outline' : 'heart'}
-                      color={corazon ? colors.grey : '#cf3434'}
+                      icon={
+                        data.item.favorito === false ? 'heart-outline' : 'heart'
+                      }
+                      color={
+                        data.item.favorito === false ? colors.grey : '#cf3434'
+                      }
                       size={27}
                       style={styles.corazonIcon}
-                      onPress={() => setCorazon(!corazon)}
+                      onPress={() => {
+                        getCurrentComercio(data.item.id, data.item.favorito);
+
+                        //setFavorito(!favorito);
+                      }}
                     />
                   )}
                   left={() => (
@@ -170,7 +172,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    comercioFavorito: (datos) => dispatch(comercioFavorito(datos)),
+    agregarComercioFavorito: (comercio, favorito) =>
+      dispatch(agregarComercioFavorito(comercio, favorito)),
   };
 };
 
