@@ -33,7 +33,6 @@ obtenerRubros();
 function ButtonCategorias(props) {
   return (
     <SafeAreaView style={styles.cont}>
-      {console.log(rubros)}
       <FlatList
         data={rubros}
         keyExtractor={(item) => item.id}

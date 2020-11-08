@@ -11,18 +11,75 @@ import { IconButton, List, Divider } from 'react-native-paper';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { colors } from '../../styles/colores';
+import { agregarComercioFavorito } from '../../../redux/actions/comercio-actions';
+import firebaseapp from '../../../firebase/config';
+import { LogBox } from 'react-native';
+
+LogBox.ignoreLogs(['Warning: ...']);
+LogBox.ignoreAllLogs();
+const firestore = firebaseapp.firestore();
+
+//obtengo los comercios favoritos solamente para el fucking corazoncito, despues vemos como lo podemos mejorar
 
 function CardComercio(props) {
-  //Para que funcione mostrar corazon rojo
-  const [corazon, setCorazon] = React.useState(true);
+  //Seteo la variable favorito
+
+  const [listaComercios, setListaComercios] = React.useState(props.comercios);
+  const [currentId, setCurrentId] = React.useState(null);
+  const [value, setValue] = React.useState(null);
+
+  const getCurrentComercio = (comercioId, comercioFavorito) => {
+    props.agregarComercioFavorito(comercioId, comercioFavorito);
+    setCurrentId(comercioId);
+    setValue(!comercioFavorito);
+
+    //props.obtenerDatosComercio({ comercioId, comercioFavorito });
+  };
+
+  /*React.useEffect(() => {
+    setListaComercios(props.comercios);
+  }, [favorito, props.comercios]);*/
+
+  React.useEffect(() => {
+    if (currentId) {
+      const indiceACambiar = _.findIndex(listaComercios, function (o) {
+        return o.id === currentId;
+      });
+
+      const objCambiar = _.nth(listaComercios, indiceACambiar);
+
+      listaComercios.splice(indiceACambiar, 1, {
+        id: objCambiar.id,
+        cuit: objCambiar.cuit,
+        direccion: objCambiar.direccion,
+        email: objCambiar.email,
+        facebook: objCambiar.facebook,
+        fechaCreacion: objCambiar.fechaCreacion,
+        instagram: objCambiar.instagram,
+        nombreComercio: objCambiar.nombreComercio,
+        photoURL: objCambiar.photoURL,
+        rubro: objCambiar.rubro,
+        sucursal: objCambiar.sucursal,
+        favorito: value,
+        telefono: objCambiar.telefono,
+        tipoSuscripcion: objCambiar.tipoSuscripcion,
+        web: objCambiar.web,
+      });
+      //props.obtener
+      //setListaComercios(listaComercios);
+      props.obtenerDatosComercio([listaComercios]);
+    }
+    setCurrentId(null);
+  }, [currentId]);
+
   return (
     <SafeAreaView>
       <FlatList
-        data={props.comercios}
+        data={listaComercios}
         keyExtractor={(item) => item}
         showsVerticalScrollIndicator={false}
         renderItem={(data) => (
-          <TouchableWithoutFeedback onPress={() => {}}>
+          <TouchableWithoutFeedback>
             <View>
               <View style={styles.contList}>
                 <List.Item
@@ -37,11 +94,19 @@ function CardComercio(props) {
                   }}
                   right={() => (
                     <IconButton
-                      icon={corazon ? 'heart-outline' : 'heart'}
-                      color={corazon ? colors.grey : '#cf3434'}
+                      icon={
+                        data.item.favorito === false ? 'heart-outline' : 'heart'
+                      }
+                      color={
+                        data.item.favorito === false ? colors.grey : '#cf3434'
+                      }
                       size={27}
                       style={styles.corazonIcon}
-                      onPress={() => setCorazon(!corazon)}
+                      onPress={() => {
+                        getCurrentComercio(data.item.id, data.item.favorito);
+
+                        //setFavorito(!favorito);
+                      }}
                     />
                   )}
                   left={() => (
@@ -105,40 +170,11 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(CardComercio);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    agregarComercioFavorito: (comercio, favorito) =>
+      dispatch(agregarComercioFavorito(comercio, favorito)),
+  };
+};
 
-/*function CardComercio(props) {
-  return (
-    <View style={styles.cardCom}>
-      {comercios
-        ? comercios.map((com) => {
-            return (
-              <Card style={styles.cardCom}>
-                <List.Item
-                  title={com.nombreComercio}
-                  description={com.sucursal}
-                  right={(props) => (
-                    <IconButton
-                      icon="heart"
-                      color={colors.avatar}
-                      size={25}
-                      style={styles.corazonIcon}
-                      onPress={() => console.log('Pressed')}
-                    />
-                  )}
-                  left={(props) => (
-                    <Image
-                      style={styles.image}
-                      source={{
-                        uri: com.photoURL,
-                      }}
-                    />
-                  )}
-                />
-              </Card>
-            );
-          })
-        : null}
-    </View>
-  );
-}*/
+export default connect(mapStateToProps, mapDispatchToProps)(CardComercio);
