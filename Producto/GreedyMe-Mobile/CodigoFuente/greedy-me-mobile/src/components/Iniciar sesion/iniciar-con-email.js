@@ -49,8 +49,10 @@ function IniciarSesionConEmail(props) {
       password === null
     ) {
       setMensajeError('Todos campos deben ser completados');
+      props.setearLogeo('False');
     } else {
       setMensajeError('');
+      props.setearLogeo('True');
       //Abro alerta
       if (errorContraseña === '' && errorEmail === '') {
         props.resetearValoresInicioSesion();
