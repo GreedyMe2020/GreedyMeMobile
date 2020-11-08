@@ -1,16 +1,18 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { Button } from 'react-native-paper';
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
-import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { colors } from 'react-native-elements';
+import { connect } from 'react-redux';
+import { editarProveedores } from '../../../redux/actions/user-actions';
 import firebaseapp from '../../../firebase/config';
+import { colors } from '../../styles/colores';
 
 const firestore = firebaseapp.firestore();
 const items = [];
-const obtenerPromociones = () => {
+const obtenerProveedores = () => {
   firestore
-    .collection('tipoPromocion')
+    .collection('proveedorServicio')
     .get()
     .then((snapShots) => {
       snapShots.forEach((doc) => {
@@ -22,80 +24,38 @@ const obtenerPromociones = () => {
       });
     });
 };
-obtenerPromociones();
+obtenerProveedores();
 
-const rubros = [];
-const obtenerRubros = () => {
-  firestore
-    .collection('rubros')
-    .orderBy('prioridad')
-    .onSnapshot((snapShots) => {
-      snapShots.forEach((doc) => {
-        const data = doc.data();
-        rubros.push({
-          ...data,
-          id: doc.id,
-        });
-      });
-    });
-};
-obtenerRubros();
+function ProveedoresLogin(props) {
+  const [selectedItems, setSelectedItems] = React.useState(
+    props.profile.proveedoresAsociados,
+  );
 
-
-export default function BuscadorProveedores(props) {
-  //estado para controlar el use Effect
-  const [yaPaso, setYaPaso] = React.useState(false);
-  //estado para el useEffect de los rubros
-  const [listaRubros, setListaRubros] = React.useState(rubros);
-  //estado de los items seleccionados
-  const [selectedItems, setSelectedItems] = React.useState([]);
-  //funcion que selecciona los items
   const onSelectedItemsChange = (selectedItems) => {
     setSelectedItems(selectedItems);
-    //paso los items seleccionados al componente padre buscar de pages
-    props.filtrar(selectedItems);
+    props.editarProveedores(selectedItems, props.auth.uid);
   };
-  //use effect para acomodar los rubros en el selectionedMultiSelect
-  React.useEffect(() => {
-    if (listaRubros.length > 1) {
-      const lista = [];
-      rubros.forEach((rubro) => {
-        lista.push({
-          name: rubro.nombre,
-          id: rubro.prioridad + Math.random() * 100,
-        });
-      });
-      items.push({
-        name: 'Rubros',
-        lista: lista,
-      });
-    }
-  }, [listaRubros]);
 
   return (
     <View style={styles.container}>
+      <Text style={styles.texto}>
+        Seleccioná todos los proveedores de beneficios a los cuáles estás
+        asociado para que podamos mostrarte todas las promociones y descuentos
+        que tienen para vos!!
+      </Text>
       <SectionedMultiSelect
         items={items}
         IconRenderer={Icon}
         uniqueKey="name"
         subKey="lista"
-        selectText={
-          selectedItems.length > 1 ? (
-            'Filtros'
-          ) : (
-            <View style={styles.filtroText}>
-              <Icons name="filter-outline" size={18} color="#838d9e" />
-              <Text style={styles.icons}>    Seleccionar filtros</Text>
-            </View>
-          )
-        }
+        selectText="Mis proveedores "
         showDropDowns={true}
         readOnlyHeadings={true}
         onSelectedItemsChange={onSelectedItemsChange}
         selectedItems={selectedItems}
         confirmText="Confirmar"
         selectedText="seleccionados"
-        searchPlaceholderText="Buscar filtro..."
+        searchPlaceholderText="Buscar proveedor"
         noResultsComponent={<Text>Lo siento, no encontramos resultados.</Text>}
         colors={{
           primary: '#1E1B4D',
@@ -107,14 +67,8 @@ export default function BuscadorProveedores(props) {
           chipText: { fontSize: 16, fontWeight: 'bold' },
           selectToggle: {
             marginLeft: 22,
-            marginRight: 18,
+            marginRight: 22,
             marginBottom: 10,
-            backgroundColor: '#F6F8F7',
-            borderRadius: 100,
-            height: 40,
-            paddingTop: 8,
-            paddingLeft: 7,
-            paddingRight: 8,
           },
           selectToggleText: {
             fontSize: 17,
@@ -152,6 +106,22 @@ export default function BuscadorProveedores(props) {
           },
         }}
       />
+      {/* podria aparecer desabilitado y cuando selecciona algun proveedor se habilite el Guardar.
+      o le ponemos una validacion de que tiene que seleccionar alguno u omitir, la que sea mas facil */}
+      <Button
+        style={styles.boton}
+        mode="outlined"
+        labelStyle={{ fontSize: 16, color: colors.azul }}
+      >
+        Guardar proveedores
+      </Button>
+      <Button
+        style={styles.botonOmitir}
+        mode="text"
+        labelStyle={{ fontSize: 16, color: 'rgba(30, 27, 77, 0.8)' }}
+      >
+        Omitir por ahora
+      </Button>
     </View>
   );
 }
@@ -160,18 +130,40 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: '100%',
+    top: 30,
   },
   containerTeclado: {
     flex: 1,
   },
-  filtroText: {
-    flexDirection: 'row',
-    alignItems: 'center',
+  texto: {
+    marginLeft: 22,
+    marginRight: 20,
+    marginBottom: 30,
+    fontSize: 18,
   },
-  icons: {
-    marginLeft: 0,
-    fontSize: 17,
-    letterSpacing: 0.4,
-    color: '#838d9e',
+  boton: {
+    alignSelf: 'center',
+    marginTop: 22,
+    backgroundColor: 'rgba(30, 27, 77, 0.1)',
+    borderWidth: 0,
+  },
+  botonOmitir: {
+    alignSelf: 'center',
+    marginTop: 5,
   },
 });
+
+const mapStateToProps = (state) => {
+  return {
+    auth: state.firebase.auth,
+    profile: state.firebase.profile,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    editarProveedores: (datos, id) => dispatch(editarProveedores(datos, id)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProveedoresLogin);

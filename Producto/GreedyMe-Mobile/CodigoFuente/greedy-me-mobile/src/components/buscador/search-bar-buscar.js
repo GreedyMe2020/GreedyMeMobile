@@ -9,11 +9,7 @@ import {
 import { SearchBar } from 'react-native-elements';
 import { colors } from '../../styles/colores';
 
-export default function SearchBarBuscar({
-  styleContainer,
-  onChangeSearch,
-  searchQuery,
-}) {
+export default function SearchBarBuscar(props) {
   return (
     <KeyboardAvoidingView
       style={styles.containerTeclado}
@@ -24,14 +20,14 @@ export default function SearchBarBuscar({
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <SearchBar
           placeholder="Buscar comercio"
-          onChangeText={onChangeSearch}
-          value={searchQuery}
+          onChangeText={props.onChangeText}
+          value={props.texto}
           inputContainerStyle={{
             backgroundColor: '#F6F8F7',
             borderRadius: 100,
             height: 40,
           }}
-          containerStyle={styleContainer}
+          containerStyle={props.styleContainer}
           lightTheme
           round
         />
