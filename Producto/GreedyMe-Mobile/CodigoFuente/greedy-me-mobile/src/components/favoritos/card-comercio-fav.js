@@ -17,44 +17,42 @@ function CardComercioFav(props) {
     <SafeAreaView>
       <FlatList
         data={props.comercios}
-        keyExtractor={(item) => item}
+        keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
         renderItem={(data) => (
           <TouchableWithoutFeedback onPress={() => {}}>
             <View>
-              {data.item.favorito === true ? (
-                <>
-                  <View style={styles.contList}>
-                    <List.Item
-                      title={data.item.nombreComercio}
-                      titleStyle={styles.titulo}
-                      description={data.item.sucursal}
-                      style={styles.lista}
-                      onPress={() => {
-                        props.navigation.navigate('ComerciosNavegador', {
-                          data: data,
-                        });
-                      }}
-                      left={() => (
-                        <Image
-                          style={styles.image}
-                          source={{
-                            uri: data.item.photoURL,
-                          }}
-                        />
-                      )}
-                    />
-                  </View>
-                  <Divider
-                    style={{
-                      height: 1,
-                      backgroundColor: colors.avatar,
-                      marginLeft: 20,
-                      marginRight: 20,
+              <>
+                <View style={styles.contList}>
+                  <List.Item
+                    title={data.item.nombreComercio}
+                    titleStyle={styles.titulo}
+                    description={data.item.sucursal}
+                    style={styles.lista}
+                    onPress={() => {
+                      props.navigation.navigate('ComerciosNavegador', {
+                        data: data,
+                      });
                     }}
+                    left={() => (
+                      <Image
+                        style={styles.image}
+                        source={{
+                          uri: data.item.photoURL,
+                        }}
+                      />
+                    )}
                   />
-                </>
-              ) : null}
+                </View>
+                <Divider
+                  style={{
+                    height: 1,
+                    backgroundColor: colors.avatar,
+                    marginLeft: 20,
+                    marginRight: 20,
+                  }}
+                />
+              </>
             </View>
           </TouchableWithoutFeedback>
         )}

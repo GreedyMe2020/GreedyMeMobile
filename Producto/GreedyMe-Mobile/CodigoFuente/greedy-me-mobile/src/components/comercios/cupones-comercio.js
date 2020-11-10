@@ -42,9 +42,6 @@ obtenerPromociones();
 function CuponesComercio(props) {
   const [idComercio, setIdComercio] = React.useState(props.idcomercio);
   const [listaPromociones, setListaPromociones] = React.useState([]);
-  console.log(props.fotocomercio);
-  console.log(props.idcomercio);
-  console.log(props.nombrecomercio);
   React.useEffect(() => {
     const promocionesIntermedio = [];
     promociones.forEach((promocion) => {
@@ -66,7 +63,7 @@ function CuponesComercio(props) {
       {listaPromociones.length > 0 ? (
         <FlatList
           data={listaPromociones}
-          keyExtractor={(item) => item}
+          keyExtractor={(item) => item.id}
           showsVerticalScrollIndicator={false}
           renderItem={(data) => (
             <TouchableWithoutFeedback>

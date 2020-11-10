@@ -1,3 +1,4 @@
+import _ from 'lodash';
 /*export const agregarComercioFavorito = (comercio, id) => {
   return (dispatch, getState, { getFirestore }) => {
     //codigo asincrono
@@ -64,6 +65,30 @@ export const agregarComercioFavorito = (idUsuario, idComercio) => {
       })
       .catch((error) => {
         dispatch({ type: 'ERROR_FAVORITOS', error });
+      });
+  };
+};
+
+export const eliminarComercioFavorito = (idUsuario, idComercio) => {
+  return (dispatch, getState, { getFirestore }) => {
+    //codigo asincrono
+    const favs = getState().firebase.profile.favorito;
+    const indice = _.findIndex(favs, function (o) {
+      return o === idComercio;
+    });
+    favs.splice(indice, 1);
+    const firestore = getFirestore();
+    firestore
+      .collection('usuarioConsumidor')
+      .doc(idUsuario)
+      .update({
+        favorito: favs,
+      })
+      .then(() => {
+        dispatch({ type: 'ELIMINAR_FAVORITO' });
+      })
+      .catch((error) => {
+        dispatch({ type: 'ERROR_ELIMINAR_FAVORITOS', error });
       });
   };
 };

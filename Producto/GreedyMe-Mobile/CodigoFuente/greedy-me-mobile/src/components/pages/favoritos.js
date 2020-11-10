@@ -28,20 +28,20 @@ const obtenerComercios = () => {
 obtenerComercios();
 
 function Favoritos(props) {
-  const [listaComercios, setListaComercios] = React.useState(comercios);
-  const [favoritos, setListaFavoritos] = React.useState(props.profile.favorito);
+  const [listaComercios, setListaComercios] = React.useState([]);
+  const [favoritos, setListaFavoritos] = React.useState([]);
 
   React.useEffect(() => {
     let comerciosFavoritos = [];
-    favoritos.forEach((fav) => {
-      comercios.forEach((comercio) => {
+    comercios.forEach((comercio) => {
+      props.profile.favorito.forEach((fav) => {
         if (comercio.id === fav) {
           comerciosFavoritos.push(comercio);
         }
       });
     });
     setListaComercios(comerciosFavoritos);
-  }, [favoritos]);
+  }, [props.profile.favorito, favoritos]);
 
   return (
     <SafeAreaView style={styles.container}>

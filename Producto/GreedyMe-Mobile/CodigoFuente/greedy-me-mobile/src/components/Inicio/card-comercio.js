@@ -11,7 +11,10 @@ import { IconButton, List, Divider } from 'react-native-paper';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { colors } from '../../styles/colores';
-import { agregarComercioFavorito } from '../../../redux/actions/comercio-actions';
+import {
+  agregarComercioFavorito,
+  eliminarComercioFavorito,
+} from '../../../redux/actions/comercio-actions';
 import firebaseapp from '../../../firebase/config';
 import { LogBox } from 'react-native';
 
@@ -25,9 +28,15 @@ function CardComercio(props) {
   const [currentId, setCurrentId] = React.useState(null);
 
   const getCurrentComercio = (idComercio) => {
-    props.agregarComercioFavorito(props.auth.uid, idComercio);
+    const esFavorito = props.profile.favorito.some((fav) => {
+      return idComercio === fav;
+    });
+    if (esFavorito === true) {
+      props.eliminarComercioFavorito(props.auth.uid, idComercio);
+    } else {
+      props.agregarComercioFavorito(props.auth.uid, idComercio);
+    }
   };
-
   /*React.useEffect(() => {
     setListaComercios(props.comercios);
   }, [favorito, props.comercios]);*/
@@ -68,7 +77,7 @@ function CardComercio(props) {
     <SafeAreaView>
       <FlatList
         data={props.comercios}
-        keyExtractor={(item) => item}
+        keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
         renderItem={(data) => (
           <TouchableWithoutFeedback>
@@ -84,21 +93,22 @@ function CardComercio(props) {
                       data: data,
                     });
                   }}
-                  right={() => (
-                    <IconButton
-                      icon={
-                        data.item.favorito === false ? 'heart-outline' : 'heart'
-                      }
-                      color={
-                        data.item.favorito === false ? colors.grey : '#cf3434'
-                      }
-                      size={27}
-                      style={styles.corazonIcon}
-                      onPress={() => {
-                        getCurrentComercio(data.item.id);
-                      }}
-                    />
-                  )}
+                  right={() => {
+                    const esFav = props.profile.favorito.some((fav) => {
+                      return data.item.id === fav;
+                    });
+                    return (
+                      <IconButton
+                        icon={esFav === false ? 'heart-outline' : 'heart'}
+                        color={esFav === false ? colors.grey : '#cf3434'}
+                        size={27}
+                        style={styles.corazonIcon}
+                        onPress={() => {
+                          getCurrentComercio(data.item.id);
+                        }}
+                      />
+                    );
+                  }}
                   left={() => (
                     <Image
                       style={styles.image}
@@ -164,6 +174,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     agregarComercioFavorito: (idUsuario, idComercio) =>
       dispatch(agregarComercioFavorito(idUsuario, idComercio)),
+    eliminarComercioFavorito: (idUsuario, idComercio) =>
+      dispatch(eliminarComercioFavorito(idUsuario, idComercio)),
   };
 };
 
