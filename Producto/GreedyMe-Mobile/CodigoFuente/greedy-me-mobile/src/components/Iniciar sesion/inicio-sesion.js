@@ -32,6 +32,9 @@ function IniciarSesion(props) {
   if (props.auth.uid) {
     props.navigation.navigate('Main');
   }
+  if (props.usuarioNuevo) {
+    props.navigation.navigate('ProveedoresLogin');
+  }
 
   //Estado para abrir o cerrar el snackbar de confirmacion
   const [visible, setVisible] = React.useState(false);
@@ -243,6 +246,7 @@ const mapStateToProps = (state) => {
     auth: state.firebase.auth,
     logeo: state.auth.logeo,
     deslogeo: state.auth.deslogeo,
+    usuarioNuevo: state.auth.usuarioNuevo,
   };
 };
 
