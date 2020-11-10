@@ -10,8 +10,39 @@ import {
 import { colors } from '../../styles/colores';
 import { connect } from 'react-redux';
 import CardComercioFav from '../favoritos/card-comercio-fav';
+import firebaseapp from '../../../firebase/config';
+
+const firestore = firebaseapp.firestore();
+const comercios = [];
+const obtenerComercios = () => {
+  firestore.collection('usuarioComercio').onSnapshot(function (snapShots) {
+    snapShots.forEach((doc) => {
+      const data = doc.data();
+      comercios.push({
+        ...data,
+        id: doc.id,
+      });
+    });
+  });
+};
+obtenerComercios();
 
 function Favoritos(props) {
+  const [listaComercios, setListaComercios] = React.useState(comercios);
+  const [favoritos, setListaFavoritos] = React.useState(props.profile.favorito);
+
+  React.useEffect(() => {
+    let comerciosFavoritos = [];
+    favoritos.forEach((fav) => {
+      comercios.forEach((comercio) => {
+        if (comercio.id === fav) {
+          comerciosFavoritos.push(comercio);
+        }
+      });
+    });
+    setListaComercios(comerciosFavoritos);
+  }, [favoritos]);
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar
@@ -22,7 +53,10 @@ function Favoritos(props) {
       <Text style={styles.texto}>Locales</Text>
       <ScrollView style={styles.scroll}>
         <View>
-          <CardComercioFav navigation={props.navigation} />
+          <CardComercioFav
+            navigation={props.navigation}
+            comercios={listaComercios}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>

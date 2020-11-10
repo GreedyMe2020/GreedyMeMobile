@@ -17,30 +17,22 @@ import { LogBox } from 'react-native';
 
 LogBox.ignoreLogs(['Warning: ...']);
 LogBox.ignoreAllLogs();
-const firestore = firebaseapp.firestore();
-
-//obtengo los comercios favoritos solamente para el fucking corazoncito, despues vemos como lo podemos mejorar
 
 function CardComercio(props) {
   //Seteo la variable favorito
 
-  const [listaComercios, setListaComercios] = React.useState(props.comercios);
+  //const [listaComercios, setListaComercios] = React.useState(props.comercios);
   const [currentId, setCurrentId] = React.useState(null);
-  const [value, setValue] = React.useState(null);
 
-  const getCurrentComercio = (comercioId, comercioFavorito) => {
-    props.agregarComercioFavorito(comercioId, comercioFavorito);
-    setCurrentId(comercioId);
-    setValue(!comercioFavorito);
-
-    //props.obtenerDatosComercio({ comercioId, comercioFavorito });
+  const getCurrentComercio = (idComercio) => {
+    props.agregarComercioFavorito(props.auth.uid, idComercio);
   };
 
   /*React.useEffect(() => {
     setListaComercios(props.comercios);
   }, [favorito, props.comercios]);*/
 
-  React.useEffect(() => {
+  /*React.useEffect(() => {
     if (currentId) {
       const indiceACambiar = _.findIndex(listaComercios, function (o) {
         return o.id === currentId;
@@ -67,15 +59,15 @@ function CardComercio(props) {
       });
       //props.obtener
       //setListaComercios(listaComercios);
-      props.obtenerDatosComercio([listaComercios]);
+      //props.obtenerDatosComercio([listaComercios]);
     }
     setCurrentId(null);
-  }, [currentId]);
+  }, [currentId]);*/
 
   return (
     <SafeAreaView>
       <FlatList
-        data={listaComercios}
+        data={props.comercios}
         keyExtractor={(item) => item}
         showsVerticalScrollIndicator={false}
         renderItem={(data) => (
@@ -103,9 +95,7 @@ function CardComercio(props) {
                       size={27}
                       style={styles.corazonIcon}
                       onPress={() => {
-                        getCurrentComercio(data.item.id, data.item.favorito);
-
-                        //setFavorito(!favorito);
+                        getCurrentComercio(data.item.id);
                       }}
                     />
                   )}
@@ -172,8 +162,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    agregarComercioFavorito: (comercio, favorito) =>
-      dispatch(agregarComercioFavorito(comercio, favorito)),
+    agregarComercioFavorito: (idUsuario, idComercio) =>
+      dispatch(agregarComercioFavorito(idUsuario, idComercio)),
   };
 };
 

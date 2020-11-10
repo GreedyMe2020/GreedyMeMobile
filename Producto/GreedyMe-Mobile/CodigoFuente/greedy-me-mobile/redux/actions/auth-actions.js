@@ -21,6 +21,7 @@ export const signUp = (nuevoUsuario) => {
             notificacionesUbicacion: false,
             notificacionesTodas: true,
             proveedoresAsociados: [],
+            favorito: [],
           });
       })
       .then(() => {
@@ -82,6 +83,7 @@ export const signInGoogle = (credential) => {
               notificacionesUbicacion: false,
               notificacionesTodas: true,
               proveedoresAsociados: [],
+              favorito: [],
             })
             .then(() => {
               dispatch({ type: 'USUARIO_CREADO' });
@@ -120,6 +122,7 @@ export const signInFacebook = (credential) => {
               notificacionesUbicacion: false,
               notificacionesTodas: true,
               proveedoresAsociados: [],
+              favorito: [],
             })
             .then(() => {
               dispatch({ type: 'USUARIO_CREADO' });

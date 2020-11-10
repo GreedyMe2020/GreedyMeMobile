@@ -88,9 +88,9 @@ function Inicio(props) {
     })();
   }, []);
 
-  const obtenerDatosComercio = React.useCallback(({ comercios }) => {
+  /*const obtenerDatosComercio = React.useCallback(({ comercios }) => {
     //setListaComercios(comercios);
-  }, []);
+  }, []);*/
 
   /*React.useEffect(() => {
     if (currentId) {
@@ -156,7 +156,7 @@ function Inicio(props) {
             <CardComercio
               navigation={props.navigation}
               comercios={listaComercios}
-              obtenerDatosComercio={obtenerDatosComercio}
+              //obtenerDatosComercio={obtenerDatosComercio}
             />
           </View>
         </View>

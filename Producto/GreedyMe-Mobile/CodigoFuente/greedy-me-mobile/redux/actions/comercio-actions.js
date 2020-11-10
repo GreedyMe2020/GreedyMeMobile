@@ -47,15 +47,17 @@ export const sacarComercioFavorito = (comercio, id) => {
   };
 };*/
 
-export const agregarComercioFavorito = (comercio, favorito) => {
+export const agregarComercioFavorito = (idUsuario, idComercio) => {
   return (dispatch, getState, { getFirestore }) => {
     //codigo asincrono
+    const favs = getState().firebase.profile.favorito;
+    favs.push(idComercio);
     const firestore = getFirestore();
     firestore
-      .collection('usuarioComercio')
-      .doc(comercio)
+      .collection('usuarioConsumidor')
+      .doc(idUsuario)
       .update({
-        favorito: favorito,
+        favorito: favs,
       })
       .then(() => {
         dispatch({ type: 'CAMBIAR_FAVORITO' });

@@ -9,49 +9,14 @@ import {
 } from 'react-native';
 import { List, Divider } from 'react-native-paper';
 import { connect } from 'react-redux';
-import firebaseapp from '../../../firebase/config';
 import _ from 'lodash';
 import { colors } from '../../styles/colores';
 
-const firestore = firebaseapp.firestore();
-const comercios = [];
-const obtenerComercios = () => {
-  firestore
-    .collection('usuarioComercio')
-    .where('favorito', '==', true)
-    .onSnapshot(function (snapShots) {
-      snapShots.forEach((doc) => {
-        const data = doc.data();
-        comercios.push({
-          ...data,
-          id: doc.id,
-        });
-      });
-    });
-};
-obtenerComercios();
-
-function CardComercio(props) {
-  //Guardo el id de mi usuario .
-
-  /*React.useEffect(() => {
-    obtenerComerciosFavoritos();
-  }, [props.countFavorito]);*/
-  /*ListEmptyComponent={
-          <Text>Todavía no tienes locales favoritos... </Text>
-        }*/
-  //const [listaComercios, setListaComercios] = React.useState(comercios);
-
-  /*React.useEffect(() => {
-    setListaComercios([]);
-    setListaComercios(comercios);
-    console.log(props.favoritos);
-  }, [props.favoritos]);*/
-
+function CardComercioFav(props) {
   return (
     <SafeAreaView>
       <FlatList
-        data={comercios}
+        data={props.comercios}
         keyExtractor={(item) => item}
         showsVerticalScrollIndicator={false}
         renderItem={(data) => (
@@ -125,8 +90,7 @@ const mapStateToProps = (state) => {
   return {
     auth: state.firebase.auth,
     profile: state.firebase.profile,
-    favoritos: state.comercio.favoritos,
   };
 };
 
-export default connect(mapStateToProps)(CardComercio);
+export default connect(mapStateToProps)(CardComercioFav);
