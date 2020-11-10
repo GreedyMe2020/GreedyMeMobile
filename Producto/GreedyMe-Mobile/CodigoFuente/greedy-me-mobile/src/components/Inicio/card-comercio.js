@@ -75,7 +75,7 @@ function CardComercio(props) {
   return (
     <SafeAreaView>
       <FlatList
-        data={listaComercios}
+        data={props.comercios}
         keyExtractor={(item) => item}
         showsVerticalScrollIndicator={false}
         renderItem={(data) => (

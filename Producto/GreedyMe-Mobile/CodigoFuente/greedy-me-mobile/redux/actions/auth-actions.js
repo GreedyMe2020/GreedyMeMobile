@@ -216,3 +216,9 @@ export const setearValidacionMail = () => {
     dispatch({ type: 'INICIO_FALLIDO' });
   };
 };
+
+export const setNuevoUsuarioFalse = () => {
+  return (dispatch, getState, { getFirestore }) => {
+    dispatch({ type: 'NUEVO_USUARIO_FALSE' });
+  };
+};

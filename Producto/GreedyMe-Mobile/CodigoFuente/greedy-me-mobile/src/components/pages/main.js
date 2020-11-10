@@ -9,29 +9,12 @@ import Perfil from './perfil';
 import { connect } from 'react-redux';
 import { setearLogeo } from '../../../redux/actions/auth-actions';
 import firebaseapp from '../../../firebase/config';
-
+import { KeyboardAvoidingView, Platform, StyleSheet } from 'react-native';
 const firestore = firebaseapp.firestore();
 
 const Tab = createMaterialBottomTabNavigator();
 
-const comercios = [];
-const obtenerComercios = () => {
-  firestore.collection('usuarioComercio').onSnapshot((snapShots) => {
-    snapShots.forEach((doc) => {
-      const data = doc.data();
-      comercios.push({
-        ...data,
-        id: doc.id,
-      });
-    });
-  });
-};
-obtenerComercios();
-
 function Main(props) {
-  if (props.logeo) {
-    props.setearLogeo('False');
-  }
   return (
     <Tab.Navigator initialRouteName="Inicio" activeColor="white">
       <Tab.Screen
@@ -100,14 +83,7 @@ function Main(props) {
 const mapStateToProps = (state) => {
   return {
     auth: state.firebase.auth,
-    logeo: state.auth.logeo,
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    setearLogeo: (flag) => dispatch(setearLogeo(flag)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(mapStateToProps)(Main);
