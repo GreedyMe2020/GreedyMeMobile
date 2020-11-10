@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import {
   signIn,
   resetearValoresInicioSesion,
+  setearLogeo,
 } from '../../../redux/actions/auth-actions';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { colors } from '../../styles/colores';
@@ -225,6 +226,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     signIn: (user) => dispatch(signIn(user)),
     resetearValoresInicioSesion: () => dispatch(resetearValoresInicioSesion()),
+    setearLogeo: (flag) => dispatch(setearLogeo(flag)),
   };
 };
 

@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { editarProveedores } from '../../../redux/actions/user-actions';
 import firebaseapp from '../../../firebase/config';
 import { colors } from '../../styles/colores';
+import { setNuevoUsuarioFalse } from '../../../redux/actions/auth-actions';
 
 const firestore = firebaseapp.firestore();
 const items = [];
@@ -31,8 +32,17 @@ function ProveedoresLogin(props) {
     props.profile.proveedoresAsociados,
   );
 
+  const [disable, setDisable] = React.useState('');
+
   const onSelectedItemsChange = (selectedItems) => {
     setSelectedItems(selectedItems);
+    if (selectedItems === null) {
+      console.log('hola estoy vacio por dentro');
+      setDisable('');
+    } else {
+      setDisable('true');
+    }
+
     props.editarProveedores(selectedItems, props.auth.uid);
   };
 
@@ -40,8 +50,8 @@ function ProveedoresLogin(props) {
     <View style={styles.container}>
       <Text style={styles.texto}>
         Seleccioná todos los proveedores de beneficios a los cuáles estás
-        asociado para que podamos mostrarte todas las promociones y descuentos
-        que tienen para vos!!
+        asociado para que podamos mostrarte las promociones y descuentos que
+        tienen para vos!
       </Text>
       <SectionedMultiSelect
         items={items}
@@ -106,19 +116,24 @@ function ProveedoresLogin(props) {
           },
         }}
       />
-      {/* podria aparecer desabilitado y cuando selecciona algun proveedor se habilite el Guardar.
-      o le ponemos una validacion de que tiene que seleccionar alguno u omitir, la que sea mas facil */}
       <Button
         style={styles.boton}
         mode="outlined"
         labelStyle={{ fontSize: 16, color: colors.azul }}
+        onPress={() => {
+          props.navigation.navigate('Main');
+        }}
       >
         Guardar proveedores
       </Button>
+
       <Button
         style={styles.botonOmitir}
         mode="text"
         labelStyle={{ fontSize: 16, color: 'rgba(30, 27, 77, 0.8)' }}
+        onPress={() => {
+          props.navigation.navigate('Main');
+        }}
       >
         Omitir por ahora
       </Button>

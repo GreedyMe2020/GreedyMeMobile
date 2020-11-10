@@ -1,19 +1,35 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image, SafeAreaView } from 'react-native';
 
 export default function ReseñasComercio() {
   return (
-    <View style={styles.container}>
-      <Text>Reseñas</Text>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.contenedor}>
+        <Image
+          style={styles.image}
+          source={require('../../multimedia/reseñas.png')}
+        />
+        <Text style={styles.text}>No se encontraron reseñas</Text>
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#f3f3f3',
     flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
+  },
+  contenedor: {
+    flex: 1,
+    justifyContent: 'flex-start',
     alignItems: 'center',
+  },
+  image: {
+    width: 350,
+    height: 350,
+  },
+  text: {
+    fontSize: 17,
   },
 });

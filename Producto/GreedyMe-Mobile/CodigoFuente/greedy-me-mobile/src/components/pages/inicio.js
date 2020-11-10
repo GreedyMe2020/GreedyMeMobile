@@ -26,8 +26,14 @@ import firebaseapp from '../../../firebase/config';
 import { setearFavorito } from '../../../redux/actions/comercio-actions';
 import { map } from 'lodash';
 import { agregarComercioFavorito } from '../../../redux/actions/comercio-actions';
+import {
+  setearLogeo,
+  setNuevoUsuarioFalse,
+} from '../../../redux/actions/auth-actions';
+
 //Obtengo todos los comercios que en un principio solo deberian estar los que tienen proveedor de servicio del usuario
 const firestore = firebaseapp.firestore();
+
 const comercios = [];
 const obtenerComercios = () => {
   firebaseapp.auth().onAuthStateChanged(function (user) {
@@ -46,24 +52,84 @@ const obtenerComercios = () => {
 };
 obtenerComercios();
 
+const promociones = [];
+const obtenerPromociones = () => {
+  firestore.collection('promociones').onSnapshot((snapShots) => {
+    snapShots.forEach((doc) => {
+      const data = doc.data();
+      promociones.push({
+        ...data,
+        id: doc.id,
+      });
+    });
+  });
+};
+obtenerPromociones();
 //esconde los warnings
 LogBox.ignoreLogs(['Warning: ...']);
 LogBox.ignoreAllLogs();
 
 function Inicio(props) {
+  if (props.logeo) {
+    props.setearLogeo('False');
+    props.setNuevoUsuarioFalse();
+  }
   //estados para el permiso de ubicacion
   const [estadoGeo, setEstadoGeo] = React.useState(null);
   const [errorMsgGeo, setErrorMsgGeo] = React.useState(null);
   //estado lista comercios
-  const [listaComercios, setListaComercios] = React.useState(comercios);
+  const [listaComercios, setListaComercios] = React.useState(null);
   const [currentId, setCurrentId] = React.useState(null);
   const [value, setValue] = React.useState(null);
   //estado texto del buscador
   const [text, setText] = React.useState('');
+  //guardo los proveedores del usuario
+  const [proveedores, setProveedores] = React.useState(
+    props.profile.proveedoresAsociados,
+  );
+  //primer filtrado de comercios segun el proveedor de cada usuario
+  const filtrar = (itemSeleccionados) => {
+    if (itemSeleccionados === null) {
+      return;
+    }
+    const idComercios = [];
+    itemSeleccionados.forEach((item) => {
+      promociones.forEach((promo) => {
+        if (promo.visible === true) {
+          if (
+            promo.tipoProveedor === item ||
+            promo.valueProveedor === item ||
+            promo.otroProveedor === item ||
+            promo.tipoProveedor === 'Propias'
+          ) {
+            idComercios.push(promo.idComercio);
+          }
+        }
+      });
+    });
+
+    for (var i = idComercios.length - 1; i >= 0; i--) {
+      if (idComercios.indexOf(idComercios[i]) !== i) {
+        idComercios.splice(i, 1);
+      }
+    }
+    const comerciosFinales = [];
+    comercios.forEach((comercio) => {
+      idComercios.forEach((idComercio) => {
+        if (comercio.id === idComercio) {
+          comerciosFinales.push(comercio);
+        }
+      });
+    });
+    setListaComercios(comerciosFinales);
+
+    return;
+  };
+
   //funcion para el buscador de comercios por nombre de comercio
   const filter = (texto) => {
     let textoBuscar = texto;
-    const datos = comercios;
+    const datos = listaComercios;
     const newDatos = datos.filter(function (item) {
       const itemNombreComercio = item.nombreComercio.toUpperCase();
       const itemSucursal = item.sucursal.toUpperCase();
@@ -124,9 +190,15 @@ function Inicio(props) {
     setCurrentId(null);
   }, [currentId]);*/
 
+  React.useEffect(() => {
+    if (props.profile.proveedoresAsociados) {
+      setProveedores(props.profile.proveedoresAsociados);
+      filtrar(proveedores);
+    }
+  }, [props.profile.proveedoresAsociados, proveedores, props.logeo]);
+
   return (
     <SafeAreaView style={styles.container}>
-      {console.log(listaComercios)}
       <StatusBar
         barStyle="light-content"
         translucent={true}
@@ -213,6 +285,7 @@ const mapStateToProps = (state) => {
     auth: state.firebase.auth,
     profile: state.firebase.profile,
     favoritos: state.comercio.favoritos,
+    logeo: state.auth.logeo,
   };
 };
 
@@ -220,6 +293,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     agregarComercioFavorito: (comercio, favorito) =>
       dispatch(agregarComercioFavorito(comercio, favorito)),
+
+    setearLogeo: (flag) => dispatch(setearLogeo(flag)),
+    setNuevoUsuarioFalse: () => setNuevoUsuarioFalse(),
   };
 };
 

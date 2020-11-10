@@ -38,17 +38,12 @@ export default function DetalleComercio(props) {
           ) : null}
           <View style={styles.contactoCont}>
             {props.data.item.web ? (
-              // <SocialIcon
-              //   type="google"
-              //   style={styles.redesBtn}
-              //   onPress={() => handlePress(props.data.item.web)}
-              // />
               <Icon
-                raised
                 containerStyle={styles.redesBtn}
                 name="world-o"
                 type="fontisto"
                 color="#266d58"
+                underlayColor="#184f3e"
                 reverse={true}
                 size={24.8}
                 onPress={() => handlePress(props.data.item.web)}
@@ -58,6 +53,7 @@ export default function DetalleComercio(props) {
               <SocialIcon
                 type="facebook"
                 style={styles.redesBtn}
+                underlayColor="#3f5f96"
                 onPress={() =>
                   handlePress(
                     'fb://facewebmodal/f?href=' +
@@ -75,6 +71,7 @@ export default function DetalleComercio(props) {
                   marginTop: 10,
                   marginLeft: 0,
                 }}
+                underlayColor="#ad2e8f"
                 iconColor={colors.white} //#813CB0 - violeta - "#DA08A7"
                 onPress={() =>
                   handlePress(

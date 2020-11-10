@@ -7,6 +7,7 @@ const initState = {
   creacionError: null,
   logeo: null,
   deslogeo: null,
+  usuarioNuevo: null,
 };
 
 const authReducer = (state = initState, action) => {
@@ -31,6 +32,7 @@ const authReducer = (state = initState, action) => {
       return {
         ...state,
         deslogeo: 'TRUE',
+        usuarioNuevo: null,
       };
 
     case 'CONTRASEÑA_REESTABLECIDA':
@@ -97,6 +99,7 @@ const authReducer = (state = initState, action) => {
         ...state,
         creacionError: null,
         crearUsuario: 'se creo usuario',
+        usuarioNuevo: 'TRUE',
       };
     case 'FALLO_CREACION':
       console.log('no se creo el usuario');
@@ -104,6 +107,18 @@ const authReducer = (state = initState, action) => {
         ...state,
         creacionError: action.error.message,
         crearUsuario: null,
+      };
+    case 'NUEVO_USUARIO_TRUE':
+      console.log('es nuevo usuario');
+      return {
+        ...state,
+        usuarioNuevo: 'TRUE',
+      };
+    case 'NUEVO_USUARIO_FALSE':
+      console.log('ya no es nuevo usuario');
+      return {
+        ...state,
+        usuarioNuevo: 'FALSE',
       };
     default:
       return state;
