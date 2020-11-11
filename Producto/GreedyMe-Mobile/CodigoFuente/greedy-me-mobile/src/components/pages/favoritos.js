@@ -34,12 +34,15 @@ function Favoritos(props) {
   React.useEffect(() => {
     let comerciosFavoritos = [];
     comercios.forEach((comercio) => {
-      props.profile.favorito.forEach((fav) => {
-        if (comercio.id === fav) {
-          comerciosFavoritos.push(comercio);
-        }
-      });
+      props.profile.favorito
+        ? props.profile.favorito.forEach((fav) => {
+            if (comercio.id === fav) {
+              comerciosFavoritos.push(comercio);
+            }
+          })
+        : null;
     });
+
     setListaComercios(comerciosFavoritos);
   }, [props.profile.favorito, favoritos]);
 
@@ -50,7 +53,6 @@ function Favoritos(props) {
         translucent={true}
         backgroundColor={'transparent'}
       />
-      <Text style={styles.texto}>Locales</Text>
       <ScrollView style={styles.scroll}>
         <View>
           <CardComercioFav
