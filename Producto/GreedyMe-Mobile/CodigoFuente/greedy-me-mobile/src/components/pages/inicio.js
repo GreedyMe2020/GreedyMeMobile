@@ -220,7 +220,10 @@ function Inicio(props) {
         <View>
           <View style={styles.categorias}>
             <Text style={styles.texto}>Categorías</Text>
-            <ButtonCategorias navigation={props.navigation} />
+            <ButtonCategorias
+              navigation={props.navigation}
+              comercios={listaComercios}
+            />
           </View>
           <Divider style={{ height: 7, backgroundColor: '#f8f8f8' }} />
           <View style={styles.premium}>

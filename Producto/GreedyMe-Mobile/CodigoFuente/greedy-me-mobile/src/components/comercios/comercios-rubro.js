@@ -7,7 +7,7 @@ import { colors } from '../../styles/colores';
 import { IconButton } from 'react-native-paper';
 
 const firestore = firebaseapp.firestore();
-const comercios = [];
+/*const comercios = [];
 const obtenerComercios = () => {
   firestore.collection('usuarioComercio').onSnapshot((snapShots) => {
     snapShots.forEach((doc) => {
@@ -19,10 +19,10 @@ const obtenerComercios = () => {
     });
   });
 };
-obtenerComercios();
+obtenerComercios();*/
 
 function ComerciosPorRubro(props) {
-  const { data } = props.route.params;
+  const { data, comercios } = props.route.params;
   const [listaComercios, setListaComercios] = React.useState([]);
   const [rubro, setRubro] = React.useState(data.item.nombre);
 

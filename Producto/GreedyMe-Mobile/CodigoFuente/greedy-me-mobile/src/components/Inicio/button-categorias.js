@@ -47,6 +47,7 @@ function ButtonCategorias(props) {
                 onPress={() => {
                   props.navigation.navigate('ComerciosPorRubro', {
                     data: data,
+                    comercios: props.comercios,
                   });
                 }}
               >
