@@ -23,7 +23,7 @@ obtenerComercios();
 
 function ComerciosPorRubro(props) {
   const { data } = props.route.params;
-  const [listaComercios, setListaComercios] = React.useState(comercios);
+  const [listaComercios, setListaComercios] = React.useState([]);
   const [rubro, setRubro] = React.useState(data.item.nombre);
 
   React.useEffect(() => {
@@ -33,12 +33,9 @@ function ComerciosPorRubro(props) {
         comerciosFinales.push(comercio);
       }
     });
-    for (var i = comerciosFinales.length - 1; i >= 0; i--) {
-      if (comerciosFinales.indexOf(comerciosFinales[i]) !== i) {
-        comerciosFinales.splice(i, 1);
-      }
-    }
-    setListaComercios(comerciosFinales);
+    let set = new Set(comerciosFinales.map(JSON.stringify));
+    let arrSinDuplicaciones = Array.from(set).map(JSON.parse);
+    setListaComercios(arrSinDuplicaciones);
   }, [rubro]);
 
   return (

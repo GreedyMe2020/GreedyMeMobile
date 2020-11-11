@@ -94,9 +94,11 @@ function CardComercio(props) {
                     });
                   }}
                   right={() => {
-                    const esFav = props.profile.favorito.some((fav) => {
-                      return data.item.id === fav;
-                    });
+                    const esFav = props.profile.favorito
+                      ? props.profile.favorito.some((fav) => {
+                          return data.item.id === fav;
+                        })
+                      : null;
                     return (
                       <IconButton
                         icon={esFav === false ? 'heart-outline' : 'heart'}

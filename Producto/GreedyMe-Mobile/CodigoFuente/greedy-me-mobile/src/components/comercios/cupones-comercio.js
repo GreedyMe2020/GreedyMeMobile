@@ -42,6 +42,7 @@ obtenerPromociones();
 function CuponesComercio(props) {
   const [idComercio, setIdComercio] = React.useState(props.idcomercio);
   const [listaPromociones, setListaPromociones] = React.useState([]);
+  console.log(props.fotocomercio);
   React.useEffect(() => {
     const promocionesIntermedio = [];
     promociones.forEach((promocion) => {
@@ -74,6 +75,7 @@ function CuponesComercio(props) {
                       data: data,
                       sucursal: props.sucursalcomercio,
                       comercio: props.nombrecomercio,
+                      fotocomercio: props.fotocomercio,
                     });
                   }}
                 >

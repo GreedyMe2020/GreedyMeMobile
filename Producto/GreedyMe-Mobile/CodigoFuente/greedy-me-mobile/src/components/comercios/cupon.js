@@ -23,11 +23,12 @@ import _ from 'lodash';
 import { colors } from '../../styles/colores';
 import firebaseapp from '../../../firebase/config';
 import { format } from 'date-fns';
+import { guardarCupon } from '../../../redux/actions/comercio-actions';
 
 function Cupon(props) {
   //Traigo la info del beneficio y se la asigno a la variable data,
   //y los datos del comercio a las otras variables:
-  const { data, sucursal, comercio } = props.route.params;
+  const { data, sucursal, comercio, fotocomercio } = props.route.params;
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
@@ -38,7 +39,7 @@ function Cupon(props) {
               source={{
                 uri:
                   data.item.tipoProveedor === 'Propias'
-                    ? props.fotocomercio
+                    ? fotocomercio
                     : data.item.valueProveedor === 'Otro'
                     ? 'https://firebasestorage.googleapis.com/v0/b/greedyme-d6c6c.appspot.com/o/proveedores%2F1.jpg?alt=media&token=d186f078-7cfa-437c-9287-1bbfd9de8c00'
                     : data.item.valueProveedor === 'Todos'
@@ -51,7 +52,7 @@ function Cupon(props) {
                 {data.item.valueProveedor === 'Otro'
                   ? data.item.otroProveedor
                   : data.item.valueProveedor === 'Propio'
-                  ? props.nombrecomercio
+                  ? comercio
                   : data.item.valueProveedor === 'Todos'
                   ? data.item.valueProveedor + ' los Bancos'
                   : data.item.valueProveedor}
@@ -131,6 +132,14 @@ function Cupon(props) {
               mode="outlined"
               style={styles.botonGuardar}
               labelStyle={{ fontSize: 18, color: colors.white }}
+              onPress={() =>
+                props.guardarCupon(
+                  props.auth.uid,
+                  data.item,
+                  comercio,
+                  sucursal,
+                )
+              }
             >
               Guardar
             </Button>
@@ -262,4 +271,11 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(Cupon);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    guardarCupon: (idUsuario, datos, comercio, sucursal) =>
+      dispatch(guardarCupon(idUsuario, datos, comercio, sucursal)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cupon);
