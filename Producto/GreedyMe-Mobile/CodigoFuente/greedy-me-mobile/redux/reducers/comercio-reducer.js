@@ -1,6 +1,8 @@
 const initState = {
   favoritos: null,
   errorFavoritos: null,
+  cupon: null,
+  errorCupon: null,
 };
 
 const comercioReducer = (state = initState, action) => {
@@ -16,6 +18,18 @@ const comercioReducer = (state = initState, action) => {
       return {
         ...state,
         errorFavoritos: 'Ocurrió algún error',
+      };
+    case 'GUARDAR_CUPON':
+      console.log('Comercio agregado');
+      return {
+        ...state,
+        cupon: 'Se agrego cupon',
+      };
+    case 'ERROR_CUPON':
+      console.log('Error');
+      return {
+        ...state,
+        errorCupon: 'Ocurrió algún error con el cupon',
       };
     case 'SETEAR_FAVORITO':
       console.log('SeteoFav');

@@ -93,6 +93,39 @@ export const eliminarComercioFavorito = (idUsuario, idComercio) => {
   };
 };
 
+export const guardarCupon = (idUsuario, datos, comercio, sucursal) => {
+  return (dispatch, getState, { getFirestore }) => {
+    const firestore = getFirestore();
+    firestore
+      .collection('usuarioConsumidor')
+      .doc(idUsuario)
+      .collection('cupones')
+      .doc()
+      .set({
+        tipoPromo: datos.tipoPromo,
+        valuePromo: datos.valuePromo,
+        otraPromo: datos.otraPromo,
+        tipoProveedor: datos.tipoProveedor,
+        valueProveedor: datos.valueProveedor,
+        otroProveedor: datos.otroProveedor,
+        desdeVigencia: datos.desdeVigencia,
+        hastaVigencia: datos.hastaVigencia,
+        descripcion: datos.descripcion,
+        photoURL: datos.photoURL,
+        diaAplicacion: datos.diaAplicacion,
+        medioPago: datos.medioPago,
+        nombreComercio: comercio,
+        sucursal: sucursal,
+      })
+      .then(() => {
+        dispatch({ type: 'GUARDAR_CUPON' });
+      })
+      .catch((error) => {
+        dispatch({ type: 'ERROR_CUPON', error });
+      });
+  };
+};
+
 export const setearFavorito = () => {
   return (dispatch, getState, { getFirestore }) => {
     dispatch({ type: 'SETEAR_FAVORITO' });

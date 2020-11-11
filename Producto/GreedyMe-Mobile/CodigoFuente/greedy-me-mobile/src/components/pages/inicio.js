@@ -79,6 +79,7 @@ function Inicio(props) {
   const [errorMsgGeo, setErrorMsgGeo] = React.useState(null);
   //estado lista comercios
   const [listaComercios, setListaComercios] = React.useState(null);
+  const [listaComercios2, setListaComercios2] = React.useState([]);
   const [currentId, setCurrentId] = React.useState(null);
   const [value, setValue] = React.useState(null);
   //estado texto del buscador
@@ -113,7 +114,8 @@ function Inicio(props) {
         idComercios.splice(i, 1);
       }
     }
-    const comerciosFinales = [];
+
+    let comerciosFinales = [];
     comercios.forEach((comercio) => {
       idComercios.forEach((idComercio) => {
         if (comercio.id === idComercio) {
@@ -121,7 +123,10 @@ function Inicio(props) {
         }
       });
     });
-    setListaComercios(comerciosFinales);
+    let set = new Set(comerciosFinales.map(JSON.stringify));
+    let arrSinDuplicaciones = Array.from(set).map(JSON.parse);
+    setListaComercios(arrSinDuplicaciones);
+    setListaComercios2(arrSinDuplicaciones);
 
     return;
   };
@@ -129,7 +134,7 @@ function Inicio(props) {
   //funcion para el buscador de comercios por nombre de comercio
   const filter = (texto) => {
     let textoBuscar = texto;
-    const datos = listaComercios;
+    const datos = listaComercios2;
     const newDatos = datos.filter(function (item) {
       const itemNombreComercio = item.nombreComercio.toUpperCase();
       const itemSucursal = item.sucursal.toUpperCase();

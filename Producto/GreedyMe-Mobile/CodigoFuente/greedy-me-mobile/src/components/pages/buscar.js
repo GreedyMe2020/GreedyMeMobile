@@ -56,15 +56,17 @@ function Buscador(props) {
   //funcion que filtra los resultados
   const filtrar = (itemSeleccionados) => {
     const idComercios = [];
-    itemSeleccionados.forEach((item) => {
-      promociones.forEach((promo) => {
-        if (promo.visible === true) {
-          if (promo.valuePromo === item) {
-            idComercios.push(promo.idComercio);
-          }
-        }
-      });
-    });
+    itemSeleccionados
+      ? itemSeleccionados.forEach((item) => {
+          promociones.forEach((promo) => {
+            if (promo.visible === true) {
+              if (promo.valuePromo === item) {
+                idComercios.push(promo.idComercio);
+              }
+            }
+          });
+        })
+      : null;
     itemSeleccionados.forEach((item) => {
       comercios.forEach((comercio) => {
         if (comercio.rubro === item) {
