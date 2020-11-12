@@ -3,6 +3,7 @@ const initState = {
   errorFavoritos: null,
   cupon: null,
   errorCupon: null,
+  comerciosRedux: null,
 };
 
 const comercioReducer = (state = initState, action) => {
@@ -36,6 +37,12 @@ const comercioReducer = (state = initState, action) => {
       return {
         ...state,
         favoritos: null,
+      };
+    case 'LISTA_COMERCIOS':
+      console.log('Seteoloscomerciospadre');
+      return {
+        ...state,
+        comerciosRedux: action.comercios,
       };
     default:
       return state;
