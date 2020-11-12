@@ -6,6 +6,7 @@ import {
   FlatList,
   Text,
   SafeAreaView,
+  ScrollView,
   TouchableWithoutFeedback,
 } from 'react-native';
 import {
@@ -31,121 +32,123 @@ function Cupon(props) {
   const { data, sucursal, comercio, fotocomercio } = props.route.params;
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.content}>
-        <View style={styles.card}>
-          <View style={styles.contenido}>
-            <Image
-              style={styles.contImagen}
-              source={{
-                uri:
-                  data.item.tipoProveedor === 'Propias'
-                    ? fotocomercio
-                    : data.item.valueProveedor === 'Otro'
-                    ? 'https://firebasestorage.googleapis.com/v0/b/greedyme-d6c6c.appspot.com/o/proveedores%2F1.jpg?alt=media&token=d186f078-7cfa-437c-9287-1bbfd9de8c00'
+      <ScrollView style={{ flex: 1 }}>
+        <View style={styles.content}>
+          <View style={styles.card}>
+            <View style={styles.contenido}>
+              <Image
+                style={styles.contImagen}
+                source={{
+                  uri:
+                    data.item.tipoProveedor === 'Propias'
+                      ? fotocomercio
+                      : data.item.valueProveedor === 'Otro'
+                      ? 'https://firebasestorage.googleapis.com/v0/b/greedyme-d6c6c.appspot.com/o/proveedores%2F1.jpg?alt=media&token=d186f078-7cfa-437c-9287-1bbfd9de8c00'
+                      : data.item.valueProveedor === 'Todos'
+                      ? 'https://firebasestorage.googleapis.com/v0/b/greedyme-d6c6c.appspot.com/o/proveedores%2F1.jpg?alt=media&token=d186f078-7cfa-437c-9287-1bbfd9de8c00'
+                      : data.item.photoURL,
+                }}
+              />
+              <View style={styles.texto}>
+                <Title style={styles.titulo}>
+                  {data.item.valueProveedor === 'Otro'
+                    ? data.item.otroProveedor
+                    : data.item.valueProveedor === 'Propio'
+                    ? comercio
                     : data.item.valueProveedor === 'Todos'
-                    ? 'https://firebasestorage.googleapis.com/v0/b/greedyme-d6c6c.appspot.com/o/proveedores%2F1.jpg?alt=media&token=d186f078-7cfa-437c-9287-1bbfd9de8c00'
-                    : data.item.photoURL,
-              }}
-            />
-            <View style={styles.texto}>
-              <Title style={styles.titulo}>
-                {data.item.valueProveedor === 'Otro'
-                  ? data.item.otroProveedor
-                  : data.item.valueProveedor === 'Propio'
-                  ? comercio
-                  : data.item.valueProveedor === 'Todos'
-                  ? data.item.valueProveedor + ' los Bancos'
-                  : data.item.valueProveedor}
-              </Title>
-              <Title style={styles.beneficio}>
-                {data.item.valuePromo === 'Otro'
-                  ? data.item.otraPromo
-                  : data.item.tipoPromo === 'Descuento'
-                  ? data.item.valuePromo + ' OFF'
-                  : data.item.valuePromo}
-              </Title>
-              <Text style={styles.validez}>
-                {'Válido desde el ' +
-                  format(data.item.desdeVigencia.toDate(), 'dd/MM/yyyy')}
-              </Text>
-              <Text style={styles.validez}>
-                {' hasta el ' +
-                  format(data.item.hastaVigencia.toDate(), 'dd/MM/yyyy')}
-              </Text>
-              <Text style={styles.validez}>
-                {'en ' + comercio + ', sucursal ' + sucursal + '.'}
-              </Text>
-            </View>
-            <View style={styles.textoSecundario}>
-              <Text style={styles.validez2}>
-                {'- Aplica: ' +
-                  ((data.item.diaAplicacion.lunes ? 'Lunes ' : '') +
-                    (data.item.diaAplicacion.martes ? 'Martes ' : '') +
-                    (data.item.diaAplicacion.miercoles ? 'Miercoles ' : '') +
-                    (data.item.diaAplicacion.jueves ? 'Jueves ' : '') +
-                    (data.item.diaAplicacion.viernes ? 'Viernes ' : '') +
-                    (data.item.diaAplicacion.sabado ? 'Sábado ' : '') +
-                    (data.item.diaAplicacion.domingo ? 'Domingo ' : '') +
-                    (data.item.diaAplicacion.todoslosdias
-                      ? 'Todos los días' + '.'
-                      : ''))}
-              </Text>
-              <Text style={styles.validez2}>
-                {'- Medio de pago: ' + data.item.medioPago + '.'}
-              </Text>
-
-              {data.item.otroProveedor ? (
-                <Text style={styles.validez2}>
-                  {'- Entidad crediticia: ' + data.item.otroProveedor + '.'}
+                    ? data.item.valueProveedor + ' los Bancos'
+                    : data.item.valueProveedor}
+                </Title>
+                <Title style={styles.beneficio}>
+                  {data.item.valuePromo === 'Otro'
+                    ? data.item.otraPromo
+                    : data.item.tipoPromo === 'Descuento'
+                    ? data.item.valuePromo + ' OFF'
+                    : data.item.valuePromo}
+                </Title>
+                <Text style={styles.validez}>
+                  {'Válido desde el ' +
+                    format(data.item.desdeVigencia.toDate(), 'dd/MM/yyyy')}
                 </Text>
-              ) : null}
+                <Text style={styles.validez}>
+                  {' hasta el ' +
+                    format(data.item.hastaVigencia.toDate(), 'dd/MM/yyyy')}
+                </Text>
+                <Text style={styles.validez}>
+                  {'en ' + comercio + ', sucursal ' + sucursal + '.'}
+                </Text>
+              </View>
+              <View>
+                <View style={styles.textoSecundario}>
+                  <Text style={styles.validez2}>
+                    {'- Aplica: ' +
+                      ((data.item.diaAplicacion.lunes ? 'Lunes ' : '') +
+                        (data.item.diaAplicacion.martes ? 'Martes ' : '') +
+                        (data.item.diaAplicacion.miercoles
+                          ? 'Miércoles '
+                          : '') +
+                        (data.item.diaAplicacion.jueves ? 'Jueves ' : '') +
+                        (data.item.diaAplicacion.viernes ? 'Viernes ' : '') +
+                        (data.item.diaAplicacion.sabado ? 'Sábado ' : '') +
+                        (data.item.diaAplicacion.domingo ? 'Domingo ' : '') +
+                        (data.item.diaAplicacion.todoslosdias
+                          ? 'Todos los días' + '.'
+                          : ''))}
+                  </Text>
+                  <Text style={styles.validez2}>
+                    {/* {'- Medio de pago: ' + data.item.medioPago.efectivo + '.'} */}
+                    {data.item.medioPago === 'Efectivo'
+                      ? '- Válido solo en ' + data.item.medioPago + '.'
+                      : '- Válido con ' + data.item.medioPago + '.'}
+                  </Text>
 
-              <Text style={styles.validez2}>
-                {data.item.descripcion ? data.item.descripcion + '.' : ''}
-              </Text>
-              <Text style={styles.validez1}>
-                ¡Guardá este cupón y pedí el código en la tienda para sumar
-                GreedyPoints!
-              </Text>
+                  {data.item.otroProveedor ? (
+                    <Text style={styles.validez2}>
+                      {'- Entidad crediticia: ' + data.item.otroProveedor + '.'}
+                    </Text>
+                  ) : null}
+                  <Text style={styles.validez2}>
+                    {data.item.descripcion
+                      ? '- ' + data.item.descripcion + '.'
+                      : ''}
+                  </Text>
+                </View>
+                <Text style={styles.validez1}>
+                  ¡Guardá este cupón y pedí el código en la tienda para sumar
+                  GreedyPoints!
+                </Text>
+              </View>
             </View>
-          </View>
-          <View style={styles.circulos}>
-            <View style={styles.contCirculo}>
-              <View style={styles.circulo} />
+            <View style={styles.circulos}>
+              <View style={styles.contCirculo}>
+                <View style={styles.circulo} />
+              </View>
+              <Divider style={styles.divider} />
+              <View style={styles.contCirculo2}>
+                <View style={styles.circuloEnd} />
+              </View>
             </View>
-            <Divider
-              style={{
-                backgroundColor: colors.grey,
-                height: 2,
-                marginLeft: 45,
-                marginRight: 45,
-                marginTop: 25,
-              }}
-            />
-            <View style={styles.contCirculo2}>
-              <View style={styles.circuloEnd} />
+            <View style={styles.contenedorBoton}>
+              <Button
+                icon="content-save-outline"
+                mode="outlined"
+                style={styles.botonGuardar}
+                labelStyle={{ fontSize: 18, color: colors.white }}
+                onPress={() =>
+                  props.guardarCupon(
+                    props.auth.uid,
+                    data.item,
+                    comercio,
+                    sucursal,
+                  )
+                }
+              >
+                Guardar
+              </Button>
             </View>
-          </View>
-          <View style={styles.contenedorBoton}>
-            <Button
-              icon="content-save-outline"
-              mode="outlined"
-              style={styles.botonGuardar}
-              labelStyle={{ fontSize: 18, color: colors.white }}
-              onPress={() =>
-                props.guardarCupon(
-                  props.auth.uid,
-                  data.item,
-                  comercio,
-                  sucursal,
-                )
-              }
-            >
-              Guardar
-            </Button>
           </View>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -166,35 +169,9 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginLeft: 30,
     marginRight: 30,
-    marginBottom: 25,
     flex: 1,
     alignContent: 'center',
     elevation: 1,
-  },
-  circulos: {
-    marginTop: 20,
-  },
-  contCirculo: {
-    position: 'absolute',
-    justifyContent: 'center',
-  },
-  circulo: {
-    height: 50,
-    width: 50,
-    backgroundColor: colors.avatar,
-    borderRadius: 100,
-    marginLeft: -25,
-  },
-  contCirculo2: {
-    position: 'absolute',
-    alignSelf: 'flex-end',
-  },
-  circuloEnd: {
-    height: 50,
-    width: 50,
-    backgroundColor: colors.avatar,
-    borderRadius: 100,
-    marginRight: -25,
   },
   contenido: {
     flexDirection: 'column',
@@ -208,10 +185,6 @@ const styles = StyleSheet.create({
     width: 125,
     borderRadius: 5,
   },
-  divider: {
-    width: 2,
-    backgroundColor: colors.naranja,
-  },
   texto: {
     alignItems: 'center',
     marginTop: 20,
@@ -222,24 +195,27 @@ const styles = StyleSheet.create({
   },
   beneficio: {
     color: colors.naranja,
-    alignSelf: 'center',
     marginTop: 5,
     marginBottom: 15,
     fontSize: 28,
   },
   validez: {
     color: colors.black,
-    marginBottom: 3,
+    marginBottom: 2,
     fontSize: 16,
     textAlign: 'center',
-    paddingLeft: 2,
-    paddingRight: 2,
+  },
+  textoSecundario: {
+    marginTop: 20,
+    alignContent: 'center',
+    marginLeft: 20,
   },
   validez1: {
     color: colors.darkGrey,
     marginTop: 15,
     marginBottom: -15,
-    marginRight: 39,
+    marginRight: 20,
+    marginLeft: 20,
     fontSize: 16,
     textAlign: 'center',
   },
@@ -248,15 +224,42 @@ const styles = StyleSheet.create({
     marginBottom: 3,
     fontSize: 16,
     marginRight: 39,
-    textAlign: 'center',
   },
-  textoSecundario: {
-    marginTop: 20,
-    alignContent: 'center',
-    marginLeft: 40,
+  circulos: {
+    marginTop: 30,
+  },
+  contCirculo: {
+    position: 'absolute',
+    justifyContent: 'center',
+  },
+  circulo: {
+    height: 50,
+    width: 50,
+    backgroundColor: colors.avatar,
+    borderRadius: 100,
+    marginLeft: -25,
+  },
+  divider: {
+    backgroundColor: colors.grey,
+    height: 2,
+    marginLeft: 45,
+    marginRight: 45,
+    marginTop: 25,
+  },
+  contCirculo2: {
+    position: 'absolute',
+    alignSelf: 'flex-end',
+  },
+  circuloEnd: {
+    height: 50,
+    width: 50,
+    backgroundColor: colors.avatar,
+    borderRadius: 100,
+    marginRight: -25,
   },
   contenedorBoton: {
     marginTop: 25,
+    marginBottom: 25,
   },
   botonGuardar: {
     alignSelf: 'center',
