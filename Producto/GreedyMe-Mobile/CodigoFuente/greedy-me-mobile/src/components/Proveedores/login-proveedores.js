@@ -37,7 +37,6 @@ function ProveedoresLogin(props) {
   const onSelectedItemsChange = (selectedItems) => {
     setSelectedItems(selectedItems);
     if (selectedItems === null) {
-      console.log('hola estoy vacio por dentro');
       setDisable('');
     } else {
       setDisable('true');

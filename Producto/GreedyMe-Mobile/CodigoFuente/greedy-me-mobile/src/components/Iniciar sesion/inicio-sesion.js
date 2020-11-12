@@ -28,7 +28,6 @@ function IniciarSesion(props) {
   if (props.deslogeo) {
     props.setearDesLogeo('False');
   }
-
   if (props.auth.uid) {
     props.navigation.navigate('Main');
   }
