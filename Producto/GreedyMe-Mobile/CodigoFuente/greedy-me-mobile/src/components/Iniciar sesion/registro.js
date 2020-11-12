@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 import {
   signUp,
   resetearValoresCreacionUsuario,
+  setearLogeo,
 } from '../../../redux/actions/auth-actions';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { colors } from '../../styles/colores';
@@ -85,6 +86,7 @@ function Registro(props) {
         errorContraseñaRepe === '' &&
         errorEmail === ''
       ) {
+        props.setearLogeo('True');
         setEsDistinta('');
         //Funcion para registrar nuevo usuario
         props.signUp({
@@ -93,6 +95,7 @@ function Registro(props) {
           nombre: nombre,
           apellido: apellido,
         });
+        props.navigation.navigate('IniciarSesion');
       } else {
         setEsDistinta('Las contraseñas no son iguales');
       }
@@ -391,6 +394,7 @@ const mapDispatchToProps = (dispatch) => {
     signUp: (nuevoUsuario) => dispatch(signUp(nuevoUsuario)),
     resetearValoresCreacionUsuario: () =>
       dispatch(resetearValoresCreacionUsuario()),
+    setearLogeo: (flag) => dispatch(setearLogeo(flag)),
   };
 };
 
