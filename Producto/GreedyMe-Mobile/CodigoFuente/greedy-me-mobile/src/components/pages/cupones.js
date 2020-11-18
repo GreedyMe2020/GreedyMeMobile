@@ -6,6 +6,7 @@ import {
   FlatList,
   Text,
   SafeAreaView,
+  ScrollView,
   TouchableWithoutFeedback,
 } from 'react-native';
 import {
@@ -52,106 +53,111 @@ function Cupones(props) {
   return (
     <SafeAreaView style={styles.container}>
       {cupones !== null ? (
-        <View style={styles.content}>
-          <View style={styles.card}>
-            <View style={styles.contenido}>
-              <Image
-                style={styles.contImagen}
-                source={{
-                  uri:
-                    cupones[0].tipoProveedor === 'Propias'
-                      ? props.fotocomercio
-                      : cupones[0].valueProveedor === 'Otro'
-                      ? 'https://firebasestorage.googleapis.com/v0/b/greedyme-d6c6c.appspot.com/o/proveedores%2F1.jpg?alt=media&token=d186f078-7cfa-437c-9287-1bbfd9de8c00'
+        <ScrollView style={{ flex: 1 }}>
+          <View style={styles.content}>
+            <View style={styles.card}>
+              <View style={styles.contenido}>
+                <Image
+                  style={styles.contImagen}
+                  source={{
+                    uri:
+                      cupones[0].tipoProveedor === 'Propias'
+                        ? props.fotocomercio
+                        : cupones[0].valueProveedor === 'Otro'
+                        ? 'https://firebasestorage.googleapis.com/v0/b/greedyme-d6c6c.appspot.com/o/proveedores%2F1.jpg?alt=media&token=d186f078-7cfa-437c-9287-1bbfd9de8c00'
+                        : cupones[0].valueProveedor === 'Todos'
+                        ? 'https://firebasestorage.googleapis.com/v0/b/greedyme-d6c6c.appspot.com/o/proveedores%2F1.jpg?alt=media&token=d186f078-7cfa-437c-9287-1bbfd9de8c00'
+                        : cupones[0].photoURL,
+                  }}
+                />
+                <View style={styles.texto}>
+                  <Title style={styles.titulo}>
+                    {cupones[0].valueProveedor === 'Otro'
+                      ? cupones[0].otroProveedor
+                      : cupones[0].valueProveedor === 'Propio'
+                      ? props.nombrecomercio
                       : cupones[0].valueProveedor === 'Todos'
-                      ? 'https://firebasestorage.googleapis.com/v0/b/greedyme-d6c6c.appspot.com/o/proveedores%2F1.jpg?alt=media&token=d186f078-7cfa-437c-9287-1bbfd9de8c00'
-                      : cupones[0].photoURL,
-                }}
-              />
-              <View style={styles.texto}>
-                <Title style={styles.titulo}>
-                  {cupones[0].valueProveedor === 'Otro'
-                    ? cupones[0].otroProveedor
-                    : cupones[0].valueProveedor === 'Propio'
-                    ? props.nombrecomercio
-                    : cupones[0].valueProveedor === 'Todos'
-                    ? cupones[0].valueProveedor + ' los Bancos'
-                    : cupones[0].valueProveedor}
-                </Title>
-                <Title style={styles.beneficio}>
-                  {cupones[0].valuePromo === 'Otro'
-                    ? cupones[0].otraPromo
-                    : cupones[0].tipoPromo === 'Descuento'
-                    ? cupones[0].valuePromo + ' OFF'
-                    : cupones[0].valuePromo}
-                </Title>
-                <Text style={styles.validez}>
-                  {'Válido desde el ' +
-                    format(cupones[0].desdeVigencia.toDate(), 'dd/MM/yyyy')}
-                </Text>
-                <Text style={styles.validez}>
-                  {' hasta el ' +
-                    format(cupones[0].hastaVigencia.toDate(), 'dd/MM/yyyy')}
-                </Text>
-                <Text style={styles.validez}>
-                  {'en ' +
-                    cupones[0].comercio +
-                    ', sucursal ' +
-                    cupones[0].sucursal +
-                    '.'}
-                </Text>
-              </View>
-              <View style={styles.textoSecundario}>
-                <Text style={styles.validez2}>
-                  {'- Aplica: ' +
-                    ((cupones[0].diaAplicacion.lunes ? 'Lunes ' : '') +
-                      (cupones[0].diaAplicacion.martes ? 'Martes ' : '') +
-                      (cupones[0].diaAplicacion.miercoles ? 'Miercoles ' : '') +
-                      (cupones[0].diaAplicacion.jueves ? 'Jueves ' : '') +
-                      (cupones[0].diaAplicacion.viernes ? 'Viernes ' : '') +
-                      (cupones[0].diaAplicacion.sabado ? 'Sábado ' : '') +
-                      (cupones[0].diaAplicacion.domingo ? 'Domingo ' : '') +
-                      (cupones[0].diaAplicacion.todoslosdias
-                        ? 'Todos los días' + '.'
-                        : ''))}
-                </Text>
-                <Text style={styles.validez2}>
-                  {'- Medio de pago: ' + cupones[0].medioPago + '.'}
-                </Text>
-
-                {cupones[0].otroProveedor ? (
-                  <Text style={styles.validez2}>
-                    {'- Entidad crediticia: ' + cupones[0].otroProveedor + '.'}
+                      ? cupones[0].valueProveedor + ' los Bancos'
+                      : cupones[0].valueProveedor}
+                  </Title>
+                  <Title style={styles.beneficio}>
+                    {cupones[0].valuePromo === 'Otro'
+                      ? cupones[0].otraPromo
+                      : cupones[0].tipoPromo === 'Descuento'
+                      ? cupones[0].valuePromo + ' OFF'
+                      : cupones[0].valuePromo}
+                  </Title>
+                  <Text style={styles.validez}>
+                    {'Válido desde el ' +
+                      format(cupones[0].desdeVigencia.toDate(), 'dd/MM/yyyy')}
                   </Text>
-                ) : null}
+                  <Text style={styles.validez}>
+                    {' hasta el ' +
+                      format(cupones[0].hastaVigencia.toDate(), 'dd/MM/yyyy')}
+                  </Text>
+                  <Text style={styles.validez}>
+                    {'en ' +
+                      cupones[0].comercio +
+                      ', sucursal ' +
+                      cupones[0].sucursal +
+                      '.'}
+                  </Text>
+                </View>
+                <View style={styles.textoSecundario}>
+                  <Text style={styles.validez2}>
+                    {'- Aplica: ' +
+                      ((cupones[0].diaAplicacion.lunes ? 'Lunes ' : '') +
+                        (cupones[0].diaAplicacion.martes ? 'Martes ' : '') +
+                        (cupones[0].diaAplicacion.miercoles
+                          ? 'Miercoles '
+                          : '') +
+                        (cupones[0].diaAplicacion.jueves ? 'Jueves ' : '') +
+                        (cupones[0].diaAplicacion.viernes ? 'Viernes ' : '') +
+                        (cupones[0].diaAplicacion.sabado ? 'Sábado ' : '') +
+                        (cupones[0].diaAplicacion.domingo ? 'Domingo ' : '') +
+                        (cupones[0].diaAplicacion.todoslosdias
+                          ? 'Todos los días' + '.'
+                          : ''))}
+                  </Text>
+                  <Text style={styles.validez2}>
+                    {'- Medio de pago: ' + cupones[0].medioPago + '.'}
+                  </Text>
 
-                <Text style={styles.validez2}>
-                  {cupones[0].descripcion ? cupones[0].descripcion + '.' : ''}
-                </Text>
-                <Text style={styles.validez1}>
-                  ¡Guardá este cupón y pedí el código en la tienda para sumar
-                  GreedyPoints!
-                </Text>
+                  {cupones[0].otroProveedor ? (
+                    <Text style={styles.validez2}>
+                      {'- Entidad crediticia: ' +
+                        cupones[0].otroProveedor +
+                        '.'}
+                    </Text>
+                  ) : null}
+
+                  <Text style={styles.validez2}>
+                    {cupones[0].descripcion ? cupones[0].descripcion + '.' : ''}
+                  </Text>
+                  <Text style={styles.validez1}>
+                    ¡Guardá este cupón y pedí el código en la tienda para sumar
+                    GreedyPoints!
+                  </Text>
+                </View>
               </View>
-            </View>
-            <View style={styles.circulos}>
-              <View style={styles.contCirculo}>
-                <View style={styles.circulo} />
+              <View style={styles.circulos}>
+                <View style={styles.contCirculo}>
+                  <View style={styles.circulo} />
+                </View>
+                <Divider
+                  style={{
+                    backgroundColor: colors.grey,
+                    height: 2,
+                    marginLeft: 45,
+                    marginRight: 45,
+                    marginTop: 25,
+                  }}
+                />
+                <View style={styles.contCirculo2}>
+                  <View style={styles.circuloEnd} />
+                </View>
               </View>
-              <Divider
-                style={{
-                  backgroundColor: colors.grey,
-                  height: 2,
-                  marginLeft: 45,
-                  marginRight: 45,
-                  marginTop: 25,
-                }}
-              />
-              <View style={styles.contCirculo2}>
-                <View style={styles.circuloEnd} />
-              </View>
-            </View>
-            {/*<View style={styles.contenedorBoton}>
+              {/*<View style={styles.contenedorBoton}>
               <Button
                 icon="content-save-outline"
                 mode="outlined"
@@ -162,8 +168,9 @@ function Cupones(props) {
                 Guardar
               </Button>
               </View>*/}
+            </View>
           </View>
-        </View>
+        </ScrollView>
       ) : null}
     </SafeAreaView>
   );
