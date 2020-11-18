@@ -131,3 +131,9 @@ export const setearFavorito = () => {
     dispatch({ type: 'SETEAR_FAVORITO' });
   };
 };
+
+export const guardarComerciosEnRedux = (comercios) => {
+  return (dispatch, getState, { getFirestore }) => {
+    dispatch({ type: 'LISTA_COMERCIOS', comercios });
+  };
+};
