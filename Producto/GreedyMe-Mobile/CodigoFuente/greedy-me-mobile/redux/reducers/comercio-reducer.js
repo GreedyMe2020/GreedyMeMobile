@@ -32,17 +32,11 @@ const comercioReducer = (state = initState, action) => {
         ...state,
         errorCupon: 'Ocurrió algún error con el cupon',
       };
-    case 'SETEAR_FAVORITO':
-      console.log('SeteoFav');
+    case 'LISTA_COMERCIOS_EN_REDUX':
+      console.log('Seteo los comercios padre');
       return {
         ...state,
-        favoritos: null,
-      };
-    case 'LISTA_COMERCIOS':
-      console.log('Seteoloscomerciospadre');
-      return {
-        ...state,
-        comerciosRedux: action.comercios,
+        comerciosRedux: action.comerciosRedux,
       };
     default:
       return state;

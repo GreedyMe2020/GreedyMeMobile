@@ -126,14 +126,14 @@ export const guardarCupon = (idUsuario, datos, comercio, sucursal) => {
   };
 };
 
-export const setearFavorito = () => {
+export const guardarComerciosRedux = (comerciosRedux) => {
   return (dispatch, getState, { getFirestore }) => {
-    dispatch({ type: 'SETEAR_FAVORITO' });
+    dispatch({ type: 'LISTA_COMERCIOS_EN_REDUX', comerciosRedux });
   };
 };
 
-export const guardarComerciosEnRedux = (comercios) => {
+/*export const setearFavorito = () => {
   return (dispatch, getState, { getFirestore }) => {
-    dispatch({ type: 'LISTA_COMERCIOS', comercios });
+    dispatch({ type: 'SETEAR_FAVORITO' });
   };
-};
+};*/
