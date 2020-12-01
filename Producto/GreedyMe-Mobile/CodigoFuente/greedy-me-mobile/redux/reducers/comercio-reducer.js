@@ -3,6 +3,8 @@ const initState = {
   errorFavoritos: null,
   cupon: null,
   errorCupon: null,
+  eliminarCupon: null,
+  errorEliminarCupon: null,
   comerciosRedux: null,
 };
 
@@ -21,7 +23,7 @@ const comercioReducer = (state = initState, action) => {
         errorFavoritos: 'Ocurrió algún error',
       };
     case 'GUARDAR_CUPON':
-      console.log('Comercio agregado');
+      console.log('Cupon agregado');
       return {
         ...state,
         cupon: 'Se agrego cupon',
@@ -30,7 +32,19 @@ const comercioReducer = (state = initState, action) => {
       console.log('Error');
       return {
         ...state,
-        errorCupon: 'Ocurrió algún error con el cupon',
+        errorCupon: 'Ocurrió algún error al agregar cupon',
+      };
+    case 'ELIMINAR_CUPON':
+      console.log('Cupon eliminado');
+      return {
+        ...state,
+        eliminarCupon: 'Se elimino cupon',
+      };
+    case 'ERROR_ELIMINAR_CUPON':
+      console.log('Error al eliminar cupon');
+      return {
+        ...state,
+        errorEliminarCupon: 'Ocurrió algún error al eliminar cupon',
       };
     case 'LISTA_COMERCIOS_EN_REDUX':
       console.log('Seteo los comercios padre');

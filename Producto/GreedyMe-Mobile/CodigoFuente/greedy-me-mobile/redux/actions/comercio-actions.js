@@ -102,6 +102,7 @@ export const guardarCupon = (idUsuario, datos, comercio, sucursal) => {
       .collection('cupones')
       .doc()
       .set({
+        id: datos.id,
         tipoPromo: datos.tipoPromo,
         valuePromo: datos.valuePromo,
         otraPromo: datos.otraPromo,
@@ -122,6 +123,24 @@ export const guardarCupon = (idUsuario, datos, comercio, sucursal) => {
       })
       .catch((error) => {
         dispatch({ type: 'ERROR_CUPON', error });
+      });
+  };
+};
+
+export const eliminarCupon = (idUsuario, id) => {
+  return (dispatch, getState, { getFirestore }) => {
+    const firestore = getFirestore();
+    firestore
+      .collection('usuarioConsumidor')
+      .doc(idUsuario)
+      .collection('cupones')
+      .doc(id)
+      .delete()
+      .then(() => {
+        dispatch({ type: 'ELIMINAR_CUPON' });
+      })
+      .catch((error) => {
+        dispatch({ type: 'ERROR_ELIMINAR_CUPON', error });
       });
   };
 };
