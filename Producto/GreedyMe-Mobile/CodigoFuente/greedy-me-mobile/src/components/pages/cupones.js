@@ -135,7 +135,7 @@ function Cupones(props) {
                         ((cupones[0].diaAplicacion.lunes ? 'Lunes ' : '') +
                           (cupones[0].diaAplicacion.martes ? 'Martes ' : '') +
                           (cupones[0].diaAplicacion.miercoles
-                            ? 'Miercoles '
+                            ? 'Miércoles '
                             : '') +
                           (cupones[0].diaAplicacion.jueves ? 'Jueves ' : '') +
                           (cupones[0].diaAplicacion.viernes ? 'Viernes ' : '') +
@@ -198,13 +198,13 @@ function Cupones(props) {
                     </Paragraph>
                   </Dialog.Content>
                   <Dialog.Actions style={{ marginRight: 8 }}>
-                    <Button onPress={showDialogPreg2} style={{ fontSize: 17 }}>
+                    <Button onPress={showDialogPreg1} style={{ fontSize: 17 }}>
                       Contestar
                     </Button>
                   </Dialog.Actions>
                 </Dialog>
               </Portal>
-              {/* <Portal>
+              <Portal>
                 <Dialog visible={visible1} onDismiss={hideDialogPreg1}>
                   <Dialog.Title>Encuesta</Dialog.Title>
                   <Dialog.Content style={{ marginBottom: -10 }}>
@@ -230,7 +230,7 @@ function Cupones(props) {
                     </Button>
                   </Dialog.Actions>
                 </Dialog>
-              </Portal> */}
+              </Portal>
               <Portal>
                 <Dialog
                   visible={visible2}
