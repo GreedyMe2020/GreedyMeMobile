@@ -25,7 +25,10 @@ import CardPremium from '../Inicio/card-premium';
 import firebaseapp from '../../../firebase/config';
 import { setearFavorito } from '../../../redux/actions/comercio-actions';
 import { map } from 'lodash';
-import { agregarComercioFavorito, guardarComerciosEnRedux } from '../../../redux/actions/comercio-actions';
+import {
+  agregarComercioFavorito,
+  guardarComerciosEnRedux,
+} from '../../../redux/actions/comercio-actions';
 import {
   setearLogeo,
   setNuevoUsuarioFalse,
@@ -94,7 +97,7 @@ function Inicio(props) {
       return;
     }
     const idComercios = [];
-    itemSeleccionados.forEach((item) => {
+    /*itemSeleccionados.forEach((item) => {
       promociones.forEach((promo) => {
         if (promo.visible === true) {
           if (
@@ -107,7 +110,7 @@ function Inicio(props) {
           }
         }
       });
-    });
+    });*/
 
     for (var i = idComercios.length - 1; i >= 0; i--) {
       if (idComercios.indexOf(idComercios[i]) !== i) {
@@ -127,7 +130,7 @@ function Inicio(props) {
     let arrSinDuplicaciones = Array.from(set).map(JSON.parse);
     setListaComercios(arrSinDuplicaciones);
     setListaComercios2(arrSinDuplicaciones);
-    props.guardarComerciosEnRedux(arrSinDuplicaciones)
+    props.guardarComerciosEnRedux(arrSinDuplicaciones);
     return;
   };
 

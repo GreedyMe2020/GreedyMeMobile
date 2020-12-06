@@ -35,7 +35,7 @@ function Cupones(props) {
   //estado que contiene el mensaje de error en la validacion del cupon
   const [errorCupon, setErrorCupon] = React.useState('');
   //estado que maneja el contenido del input de validacion
-  const [codigo, setCodigo] = React.useState('');
+  const [codigo, setCodigo] = React.useState(null);
   //use effect que se ejecuta una vez y trae cupones
   React.useEffect(() => {
     const obtenerCupones = async () => {
@@ -58,15 +58,19 @@ function Cupones(props) {
     obtenerCupones();
   }, []);
 
-  //funcion que asigna el valor del input de validacion en el estado cupon 
+  //funcion que asigna el valor del input de validacion en el estado cupon
   const handleChangeCodigo = (codigo) => {
     setCodigo(codigo);
   };
 
   //funcion para mostrar el error en el input del codigo
   const codigoValidator = React.useEffect(() => {
-    if (codigo !== CODIGO_VALIDAR) {
-      setErrorCupon('* Este campo no es correcto');
+    if (codigo === null || codigo === CODIGO_VALIDAR) {
+      setErrorCupon('');
+    } else {
+      if (codigo !== CODIGO_VALIDAR) {
+        setErrorCupon('* Este campo no es correcto');
+      }
     }
   }, [codigo]);
 
@@ -178,8 +182,10 @@ function Cupones(props) {
                 </View>
               </View>
               <View style={styles.contenedorBoton}>
-                <View>
-                  <Text>Validá tu cupón y sumá GreedyPoints</Text>
+                <View style={styles.textoSecundario}>
+                  <Text style={styles.validez2}>
+                    Validá tu cupón y sumá GreedyPoints:
+                  </Text>
                   <TextInput
                     style={styles.inputCodigoVal}
                     mode="flat"
@@ -199,7 +205,7 @@ function Cupones(props) {
                   icon="coin"
                   mode="outlined"
                   style={styles.botonGuardar}
-                  labelStyle={{ fontSize: 18, color: colors.white }}
+                  labelStyle={{ fontSize: 20, color: colors.white }}
                 >
                   Validar
                 </Button>
@@ -324,18 +330,18 @@ const styles = StyleSheet.create({
   botonGuardar: {
     alignSelf: 'center',
     backgroundColor: colors.celeste,
+    marginTop: 10,
   },
   inputCodigoVal: {
-    marginRight: 20,
-    marginLeft: 20,
+    marginRight: 40,
     marginBottom: 7,
+    marginTop: 7,
     paddingLeft: 5,
     height: 55,
     fontSize: 18,
     backgroundColor: colors.grey,
   },
   errorVal: {
-    marginLeft: 20,
     color: '#af1a1a',
     top: -8,
   },
