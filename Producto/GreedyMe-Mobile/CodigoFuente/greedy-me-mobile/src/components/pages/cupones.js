@@ -6,6 +6,7 @@ import {
   Text,
   SafeAreaView,
   ScrollView,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import {
   Button,
@@ -13,7 +14,6 @@ import {
   Paragraph,
   Dialog,
   Portal,
-  RadioButton,
   Divider,
   TextInput,
 } from 'react-native-paper';
@@ -24,9 +24,16 @@ import firebaseapp from '../../../firebase/config';
 import { format } from 'date-fns';
 import { Rating, AirbnbRating } from 'react-native-elements';
 
+//Variable que contiene un codigo de prueba para comparar con el del input del cupon
+const CODIGO_VALIDAR = 'ABCDEF';
+
 function Cupones(props) {
   //estado de cupones
   const [cupones, setCupones] = React.useState(null);
+  //estado que contiene el mensaje de error en la validacion del cupon
+  const [errorCupon, setErrorCupon] = React.useState('');
+  //estado que maneja el contenido del input de validacion
+  const [codigo, setCodigo] = React.useState(null);
   //use effect que se ejecuta una vez y trae cupones
   React.useEffect(() => {
     const obtenerCupones = async () => {
@@ -70,11 +77,26 @@ function Cupones(props) {
   const [value2, setValue2] = React.useState('muybuena');
 
   const [text, setText] = React.useState('');
+  //funcion que asigna el valor del input de validacion en el estado cupon
+  const handleChangeCodigo = (codigo) => {
+    setCodigo(codigo);
+  };
+
+  //funcion para mostrar el error en el input del codigo
+  const codigoValidator = React.useEffect(() => {
+    if (codigo === null || codigo === CODIGO_VALIDAR) {
+      setErrorCupon('');
+    } else {
+      if (codigo !== CODIGO_VALIDAR) {
+        setErrorCupon('* Este campo no es correcto');
+      }
+    }
+  }, [codigo]);
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView style={{ flex: 1 }}>
-        {cupones !== null ? (
+      {cupones !== null ? (
+        <ScrollView style={{ flex: 1 }}>
           <View style={styles.content}>
             <View style={styles.card}>
               <View style={styles.contenido}>
@@ -174,11 +196,31 @@ function Cupones(props) {
                 </View>
               </View>
               <View style={styles.contenedorBoton}>
+                <View style={styles.textoSecundario}>
+                  <Text style={styles.validez2}>
+                    Validá tu cupón y sumá GreedyPoints:
+                  </Text>
+                  <TextInput
+                    style={styles.inputCodigoVal}
+                    mode="flat"
+                    label="Ingresá tu código"
+                    required
+                    underlineColor={colors.celeste}
+                    onBlur={() => {
+                      codigoValidator;
+                    }}
+                    onChangeText={handleChangeCodigo}
+                    error={errorCupon}
+                    value={codigo}
+                  />
+                  <Text style={styles.errorVal}>{errorCupon}</Text>
+                </View>
+
                 <Button
-                  icon="content-save-outline"
+                  icon="coin"
                   mode="outlined"
                   style={styles.botonGuardar}
-                  labelStyle={{ fontSize: 18, color: colors.white }}
+                  labelStyle={{ fontSize: 20, color: colors.white }}
                   onPress={showDialogValidar}
                 >
                   Validar
@@ -236,8 +278,8 @@ function Cupones(props) {
               </Portal>
             </View>
           </View>
-        ) : null}
-      </ScrollView>
+        </ScrollView>
+      ) : null}
     </SafeAreaView>
   );
 }
@@ -353,6 +395,20 @@ const styles = StyleSheet.create({
   botonGuardar: {
     alignSelf: 'center',
     backgroundColor: colors.celeste,
+    marginTop: 10,
+  },
+  inputCodigoVal: {
+    marginRight: 40,
+    marginBottom: 7,
+    marginTop: 7,
+    paddingLeft: 5,
+    height: 55,
+    fontSize: 18,
+    backgroundColor: colors.grey,
+  },
+  errorVal: {
+    color: '#af1a1a',
+    top: -8,
   },
 });
 

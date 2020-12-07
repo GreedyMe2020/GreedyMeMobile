@@ -25,7 +25,10 @@ import CardPremium from '../Inicio/card-premium';
 import firebaseapp from '../../../firebase/config';
 import { setearFavorito } from '../../../redux/actions/comercio-actions';
 import { map } from 'lodash';
-import { agregarComercioFavorito } from '../../../redux/actions/comercio-actions';
+import {
+  agregarComercioFavorito,
+  guardarComerciosEnRedux,
+} from '../../../redux/actions/comercio-actions';
 import {
   setearLogeo,
   setNuevoUsuarioFalse,
@@ -127,7 +130,7 @@ function Inicio(props) {
     let arrSinDuplicaciones = Array.from(set).map(JSON.parse);
     setListaComercios(arrSinDuplicaciones);
     setListaComercios2(arrSinDuplicaciones);
-
+    props.guardarComerciosEnRedux(arrSinDuplicaciones);
     return;
   };
 
@@ -304,6 +307,7 @@ const mapDispatchToProps = (dispatch) => {
 
     setearLogeo: (flag) => dispatch(setearLogeo(flag)),
     setNuevoUsuarioFalse: () => setNuevoUsuarioFalse(),
+    guardarComerciosEnRedux: (comercios) => guardarComerciosEnRedux(comercios),
   };
 };
 
