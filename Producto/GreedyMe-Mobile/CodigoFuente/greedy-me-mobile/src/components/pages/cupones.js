@@ -3,18 +3,12 @@ import {
   StyleSheet,
   Image,
   View,
-  FlatList,
   Text,
   SafeAreaView,
   ScrollView,
-  TouchableWithoutFeedback,
 } from 'react-native';
 import {
-  Avatar,
-  IconButton,
   Button,
-  Card,
-  List,
   Title,
   Paragraph,
   Dialog,
@@ -59,9 +53,9 @@ function Cupones(props) {
   const [visible1, setVisible1] = React.useState(false);
   const [visible2, setVisible2] = React.useState(false);
   const [visible3, setVisible3] = React.useState(false);
+  const [validado, setValidado] = React.useState(false);
 
   const showDialogValidar = () => setVisible(true);
-
   const hideDialogValidar = () => setVisible(false);
 
   const showDialogPreg1 = () => setVisible1(true);
@@ -69,6 +63,8 @@ function Cupones(props) {
   const showDialogPreg2 = () => setVisible2(true);
   const hideDialogPreg2 = () => setVisible2(false);
   const showDialogPreg3 = () => setVisible(true);
+  const showDialogValidado = () => setValidado(true);
+  const hideDialogValidado = () => setValidado(false);
   const [value, setValue] = React.useState('si');
   const [value1, setValue1] = React.useState('si');
   const [value2, setValue2] = React.useState('muybuena');
@@ -209,7 +205,7 @@ function Cupones(props) {
                   <Dialog.Title>Encuesta</Dialog.Title>
                   <Dialog.Content style={{ marginBottom: -10 }}>
                     <Paragraph style={{ fontSize: 17 }}>
-                      ¿Cómo evaluarías tu experiencia de compra?
+                      ¿Cómo evaluarías tu experiencia de compra en NombreTienda?
                     </Paragraph>
                     <AirbnbRating
                       count={5}
@@ -222,180 +218,20 @@ function Cupones(props) {
                         'Excelente',
                       ]}
                     />
-                    <Rating showRating style={{ paddingVertical: 10 }} />
+                    {/* <Rating showRating style={{ paddingVertical: 10 }} /> */}
                   </Dialog.Content>
                   <Dialog.Actions style={{ marginRight: 8 }}>
-                    <Button onPress={showDialogPreg2} style={{ fontSize: 17 }}>
-                      Siguiente
+                    <Button
+                      onPress={() => {
+                        props.navigation.navigate('ValidacionGreedyPoints1');
+                        setVisible(false);
+                        setVisible1(false);
+                      }}
+                      style={{ fontSize: 17 }}
+                    >
+                      Validar
                     </Button>
                   </Dialog.Actions>
-                </Dialog>
-              </Portal>
-              <Portal>
-                <Dialog
-                  visible={visible2}
-                  onDismiss={hideDialogPreg2}
-                  style={{ flex: 0.9 }}
-                >
-                  <Dialog.Title>Encuesta</Dialog.Title>
-                  <Dialog.ScrollArea>
-                    <ScrollView>
-                      <View style={{ marginTop: 12 }}>
-                        <Text style={{ fontSize: 17, marginTop: 12 }}>
-                          ¿Pudo utilizar el beneficio por el cual asistió a la
-                          tienda?
-                        </Text>
-                        <View style={{ marginTop: 8 }}>
-                          <RadioButton.Group
-                            onValueChange={(value) => setValue(value)}
-                            value={value}
-                          >
-                            <View
-                              style={{
-                                flexDirection: 'row',
-                                alignItems: 'center',
-                              }}
-                            >
-                              <RadioButton value="si" />
-                              <Text style={{ fontSize: 17, marginLeft: 8 }}>
-                                Si
-                              </Text>
-                            </View>
-                            <View
-                              style={{
-                                flexDirection: 'row',
-                                alignItems: 'center',
-                              }}
-                            >
-                              <RadioButton value="no" />
-                              <Text style={{ fontSize: 17, marginLeft: 8 }}>
-                                No
-                              </Text>
-                            </View>
-                          </RadioButton.Group>
-                        </View>
-                      </View>
-                      <View style={{ marginTop: 12 }}>
-                        <Text style={{ fontSize: 17 }}>
-                          ¿El beneficio coincide con lo especificado en el
-                          perfil del comercio?
-                        </Text>
-                        <View style={{ marginTop: 8 }}>
-                          <RadioButton.Group
-                            onValueChange={(value1) => setValue1(value1)}
-                            value={value1}
-                          >
-                            <View
-                              style={{
-                                flexDirection: 'row',
-                                alignItems: 'center',
-                              }}
-                            >
-                              <RadioButton value="si" />
-                              <Text style={{ fontSize: 17, marginLeft: 8 }}>
-                                Si
-                              </Text>
-                            </View>
-                            <View
-                              style={{
-                                flexDirection: 'row',
-                                alignItems: 'center',
-                              }}
-                            >
-                              <RadioButton value="no" />
-                              <Text style={{ fontSize: 17, marginLeft: 8 }}>
-                                No
-                              </Text>
-                            </View>
-                          </RadioButton.Group>
-                        </View>
-                      </View>
-                      <View style={{ marginTop: 12 }}>
-                        <Text style={{ fontSize: 17 }}>
-                          ¿Cómo evaluarías tu experiencia de compra?
-                        </Text>
-                        <Rating
-                          imageSize={35}
-                          style={{
-                            paddingVertical: 10,
-                          }}
-                        />
-                      </View>
-                      <View style={{ marginTop: 12 }}>
-                        <Text style={{ fontSize: 17 }}>
-                          ¿Cómo evaluaría la atención del vendedor?
-                        </Text>
-                        <View style={{ marginTop: 8 }}>
-                          <RadioButton.Group
-                            onValueChange={(value2) => setValue2(value2)}
-                            value={value2}
-                          >
-                            <View
-                              style={{
-                                flexDirection: 'row',
-                                alignItems: 'center',
-                              }}
-                            >
-                              <RadioButton value="muybuena" />
-                              <Text style={{ fontSize: 17, marginLeft: 8 }}>
-                                Muy buena
-                              </Text>
-                            </View>
-                            <View
-                              style={{
-                                flexDirection: 'row',
-                                alignItems: 'center',
-                              }}
-                            >
-                              <RadioButton value="buena" />
-                              <Text style={{ fontSize: 17, marginLeft: 8 }}>
-                                Buena
-                              </Text>
-                            </View>
-                            <View
-                              style={{
-                                flexDirection: 'row',
-                                alignItems: 'center',
-                              }}
-                            >
-                              <RadioButton value="mala" />
-                              <Text style={{ fontSize: 17, marginLeft: 8 }}>
-                                Mala
-                              </Text>
-                            </View>
-                          </RadioButton.Group>
-                        </View>
-                      </View>
-                      <View style={{ marginTop: 14 }}>
-                        <Text style={{ fontSize: 17 }}>
-                          Dejanos tu comentario
-                        </Text>
-                        <View style={{ marginTop: 4 }}>
-                          <TextInput
-                            label="Comentario"
-                            value={text}
-                            mode="outlined"
-                            multiline={true}
-                            numberOfLines={3}
-                            onChangeText={(text) => setText(text)}
-                            style={{
-                              backgroundColor: colors.avatar,
-                              marginTop: 8,
-                            }}
-                          />
-                        </View>
-                      </View>
-                    </ScrollView>
-
-                    <Dialog.Actions style={{ marginRight: 8 }}>
-                      <Button
-                        onPress={showDialogPreg3}
-                        style={{ fontSize: 17 }}
-                      >
-                        Validar
-                      </Button>
-                    </Dialog.Actions>
-                  </Dialog.ScrollArea>
                 </Dialog>
               </Portal>
             </View>
