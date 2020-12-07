@@ -32,6 +32,7 @@ function Cupon(props) {
   const [cupones, setCupones] = React.useState([]);
   //estado para mostrar un mensaje de error si se quieren guardar cupones iguales
   const [mensajeError, setMensajeError] = React.useState(false);
+  const [mensajeCorrecto, setMensajeCorrecto] = React.useState(false);
   //use effect para traer los cupones del usuario de la base de datos
   React.useEffect(() => {
     const obtenerCupones = async () => {
@@ -55,6 +56,7 @@ function Cupon(props) {
   }, []);
   //funcion que cierra el mensaje de error
   const onDismissSnackBar2 = () => setMensajeError(false);
+  const onDismissSnackBar3 = () => setMensajeCorrecto(false);
   //funcion para guardar el cupon
   const onSubmit = () => {
     let contador = 0;
@@ -82,6 +84,7 @@ function Cupon(props) {
         nombreComercio: comercio,
         sucursal: sucursal,
       });
+      setMensajeCorrecto(true);
     } else {
       setMensajeError(true);
     }
@@ -193,49 +196,46 @@ function Cupon(props) {
                 mode="outlined"
                 style={styles.botonGuardar}
                 labelStyle={{ fontSize: 18, color: colors.white }}
-                onPress={() =>
-                  props.guardarCupon(
-                    props.auth.uid,
-                    data.item,
-                    comercio,
-                    sucursal,
-                  )
-                }
+                onPress={onSubmit}
               >
                 Guardar
               </Button>
             </View>
           </View>
-          <View style={styles.contenedorBoton}>
-            <Button
-              icon="content-save-outline"
-              mode="outlined"
-              style={styles.botonGuardar}
-              labelStyle={{ fontSize: 18, color: colors.white }}
-              onPress={onSubmit}
+          {mensajeCorrecto ? (
+            <Snackbar
+              visible={mensajeCorrecto}
+              onDismiss={onDismissSnackBar3}
+              theme={{ colors: { accent: 'white' } }}
+              action={{
+                label: 'OK',
+                onPress: () => {
+                  onDismissSnackBar3;
+                },
+              }}
+              style={styles.snackbar}
             >
-              Guardar
-            </Button>
-          </View>
+              Cupon guardado correctamente!
+            </Snackbar>
+          ) : null}
+          {mensajeError ? (
+            <Snackbar
+              visible={mensajeError}
+              onDismiss={onDismissSnackBar2}
+              theme={{ colors: { accent: 'white' } }}
+              action={{
+                label: 'OK',
+                onPress: () => {
+                  onDismissSnackBar2;
+                },
+              }}
+              style={styles.snackbar2}
+            >
+              Ya tenes guardado este cupon.
+            </Snackbar>
+          ) : null}
         </View>
-        {mensajeError ? (
-          <Snackbar
-            visible={mensajeError}
-            onDismiss={onDismissSnackBar2}
-            theme={{ colors: { accent: 'white' } }}
-            action={{
-              label: 'OK',
-              onPress: () => {
-                onDismissSnackBar2;
-              },
-            }}
-            style={styles.snackbar2}
-          >
-            Ya tenes guardado este cupon.
-          </Snackbar>
-        ) : null}
-      </View>
-
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -351,6 +351,12 @@ const styles = StyleSheet.create({
   botonGuardar: {
     alignSelf: 'center',
     backgroundColor: colors.celeste,
+  },
+  snackbar: {
+    backgroundColor: colors.alertGrey,
+  },
+  snackbar2: {
+    backgroundColor: colors.error,
   },
 });
 
