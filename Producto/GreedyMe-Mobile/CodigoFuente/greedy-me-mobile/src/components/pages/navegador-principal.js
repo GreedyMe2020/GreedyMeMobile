@@ -203,6 +203,10 @@ function NavegadorPrincipal(props) {
                 title: 'GreedyPoints',
                 headerShown: true,
                 headerLeft: null,
+                headerTintColor: 'white',
+                headerStyle: {
+                  backgroundColor: '#1E1B4D',
+                },
                 animationEnabled: false,
                 gestureDirection: 'horizontal',
               }}
@@ -214,6 +218,10 @@ function NavegadorPrincipal(props) {
                 title: 'Encuesta',
                 headerLeft: null,
                 headerShown: true,
+                headerTintColor: 'white',
+                headerStyle: {
+                  backgroundColor: '#1E1B4D',
+                },
                 animationEnabled: false,
                 gestureDirection: 'horizontal',
               }}

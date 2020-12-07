@@ -6,10 +6,10 @@ import {
   Text,
   SafeAreaView,
   ScrollView,
-  TouchableWithoutFeedback,
 } from 'react-native';
 import {
   Button,
+  IconButton,
   Title,
   Paragraph,
   Dialog,
@@ -22,7 +22,7 @@ import _ from 'lodash';
 import { colors } from '../../styles/colores';
 import firebaseapp from '../../../firebase/config';
 import { format } from 'date-fns';
-import { Rating, AirbnbRating } from 'react-native-elements';
+import { AirbnbRating } from 'react-native-elements';
 
 //Variable que contiene un codigo de prueba para comparar con el del input del cupon
 const CODIGO_VALIDAR = 'ABCDEF';
@@ -56,27 +56,14 @@ function Cupones(props) {
     obtenerCupones();
   }, []);
 
+  //estados para manejar los dialog que se abren de la primer encuesta
   const [visible, setVisible] = React.useState(false);
   const [visible1, setVisible1] = React.useState(false);
-  const [visible2, setVisible2] = React.useState(false);
-  const [visible3, setVisible3] = React.useState(false);
-  const [validado, setValidado] = React.useState(false);
-
   const showDialogValidar = () => setVisible(true);
   const hideDialogValidar = () => setVisible(false);
-
   const showDialogPreg1 = () => setVisible1(true);
   const hideDialogPreg1 = () => setVisible1(false);
-  const showDialogPreg2 = () => setVisible2(true);
-  const hideDialogPreg2 = () => setVisible2(false);
-  const showDialogPreg3 = () => setVisible(true);
-  const showDialogValidado = () => setValidado(true);
-  const hideDialogValidado = () => setValidado(false);
-  const [value, setValue] = React.useState('si');
-  const [value1, setValue1] = React.useState('si');
-  const [value2, setValue2] = React.useState('muybuena');
 
-  const [text, setText] = React.useState('');
   //funcion que asigna el valor del input de validacion en el estado cupon
   const handleChangeCodigo = (codigo) => {
     setCodigo(codigo);
@@ -196,16 +183,16 @@ function Cupones(props) {
                 </View>
               </View>
               <View style={styles.contenedorBoton}>
-                <View style={styles.textoSecundario}>
-                  <Text style={styles.validez2}>
-                    Validá tu cupón y sumá GreedyPoints:
+                <View style={styles.textoValidar}>
+                  <Text style={styles.textoVal}>
+                    Validá tu cupón y sumá GreedyPoints
                   </Text>
                   <TextInput
                     style={styles.inputCodigoVal}
                     mode="flat"
                     label="Ingresá tu código"
                     required
-                    underlineColor={colors.celeste}
+                    underlineColor={colors.naranja}
                     onBlur={() => {
                       codigoValidator;
                     }}
@@ -215,39 +202,33 @@ function Cupones(props) {
                   />
                   <Text style={styles.errorVal}>{errorCupon}</Text>
                 </View>
-
-                <Button
-                  icon="coin"
-                  mode="outlined"
-                  style={styles.botonGuardar}
-                  labelStyle={{ fontSize: 20, color: colors.white }}
-                  onPress={showDialogValidar}
-                >
-                  Validar
-                </Button>
+                <View style={styles.botones}>
+                  <Button
+                    mode="outlined"
+                    style={styles.botonValidar}
+                    labelStyle={{ fontSize: 18, color: colors.white }}
+                    onPress={showDialogValidar}
+                  >
+                    Validar
+                  </Button>
+                  <IconButton
+                    icon="trash-can-outline"
+                    color={colors.error}
+                    style={{
+                      backgroundColor: '#f2dede',
+                    }}
+                    size={25}
+                    onPress={() => console.log('Pressed')}
+                  />
+                </View>
               </View>
               <Portal>
-                <Dialog visible={visible} onDismiss={hideDialogValidar}>
+                <Dialog visible={visible}>
                   <Dialog.Title>Validar cupón</Dialog.Title>
                   <Dialog.Content style={{ marginBottom: -10 }}>
                     <Paragraph style={{ fontSize: 17 }}>
-                      Contestá una breve encuenta para validar este cupón y
-                      sumar GreedyPoints para canjearlos por premios.
-                    </Paragraph>
-                  </Dialog.Content>
-                  <Dialog.Actions style={{ marginRight: 8 }}>
-                    <Button onPress={showDialogPreg1} style={{ fontSize: 17 }}>
-                      Contestar
-                    </Button>
-                  </Dialog.Actions>
-                </Dialog>
-              </Portal>
-              <Portal>
-                <Dialog visible={visible1} onDismiss={hideDialogPreg1}>
-                  <Dialog.Title>Encuesta</Dialog.Title>
-                  <Dialog.Content style={{ marginBottom: -10 }}>
-                    <Paragraph style={{ fontSize: 17 }}>
-                      ¿Cómo evaluarías tu experiencia de compra en NombreTienda?
+                      Contanos como fue tu experiencia de compra en NombreTienda
+                      para finalizar la validación y sumar tus GreedyPoints.
                     </Paragraph>
                     <AirbnbRating
                       count={5}
@@ -260,7 +241,6 @@ function Cupones(props) {
                         'Excelente',
                       ]}
                     />
-                    {/* <Rating showRating style={{ paddingVertical: 10 }} /> */}
                   </Dialog.Content>
                   <Dialog.Actions style={{ marginRight: 8 }}>
                     <Button
@@ -392,23 +372,42 @@ const styles = StyleSheet.create({
     marginTop: 25,
     marginBottom: 25,
   },
-  botonGuardar: {
-    alignSelf: 'center',
-    backgroundColor: colors.celeste,
-    marginTop: 10,
+  botones: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 24,
+    marginRight: 24,
+  },
+  botonValidar: {
+    backgroundColor: colors.naranja,
+    marginRight: 10,
+    width: '75%',
+  },
+  textoValidar: {
+    marginTop: 20,
+    alignContent: 'center',
+  },
+  textoVal: {
+    color: colors.black,
+    marginBottom: 2,
+    fontSize: 16,
+    textAlign: 'center',
   },
   inputCodigoVal: {
-    marginRight: 40,
+    marginLeft: 24,
+    marginRight: 24,
     marginBottom: 7,
     marginTop: 7,
-    paddingLeft: 5,
     height: 55,
     fontSize: 18,
     backgroundColor: colors.grey,
   },
   errorVal: {
     color: '#af1a1a',
-    top: -8,
+    top: -5,
+    marginLeft: 25,
+    marginRight: 20,
   },
 });
 
