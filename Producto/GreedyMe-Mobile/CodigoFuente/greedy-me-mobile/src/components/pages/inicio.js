@@ -24,7 +24,10 @@ import { colors } from '../../styles/colores';
 import CardPremium from '../Inicio/card-premium';
 import firebaseapp from '../../../firebase/config';
 import { map } from 'lodash';
-import { agregarComercioFavorito } from '../../../redux/actions/comercio-actions';
+import {
+  agregarComercioFavorito,
+  guardarComerciosEnRedux,
+} from '../../../redux/actions/comercio-actions';
 import {
   setearLogeo,
   setNuevoUsuarioFalse,
