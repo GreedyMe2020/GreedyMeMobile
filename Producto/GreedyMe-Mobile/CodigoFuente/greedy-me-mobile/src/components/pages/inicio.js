@@ -123,7 +123,7 @@ function Inicio(props) {
       return;
     }
     const idComercios = [];
-    /* itemSeleccionados.forEach((item) => {
+    itemSeleccionados.forEach((item) => {
       promociones.forEach((promo) => {
         if (promo.visible === true) {
           if (
@@ -136,7 +136,7 @@ function Inicio(props) {
           }
         }
       });
-    }); */
+    });
 
     for (var i = idComercios.length - 1; i >= 0; i--) {
       if (idComercios.indexOf(idComercios[i]) !== i) {
