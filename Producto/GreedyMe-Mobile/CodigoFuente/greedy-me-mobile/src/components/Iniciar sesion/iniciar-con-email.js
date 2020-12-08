@@ -56,6 +56,7 @@ function IniciarSesionConEmail(props) {
       //props.setearLogeo('True');
       //Abro alerta
       if (errorContraseña === '' && errorEmail === '') {
+        props.setearLogeo('True');
         props.resetearValoresInicioSesion();
         props.signIn({
           email: email,

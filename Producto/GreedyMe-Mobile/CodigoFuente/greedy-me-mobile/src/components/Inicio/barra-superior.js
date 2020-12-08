@@ -50,6 +50,11 @@ function BarraSup(props) {
             icon="map-marker-outline"
             style={styles.image}
             color="black"
+            onPress={() => {
+              props.navigation.navigate('Mapa', {
+                data: props.comercios,
+              });
+            }}
           />
         </TouchableOpacity>
         <TouchableOpacity style={styles.notificacion} activeOpacity={0.5}>

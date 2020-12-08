@@ -8,6 +8,7 @@ import Main from './main';
 import obtenerTitulo from '../obtener-titulo';
 import Registro from '../Iniciar sesion/registro';
 import MisDatos from '../Perfil/datosPerfil';
+import Mapa from '../Inicio/mapa';
 import Notificaciones from '../Perfil/notificaciones';
 import Ubicacion from '../Perfil/ubicacion';
 import CambiarContraseña from '../Perfil/cambiarContraseña';
@@ -72,6 +73,20 @@ function NavegadorPrincipal(props) {
               component={MisDatos}
               options={({ route }) => ({
                 title: 'Mis datos personales',
+                headerShown: true,
+                headerTintColor: 'white',
+                headerStyle: {
+                  backgroundColor: '#1E1B4D',
+                },
+                animationEnabled: false,
+                gestureDirection: 'horizontal',
+              })}
+            />
+            <Stack.Screen
+              name="Mapa"
+              component={Mapa}
+              options={({ route }) => ({
+                title: 'Locales cercanos',
                 headerShown: true,
                 headerTintColor: 'white',
                 headerStyle: {
