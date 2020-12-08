@@ -20,6 +20,8 @@ import ComerciosNav from '../comercios/comercios-principal';
 import ComerciosPorRubro from '../comercios/comercios-rubro';
 import Cupon from '../comercios/cupon';
 import { connect } from 'react-redux';
+import ValidacionGreedyPoints1 from '../encuesta/validarGP';
+import EncuestaExtraGP from '../encuesta/encuesta-extraGP';
 
 //Funcion para determinar el color del header del componente
 // Main a partir del nombre de la ruta obtenida.
@@ -208,6 +210,36 @@ function NavegadorPrincipal(props) {
                 animationEnabled: false,
                 gestureDirection: 'horizontal',
               })}
+            />
+            <Stack.Screen
+              name="ValidacionGreedyPoints1"
+              component={ValidacionGreedyPoints1}
+              options={{
+                title: 'GreedyPoints',
+                headerShown: true,
+                headerLeft: null,
+                headerTintColor: 'white',
+                headerStyle: {
+                  backgroundColor: '#1E1B4D',
+                },
+                animationEnabled: false,
+                gestureDirection: 'horizontal',
+              }}
+            />
+            <Stack.Screen
+              name="EncuestaExtraGP"
+              component={EncuestaExtraGP}
+              options={{
+                title: 'Encuesta',
+                headerLeft: null,
+                headerShown: true,
+                headerTintColor: 'white',
+                headerStyle: {
+                  backgroundColor: '#1E1B4D',
+                },
+                animationEnabled: false,
+                gestureDirection: 'horizontal',
+              }}
             />
           </>
         ) : estaLogeado === false ? (
