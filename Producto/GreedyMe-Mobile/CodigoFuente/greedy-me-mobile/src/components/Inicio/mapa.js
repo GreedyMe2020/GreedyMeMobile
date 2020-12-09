@@ -29,16 +29,16 @@ function Mapa(props) {
   };
 
   //Recibo por props los datos de los comercios ya filtrados
-  const { data } = props.route.params;
+  const { comercios } = props.route.params;
   //esta variable la voy a usar para guardar datos del comercio y ademas la lat y lng
   const [listaComercios, setListaComercios] = React.useState([]);
 
   React.useEffect(() => {
     setListaComercios([]);
     let comerciosCercanos = [];
-    console.log(data);
-    console.log({ data });
-    data.forEach((comercio) => {
+    console.log(comercios);
+    console.log({ comercios });
+    comercios.forEach((comercio) => {
       comercio.direccion
         ? Geocoder.from(comercio.direccion)
             .then((json) => {
@@ -51,7 +51,7 @@ function Mapa(props) {
         : null;
     });
     setListaComercios(comerciosCercanos);
-  }, [data]);
+  }, [comercios]);
 
   return (
     <MapView
@@ -65,7 +65,8 @@ function Mapa(props) {
       }}
       //onRegionChange={this.onRegionChange}
     >
-      {console.log(data)}
+      {console.log('RENDER')}
+      {console.log(comercios)}
       {/*this.state.markers.map((marker, index) => (
         <Marker
           key={index}

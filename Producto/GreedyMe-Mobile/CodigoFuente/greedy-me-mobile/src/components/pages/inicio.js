@@ -231,7 +231,7 @@ function Inicio(props) {
       setProveedores(props.profile.proveedoresAsociados);
       filtrar(proveedores);
     }*/
-  }, [props.profile.proveedoresAsociados, proveedores, props.logeo]);
+  }, [props.profile.proveedoresAsociados, proveedores]);
 
   return (
     <SafeAreaView style={styles.container}>
