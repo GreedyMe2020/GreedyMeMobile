@@ -9,15 +9,7 @@ import {
   TouchableWithoutFeedback,
   TouchableOpacity,
 } from 'react-native';
-import {
-  Avatar,
-  IconButton,
-  Card,
-  List,
-  Title,
-  Paragraph,
-  Divider,
-} from 'react-native-paper';
+import { Title, Divider } from 'react-native-paper';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { colors } from '../../styles/colores';

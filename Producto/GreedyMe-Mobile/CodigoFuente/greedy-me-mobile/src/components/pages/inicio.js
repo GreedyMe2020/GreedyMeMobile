@@ -1,16 +1,11 @@
 import * as React from 'react';
 import {
-  FlatList,
   StyleSheet,
   StatusBar,
-  Platform,
-  KeyboardAvoidingView,
-  Keyboard,
   View,
   Text,
   ScrollView,
   SafeAreaView,
-  TouchableWithoutFeedback,
 } from 'react-native';
 import { Divider } from 'react-native-paper';
 import _ from 'lodash';

@@ -3,7 +3,6 @@ import { View, Text, StyleSheet } from 'react-native';
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { colors } from 'react-native-elements';
 import firebaseapp from '../../../firebase/config';
 
 const firestore = firebaseapp.firestore();
@@ -40,7 +39,6 @@ const obtenerRubros = () => {
     });
 };
 obtenerRubros();
-
 
 export default function BuscadorProveedores(props) {
   //estado para controlar el use Effect
@@ -85,7 +83,7 @@ export default function BuscadorProveedores(props) {
           ) : (
             <View style={styles.filtroText}>
               <Icons name="filter-outline" size={18} color="#838d9e" />
-              <Text style={styles.icons}>    Seleccionar filtros</Text>
+              <Text style={styles.icons}> Seleccionar filtros</Text>
             </View>
           )
         }

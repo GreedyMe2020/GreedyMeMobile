@@ -10,7 +10,6 @@ import {
   signInGoogle,
   setearLogeo,
 } from '../../../redux/actions/auth-actions';
-import { colors } from '../../styles/colores';
 //import { StatusBar } from 'expo-status-bar';
 
 function IniciarSesionConRedes(props) {

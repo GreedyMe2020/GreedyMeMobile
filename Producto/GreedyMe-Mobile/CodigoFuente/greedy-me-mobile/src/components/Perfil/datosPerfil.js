@@ -8,7 +8,7 @@ import {
   Text,
   TouchableWithoutFeedback,
 } from 'react-native';
-import { Button, TextInput, Snackbar } from 'react-native-paper';
+import { TextInput, Snackbar } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { editarDatos } from '../../../redux/actions/user-actions';
 import { colors } from '../../styles/colores';

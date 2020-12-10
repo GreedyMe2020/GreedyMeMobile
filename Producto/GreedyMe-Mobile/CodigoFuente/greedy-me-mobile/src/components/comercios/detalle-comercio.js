@@ -2,9 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { colors } from '../../styles/colores';
 import { Rating, Icon, SocialIcon } from 'react-native-elements';
-import IconButton from '../icon-button';
 import * as Linking from 'expo-linking';
-import AppLink from 'react-native-app-link';
 
 export default function DetalleComercio(props) {
   //Funcion para linkear a una pagina cuando se haga boton en

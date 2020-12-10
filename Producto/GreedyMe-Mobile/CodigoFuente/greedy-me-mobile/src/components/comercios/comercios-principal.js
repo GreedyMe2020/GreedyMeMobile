@@ -1,22 +1,8 @@
 import React from 'react';
-import {
-  StyleSheet,
-  StatusBar,
-  View,
-  Text,
-  Platform,
-  Keyboard,
-  KeyboardAvoidingView,
-  TouchableWithoutFeedback,
-  Image,
-} from 'react-native';
+import { StyleSheet, StatusBar, View, Image } from 'react-native';
 import { IconButton } from 'react-native-paper';
-
-import SearchBarBuscar from '../buscador/search-bar-buscar';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import BuscadorProveedores from '../buscador/buscador';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors } from '../../styles/colores';
-import CardComercio from '../Inicio/card-comercio';
 import { connect } from 'react-redux';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import DetalleComercio from './detalle-comercio';
@@ -84,8 +70,6 @@ export default function ComerciosNav(props) {
               sucursalcomercio={data.item.sucursal}
             />
           )}
-          //component={CuponesComercio}
-          //options={{ title: data.item.id }}
         />
         <Tab.Screen name="Reseñas" component={ReseñasComercio} />
       </Tab.Navigator>

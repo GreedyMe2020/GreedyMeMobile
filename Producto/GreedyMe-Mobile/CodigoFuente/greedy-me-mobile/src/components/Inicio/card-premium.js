@@ -1,25 +1,11 @@
 import * as React from 'react';
 import {
   StyleSheet,
-  Image,
-  StatusBar,
-  View,
-  Text,
   SafeAreaView,
   FlatList,
-  ScrollView,
   TouchableWithoutFeedback,
 } from 'react-native';
-import {
-  Avatar,
-  Button,
-  Card,
-  IconButton,
-  List,
-  Title,
-  Paragraph,
-  Divider,
-} from 'react-native-paper';
+import { Card, Title, Paragraph } from 'react-native-paper';
 import { connect } from 'react-redux';
 import firebaseapp from '../../../firebase/config';
 import _ from 'lodash';
@@ -115,28 +101,3 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps)(CardPremium);
-
-/*function CardPremium(props) {
-  return (
-    <View style={styles.cardCom}>
-      {comercios
-        ? comercios.map((com) => {
-            return (
-              <Card style={styles.cardComercio}>
-                <Card.Cover
-                  style={styles.image}
-                  source={{
-                    uri: com.photoURL,
-                  }}
-                />
-                <Card.Content>
-                  <Title style={styles.tittle}>{com.nombreComercio}</Title>
-                  <Paragraph style={styles.subtittle}>{com.sucursal}</Paragraph>
-                </Card.Content>
-              </Card>
-            );
-          })
-        : null}
-    </View>
-  );
-}*/

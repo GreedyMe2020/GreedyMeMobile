@@ -1,22 +1,8 @@
 import * as React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-  TouchableWithoutFeedback,
-  Platform,
-  Keyboard,
-} from 'react-native';
-import { IconButton } from 'react-native-paper';
-import { SearchBar } from 'react-native-elements';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { colors } from '../../styles/colores';
-import SearchBarBuscar from '../buscador/search-bar-buscar';
 import MapView from 'react-native-maps';
-import { Marker } from 'react-native-maps';
 import Geocoder from 'react-native-geocoding';
 
 Geocoder.init('AIzaSyCBJZ7n6qX4fqB9BEqLFmf9PNq3UnNzLJI');

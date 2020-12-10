@@ -1,19 +1,10 @@
 import * as React from 'react';
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-  TouchableWithoutFeedback,
-  Platform,
-  Keyboard,
-} from 'react-native';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { IconButton } from 'react-native-paper';
 import { SearchBar } from 'react-native-elements';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { connect } from 'react-redux';
 import { colors } from '../../styles/colores';
-import SearchBarBuscar from '../buscador/search-bar-buscar';
 
 function BarraSup(props) {
   //const [searchQuery, setSearchQuery] = React.useState('');
@@ -83,6 +74,11 @@ const styles = StyleSheet.create({
   separador: {
     flex: 0.1,
   },
+  ico: {
+    flexDirection: 'row',
+    flex: 1.2,
+    marginRight: 10,
+  },
   searchcontainer: {
     backgroundColor: colors.azul,
     borderWidth: 0, //no effect
@@ -90,11 +86,6 @@ const styles = StyleSheet.create({
     borderBottomColor: 'transparent',
     borderTopColor: 'transparent',
     color: colors.black,
-  },
-  ico: {
-    flexDirection: 'row',
-    flex: 1.2,
-    marginRight: 10,
   },
   ubicacion: {
     alignItems: 'center',

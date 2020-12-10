@@ -1,22 +1,17 @@
 import React from 'react';
 import {
   StyleSheet,
-  Image,
   View,
   Text,
-  SafeAreaView,
   TouchableOpacity,
   TouchableWithoutFeedback,
   ScrollView,
 } from 'react-native';
 import {
   Button,
-  Title,
-  Paragraph,
   Dialog,
   Portal,
   RadioButton,
-  Divider,
   TextInput,
 } from 'react-native-paper';
 import { connect } from 'react-redux';
@@ -31,11 +26,8 @@ function EncuestaExtraGP(props) {
 
   //estados para manejar los dialog que se abren de la primer encuesta
   const [visible, setVisible] = React.useState(false);
-  const [visible1, setVisible1] = React.useState(false);
   const showDialogValidar = () => setVisible(true);
   const hideDialogValidar = () => setVisible(false);
-  const showDialogPreg1 = () => setVisible1(true);
-  const hideDialogPreg1 = () => setVisible1(false);
 
   return (
     <View style={styles.container}>

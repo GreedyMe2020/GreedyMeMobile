@@ -1,14 +1,6 @@
 import * as React from 'react';
-import { Button, TextInput, Snackbar, IconButton } from 'react-native-paper';
-import {
-  StyleSheet,
-  Text,
-  View,
-  KeyboardAvoidingView,
-  Keyboard,
-  Platform,
-  TouchableWithoutFeedback,
-} from 'react-native';
+import { TextInput } from 'react-native-paper';
+import { StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import {
   signIn,

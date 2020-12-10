@@ -60,9 +60,6 @@ function Cupones(props) {
   const [visible, setVisible] = React.useState(false);
   const [visible1, setVisible1] = React.useState(false);
   const showDialogValidar = () => setVisible(true);
-  const hideDialogValidar = () => setVisible(false);
-  const showDialogPreg1 = () => setVisible1(true);
-  const hideDialogPreg1 = () => setVisible1(false);
 
   //funcion que asigna el valor del input de validacion en el estado cupon
   const handleChangeCodigo = (codigo) => {

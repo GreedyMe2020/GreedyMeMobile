@@ -1,24 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Image,
   View,
-  FlatList,
   Text,
   SafeAreaView,
   ScrollView,
-  TouchableWithoutFeedback,
 } from 'react-native';
-import {
-  Avatar,
-  IconButton,
-  Button,
-  Card,
-  List,
-  Title,
-  Paragraph,
-  Divider,
-} from 'react-native-paper';
+import { Button, Title, Snackbar, Divider } from 'react-native-paper';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { colors } from '../../styles/colores';
@@ -30,6 +19,23 @@ function Cupon(props) {
   //Traigo la info del beneficio y se la asigno a la variable data,
   //y los datos del comercio a las otras variables:
   const { data, sucursal, comercio, fotocomercio } = props.route.params;
+
+  //Estado para abrir o cerrar el snackbar de guardado
+  const [guardado, setGuardado] = React.useState(false);
+
+  //Estado para abrir o cerrar el snackbar de guardado
+  const [visible, setVisible] = React.useState(false);
+
+  //Funcion para cerrar el aviso de guardado
+  const onDismissSnackBar = () => setVisible(false);
+
+  // useEffect para mostrar la confirmacion
+  /*  const abrirMensajeConfirmacion = React.useEffect(() => {
+    if (props.guardarCupon) {
+      setVisible(true);
+    }
+  }, []); */
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={{ flex: 1 }}>
@@ -129,22 +135,35 @@ function Cupon(props) {
               </View>
             </View>
             <View style={styles.contenedorBoton}>
-              <Button
-                icon="content-save-outline"
-                mode="outlined"
-                style={styles.botonGuardar}
-                labelStyle={{ fontSize: 18, color: colors.white }}
-                onPress={() =>
-                  props.guardarCupon(
-                    props.auth.uid,
-                    data.item,
-                    comercio,
-                    sucursal,
-                  )
-                }
-              >
-                Guardar
-              </Button>
+              {guardado ? (
+                <Button
+                  icon="check"
+                  mode="contained"
+                  style={styles.botonGuardar}
+                  labelStyle={{ fontSize: 18, color: colors.white }}
+                  disabled
+                >
+                  Guardado
+                </Button>
+              ) : (
+                <Button
+                  icon="content-save-outline"
+                  mode="contained"
+                  style={styles.botonGuardar}
+                  labelStyle={{ fontSize: 18, color: colors.white }}
+                  onPress={() => {
+                    props.guardarCupon(
+                      props.auth.uid,
+                      data.item,
+                      comercio,
+                      sucursal,
+                    );
+                    setGuardado(true);
+                  }}
+                >
+                  Guardar
+                </Button>
+              )}
             </View>
           </View>
         </View>
@@ -264,6 +283,10 @@ const styles = StyleSheet.create({
   botonGuardar: {
     alignSelf: 'center',
     backgroundColor: colors.celeste,
+  },
+  botonGuardarDisabled: {
+    alignSelf: 'center',
+    backgroundColor: '#afafaf',
   },
 });
 

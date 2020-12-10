@@ -10,9 +10,7 @@ import {
   TouchableWithoutFeedback,
   View,
   ActivityIndicator,
-  ScrollView,
 } from 'react-native';
-import SafeAreaView from 'react-native-safe-area-view';
 import { connect } from 'react-redux';
 import { signIn } from '../../../redux/actions/auth-actions';
 import IniciarSesionConEmail from './iniciar-con-email';
