@@ -42,7 +42,6 @@ obtenerPromociones();
 function CuponesComercio(props) {
   const [idComercio, setIdComercio] = React.useState(props.idcomercio);
   const [listaPromociones, setListaPromociones] = React.useState([]);
-  console.log(props.fotocomercio);
   React.useEffect(() => {
     const promocionesIntermedio = [];
     promociones.forEach((promocion) => {

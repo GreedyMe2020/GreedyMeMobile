@@ -6,19 +6,17 @@ import {
   FlatList,
   Text,
   SafeAreaView,
-  ScrollView,
   TouchableWithoutFeedback,
+  TouchableOpacity,
 } from 'react-native';
 import {
   Avatar,
   IconButton,
-  Button,
   Card,
   List,
   Title,
   Paragraph,
   Divider,
-  TextInput,
 } from 'react-native-paper';
 import { connect } from 'react-redux';
 import _ from 'lodash';
@@ -26,16 +24,10 @@ import { colors } from '../../styles/colores';
 import firebaseapp from '../../../firebase/config';
 import { format } from 'date-fns';
 
-//Variable que contiene un codigo de prueba para comparar con el del input del cupon
-const CODIGO_VALIDAR = 'ABCDEF';
-
-function Cupones(props) {
+function CuponesComercio(props) {
   //estado de cupones
   const [cupones, setCupones] = React.useState(null);
-  //estado que contiene el mensaje de error en la validacion del cupon
-  const [errorCupon, setErrorCupon] = React.useState('');
-  //estado que maneja el contenido del input de validacion
-  const [codigo, setCodigo] = React.useState(null);
+
   //use effect que se ejecuta una vez y trae cupones
   React.useEffect(() => {
     const obtenerCupones = async () => {
@@ -58,292 +50,169 @@ function Cupones(props) {
     obtenerCupones();
   }, []);
 
-  //funcion que asigna el valor del input de validacion en el estado cupon
-  const handleChangeCodigo = (codigo) => {
-    setCodigo(codigo);
-  };
-
-  //funcion para mostrar el error en el input del codigo
-  const codigoValidator = React.useEffect(() => {
-    if (codigo === null || codigo === CODIGO_VALIDAR) {
-      setErrorCupon('');
-    } else {
-      if (codigo !== CODIGO_VALIDAR) {
-        setErrorCupon('* Este campo no es correcto');
-      }
-    }
-  }, [codigo]);
-
   return (
     <SafeAreaView style={styles.container}>
-      {cupones !== null ? (
-        <ScrollView style={{ flex: 1 }}>
-          <View style={styles.content}>
-            <View style={styles.card}>
-              <View style={styles.contenido}>
-                <Image
-                  style={styles.contImagen}
-                  source={{
-                    uri:
-                      cupones[0].tipoProveedor === 'Propias'
-                        ? props.fotocomercio
-                        : cupones[0].valueProveedor === 'Otro'
-                        ? 'https://firebasestorage.googleapis.com/v0/b/greedyme-d6c6c.appspot.com/o/proveedores%2F1.jpg?alt=media&token=d186f078-7cfa-437c-9287-1bbfd9de8c00'
-                        : cupones[0].valueProveedor === 'Todos'
-                        ? 'https://firebasestorage.googleapis.com/v0/b/greedyme-d6c6c.appspot.com/o/proveedores%2F1.jpg?alt=media&token=d186f078-7cfa-437c-9287-1bbfd9de8c00'
-                        : cupones[0].photoURL,
+      {cupones ? (
+        <FlatList
+          data={cupones}
+          keyExtractor={(item) => item.id}
+          showsVerticalScrollIndicator={false}
+          renderItem={(data) => (
+            <TouchableWithoutFeedback>
+              <View style={styles.content}>
+                <TouchableOpacity
+                  onPress={() => {
+                    props.navigation.navigate('Validar-cupones', {
+                      data: data,
+                    });
                   }}
-                />
-                <View style={styles.texto}>
-                  <Title style={styles.titulo}>
-                    {cupones[0].valueProveedor === 'Otro'
-                      ? cupones[0].otroProveedor
-                      : cupones[0].valueProveedor === 'Propio'
-                      ? props.nombrecomercio
-                      : cupones[0].valueProveedor === 'Todos'
-                      ? cupones[0].valueProveedor + ' los Bancos'
-                      : cupones[0].valueProveedor}
-                  </Title>
-                  <Title style={styles.beneficio}>
-                    {cupones[0].valuePromo === 'Otro'
-                      ? cupones[0].otraPromo
-                      : cupones[0].tipoPromo === 'Descuento'
-                      ? cupones[0].valuePromo + ' OFF'
-                      : cupones[0].valuePromo}
-                  </Title>
-                  <Text style={styles.validez}>
-                    {'Válido desde el ' +
-                      format(cupones[0].desdeVigencia.toDate(), 'dd/MM/yyyy')}
-                  </Text>
-                  <Text style={styles.validez}>
-                    {' hasta el ' +
-                      format(cupones[0].hastaVigencia.toDate(), 'dd/MM/yyyy')}
-                  </Text>
-                  <Text style={styles.validez}>
-                    {'en ' +
-                      cupones[0].comercio +
-                      ', sucursal ' +
-                      cupones[0].sucursal +
-                      '.'}
-                  </Text>
-                </View>
-                <View>
-                  <View style={styles.textoSecundario}>
-                    <Text style={styles.validez2}>
-                      {'- Aplica: ' +
-                        ((cupones[0].diaAplicacion.lunes ? 'Lunes ' : '') +
-                          (cupones[0].diaAplicacion.martes ? 'Martes ' : '') +
-                          (cupones[0].diaAplicacion.miercoles
-                            ? 'Miercoles '
-                            : '') +
-                          (cupones[0].diaAplicacion.jueves ? 'Jueves ' : '') +
-                          (cupones[0].diaAplicacion.viernes ? 'Viernes ' : '') +
-                          (cupones[0].diaAplicacion.sabado ? 'Sábado ' : '') +
-                          (cupones[0].diaAplicacion.domingo ? 'Domingo ' : '') +
-                          (cupones[0].diaAplicacion.todoslosdias
-                            ? 'Todos los días' + '.'
-                            : ''))}
-                    </Text>
-                    <Text style={styles.validez2}>
-                      {'- Medio de pago: ' + cupones[0].medioPago + '.'}
-                    </Text>
-
-                    {cupones[0].otroProveedor ? (
-                      <Text style={styles.validez2}>
-                        {'- Entidad crediticia: ' +
-                          cupones[0].otroProveedor +
-                          '.'}
-                      </Text>
-                    ) : null}
-
-                    <Text style={styles.validez2}>
-                      {cupones[0].descripcion
-                        ? cupones[0].descripcion + '.'
-                        : ''}
-                    </Text>
-                  </View>
-                </View>
-              </View>
-              <View style={styles.circulos}>
-                <View style={styles.contCirculo}>
-                  <View style={styles.circulo} />
-                </View>
-                <Divider
-                  style={{
-                    backgroundColor: colors.grey,
-                    height: 2,
-                    marginLeft: 45,
-                    marginRight: 45,
-                    marginTop: 25,
-                  }}
-                />
-                <View style={styles.contCirculo2}>
-                  <View style={styles.circuloEnd} />
-                </View>
-              </View>
-              <View style={styles.contenedorBoton}>
-                <View style={styles.textoSecundario}>
-                  <Text style={styles.validez2}>
-                    Validá tu cupón y sumá GreedyPoints:
-                  </Text>
-                  <TextInput
-                    style={styles.inputCodigoVal}
-                    mode="flat"
-                    label="Ingresá tu código"
-                    required
-                    underlineColor={colors.celeste}
-                    onBlur={() => {
-                      codigoValidator;
-                    }}
-                    onChangeText={handleChangeCodigo}
-                    error={errorCupon}
-                    value={codigo}
-                  />
-                  <Text style={styles.errorVal}>{errorCupon}</Text>
-                </View>
-                <Button
-                  icon="coin"
-                  mode="outlined"
-                  style={styles.botonGuardar}
-                  labelStyle={{ fontSize: 20, color: colors.white }}
                 >
-                  Validar
-                </Button>
+                  <View style={styles.card} id={data.item.id}>
+                    <View style={styles.contCirculo}>
+                      <View style={styles.circulo} />
+                    </View>
+                    <View style={styles.contCirculo2}>
+                      <View style={styles.circuloEnd} />
+                    </View>
+                    <View style={styles.contenido}>
+                      <Image
+                        style={styles.contImagen}
+                        resizeMode="cover"
+                        source={{
+                          uri:
+                            data.item.tipoProveedor === 'Propias'
+                              ? props.fotocomercio
+                              : data.item.valueProveedor === 'Otro'
+                              ? 'https://firebasestorage.googleapis.com/v0/b/greedyme-d6c6c.appspot.com/o/proveedores%2F1.jpg?alt=media&token=d186f078-7cfa-437c-9287-1bbfd9de8c00'
+                              : data.item.valueProveedor === 'Todos'
+                              ? 'https://firebasestorage.googleapis.com/v0/b/greedyme-d6c6c.appspot.com/o/proveedores%2F1.jpg?alt=media&token=d186f078-7cfa-437c-9287-1bbfd9de8c00'
+                              : data.item.photoURL,
+                        }}
+                      />
+                      <Divider style={styles.divider} />
+                      <View style={styles.texto}>
+                        <Title>{data.item.nombreComercio}</Title>
+                        <Title>
+                          {data.item.valueProveedor === 'Otro'
+                            ? data.item.otroProveedor
+                            : data.item.valueProveedor === 'Propio'
+                            ? props.nombrecomercio
+                            : data.item.valueProveedor === 'Todos'
+                            ? data.item.valueProveedor + ' los Bancos'
+                            : data.item.valueProveedor}
+                        </Title>
+                        <Title style={styles.beneficio}>
+                          {data.item.valuePromo === 'Otro'
+                            ? data.item.otraPromo
+                            : data.item.tipoPromo === 'Descuento'
+                            ? data.item.valuePromo + ' OFF'
+                            : data.item.valuePromo}
+                        </Title>
+                      </View>
+                    </View>
+                  </View>
+                </TouchableOpacity>
               </View>
-            </View>
-          </View>
-        </ScrollView>
-      ) : null}
+            </TouchableWithoutFeedback>
+          )}
+        />
+      ) : (
+        <View style={styles.contenedor}>
+          <Image
+            style={styles.image}
+            source={require('../../multimedia/no-promociones.png')}
+          />
+          <Text style={styles.text}>
+            No guardaste ningun cupon por el momento
+          </Text>
+        </View>
+      )}
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#f3f3f3',
     flex: 1,
-    backgroundColor: colors.avatar,
+  },
+  contenedor: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
   },
   content: {
-    backgroundColor: colors.avatar,
-    flex: 1,
-    marginTop: 30,
-    marginBottom: 30,
+    backgroundColor: '#f3f3f3',
+    marginTop: 23,
   },
   card: {
     backgroundColor: colors.white,
     borderRadius: 5,
-    marginLeft: 30,
-    marginRight: 30,
-    marginBottom: 25,
-    flex: 1,
+    marginLeft: 20,
+    marginRight: 20,
+    marginBottom: 4,
+    height: 110,
+    justifyContent: 'center',
     alignContent: 'center',
     elevation: 1,
-  },
-  circulos: {
-    marginTop: 20,
   },
   contCirculo: {
     position: 'absolute',
     justifyContent: 'center',
   },
   circulo: {
-    height: 50,
-    width: 50,
-    backgroundColor: colors.avatar,
+    height: 40,
+    width: 40,
+    backgroundColor: '#f3f3f3',
     borderRadius: 100,
-    marginLeft: -25,
+    marginLeft: -22,
   },
   contCirculo2: {
     position: 'absolute',
     alignSelf: 'flex-end',
   },
   circuloEnd: {
-    height: 50,
-    width: 50,
-    backgroundColor: colors.avatar,
+    height: 40,
+    width: 40,
+    backgroundColor: '#f3f3f3',
     borderRadius: 100,
-    marginRight: -25,
+    marginRight: -22,
   },
   contenido: {
-    flexDirection: 'column',
+    flexDirection: 'row',
     alignContent: 'center',
-    marginTop: 30,
+    marginLeft: 15,
   },
   contImagen: {
+    marginLeft: 14,
+    marginRight: 20,
     backgroundColor: 'transparent',
     alignSelf: 'center',
-    height: 125,
-    width: 125,
+    height: 68,
+    width: 68,
     borderRadius: 5,
   },
   divider: {
+    height: 100,
     width: 2,
-    backgroundColor: colors.naranja,
+    backgroundColor: colors.grey,
+    marginRight: 22,
   },
   texto: {
-    alignItems: 'center',
-    marginTop: 20,
-  },
-  titulo: {
-    marginBottom: 10,
-    fontSize: 25,
+    alignSelf: 'center',
   },
   beneficio: {
     color: colors.naranja,
-    alignSelf: 'center',
-    marginTop: 5,
-    marginBottom: 15,
-    fontSize: 28,
+    marginTop: -2,
+    marginBottom: 5,
+    fontSize: 23,
   },
-  validez: {
-    color: colors.black,
-    marginBottom: 3,
-    fontSize: 16,
-    textAlign: 'center',
-    paddingLeft: 2,
-    paddingRight: 2,
+  image: {
+    width: 350,
+    height: 350,
   },
-  validez1: {
-    color: colors.darkGrey,
-    marginTop: 15,
-    marginBottom: -15,
-    marginRight: 20,
-    marginLeft: 20,
-    fontSize: 16,
-    textAlign: 'center',
-  },
-  validez2: {
-    color: colors.black,
-    marginBottom: 3,
-    fontSize: 16,
-    marginRight: 39,
-  },
-  textoSecundario: {
-    marginTop: 20,
-    alignContent: 'center',
-    marginLeft: 40,
-  },
-  contenedorBoton: {
-    marginTop: 25,
-    marginBottom: 25,
-  },
-  botonGuardar: {
-    alignSelf: 'center',
-    backgroundColor: colors.celeste,
-    marginTop: 10,
-  },
-  inputCodigoVal: {
-    marginRight: 40,
-    marginBottom: 7,
-    marginTop: 7,
-    paddingLeft: 5,
-    height: 55,
-    fontSize: 18,
-    backgroundColor: colors.grey,
-  },
-  errorVal: {
-    color: '#af1a1a',
-    top: -8,
+  text: {
+    fontSize: 17,
   },
 });
 
@@ -354,4 +223,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(Cupones);
+export default connect(mapStateToProps)(CuponesComercio);

@@ -145,6 +145,26 @@ export const eliminarCupon = (idUsuario, id) => {
   };
 };
 
+/*export const validarCupon = (idCupon) => {
+  return (dispatch, getState, { getFirestore }) => {
+    
+    firestore
+      .collection('usuarioConsumidor')
+      .doc(idUsuario)
+      .collection('cupones')
+      .doc(id)
+      .delete()
+      .then(() => {
+        dispatch({ type: 'ELIMINAR_CUPON' });
+      })
+      .catch((error) => {
+        dispatch({ type: 'ERROR_ELIMINAR_CUPON', error });
+      });
+  };
+};*/
+
+
+
 export const guardarComerciosRedux = (comerciosRedux) => {
   return (dispatch, getState, { getFirestore }) => {
     dispatch({ type: 'LISTA_COMERCIOS_EN_REDUX', comerciosRedux });

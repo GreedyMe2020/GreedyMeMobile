@@ -96,20 +96,22 @@ function Inicio(props) {
       return;
     }
     const idComercios = [];
-    itemSeleccionados.forEach((item) => {
-      promociones.forEach((promo) => {
-        if (promo.visible === true) {
-          if (
-            promo.tipoProveedor === item ||
-            promo.valueProveedor === item ||
-            promo.otroProveedor === item ||
-            promo.tipoProveedor === 'Propias'
-          ) {
-            idComercios.push(promo.idComercio);
-          }
-        }
-      });
-    });
+    itemSeleccionados
+      ? itemSeleccionados.forEach((item) => {
+          promociones.forEach((promo) => {
+            if (promo.visible === true) {
+              if (
+                promo.tipoProveedor === item ||
+                promo.valueProveedor === item ||
+                promo.otroProveedor === item ||
+                promo.tipoProveedor === 'Propias'
+              ) {
+                idComercios.push(promo.idComercio);
+              }
+            }
+          });
+        })
+      : null;
 
     for (var i = idComercios.length - 1; i >= 0; i--) {
       if (idComercios.indexOf(idComercios[i]) !== i) {

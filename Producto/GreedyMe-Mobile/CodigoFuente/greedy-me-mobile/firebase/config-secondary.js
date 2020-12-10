@@ -1,6 +1,5 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
-import 'firebase/analytics';
 
 const secondaryAppConfig = {
   apiKey: 'AIzaSyBMSuKle9DYdzJxk9t2GPxL98Ms296DgLU',

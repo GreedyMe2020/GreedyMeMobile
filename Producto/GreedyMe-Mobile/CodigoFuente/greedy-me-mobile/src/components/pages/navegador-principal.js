@@ -18,6 +18,7 @@ import VerificarCuenta from '../Iniciar sesion/verificar-cuenta';
 import ComerciosNav from '../comercios/comercios-principal';
 import ComerciosPorRubro from '../comercios/comercios-rubro';
 import Cupon from '../comercios/cupon';
+import Validarcupones from '../mis cupones/validar-cupones';
 import { connect } from 'react-redux';
 
 //Funcion para determinar el color del header del componente
@@ -185,6 +186,20 @@ function NavegadorPrincipal(props) {
               component={Cupon}
               options={({ route }) => ({
                 title: 'Cupon',
+                headerShown: false,
+                headerTintColor: 'white',
+                headerStyle: {
+                  backgroundColor: '#1E1B4D',
+                },
+                animationEnabled: false,
+                gestureDirection: 'horizontal',
+              })}
+            />
+            <Stack.Screen
+              name="Validar-cupones"
+              component={Validarcupones}
+              options={({ route }) => ({
+                title: 'Validar-cupones',
                 headerShown: false,
                 headerTintColor: 'white',
                 headerStyle: {
