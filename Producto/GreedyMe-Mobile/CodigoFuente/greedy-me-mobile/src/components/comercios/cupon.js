@@ -7,17 +7,7 @@ import {
   SafeAreaView,
   ScrollView,
 } from 'react-native';
-import {
-  Avatar,
-  IconButton,
-  Button,
-  Card,
-  List,
-  Title,
-  Paragraph,
-  Divider,
-  Snackbar,
-} from 'react-native-paper';
+import { Button, Title, Divider, Snackbar } from 'react-native-paper';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { colors } from '../../styles/colores';
@@ -206,6 +196,35 @@ function Cupon(props) {
               </View>
             </View>
             <View style={styles.contenedorBoton}>
+              {/*  {guardado ? (
+                <Button
+                  icon="check"
+                  mode="contained"
+                  style={styles.botonGuardar}
+                  labelStyle={{ fontSize: 18, color: colors.white }}
+                  disabled
+                >
+                  Guardado
+                </Button>
+              ) : (
+                <Button
+                  icon="content-save-outline"
+                  mode="contained"
+                  style={styles.botonGuardar}
+                  labelStyle={{ fontSize: 18, color: colors.white }}
+                  onPress={() => {
+                    props.guardarCupon(
+                      props.auth.uid,
+                      data.item,
+                      comercio,
+                      sucursal,
+                    );
+                    setGuardado(true);
+                  }}
+                >
+                  Guardar
+                </Button>
+              )} */}
               <Button
                 icon="content-save-outline"
                 mode="outlined"
@@ -217,40 +236,42 @@ function Cupon(props) {
               </Button>
             </View>
           </View>
-          {mensajeCorrecto ? (
-            <Snackbar
-              visible={mensajeCorrecto}
-              onDismiss={onDismissSnackBar3}
-              theme={{ colors: { accent: 'white' } }}
-              action={{
-                label: 'OK',
-                onPress: () => {
-                  onDismissSnackBar3;
-                },
-              }}
-              style={styles.snackbar}
-            >
-              Cupon guardado correctamente!
-            </Snackbar>
-          ) : null}
-          {mensajeError ? (
-            <Snackbar
-              visible={mensajeError}
-              onDismiss={onDismissSnackBar2}
-              theme={{ colors: { accent: 'white' } }}
-              action={{
-                label: 'OK',
-                onPress: () => {
-                  onDismissSnackBar2;
-                },
-              }}
-              style={styles.snackbar2}
-            >
-              Ya tenes guardado este cupon.
-            </Snackbar>
-          ) : null}
         </View>
       </ScrollView>
+      <View style={styles.contenedorSnack}>
+        {mensajeCorrecto ? (
+          <Snackbar
+            visible={mensajeCorrecto}
+            onDismiss={onDismissSnackBar3}
+            theme={{ colors: { accent: '#76B39D' } }}
+            action={{
+              label: 'OK',
+              onPress: () => {
+                onDismissSnackBar3;
+              },
+            }}
+            style={styles.snackbar}
+          >
+            Cupón guardado correctamente!
+          </Snackbar>
+        ) : null}
+        {mensajeError ? (
+          <Snackbar
+            visible={mensajeError}
+            onDismiss={onDismissSnackBar2}
+            theme={{ colors: { accent: 'white' } }}
+            action={{
+              label: 'OK',
+              onPress: () => {
+                onDismissSnackBar2;
+              },
+            }}
+            style={styles.snackbar2}
+          >
+            Ya tenés guardado este cupón.
+          </Snackbar>
+        ) : null}
+      </View>
     </SafeAreaView>
   );
 }
@@ -368,9 +389,11 @@ const styles = StyleSheet.create({
     backgroundColor: colors.celeste,
   },
   snackbar: {
+    alignSelf: 'flex-end',
     backgroundColor: colors.alertGrey,
   },
   snackbar2: {
+    alignSelf: 'flex-end',
     backgroundColor: colors.error,
   },
 });
