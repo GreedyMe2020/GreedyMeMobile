@@ -93,9 +93,36 @@ function Inicio(props) {
   //primer filtrado de comercios segun el proveedor de cada usuario
   const filtrar = (itemSeleccionados) => {
     if (itemSeleccionados === null) {
+      const idComercios = [];
+      promociones.forEach((promo) => {
+        if (promo.visible === true) {
+          if (promo.TipoProveedor === 'Propias') {
+            idComercios.push(promo.idComercio);
+          }
+        }
+      });
+      for (var i = idComercios.length - 1; i >= 0; i--) {
+        if (idComercios.indexOf(idComercios[i]) !== i) {
+          idComercios.splice(i, 1);
+        }
+      }
+
+      let comerciosFinales = [];
+      comercios.forEach((comercio) => {
+        idComercios.forEach((idComercio) => {
+          if (comercio.id === idComercio) {
+            comerciosFinales.push(comercio);
+          }
+        });
+      });
+      let set = new Set(comerciosFinales.map(JSON.stringify));
+      let arrSinDuplicaciones = Array.from(set).map(JSON.parse);
+      setListaComercios(arrSinDuplicaciones);
+      setListaComercios2(arrSinDuplicaciones);
       return;
     }
     const idComercios = [];
+
     itemSeleccionados
       ? itemSeleccionados.forEach((item) => {
           promociones.forEach((promo) => {
@@ -199,11 +226,13 @@ function Inicio(props) {
   }, [currentId]);*/
 
   React.useEffect(() => {
-    if (props.profile.proveedoresAsociados) {
+    setProveedores(props.profile.proveedoresAsociados);
+    filtrar(proveedores);
+    /*if (props.profile.proveedoresAsociados) {
       setProveedores(props.profile.proveedoresAsociados);
       filtrar(proveedores);
-    }
-  }, [props.profile.proveedoresAsociados, proveedores, props.logeo]);
+    }*/
+  }, [props.profile.proveedoresAsociados, proveedores]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -217,6 +246,7 @@ function Inicio(props) {
           navigation={props.navigation}
           onChangeText={filter}
           texto={text}
+          comercios={listaComercios}
         />
       </View>
       <ScrollView style={styles.scroll}>

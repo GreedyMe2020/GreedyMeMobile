@@ -1,5 +1,17 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import _ from 'lodash';
+import { colors } from '../../styles/colores';
+import firebaseapp from '../../../firebase/config';
+import { format } from 'date-fns';
+import { AirbnbRating } from 'react-native-elements';
+import React from 'react';
 import {
+  Avatar,
+  IconButton,
+  Card,
+  List,
+  ScrollView,
   StyleSheet,
   Image,
   View,
@@ -8,8 +20,11 @@ import {
   SafeAreaView,
   ScrollView,
   TouchableWithoutFeedback,
+  TouchableOpacity,
 } from 'react-native';
 import {
+  Dialog,
+  Portal,
   Avatar,
   IconButton,
   Button,
@@ -31,7 +46,13 @@ import firebaseSecondary from '../../../firebase/config-secondary';
 //const CODIGO_VALIDAR = 'ABCDEF';
 
 function Cupones(props) {
-  const [cupones, setCupones] = React.useState(null);
+  //estados para manejar los dialog que se abren de la primer encuesta
+  const [visible, setVisible] = React.useState(false);
+  const [visible1, setVisible1] = React.useState(false);
+  const showDialogValidar = () => setVisible(true);
+  const hideDialogValidar = () => setVisible(false);
+  const showDialogPreg1 = () => setVisible1(true);
+  const hideDialogPreg1 = () => setVisible1(false);
   //estado que contiene el mensaje de error en la validacion del cupon
   const [errorCupon, setErrorCupon] = React.useState('');
   //estado que maneja el contenido del input de validacion
@@ -213,6 +234,40 @@ function Cupones(props) {
                   Validar
                 </Button>
               </View>
+              <Portal>
+                <Dialog visible={visible}>
+                  <Dialog.Title>Validar cupón</Dialog.Title>
+                  <Dialog.Content style={{ marginBottom: -10 }}>
+                    <Paragraph style={{ fontSize: 17 }}>
+                      Contanos como fue tu experiencia de compra en NombreTienda
+                      para finalizar la validación y sumar tus GreedyPoints.
+                    </Paragraph>
+                    <AirbnbRating
+                      count={5}
+                      defaultRating={3}
+                      reviews={[
+                        'Mala',
+                        'Regular',
+                        'Buena',
+                        'Muy Buena',
+                        'Excelente',
+                      ]}
+                    />
+                  </Dialog.Content>
+                  <Dialog.Actions style={{ marginRight: 8 }}>
+                    <Button
+                      onPress={() => {
+                        props.navigation.navigate('ValidacionGreedyPoints1');
+                        setVisible(false);
+                        setVisible1(false);
+                      }}
+                      style={{ fontSize: 17 }}
+                    >
+                      Validar
+                    </Button>
+                  </Dialog.Actions>
+                </Dialog>
+              </Portal>
             </View>
           </View>
         </ScrollView>

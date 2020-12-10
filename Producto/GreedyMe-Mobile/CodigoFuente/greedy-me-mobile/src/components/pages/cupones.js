@@ -3,11 +3,11 @@ import {
   StyleSheet,
   Image,
   View,
-  FlatList,
   Text,
   SafeAreaView,
   TouchableWithoutFeedback,
   TouchableOpacity,
+  FlatList,
 } from 'react-native';
 import {
   Avatar,
@@ -24,7 +24,7 @@ import { colors } from '../../styles/colores';
 import firebaseapp from '../../../firebase/config';
 import { format } from 'date-fns';
 
-function CuponesComercio(props) {
+function Cupones(props) {
   //estado de cupones
   const [cupones, setCupones] = React.useState(null);
 
@@ -223,4 +223,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(CuponesComercio);
+export default connect(mapStateToProps)(Cupones);

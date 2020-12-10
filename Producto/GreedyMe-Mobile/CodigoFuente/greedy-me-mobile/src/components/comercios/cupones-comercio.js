@@ -3,11 +3,11 @@ import {
   StyleSheet,
   Image,
   View,
-  FlatList,
   Text,
   SafeAreaView,
   TouchableWithoutFeedback,
   TouchableOpacity,
+  FlatList,
 } from 'react-native';
 import {
   Avatar,

@@ -8,6 +8,7 @@ import Main from './main';
 import obtenerTitulo from '../obtener-titulo';
 import Registro from '../Iniciar sesion/registro';
 import MisDatos from '../Perfil/datosPerfil';
+import Mapa from '../Inicio/mapa';
 import Notificaciones from '../Perfil/notificaciones';
 import Ubicacion from '../Perfil/ubicacion';
 import CambiarContraseña from '../Perfil/cambiarContraseña';
@@ -20,6 +21,8 @@ import ComerciosPorRubro from '../comercios/comercios-rubro';
 import Cupon from '../comercios/cupon';
 import Validarcupones from '../mis cupones/validar-cupones';
 import { connect } from 'react-redux';
+import ValidacionGreedyPoints1 from '../encuesta/validarGP';
+import EncuestaExtraGP from '../encuesta/encuesta-extraGP';
 
 //Funcion para determinar el color del header del componente
 // Main a partir del nombre de la ruta obtenida.
@@ -73,6 +76,20 @@ function NavegadorPrincipal(props) {
               component={MisDatos}
               options={({ route }) => ({
                 title: 'Mis datos personales',
+                headerShown: true,
+                headerTintColor: 'white',
+                headerStyle: {
+                  backgroundColor: '#1E1B4D',
+                },
+                animationEnabled: false,
+                gestureDirection: 'horizontal',
+              })}
+            />
+            <Stack.Screen
+              name="Mapa"
+              component={Mapa}
+              options={({ route }) => ({
+                title: 'Locales cercanos',
                 headerShown: true,
                 headerTintColor: 'white',
                 headerStyle: {
@@ -208,6 +225,36 @@ function NavegadorPrincipal(props) {
                 animationEnabled: false,
                 gestureDirection: 'horizontal',
               })}
+            />
+            <Stack.Screen
+              name="ValidacionGreedyPoints1"
+              component={ValidacionGreedyPoints1}
+              options={{
+                title: 'GreedyPoints',
+                headerLeft: null,
+                headerShown: true,
+                headerTintColor: 'white',
+                headerStyle: {
+                  backgroundColor: '#1E1B4D',
+                },
+                animationEnabled: false,
+                gestureDirection: 'horizontal',
+              }}
+            />
+            <Stack.Screen
+              name="EncuestaExtraGP"
+              component={EncuestaExtraGP}
+              options={{
+                title: 'Encuesta',
+                headerLeft: null,
+                headerShown: true,
+                headerTintColor: 'white',
+                headerStyle: {
+                  backgroundColor: '#1E1B4D',
+                },
+                animationEnabled: false,
+                gestureDirection: 'horizontal',
+              }}
             />
           </>
         ) : estaLogeado === false ? (
