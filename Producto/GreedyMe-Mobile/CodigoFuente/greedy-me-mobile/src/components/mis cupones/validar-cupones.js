@@ -5,9 +5,7 @@ import { colors } from '../../styles/colores';
 import firebaseapp from '../../../firebase/config';
 import { format } from 'date-fns';
 import { AirbnbRating } from 'react-native-elements';
-import React from 'react';
 import {
-  Avatar,
   IconButton,
   Card,
   List,
@@ -18,7 +16,6 @@ import {
   FlatList,
   Text,
   SafeAreaView,
-  ScrollView,
   TouchableWithoutFeedback,
   TouchableOpacity,
 } from 'react-native';
@@ -26,20 +23,12 @@ import {
   Dialog,
   Portal,
   Avatar,
-  IconButton,
   Button,
-  Card,
-  List,
   Title,
   Paragraph,
   Divider,
   TextInput,
 } from 'react-native-paper';
-import { connect } from 'react-redux';
-import _ from 'lodash';
-import { colors } from '../../styles/colores';
-import firebaseapp from '../../../firebase/config';
-import { format } from 'date-fns';
 import firebaseSecondary from '../../../firebase/config-secondary';
 
 //Variable que contiene un codigo de prueba para comparar con el del input del cupon
@@ -93,7 +82,7 @@ function Cupones(props) {
         //aca deberia saltar a la encuesta
         console.log('claro');
       } else {
-        console.log('pete');
+        console.log('error');
       }
     });
   };
