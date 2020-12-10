@@ -19,6 +19,7 @@ import VerificarCuenta from '../Iniciar sesion/verificar-cuenta';
 import ComerciosNav from '../comercios/comercios-principal';
 import ComerciosPorRubro from '../comercios/comercios-rubro';
 import Cupon from '../comercios/cupon';
+import Validarcupones from '../mis cupones/validar-cupones';
 import { connect } from 'react-redux';
 import ValidacionGreedyPoints1 from '../encuesta/validarGP';
 import EncuestaExtraGP from '../encuesta/encuesta-extraGP';
@@ -212,12 +213,26 @@ function NavegadorPrincipal(props) {
               })}
             />
             <Stack.Screen
+              name="Validar-cupones"
+              component={Validarcupones}
+              options={({ route }) => ({
+                title: 'Validar-cupones',
+                headerShown: false,
+                headerTintColor: 'white',
+                headerStyle: {
+                  backgroundColor: '#1E1B4D',
+                },
+                animationEnabled: false,
+                gestureDirection: 'horizontal',
+              })}
+            />
+            <Stack.Screen
               name="ValidacionGreedyPoints1"
               component={ValidacionGreedyPoints1}
               options={{
                 title: 'GreedyPoints',
-                headerShown: true,
                 headerLeft: null,
+                headerShown: true,
                 headerTintColor: 'white',
                 headerStyle: {
                   backgroundColor: '#1E1B4D',

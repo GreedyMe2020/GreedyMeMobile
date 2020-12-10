@@ -18,7 +18,6 @@ import ButtonCategorias from '../Inicio/button-categorias';
 import { colors } from '../../styles/colores';
 import CardPremium from '../Inicio/card-premium';
 import firebaseapp from '../../../firebase/config';
-import { setearFavorito } from '../../../redux/actions/comercio-actions';
 import { map } from 'lodash';
 import {
   agregarComercioFavorito,
@@ -118,20 +117,23 @@ function Inicio(props) {
       return;
     }
     const idComercios = [];
-    itemSeleccionados.forEach((item) => {
-      promociones.forEach((promo) => {
-        if (promo.visible === true) {
-          if (
-            promo.tipoProveedor === item ||
-            promo.valueProveedor === item ||
-            promo.otroProveedor === item ||
-            promo.valueProveedor === 'Propio'
-          ) {
-            idComercios.push(promo.idComercio);
-          }
-        }
-      });
-    });
+
+    itemSeleccionados
+      ? itemSeleccionados.forEach((item) => {
+          promociones.forEach((promo) => {
+            if (promo.visible === true) {
+              if (
+                promo.tipoProveedor === item ||
+                promo.valueProveedor === item ||
+                promo.otroProveedor === item ||
+                promo.tipoProveedor === 'Propias'
+              ) {
+                idComercios.push(promo.idComercio);
+              }
+            }
+          });
+        })
+      : null;
 
     for (var i = idComercios.length - 1; i >= 0; i--) {
       if (idComercios.indexOf(idComercios[i]) !== i) {
@@ -151,7 +153,6 @@ function Inicio(props) {
     let arrSinDuplicaciones = Array.from(set).map(JSON.parse);
     setListaComercios(arrSinDuplicaciones);
     setListaComercios2(arrSinDuplicaciones);
-    props.guardarComerciosEnRedux(arrSinDuplicaciones);
     return;
   };
 
@@ -331,7 +332,6 @@ const mapDispatchToProps = (dispatch) => {
 
     setearLogeo: (flag) => dispatch(setearLogeo(flag)),
     setNuevoUsuarioFalse: () => setNuevoUsuarioFalse(),
-    guardarComerciosEnRedux: (comercios) => guardarComerciosEnRedux(comercios),
   };
 };
 

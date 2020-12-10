@@ -3,11 +3,11 @@ import {
   StyleSheet,
   Image,
   View,
-  FlatList,
   Text,
   SafeAreaView,
   TouchableWithoutFeedback,
   TouchableOpacity,
+  FlatList,
 } from 'react-native';
 import { Title, Divider } from 'react-native-paper';
 import { connect } from 'react-redux';
@@ -34,7 +34,6 @@ obtenerPromociones();
 function CuponesComercio(props) {
   const [idComercio, setIdComercio] = React.useState(props.idcomercio);
   const [listaPromociones, setListaPromociones] = React.useState([]);
-  console.log(props.fotocomercio);
   React.useEffect(() => {
     const promocionesIntermedio = [];
     promociones.forEach((promocion) => {
