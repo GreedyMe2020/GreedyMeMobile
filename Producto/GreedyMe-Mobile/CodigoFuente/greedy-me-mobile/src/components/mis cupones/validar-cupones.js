@@ -30,11 +30,11 @@ import firebaseSecondary from '../../../firebase/config-secondary';
 function Cupones(props) {
   //estados para manejar los dialog que se abren de la primer encuesta
   const [visible, setVisible] = React.useState(false);
-  const [visible1, setVisible1] = React.useState(false);
-  const showDialogValidar = () => setVisible(true);
-  const hideDialogValidar = () => setVisible(false);
-  const showDialogPreg1 = () => setVisible1(true);
-  const hideDialogPreg1 = () => setVisible1(false);
+
+  const showDialog = () => setVisible(true);
+
+  const hideDialog = () => setVisible(false);
+
   //estado que contiene el mensaje de error en la validacion del cupon
   const [errorCupon, setErrorCupon] = React.useState('');
   //estado que maneja el contenido del input de validacion
@@ -72,8 +72,8 @@ function Cupones(props) {
   const handleSubmit = () => {
     listaCodigos.forEach((cod) => {
       if (cod.codigo === codigo && cod.idCupon === data.item.id) {
-        //aca deberia saltar a la encuesta
         console.log('claro');
+        showDialog();
       } else {
         console.log('error');
       }
@@ -218,12 +218,13 @@ function Cupones(props) {
                 </Button>
               </View>
               <Portal>
-                <Dialog visible={visible}>
+                <Dialog visible={visible} onDismiss={hideDialog}>
                   <Dialog.Title>Validar cupón</Dialog.Title>
                   <Dialog.Content style={{ marginBottom: -10 }}>
                     <Paragraph style={{ fontSize: 17 }}>
-                      Contanos como fue tu experiencia de compra en NombreTienda
-                      para finalizar la validación y sumar tus GreedyPoints.
+                      {'Contános como fue tu experiencia de compra en ' +
+                        props.nombrecomercio +
+                        ' para finalizar la validación y sumar tus GreedyPoints.'}
                     </Paragraph>
                     <AirbnbRating
                       count={5}
@@ -242,7 +243,6 @@ function Cupones(props) {
                       onPress={() => {
                         props.navigation.navigate('ValidacionGreedyPoints1');
                         setVisible(false);
-                        setVisible1(false);
                       }}
                       style={{ fontSize: 17 }}
                     >
