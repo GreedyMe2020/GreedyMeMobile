@@ -216,11 +216,11 @@ function NavegadorPrincipal(props) {
               name="Validar-cupones"
               component={Validarcupones}
               options={({ route }) => ({
-                title: 'Validar-cupones',
-                headerShown: false,
+                title: 'Mis cupones',
+                headerShown: true,
                 headerTintColor: 'white',
                 headerStyle: {
-                  backgroundColor: '#1E1B4D',
+                  backgroundColor: '#F7941E',
                 },
                 animationEnabled: false,
                 gestureDirection: 'horizontal',

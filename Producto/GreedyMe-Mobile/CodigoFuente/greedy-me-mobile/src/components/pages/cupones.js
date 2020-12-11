@@ -95,6 +95,16 @@ function Cupones(props) {
                     <View style={styles.contCirculo2}>
                       <View style={styles.circuloEnd} />
                     </View>
+                    <View style={styles.contCirculo2}>
+                      <IconButton
+                        icon="trash-can-outline"
+                        color={colors.darkGrey}
+                        size={21}
+                        style={{ marginTop: 78, marginRight: 5 }}
+                        //onPress={() => console.log('Pressed')}
+                      />
+                    </View>
+
                     <View style={styles.contenido}>
                       <Image
                         style={styles.contImagen}
@@ -113,15 +123,6 @@ function Cupones(props) {
                       <Divider style={styles.divider} />
                       <View style={styles.texto}>
                         <Title>{data.item.nombreComercio}</Title>
-                        <Title>
-                          {data.item.valueProveedor === 'Otro'
-                            ? data.item.otroProveedor
-                            : data.item.valueProveedor === 'Propio'
-                            ? props.nombrecomercio
-                            : data.item.valueProveedor === 'Todos'
-                            ? data.item.valueProveedor + ' los Bancos'
-                            : data.item.valueProveedor}
-                        </Title>
                         <Title style={styles.beneficio}>
                           {data.item.valuePromo === 'Otro'
                             ? data.item.otraPromo
@@ -129,6 +130,15 @@ function Cupones(props) {
                             ? data.item.valuePromo + ' OFF'
                             : data.item.valuePromo}
                         </Title>
+                        <Text style={{ color: colors.darkGrey, fontSize: 16 }}>
+                          {data.item.valueProveedor === 'Otro'
+                            ? data.item.otroProveedor
+                            : data.item.valueProveedor === 'Propio'
+                            ? props.nombrecomercio
+                            : data.item.valueProveedor === 'Todos'
+                            ? data.item.valueProveedor + ' los Bancos'
+                            : data.item.valueProveedor}
+                        </Text>
                       </View>
                     </View>
                   </View>
@@ -224,8 +234,8 @@ const styles = StyleSheet.create({
   },
   beneficio: {
     color: colors.naranja,
-    marginTop: -2,
     marginBottom: 5,
+    marginTop: -3,
     fontSize: 23,
   },
   image: {

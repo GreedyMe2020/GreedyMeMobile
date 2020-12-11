@@ -174,11 +174,12 @@ function Cupon(props) {
                       {'- Entidad crediticia: ' + data.item.otroProveedor + '.'}
                     </Text>
                   ) : null}
-                  <Text style={styles.validez2}>
-                    {data.item.descripcion
-                      ? '- ' + data.item.descripcion + '.'
-                      : ''}
-                  </Text>
+
+                  {data.item.descripcion ? (
+                    <Text style={styles.validez2}>
+                      {'- ' + data.item.descripcion + '.'}
+                    </Text>
+                  ) : null}
                 </View>
                 <Text style={styles.validez1}>
                   ¡Guardá este cupón y pedí el código en la tienda para sumar
@@ -332,11 +333,10 @@ const styles = StyleSheet.create({
     marginTop: 20,
     alignContent: 'center',
     marginLeft: 20,
+    marginBottom: 15,
   },
   validez1: {
     color: colors.darkGrey,
-    marginTop: 15,
-    marginBottom: -15,
     marginRight: 20,
     marginLeft: 20,
     fontSize: 16,
@@ -349,7 +349,7 @@ const styles = StyleSheet.create({
     marginRight: 39,
   },
   circulos: {
-    marginTop: 30,
+    marginTop: 15,
   },
   contCirculo: {
     position: 'absolute',

@@ -6,23 +6,16 @@ import firebaseapp from '../../../firebase/config';
 import { format } from 'date-fns';
 import { AirbnbRating } from 'react-native-elements';
 import {
-  IconButton,
-  Card,
-  List,
   ScrollView,
   StyleSheet,
   Image,
   View,
-  FlatList,
   Text,
   SafeAreaView,
-  TouchableWithoutFeedback,
-  TouchableOpacity,
 } from 'react-native';
 import {
   Dialog,
   Portal,
-  Avatar,
   Button,
   Title,
   Paragraph,
@@ -46,9 +39,9 @@ function Cupones(props) {
   const [errorCupon, setErrorCupon] = React.useState('');
   //estado que maneja el contenido del input de validacion
   const [codigo, setCodigo] = React.useState(null);
-  //estado que donde se guardan la lista de codigos a validar 
+  //estado que donde se guardan la lista de codigos a validar
   const [listaCodigos, setListaCodigos] = React.useState([]);
-  
+
   //use effect que trae los codigos para validar
   React.useEffect(() => {
     const obtenerCodigos = async () => {
@@ -170,9 +163,11 @@ function Cupones(props) {
                       </Text>
                     ) : null}
 
-                    <Text style={styles.validez2}>
-                      {data.item.descripcion ? data.item.descripcion + '.' : ''}
-                    </Text>
+                    {data.item.descripcion ? (
+                      <Text style={styles.validez2}>
+                        {'- ' + data.item.descripcion + '.'}
+                      </Text>
+                    ) : null}
                   </View>
                 </View>
               </View>
@@ -194,8 +189,8 @@ function Cupones(props) {
                 </View>
               </View>
               <View style={styles.contenedorBoton}>
-                <View style={styles.textoSecundario}>
-                  <Text style={styles.validez2}>
+                <View style={styles.contValidar}>
+                  <Text style={styles.validarT}>
                     Validá tu cupón y sumá GreedyPoints:
                   </Text>
                   <TextInput
@@ -203,7 +198,7 @@ function Cupones(props) {
                     mode="flat"
                     label="Ingresá tu código"
                     required
-                    underlineColor={colors.celeste}
+                    underlineColor={colors.naranja}
                     //onBlur={() => {
                     //codigoValidator;
                     //}}
@@ -211,10 +206,9 @@ function Cupones(props) {
                     //error={errorCupon}
                     value={codigo}
                   />
-                  <Text style={styles.errorVal}>{errorCupon}</Text>
+                  {/* <Text style={styles.errorVal}>{errorCupon}</Text> */}
                 </View>
                 <Button
-                  icon="coin"
                   mode="outlined"
                   onPress={handleSubmit}
                   style={styles.botonGuardar}
@@ -287,7 +281,7 @@ const styles = StyleSheet.create({
     elevation: 1,
   },
   circulos: {
-    marginTop: 20,
+    marginTop: 18,
   },
   contCirculo: {
     position: 'absolute',
@@ -368,25 +362,35 @@ const styles = StyleSheet.create({
   textoSecundario: {
     marginTop: 20,
     alignContent: 'center',
-    marginLeft: 40,
+    marginLeft: 20,
   },
   contenedorBoton: {
-    marginTop: 25,
+    marginTop: 35,
     marginBottom: 25,
   },
-  botonGuardar: {
+  contValidar: {
+    color: colors.black,
+    marginBottom: 3,
+    marginLeft: 26,
+    marginRight: 26,
+  },
+  validarT: {
+    color: colors.black,
+    fontSize: 16,
     alignSelf: 'center',
-    backgroundColor: colors.celeste,
+  },
+  botonGuardar: {
+    backgroundColor: colors.naranja,
     marginTop: 10,
+    marginLeft: 26,
+    marginRight: 26,
   },
   inputCodigoVal: {
-    marginRight: 40,
     marginBottom: 7,
     marginTop: 7,
-    paddingLeft: 5,
     height: 55,
     fontSize: 18,
-    backgroundColor: colors.grey,
+    backgroundColor: colors.avatar,
   },
   errorVal: {
     color: '#af1a1a',
