@@ -102,7 +102,7 @@ export const guardarCupon = (idUsuario, datos, comercio, sucursal) => {
       .collection('cupones')
       .doc()
       .set({
-        id: datos.id,
+        idBeneficio: datos.id,
         tipoPromo: datos.tipoPromo,
         valuePromo: datos.valuePromo,
         otraPromo: datos.otraPromo,
@@ -162,7 +162,6 @@ export const eliminarCupon = (idUsuario, id) => {
       });
   };
 };*/
-
 
 
 export const guardarComerciosRedux = (comerciosRedux) => {

@@ -71,7 +71,7 @@ function Cupones(props) {
   //funcion que valida el codigo
   const handleSubmit = () => {
     listaCodigos.forEach((cod) => {
-      if (cod.codigo === codigo && cod.idCupon === data.item.id) {
+      if (cod.codigo === codigo && cod.idCupon === data.item.idBeneficio) {
         console.log('claro');
         showDialog();
       } else {
