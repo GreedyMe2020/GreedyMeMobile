@@ -7,7 +7,13 @@ import {
   SafeAreaView,
   ScrollView,
 } from 'react-native';
-import { Button, Title, Divider, Snackbar } from 'react-native-paper';
+import {
+  Button,
+  Title,
+  Divider,
+  Snackbar,
+  IconButton,
+} from 'react-native-paper';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { colors } from '../../styles/colores';
@@ -100,6 +106,13 @@ function Cupon(props) {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={{ flex: 1 }}>
+        <IconButton
+          icon="arrow-left"
+          color={colors.white}
+          size={25}
+          onPress={() => props.navigation.goBack()}
+          style={styles.icon}
+        />
         <View style={styles.content}>
           <View style={styles.card}>
             <View style={styles.contenido}>
@@ -285,7 +298,7 @@ const styles = StyleSheet.create({
   content: {
     backgroundColor: colors.avatar,
     flex: 1,
-    marginTop: 30,
+    marginTop: 20,
     marginBottom: 30,
   },
   card: {
@@ -395,6 +408,11 @@ const styles = StyleSheet.create({
   snackbar2: {
     alignSelf: 'flex-end',
     backgroundColor: colors.error,
+  },
+  icon: {
+    marginTop: 11,
+    marginLeft: 11,
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
   },
 });
 
