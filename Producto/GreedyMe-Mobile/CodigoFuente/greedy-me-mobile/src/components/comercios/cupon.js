@@ -55,14 +55,16 @@ function Cupon(props) {
   const onSubmit = () => {
     let contador = 0;
     cupones.forEach((cupon) => {
-      if (cupon.id === data.item.id) {
+      console.log(data.item.id);
+      console.log(cupon.id);
+      if (cupon.idBeneficio === data.item.id) {
         contador += 1;
       }
     });
     if (contador === 0) {
       props.guardarCupon(props.auth.uid, data.item, comercio, sucursal);
       cupones.push({
-        id: data.item.id,
+        idBeneficio: data.item.id,
         tipoPromo: data.item.tipoPromo,
         valuePromo: data.item.valuePromo,
         otraPromo: data.item.otraPromo,
@@ -95,13 +97,6 @@ function Cupon(props) {
 
   //Funcion para cerrar el aviso de guardado
   const onDismissSnackBar = () => setVisible(false);
-
-  // useEffect para mostrar la confirmacion
-  /*  const abrirMensajeConfirmacion = React.useEffect(() => {
-    if (props.guardarCupon) {
-      setVisible(true);
-    }
-  }, []); */
 
   return (
     <SafeAreaView style={styles.container}>
