@@ -170,7 +170,7 @@ function EncuestaExtraGP(props) {
                 </View>
                 <TouchableWithoutFeedback>
                   <View style={styles.cat}>
-                    <TouchableOpacity style={styles.categorias}>
+                    <View style={styles.categorias}>
                       <Text style={styles.textoSumaste}>Sumaste otros</Text>
                       <Text style={styles.texto}>20</Text>
                       <View style={styles.titulo}>
@@ -178,7 +178,7 @@ function EncuestaExtraGP(props) {
                         <Text style={styles.letraVerde}>edy</Text>
                         <Text style={styles.letraNaranja}>Points</Text>
                       </View>
-                    </TouchableOpacity>
+                    </View>
                   </View>
                 </TouchableWithoutFeedback>
               </Dialog.Content>

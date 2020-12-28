@@ -65,19 +65,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     flexDirection: 'row',
-    height: 90,
+    //height: 90,
   },
   searchcont: {
     marginLeft: 10,
     flex: 3,
-  },
-  separador: {
-    flex: 0.1,
-  },
-  ico: {
-    flexDirection: 'row',
-    flex: 1.2,
-    marginRight: 10,
+    justifyContent: 'center',
   },
   searchcontainer: {
     backgroundColor: colors.azul,
@@ -86,6 +79,16 @@ const styles = StyleSheet.create({
     borderBottomColor: 'transparent',
     borderTopColor: 'transparent',
     color: colors.black,
+    alignItems: 'flex-start',
+  },
+  separador: {
+    flex: 0.1,
+  },
+  ico: {
+    flexDirection: 'row',
+    flex: 1.2,
+    marginRight: 10,
+    //backgroundColor: colors.celeste,
   },
   ubicacion: {
     alignItems: 'center',

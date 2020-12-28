@@ -9,20 +9,13 @@ import {
   TouchableOpacity,
   FlatList,
 } from 'react-native';
-import {
-  Avatar,
-  IconButton,
-  Card,
-  List,
-  Title,
-  Paragraph,
-  Divider,
-} from 'react-native-paper';
+import { IconButton, FAB, Title, Divider } from 'react-native-paper';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { colors } from '../../styles/colores';
 import firebaseapp from '../../../firebase/config';
 import { format } from 'date-fns';
+import { ScrollView } from 'react-native-gesture-handler';
 
 function Cupones(props) {
   //estado de cupones
@@ -153,11 +146,39 @@ function Cupones(props) {
             style={styles.image}
             source={require('../../multimedia/no-promociones.png')}
           />
-          <Text style={styles.text}>
-            No guardaste ningun cupon por el momento
-          </Text>
+          <Text style={styles.text}>No tenés guardado ningún cupón.</Text>
         </View>
       )}
+      <TouchableWithoutFeedback
+        onPress={() => {
+          props.navigation.navigate('GreedyPointsInicio');
+        }}
+      >
+        <View style={styles.iconGP}>
+          <View style={styles.greedypoints}>
+            <View style={styles.titulo}>
+              <Text style={styles.puntos}>250</Text>
+            </View>
+            <View style={styles.letrasCont}>
+              <Text style={styles.lBlanca}>gre</Text>
+              <Text style={styles.lVerde}>edy</Text>
+              <Text style={styles.lNaranja}>Points</Text>
+            </View>
+          </View>
+        </View>
+      </TouchableWithoutFeedback>
+      {/* <View style={styles.iconGP}>
+        <TouchableOpacity style={styles.greedypoints}>
+          <View style={styles.titulo}>
+            <Text style={styles.letraBlanca}>gre</Text>
+            <Text style={styles.letraVerde}>edy</Text>
+          </View>
+          <View style={styles.points}>
+            <Text style={styles.letraNaranja}>Points</Text>
+          </View>
+        </TouchableOpacity>
+      </View> */}
+      {/* <FAB style={styles.fab} label="greedy Points" color={colors.white} /> */}
     </SafeAreaView>
   );
 }
@@ -165,6 +186,9 @@ function Cupones(props) {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#f3f3f3',
+    flex: 1,
+  },
+  scroll: {
     flex: 1,
   },
   contenedor: {
@@ -244,6 +268,80 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 17,
+  },
+  iconGP: {
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    bottom: 0,
+  },
+  greedypoints: {
+    justifyContent: 'center',
+    width: 85,
+    height: 85,
+    backgroundColor: colors.azul,
+    borderRadius: 50,
+    elevation: 5,
+    shadowColor: colors.black,
+  },
+  titulo: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    width: '100%',
+    marginTop: -3,
+  },
+  letraBlanca: {
+    color: colors.white,
+    fontSize: 17,
+    fontFamily: 'Poppins-Regular',
+  },
+  letraVerde: {
+    color: colors.celeste,
+    fontSize: 17,
+    fontFamily: 'Poppins-Regular',
+  },
+  points: {
+    alignItems: 'center',
+    width: '100%',
+    marginTop: -4,
+  },
+  letraNaranja: {
+    color: colors.naranja,
+    fontSize: 19,
+    fontFamily: 'Poppins-Regular',
+  },
+  fab: {
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    bottom: 0,
+    backgroundColor: colors.azul,
+  },
+  letrasCont: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    width: '100%',
+    marginTop: -7,
+  },
+  puntos: {
+    color: colors.white,
+    fontSize: 25,
+    fontFamily: 'Poppins-Regular',
+  },
+  lBlanca: {
+    color: colors.white,
+    fontSize: 12,
+    fontFamily: 'Poppins-Regular',
+  },
+  lVerde: {
+    color: colors.celeste,
+    fontSize: 12,
+    fontFamily: 'Poppins-Regular',
+  },
+  lNaranja: {
+    color: colors.naranja,
+    fontSize: 12,
+    fontFamily: 'Poppins-Regular',
   },
 });
 
