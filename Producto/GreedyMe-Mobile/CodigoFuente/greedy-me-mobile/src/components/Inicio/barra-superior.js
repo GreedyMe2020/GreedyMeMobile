@@ -65,18 +65,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     flexDirection: 'row',
+    //height: 90,
   },
   searchcont: {
     marginLeft: 10,
     flex: 3,
-  },
-  searchcontainer: {
-    backgroundColor: colors.azul,
-    borderWidth: 0, //no effect
-    shadowColor: colors.white, //no effect
-    borderBottomColor: 'transparent',
-    borderTopColor: 'transparent',
-    color: colors.black,
+    //justifyContent: 'center',
   },
   separador: {
     flex: 0.1,
@@ -85,6 +79,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flex: 1.2,
     marginRight: 10,
+    //justifyContent: 'center',
+  },
+  searchcontainer: {
+    backgroundColor: colors.azul,
+    borderWidth: 0, //no effect
+    shadowColor: colors.white, //no effect
+    borderBottomColor: 'transparent',
+    borderTopColor: 'transparent',
+    color: colors.black,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   ubicacion: {
     alignItems: 'center',

@@ -15,7 +15,7 @@ import _ from 'lodash';
 import { colors } from '../../styles/colores';
 import firebaseapp from '../../../firebase/config';
 import { format } from 'date-fns';
-import { ScrollView } from 'react-native-gesture-handler';
+import { eliminarCupon } from '../../../redux/actions/comercio-actions';
 
 function Cupones(props) {
   //estado de cupones
@@ -42,6 +42,15 @@ function Cupones(props) {
     };
     obtenerCupones();
   }, []);
+
+  //funcion para eliminar cupon
+  const handleEliminar = (id) => {
+    props.eliminarCupon(props.auth.uid, id);
+    const cuponEliminado = _.remove(cupones, function (n) {
+      return n.id === id;
+    });
+    setCupones([...cupones]);
+  };
 
   /*  //estados para manejar los dialog que se abren de la primer encuesta
   const [visible, setVisible] = React.useState(false);
@@ -94,7 +103,9 @@ function Cupones(props) {
                         color={colors.darkGrey}
                         size={21}
                         style={{ marginTop: 78, marginRight: 5 }}
-                        //onPress={() => console.log('Pressed')}
+                        onPress={() => {
+                          handleEliminar(data.item.id);
+                        }}
                       />
                     </View>
 
@@ -352,4 +363,10 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(Cupones);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    eliminarCupon: (id, idCupon) => dispatch(eliminarCupon(id, idCupon)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cupones);
