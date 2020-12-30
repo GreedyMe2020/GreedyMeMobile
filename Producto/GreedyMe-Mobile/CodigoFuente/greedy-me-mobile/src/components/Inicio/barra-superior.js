@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, StatusBar, View, TouchableOpacity } from 'react-native';
 import { IconButton } from 'react-native-paper';
 import { SearchBar } from 'react-native-elements';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -11,46 +11,53 @@ function BarraSup(props) {
   //const onChangeSearch = (searchQuery) => setSearchQuery(searchQuery);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.searchcont}>
-        <SearchBar
-          placeholder="Buscar comercio"
-          onChangeText={props.onChangeText}
-          value={props.texto}
-          inputContainerStyle={{
-            backgroundColor: '#F6F8F7',
-            borderRadius: 100,
-            height: 40,
-          }}
-          containerStyle={styles.searchcontainer}
-          lightTheme
-          round
-        />
-        {/*<SearchBarBuscar
+    <SafeAreaView>
+      <StatusBar
+        barStyle="light-content"
+        //translucent={true}
+        backgroundColor={colors.azul}
+      />
+      <View style={styles.container}>
+        <View style={styles.searchcont}>
+          <SearchBar
+            placeholder="Buscar comercio"
+            onChangeText={props.onChangeText}
+            value={props.texto}
+            inputContainerStyle={{
+              backgroundColor: '#F6F8F7',
+              borderRadius: 100,
+              height: 40,
+            }}
+            containerStyle={styles.searchcontainer}
+            lightTheme
+            round
+          />
+          {/*<SearchBarBuscar
           navigation={props.navigation}
           styleContainer={styles.searchcontainer}
           //onChangeText={props.onChangeText}
           onChangeSearch={onChangeSearch}
           searchQuery={searchQuery}
         />*/}
-      </View>
-      <View style={styles.separador}></View>
-      <View style={styles.ico}>
-        <TouchableOpacity style={styles.ubicacion} activeOpacity={0.5}>
-          <IconButton
-            icon="map-marker-outline"
-            style={styles.image}
-            color="black"
-            onPress={() => {
-              props.navigation.navigate('Mapa', {
-                data: props.comercios,
-              });
-            }}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.notificacion} activeOpacity={0.5}>
-          <IconButton icon="bell-outline" color="black" />
-        </TouchableOpacity>
+        </View>
+        <View style={styles.separador}></View>
+        <View style={styles.ico}>
+          <TouchableOpacity style={styles.ubicacion} activeOpacity={0.5}>
+            <IconButton
+              icon="map-marker-outline"
+              style={styles.image}
+              color="black"
+              onPress={() => {
+                props.navigation.navigate('Mapa', {
+                  data: props.comercios,
+                });
+              }}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.notificacion} activeOpacity={0.5}>
+            <IconButton icon="bell-outline" color="black" />
+          </TouchableOpacity>
+        </View>
       </View>
     </SafeAreaView>
   );
