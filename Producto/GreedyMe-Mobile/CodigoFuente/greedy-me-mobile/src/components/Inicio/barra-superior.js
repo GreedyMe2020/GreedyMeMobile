@@ -12,11 +12,6 @@ function BarraSup(props) {
 
   return (
     <SafeAreaView>
-      <StatusBar
-        barStyle="light-content"
-        //translucent={true}
-        backgroundColor={colors.azul}
-      />
       <View style={styles.container}>
         <View style={styles.searchcont}>
           <SearchBar
@@ -40,7 +35,7 @@ function BarraSup(props) {
           searchQuery={searchQuery}
         />*/}
         </View>
-        <View style={styles.separador}></View>
+        <View style={styles.separador} />
         <View style={styles.ico}>
           <TouchableOpacity style={styles.ubicacion} activeOpacity={0.5}>
             <IconButton

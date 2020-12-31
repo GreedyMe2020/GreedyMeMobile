@@ -12,6 +12,8 @@ import {
   View,
   Text,
   SafeAreaView,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import {
   Dialog,
@@ -84,176 +86,185 @@ function Cupones(props) {
   return (
     <SafeAreaView style={styles.container}>
       {data !== null ? (
-        <ScrollView style={{ flex: 1 }}>
-          <View style={styles.content}>
-            <View style={styles.card}>
-              <View style={styles.contenido}>
-                <Image
-                  style={styles.contImagen}
-                  source={{
-                    uri:
-                      data.item.tipoProveedor === 'Propias'
-                        ? props.fotocomercio
-                        : data.item.valueProveedor === 'Otro'
-                        ? 'https://firebasestorage.googleapis.com/v0/b/greedyme-d6c6c.appspot.com/o/proveedores%2F1.jpg?alt=media&token=d186f078-7cfa-437c-9287-1bbfd9de8c00'
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={styles.container}
+        >
+          <ScrollView style={{ flex: 1 }}>
+            <View style={styles.content}>
+              <View style={styles.card}>
+                <View style={styles.contenido}>
+                  <Image
+                    style={styles.contImagen}
+                    source={{
+                      uri:
+                        data.item.tipoProveedor === 'Propias'
+                          ? props.fotocomercio
+                          : data.item.valueProveedor === 'Otro'
+                          ? 'https://firebasestorage.googleapis.com/v0/b/greedyme-d6c6c.appspot.com/o/proveedores%2F1.jpg?alt=media&token=d186f078-7cfa-437c-9287-1bbfd9de8c00'
+                          : data.item.valueProveedor === 'Todos'
+                          ? 'https://firebasestorage.googleapis.com/v0/b/greedyme-d6c6c.appspot.com/o/proveedores%2F1.jpg?alt=media&token=d186f078-7cfa-437c-9287-1bbfd9de8c00'
+                          : data.item.photoURL,
+                    }}
+                  />
+                  <View style={styles.texto}>
+                    <Title style={styles.titulo}>
+                      {data.item.valueProveedor === 'Otro'
+                        ? data.item.otroProveedor
+                        : data.item.valueProveedor === 'Propio'
+                        ? props.nombrecomercio
                         : data.item.valueProveedor === 'Todos'
-                        ? 'https://firebasestorage.googleapis.com/v0/b/greedyme-d6c6c.appspot.com/o/proveedores%2F1.jpg?alt=media&token=d186f078-7cfa-437c-9287-1bbfd9de8c00'
-                        : data.item.photoURL,
-                  }}
-                />
-                <View style={styles.texto}>
-                  <Title style={styles.titulo}>
-                    {data.item.valueProveedor === 'Otro'
-                      ? data.item.otroProveedor
-                      : data.item.valueProveedor === 'Propio'
-                      ? props.nombrecomercio
-                      : data.item.valueProveedor === 'Todos'
-                      ? data.item.valueProveedor + ' los Bancos'
-                      : data.item.valueProveedor}
-                  </Title>
-                  <Title style={styles.beneficio}>
-                    {data.item.valuePromo === 'Otro'
-                      ? data.item.otraPromo
-                      : data.item.tipoPromo === 'Descuento'
-                      ? data.item.valuePromo + ' OFF'
-                      : data.item.valuePromo}
-                  </Title>
-                  <Text style={styles.validez}>
-                    {'Válido desde el ' +
-                      format(data.item.desdeVigencia.toDate(), 'dd/MM/yyyy')}
-                  </Text>
-                  <Text style={styles.validez}>
-                    {' hasta el ' +
-                      format(data.item.hastaVigencia.toDate(), 'dd/MM/yyyy')}
-                  </Text>
-                  <Text style={styles.validez}>
-                    {'en ' +
-                      data.item.comercio +
-                      ', sucursal ' +
-                      data.item.sucursal +
-                      '.'}
-                  </Text>
-                </View>
-                <View>
-                  <View style={styles.textoSecundario}>
-                    <Text style={styles.validez2}>
-                      {'- Aplica: ' +
-                        ((data.item.diaAplicacion.lunes ? 'Lunes ' : '') +
-                          (data.item.diaAplicacion.martes ? 'Martes ' : '') +
-                          (data.item.diaAplicacion.miercoles
-                            ? 'Miercoles '
-                            : '') +
-                          (data.item.diaAplicacion.jueves ? 'Jueves ' : '') +
-                          (data.item.diaAplicacion.viernes ? 'Viernes ' : '') +
-                          (data.item.diaAplicacion.sabado ? 'Sábado ' : '') +
-                          (data.item.diaAplicacion.domingo ? 'Domingo ' : '') +
-                          (data.item.diaAplicacion.todoslosdias
-                            ? 'Todos los días' + '.'
-                            : ''))}
+                        ? data.item.valueProveedor + ' los Bancos'
+                        : data.item.valueProveedor}
+                    </Title>
+                    <Title style={styles.beneficio}>
+                      {data.item.valuePromo === 'Otro'
+                        ? data.item.otraPromo
+                        : data.item.tipoPromo === 'Descuento'
+                        ? data.item.valuePromo + ' OFF'
+                        : data.item.valuePromo}
+                    </Title>
+                    <Text style={styles.validez}>
+                      {'Válido desde el ' +
+                        format(data.item.desdeVigencia.toDate(), 'dd/MM/yyyy')}
                     </Text>
-                    <Text style={styles.validez2}>
-                      {'- Medio de pago: ' + data.item.medioPago + '.'}
+                    <Text style={styles.validez}>
+                      {' hasta el ' +
+                        format(data.item.hastaVigencia.toDate(), 'dd/MM/yyyy')}
                     </Text>
-
-                    {data.item.otroProveedor ? (
+                    <Text style={styles.validez}>
+                      {'en ' +
+                        data.item.comercio +
+                        ', sucursal ' +
+                        data.item.sucursal +
+                        '.'}
+                    </Text>
+                  </View>
+                  <View>
+                    <View style={styles.textoSecundario}>
                       <Text style={styles.validez2}>
-                        {'- Entidad crediticia: ' +
-                          data.item.otroProveedor +
-                          '.'}
+                        {'- Aplica: ' +
+                          ((data.item.diaAplicacion.lunes ? 'Lunes ' : '') +
+                            (data.item.diaAplicacion.martes ? 'Martes ' : '') +
+                            (data.item.diaAplicacion.miercoles
+                              ? 'Miercoles '
+                              : '') +
+                            (data.item.diaAplicacion.jueves ? 'Jueves ' : '') +
+                            (data.item.diaAplicacion.viernes
+                              ? 'Viernes '
+                              : '') +
+                            (data.item.diaAplicacion.sabado ? 'Sábado ' : '') +
+                            (data.item.diaAplicacion.domingo
+                              ? 'Domingo '
+                              : '') +
+                            (data.item.diaAplicacion.todoslosdias
+                              ? 'Todos los días' + '.'
+                              : ''))}
                       </Text>
-                    ) : null}
-
-                    {data.item.descripcion ? (
                       <Text style={styles.validez2}>
-                        {'- ' + data.item.descripcion + '.'}
+                        {'- Medio de pago: ' + data.item.medioPago + '.'}
                       </Text>
-                    ) : null}
+
+                      {data.item.otroProveedor ? (
+                        <Text style={styles.validez2}>
+                          {'- Entidad crediticia: ' +
+                            data.item.otroProveedor +
+                            '.'}
+                        </Text>
+                      ) : null}
+
+                      {data.item.descripcion ? (
+                        <Text style={styles.validez2}>
+                          {'- ' + data.item.descripcion + '.'}
+                        </Text>
+                      ) : null}
+                    </View>
                   </View>
                 </View>
-              </View>
-              <View style={styles.circulos}>
-                <View style={styles.contCirculo}>
-                  <View style={styles.circulo} />
-                </View>
-                <Divider
-                  style={{
-                    backgroundColor: colors.grey,
-                    height: 2,
-                    marginLeft: 45,
-                    marginRight: 45,
-                    marginTop: 25,
-                  }}
-                />
-                <View style={styles.contCirculo2}>
-                  <View style={styles.circuloEnd} />
-                </View>
-              </View>
-              <View style={styles.contenedorBoton}>
-                <View style={styles.contValidar}>
-                  <Text style={styles.validarT}>
-                    Validá tu cupón y sumá GreedyPoints:
-                  </Text>
-                  <TextInput
-                    style={styles.inputCodigoVal}
-                    mode="flat"
-                    label="Ingresá tu código"
-                    required
-                    underlineColor={colors.naranja}
-                    //onBlur={() => {
-                    //codigoValidator;
-                    //}}
-                    onChangeText={handleChangeCodigo}
-                    //error={errorCupon}
-                    value={codigo}
+                <View style={styles.circulos}>
+                  <View style={styles.contCirculo}>
+                    <View style={styles.circulo} />
+                  </View>
+                  <Divider
+                    style={{
+                      backgroundColor: colors.grey,
+                      height: 2,
+                      marginLeft: 45,
+                      marginRight: 45,
+                      marginTop: 25,
+                    }}
                   />
-                  {/* <Text style={styles.errorVal}>{errorCupon}</Text> */}
+                  <View style={styles.contCirculo2}>
+                    <View style={styles.circuloEnd} />
+                  </View>
                 </View>
-                <Button
-                  mode="outlined"
-                  onPress={handleSubmit}
-                  style={styles.botonGuardar}
-                  labelStyle={{ fontSize: 20, color: colors.white }}
-                >
-                  Validar
-                </Button>
-              </View>
-              <Portal>
-                <Dialog visible={visible} onDismiss={hideDialog}>
-                  <Dialog.Title>Validar cupón</Dialog.Title>
-                  <Dialog.Content style={{ marginBottom: -10 }}>
-                    <Paragraph style={{ fontSize: 17 }}>
-                      {'Contános como fue tu experiencia de compra en ' +
-                        props.nombrecomercio +
-                        ' para finalizar la validación y sumar tus GreedyPoints.'}
-                    </Paragraph>
-                    <AirbnbRating
-                      count={5}
-                      defaultRating={3}
-                      reviews={[
-                        'Mala',
-                        'Regular',
-                        'Buena',
-                        'Muy Buena',
-                        'Excelente',
-                      ]}
+                <View style={styles.contenedorBoton}>
+                  <View style={styles.contValidar}>
+                    <Text style={styles.validarT}>
+                      Validá tu cupón y sumá GreedyPoints:
+                    </Text>
+                    <TextInput
+                      style={styles.inputCodigoVal}
+                      mode="flat"
+                      label="Ingresá tu código"
+                      required
+                      underlineColor={colors.naranja}
+                      //onBlur={() => {
+                      //codigoValidator;
+                      //}}
+                      onChangeText={handleChangeCodigo}
+                      //error={errorCupon}
+                      value={codigo}
                     />
-                  </Dialog.Content>
-                  <Dialog.Actions style={{ marginRight: 8 }}>
-                    <Button
-                      onPress={() => {
-                        props.navigation.navigate('ValidacionGreedyPoints1');
-                        setVisible(false);
-                      }}
-                      style={{ fontSize: 17 }}
-                    >
-                      Validar
-                    </Button>
-                  </Dialog.Actions>
-                </Dialog>
-              </Portal>
+                    {/* <Text style={styles.errorVal}>{errorCupon}</Text> */}
+                  </View>
+                  <Button
+                    mode="outlined"
+                    onPress={handleSubmit}
+                    style={styles.botonGuardar}
+                    labelStyle={{ fontSize: 20, color: colors.white }}
+                  >
+                    Validar
+                  </Button>
+                </View>
+                <Portal>
+                  <Dialog visible={visible} onDismiss={hideDialog}>
+                    <Dialog.Title>Validar cupón</Dialog.Title>
+                    <Dialog.Content style={{ marginBottom: -10 }}>
+                      <Paragraph style={{ fontSize: 17 }}>
+                        {'Contános como fue tu experiencia de compra en ' +
+                          props.nombrecomercio +
+                          ' para finalizar la validación y sumar tus GreedyPoints.'}
+                      </Paragraph>
+                      <AirbnbRating
+                        count={5}
+                        defaultRating={3}
+                        reviews={[
+                          'Mala',
+                          'Regular',
+                          'Buena',
+                          'Muy Buena',
+                          'Excelente',
+                        ]}
+                      />
+                    </Dialog.Content>
+                    <Dialog.Actions style={{ marginRight: 8 }}>
+                      <Button
+                        onPress={() => {
+                          props.navigation.navigate('ValidacionGreedyPoints1');
+                          setVisible(false);
+                        }}
+                        style={{ fontSize: 17 }}
+                      >
+                        Validar
+                      </Button>
+                    </Dialog.Actions>
+                  </Dialog>
+                </Portal>
+              </View>
             </View>
-          </View>
-        </ScrollView>
+          </ScrollView>
+        </KeyboardAvoidingView>
       ) : null}
     </SafeAreaView>
   );
