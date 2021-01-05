@@ -9,7 +9,7 @@ import {
   TouchableWithoutFeedback,
   ScrollView,
 } from 'react-native';
-import { Button, TextInput, Snackbar } from 'react-native-paper';
+import { TextInput, Snackbar } from 'react-native-paper';
 import { connect } from 'react-redux';
 import {
   signUp,

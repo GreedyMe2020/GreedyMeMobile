@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, TextInput } from 'react-native-paper';
+import { TextInput } from 'react-native-paper';
 import {
   View,
   StyleSheet,

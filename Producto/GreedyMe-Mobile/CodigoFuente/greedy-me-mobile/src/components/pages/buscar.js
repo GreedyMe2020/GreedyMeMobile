@@ -1,15 +1,5 @@
 import * as React from 'react';
-import {
-  StyleSheet,
-  StatusBar,
-  View,
-  Text,
-  Platform,
-  Keyboard,
-  KeyboardAvoidingView,
-  TouchableWithoutFeedback,
-  ScrollView,
-} from 'react-native';
+import { StyleSheet, StatusBar, View, Text, ScrollView } from 'react-native';
 import SearchBarBuscar from '../buscador/search-bar-buscar';
 import SafeAreaView from 'react-native-safe-area-view';
 import BuscadorProveedores from '../buscador/buscador';

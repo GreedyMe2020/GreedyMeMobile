@@ -1,23 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Image,
   View,
-  FlatList,
   Text,
   SafeAreaView,
   ScrollView,
-  TouchableWithoutFeedback,
 } from 'react-native';
 import {
-  Avatar,
-  IconButton,
   Button,
-  Card,
-  List,
   Title,
-  Paragraph,
   Divider,
+  Snackbar,
+  IconButton,
 } from 'react-native-paper';
 import { connect } from 'react-redux';
 import _ from 'lodash';
@@ -27,12 +22,97 @@ import { format } from 'date-fns';
 import { guardarCupon } from '../../../redux/actions/comercio-actions';
 
 function Cupon(props) {
+  //estado para tener los cupones para que no se puedan guardar cupones iguales
+  const [cupones, setCupones] = React.useState([]);
+  //estado para mostrar un mensaje de error si se quieren guardar cupones iguales
+  const [mensajeError, setMensajeError] = React.useState(false);
+  const [mensajeCorrecto, setMensajeCorrecto] = React.useState(false);
+  //use effect para traer los cupones del usuario de la base de datos
+  React.useEffect(() => {
+    const obtenerCupones = async () => {
+      const firestore = firebaseapp.firestore();
+      try {
+        const cupones = await firestore
+          .collection('usuarioConsumidor')
+          .doc(props.auth.uid)
+          .collection('cupones')
+          .get();
+        const arrayCupones = cupones.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setCupones(arrayCupones);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    obtenerCupones();
+  }, []);
+  //funcion que cierra el mensaje de error
+  const onDismissSnackBar2 = () => setMensajeError(false);
+  const onDismissSnackBar3 = () => setMensajeCorrecto(false);
+  //funcion para guardar el cupon
+  const onSubmit = () => {
+    let contador = 0;
+    cupones.forEach((cupon) => {
+      if (cupon.id === data.item.id) {
+        contador += 1;
+      }
+    });
+    if (contador === 0) {
+      props.guardarCupon(props.auth.uid, data.item, comercio, sucursal);
+      cupones.push({
+        id: data.item.id,
+        tipoPromo: data.item.tipoPromo,
+        valuePromo: data.item.valuePromo,
+        otraPromo: data.item.otraPromo,
+        tipoProveedor: data.item.tipoProveedor,
+        valueProveedor: data.item.valueProveedor,
+        otroProveedor: data.item.otroProveedor,
+        desdeVigencia: data.item.desdeVigencia,
+        hastaVigencia: data.item.hastaVigencia,
+        descripcion: data.item.descripcion,
+        photoURL: data.item.photoURL,
+        diaAplicacion: data.item.diaAplicacion,
+        medioPago: data.item.medioPago,
+        nombreComercio: comercio,
+        sucursal: sucursal,
+      });
+      setMensajeCorrecto(true);
+    } else {
+      setMensajeError(true);
+    }
+  };
   //Traigo la info del beneficio y se la asigno a la variable data,
   //y los datos del comercio a las otras variables:
   const { data, sucursal, comercio, fotocomercio } = props.route.params;
+
+  //Estado para abrir o cerrar el snackbar de guardado
+  const [guardado, setGuardado] = React.useState(false);
+
+  //Estado para abrir o cerrar el snackbar de guardado
+  const [visible, setVisible] = React.useState(false);
+
+  //Funcion para cerrar el aviso de guardado
+  const onDismissSnackBar = () => setVisible(false);
+
+  // useEffect para mostrar la confirmacion
+  /*  const abrirMensajeConfirmacion = React.useEffect(() => {
+    if (props.guardarCupon) {
+      setVisible(true);
+    }
+  }, []); */
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={{ flex: 1 }}>
+        <IconButton
+          icon="arrow-left"
+          color={colors.white}
+          size={25}
+          onPress={() => props.navigation.goBack()}
+          style={styles.icon}
+        />
         <View style={styles.content}>
           <View style={styles.card}>
             <View style={styles.contenido}>
@@ -107,11 +187,12 @@ function Cupon(props) {
                       {'- Entidad crediticia: ' + data.item.otroProveedor + '.'}
                     </Text>
                   ) : null}
-                  <Text style={styles.validez2}>
-                    {data.item.descripcion
-                      ? '- ' + data.item.descripcion + '.'
-                      : ''}
-                  </Text>
+
+                  {data.item.descripcion ? (
+                    <Text style={styles.validez2}>
+                      {'- ' + data.item.descripcion + '.'}
+                    </Text>
+                  ) : null}
                 </View>
                 <Text style={styles.validez1}>
                   ¡Guardá este cupón y pedí el código en la tienda para sumar
@@ -129,19 +210,41 @@ function Cupon(props) {
               </View>
             </View>
             <View style={styles.contenedorBoton}>
+              {/*  {guardado ? (
+                <Button
+                  icon="check"
+                  mode="contained"
+                  style={styles.botonGuardar}
+                  labelStyle={{ fontSize: 18, color: colors.white }}
+                  disabled
+                >
+                  Guardado
+                </Button>
+              ) : (
+                <Button
+                  icon="content-save-outline"
+                  mode="contained"
+                  style={styles.botonGuardar}
+                  labelStyle={{ fontSize: 18, color: colors.white }}
+                  onPress={() => {
+                    props.guardarCupon(
+                      props.auth.uid,
+                      data.item,
+                      comercio,
+                      sucursal,
+                    );
+                    setGuardado(true);
+                  }}
+                >
+                  Guardar
+                </Button>
+              )} */}
               <Button
                 icon="content-save-outline"
                 mode="outlined"
                 style={styles.botonGuardar}
                 labelStyle={{ fontSize: 18, color: colors.white }}
-                onPress={() =>
-                  props.guardarCupon(
-                    props.auth.uid,
-                    data.item,
-                    comercio,
-                    sucursal,
-                  )
-                }
+                onPress={onSubmit}
               >
                 Guardar
               </Button>
@@ -149,6 +252,40 @@ function Cupon(props) {
           </View>
         </View>
       </ScrollView>
+      <View style={styles.contenedorSnack}>
+        {mensajeCorrecto ? (
+          <Snackbar
+            visible={mensajeCorrecto}
+            onDismiss={onDismissSnackBar3}
+            theme={{ colors: { accent: '#76B39D' } }}
+            action={{
+              label: 'OK',
+              onPress: () => {
+                onDismissSnackBar3;
+              },
+            }}
+            style={styles.snackbar}
+          >
+            Cupón guardado correctamente!
+          </Snackbar>
+        ) : null}
+        {mensajeError ? (
+          <Snackbar
+            visible={mensajeError}
+            onDismiss={onDismissSnackBar2}
+            theme={{ colors: { accent: 'white' } }}
+            action={{
+              label: 'OK',
+              onPress: () => {
+                onDismissSnackBar2;
+              },
+            }}
+            style={styles.snackbar2}
+          >
+            Ya tenés guardado este cupón.
+          </Snackbar>
+        ) : null}
+      </View>
     </SafeAreaView>
   );
 }
@@ -161,7 +298,7 @@ const styles = StyleSheet.create({
   content: {
     backgroundColor: colors.avatar,
     flex: 1,
-    marginTop: 30,
+    marginTop: 20,
     marginBottom: 30,
   },
   card: {
@@ -209,11 +346,10 @@ const styles = StyleSheet.create({
     marginTop: 20,
     alignContent: 'center',
     marginLeft: 20,
+    marginBottom: 15,
   },
   validez1: {
     color: colors.darkGrey,
-    marginTop: 15,
-    marginBottom: -15,
     marginRight: 20,
     marginLeft: 20,
     fontSize: 16,
@@ -226,7 +362,7 @@ const styles = StyleSheet.create({
     marginRight: 39,
   },
   circulos: {
-    marginTop: 30,
+    marginTop: 15,
   },
   contCirculo: {
     position: 'absolute',
@@ -264,6 +400,19 @@ const styles = StyleSheet.create({
   botonGuardar: {
     alignSelf: 'center',
     backgroundColor: colors.celeste,
+  },
+  snackbar: {
+    alignSelf: 'flex-end',
+    backgroundColor: colors.alertGrey,
+  },
+  snackbar2: {
+    alignSelf: 'flex-end',
+    backgroundColor: colors.error,
+  },
+  icon: {
+    marginTop: 11,
+    marginLeft: 11,
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
   },
 });
 

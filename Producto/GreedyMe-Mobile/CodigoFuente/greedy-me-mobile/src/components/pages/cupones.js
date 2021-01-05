@@ -5,35 +5,22 @@ import {
   View,
   Text,
   SafeAreaView,
-  ScrollView,
+  TouchableWithoutFeedback,
+  TouchableOpacity,
+  FlatList,
 } from 'react-native';
-import {
-  Button,
-  IconButton,
-  Title,
-  Paragraph,
-  Dialog,
-  Portal,
-  Divider,
-  TextInput,
-} from 'react-native-paper';
+import { IconButton, FAB, Title, Divider } from 'react-native-paper';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { colors } from '../../styles/colores';
 import firebaseapp from '../../../firebase/config';
 import { format } from 'date-fns';
-import { AirbnbRating } from 'react-native-elements';
-
-//Variable que contiene un codigo de prueba para comparar con el del input del cupon
-const CODIGO_VALIDAR = 'ABCDEF';
+import { eliminarCupon } from '../../../redux/actions/comercio-actions';
 
 function Cupones(props) {
   //estado de cupones
   const [cupones, setCupones] = React.useState(null);
-  //estado que contiene el mensaje de error en la validacion del cupon
-  const [errorCupon, setErrorCupon] = React.useState('');
-  //estado que maneja el contenido del input de validacion
-  const [codigo, setCodigo] = React.useState(null);
+
   //use effect que se ejecuta una vez y trae cupones
   React.useEffect(() => {
     const obtenerCupones = async () => {
@@ -56,13 +43,19 @@ function Cupones(props) {
     obtenerCupones();
   }, []);
 
-  //estados para manejar los dialog que se abren de la primer encuesta
+  //funcion para eliminar cupon
+  const handleEliminar = (id) => {
+    props.eliminarCupon(props.auth.uid, id);
+    const cuponEliminado = _.remove(cupones, function (n) {
+      return n.id === id;
+    });
+    setCupones([...cupones]);
+  };
+
+  /*  //estados para manejar los dialog que se abren de la primer encuesta
   const [visible, setVisible] = React.useState(false);
   const [visible1, setVisible1] = React.useState(false);
   const showDialogValidar = () => setVisible(true);
-  const hideDialogValidar = () => setVisible(false);
-  const showDialogPreg1 = () => setVisible1(true);
-  const hideDialogPreg1 = () => setVisible1(false);
 
   //funcion que asigna el valor del input de validacion en el estado cupon
   const handleChangeCodigo = (codigo) => {
@@ -78,336 +71,288 @@ function Cupones(props) {
         setErrorCupon('* Este campo no es correcto');
       }
     }
-  }, [codigo]);
+  }, [codigo]); */
 
   return (
     <SafeAreaView style={styles.container}>
-      {cupones !== null ? (
-        <ScrollView style={{ flex: 1 }}>
-          <View style={styles.content}>
-            <View style={styles.card}>
-              <View style={styles.contenido}>
-                <Image
-                  style={styles.contImagen}
-                  source={{
-                    uri:
-                      cupones[0].tipoProveedor === 'Propias'
-                        ? props.fotocomercio
-                        : cupones[0].valueProveedor === 'Otro'
-                        ? 'https://firebasestorage.googleapis.com/v0/b/greedyme-d6c6c.appspot.com/o/proveedores%2F1.jpg?alt=media&token=d186f078-7cfa-437c-9287-1bbfd9de8c00'
-                        : cupones[0].valueProveedor === 'Todos'
-                        ? 'https://firebasestorage.googleapis.com/v0/b/greedyme-d6c6c.appspot.com/o/proveedores%2F1.jpg?alt=media&token=d186f078-7cfa-437c-9287-1bbfd9de8c00'
-                        : cupones[0].photoURL,
+      {cupones ? (
+        <FlatList
+          data={cupones}
+          keyExtractor={(item) => item.id}
+          showsVerticalScrollIndicator={false}
+          renderItem={(data) => (
+            <TouchableWithoutFeedback>
+              <View style={styles.content}>
+                <TouchableOpacity
+                  onPress={() => {
+                    props.navigation.navigate('Validar-cupones', {
+                      data: data,
+                    });
                   }}
-                />
-                <View style={styles.texto}>
-                  <Title style={styles.titulo}>
-                    {cupones[0].valueProveedor === 'Otro'
-                      ? cupones[0].otroProveedor
-                      : cupones[0].valueProveedor === 'Propio'
-                      ? props.nombrecomercio
-                      : cupones[0].valueProveedor === 'Todos'
-                      ? cupones[0].valueProveedor + ' los Bancos'
-                      : cupones[0].valueProveedor}
-                  </Title>
-                  <Title style={styles.beneficio}>
-                    {cupones[0].valuePromo === 'Otro'
-                      ? cupones[0].otraPromo
-                      : cupones[0].tipoPromo === 'Descuento'
-                      ? cupones[0].valuePromo + ' OFF'
-                      : cupones[0].valuePromo}
-                  </Title>
-                  <Text style={styles.validez}>
-                    {'Válido desde el ' +
-                      format(cupones[0].desdeVigencia.toDate(), 'dd/MM/yyyy')}
-                  </Text>
-                  <Text style={styles.validez}>
-                    {' hasta el ' +
-                      format(cupones[0].hastaVigencia.toDate(), 'dd/MM/yyyy')}
-                  </Text>
-                  <Text style={styles.validez}>
-                    {'en ' +
-                      cupones[0].comercio +
-                      ', sucursal ' +
-                      cupones[0].sucursal +
-                      '.'}
-                  </Text>
-                </View>
-                <View>
-                  <View style={styles.textoSecundario}>
-                    <Text style={styles.validez2}>
-                      {'- Aplica: ' +
-                        ((cupones[0].diaAplicacion.lunes ? 'Lunes ' : '') +
-                          (cupones[0].diaAplicacion.martes ? 'Martes ' : '') +
-                          (cupones[0].diaAplicacion.miercoles
-                            ? 'Miércoles '
-                            : '') +
-                          (cupones[0].diaAplicacion.jueves ? 'Jueves ' : '') +
-                          (cupones[0].diaAplicacion.viernes ? 'Viernes ' : '') +
-                          (cupones[0].diaAplicacion.sabado ? 'Sábado ' : '') +
-                          (cupones[0].diaAplicacion.domingo ? 'Domingo ' : '') +
-                          (cupones[0].diaAplicacion.todoslosdias
-                            ? 'Todos los días' + '.'
-                            : ''))}
-                    </Text>
+                >
+                  <View style={styles.card} id={data.item.id}>
+                    <View style={styles.contCirculo}>
+                      <View style={styles.circulo} />
+                    </View>
+                    <View style={styles.contCirculo2}>
+                      <View style={styles.circuloEnd} />
+                    </View>
+                    <View style={styles.contCirculo2}>
+                      <IconButton
+                        icon="trash-can-outline"
+                        color={colors.darkGrey}
+                        size={21}
+                        style={{ marginTop: 78, marginRight: 5 }}
+                        onPress={() => {
+                          handleEliminar(data.item.id);
+                        }}
+                      />
+                    </View>
 
-                    <Text style={styles.validez2}>
-                      {cupones[0].medioPago === 'Efectivo'
-                        ? '- Válido solo en ' + cupones[0].medioPago + '.'
-                        : '- Válido con ' + cupones[0].medioPago + '.'}
-                    </Text>
-
-                    {cupones[0].otroProveedor ? (
-                      <Text style={styles.validez2}>
-                        {'- Entidad crediticia: ' +
-                          cupones[0].otroProveedor +
-                          '.'}
-                      </Text>
-                    ) : null}
-
-                    <Text style={styles.validez2}>
-                      {cupones[0].descripcion
-                        ? '- ' + cupones[0].descripcion + '.'
-                        : ''}
-                    </Text>
+                    <View style={styles.contenido}>
+                      <Image
+                        style={styles.contImagen}
+                        resizeMode="cover"
+                        source={{
+                          uri:
+                            data.item.tipoProveedor === 'Propias'
+                              ? props.fotocomercio
+                              : data.item.valueProveedor === 'Otro'
+                              ? 'https://firebasestorage.googleapis.com/v0/b/greedyme-d6c6c.appspot.com/o/proveedores%2F1.jpg?alt=media&token=d186f078-7cfa-437c-9287-1bbfd9de8c00'
+                              : data.item.valueProveedor === 'Todos'
+                              ? 'https://firebasestorage.googleapis.com/v0/b/greedyme-d6c6c.appspot.com/o/proveedores%2F1.jpg?alt=media&token=d186f078-7cfa-437c-9287-1bbfd9de8c00'
+                              : data.item.photoURL,
+                        }}
+                      />
+                      <Divider style={styles.divider} />
+                      <View style={styles.texto}>
+                        <Title>{data.item.nombreComercio}</Title>
+                        <Title style={styles.beneficio}>
+                          {data.item.valuePromo === 'Otro'
+                            ? data.item.otraPromo
+                            : data.item.tipoPromo === 'Descuento'
+                            ? data.item.valuePromo + ' OFF'
+                            : data.item.valuePromo}
+                        </Title>
+                        <Text style={{ color: colors.darkGrey, fontSize: 16 }}>
+                          {data.item.valueProveedor === 'Otro'
+                            ? data.item.otroProveedor
+                            : data.item.valueProveedor === 'Propio'
+                            ? props.nombrecomercio
+                            : data.item.valueProveedor === 'Todos'
+                            ? data.item.valueProveedor + ' los Bancos'
+                            : data.item.valueProveedor}
+                        </Text>
+                      </View>
+                    </View>
                   </View>
-                </View>
+                </TouchableOpacity>
               </View>
-              <View style={styles.circulos}>
-                <View style={styles.contCirculo}>
-                  <View style={styles.circulo} />
-                </View>
-                <Divider style={styles.divider} />
-                <View style={styles.contCirculo2}>
-                  <View style={styles.circuloEnd} />
-                </View>
-              </View>
-              <View style={styles.contenedorBoton}>
-                <View style={styles.textoValidar}>
-                  <Text style={styles.textoVal}>
-                    Validá tu cupón y sumá GreedyPoints
-                  </Text>
-                  <TextInput
-                    style={styles.inputCodigoVal}
-                    mode="flat"
-                    label="Ingresá tu código"
-                    required
-                    underlineColor={colors.naranja}
-                    onBlur={() => {
-                      codigoValidator;
-                    }}
-                    onChangeText={handleChangeCodigo}
-                    error={errorCupon}
-                    value={codigo}
-                  />
-                  <Text style={styles.errorVal}>{errorCupon}</Text>
-                </View>
-                <View style={styles.botones}>
-                  <Button
-                    mode="outlined"
-                    style={styles.botonValidar}
-                    labelStyle={{ fontSize: 18, color: colors.white }}
-                    onPress={showDialogValidar}
-                  >
-                    Validar
-                  </Button>
-                  <IconButton
-                    icon="trash-can-outline"
-                    color={colors.error}
-                    style={{
-                      backgroundColor: '#f2dede',
-                    }}
-                    size={25}
-                    onPress={() => console.log('Pressed')}
-                  />
-                </View>
-              </View>
-              <Portal>
-                <Dialog visible={visible}>
-                  <Dialog.Title>Validar cupón</Dialog.Title>
-                  <Dialog.Content style={{ marginBottom: -10 }}>
-                    <Paragraph style={{ fontSize: 17 }}>
-                      Contanos como fue tu experiencia de compra en NombreTienda
-                      para finalizar la validación y sumar tus GreedyPoints.
-                    </Paragraph>
-                    <AirbnbRating
-                      count={5}
-                      defaultRating={3}
-                      reviews={[
-                        'Mala',
-                        'Regular',
-                        'Buena',
-                        'Muy Buena',
-                        'Excelente',
-                      ]}
-                    />
-                  </Dialog.Content>
-                  <Dialog.Actions style={{ marginRight: 8 }}>
-                    <Button
-                      onPress={() => {
-                        props.navigation.navigate('ValidacionGreedyPoints1');
-                        setVisible(false);
-                        setVisible1(false);
-                      }}
-                      style={{ fontSize: 17 }}
-                    >
-                      Validar
-                    </Button>
-                  </Dialog.Actions>
-                </Dialog>
-              </Portal>
+            </TouchableWithoutFeedback>
+          )}
+        />
+      ) : (
+        <View style={styles.contenedor}>
+          <Image
+            style={styles.image}
+            source={require('../../multimedia/no-promociones.png')}
+          />
+          <Text style={styles.text}>No tenés guardado ningún cupón.</Text>
+        </View>
+      )}
+      <TouchableWithoutFeedback
+        onPress={() => {
+          props.navigation.navigate('GreedyPointsInicio');
+        }}
+      >
+        <View style={styles.iconGP}>
+          <View style={styles.greedypoints}>
+            <View style={styles.titulo}>
+              <Text style={styles.puntos}>250</Text>
+            </View>
+            <View style={styles.letrasCont}>
+              <Text style={styles.lBlanca}>gre</Text>
+              <Text style={styles.lVerde}>edy</Text>
+              <Text style={styles.lNaranja}>Points</Text>
             </View>
           </View>
-        </ScrollView>
-      ) : null}
+        </View>
+      </TouchableWithoutFeedback>
+      {/* <View style={styles.iconGP}>
+        <TouchableOpacity style={styles.greedypoints}>
+          <View style={styles.titulo}>
+            <Text style={styles.letraBlanca}>gre</Text>
+            <Text style={styles.letraVerde}>edy</Text>
+          </View>
+          <View style={styles.points}>
+            <Text style={styles.letraNaranja}>Points</Text>
+          </View>
+        </TouchableOpacity>
+      </View> */}
+      {/* <FAB style={styles.fab} label="greedy Points" color={colors.white} /> */}
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#f3f3f3',
     flex: 1,
-    backgroundColor: colors.avatar,
+  },
+  scroll: {
+    flex: 1,
+  },
+  contenedor: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
   },
   content: {
-    backgroundColor: colors.avatar,
-    flex: 1,
-    marginTop: 30,
-    marginBottom: 30,
+    backgroundColor: '#f3f3f3',
+    marginTop: 23,
   },
   card: {
     backgroundColor: colors.white,
     borderRadius: 5,
-    marginLeft: 30,
-    marginRight: 30,
-    flex: 1,
+    marginLeft: 20,
+    marginRight: 20,
+    marginBottom: 4,
+    height: 110,
+    justifyContent: 'center',
     alignContent: 'center',
     elevation: 1,
-  },
-  contenido: {
-    flexDirection: 'column',
-    alignContent: 'center',
-    marginTop: 30,
-  },
-  contImagen: {
-    backgroundColor: 'transparent',
-    alignSelf: 'center',
-    height: 125,
-    width: 125,
-    borderRadius: 5,
-  },
-  texto: {
-    alignItems: 'center',
-    marginTop: 20,
-  },
-  titulo: {
-    marginBottom: 10,
-    fontSize: 25,
-  },
-  beneficio: {
-    color: colors.naranja,
-    marginTop: 5,
-    marginBottom: 15,
-    fontSize: 28,
-  },
-  validez: {
-    color: colors.black,
-    marginBottom: 2,
-    fontSize: 16,
-    textAlign: 'center',
-  },
-  textoSecundario: {
-    marginTop: 20,
-    alignContent: 'center',
-    marginLeft: 20,
-  },
-  validez1: {
-    color: colors.darkGrey,
-    marginTop: 15,
-    marginBottom: -15,
-    marginRight: 20,
-    marginLeft: 20,
-    fontSize: 16,
-    textAlign: 'center',
-  },
-  validez2: {
-    color: colors.black,
-    marginBottom: 3,
-    fontSize: 16,
-    marginRight: 39,
-  },
-  circulos: {
-    marginTop: 30,
   },
   contCirculo: {
     position: 'absolute',
     justifyContent: 'center',
   },
   circulo: {
-    height: 50,
-    width: 50,
-    backgroundColor: colors.avatar,
+    height: 40,
+    width: 40,
+    backgroundColor: '#f3f3f3',
     borderRadius: 100,
-    marginLeft: -25,
-  },
-  divider: {
-    backgroundColor: colors.grey,
-    height: 2,
-    marginLeft: 45,
-    marginRight: 45,
-    marginTop: 25,
+    marginLeft: -22,
   },
   contCirculo2: {
     position: 'absolute',
     alignSelf: 'flex-end',
   },
   circuloEnd: {
-    height: 50,
-    width: 50,
-    backgroundColor: colors.avatar,
+    height: 40,
+    width: 40,
+    backgroundColor: '#f3f3f3',
     borderRadius: 100,
-    marginRight: -25,
+    marginRight: -22,
   },
-  contenedorBoton: {
-    marginTop: 25,
-    marginBottom: 25,
+  contenido: {
+    flexDirection: 'row',
+    alignContent: 'center',
+    marginLeft: 15,
   },
-  botones: {
+  contImagen: {
+    marginLeft: 14,
+    marginRight: 20,
+    backgroundColor: 'transparent',
+    alignSelf: 'center',
+    height: 68,
+    width: 68,
+    borderRadius: 5,
+  },
+  divider: {
+    height: 100,
+    width: 2,
+    backgroundColor: colors.grey,
+    marginRight: 22,
+  },
+  texto: {
+    alignSelf: 'center',
+  },
+  beneficio: {
+    color: colors.naranja,
+    marginBottom: 5,
+    marginTop: -3,
+    fontSize: 23,
+  },
+  image: {
+    width: 350,
+    height: 350,
+  },
+  text: {
+    fontSize: 17,
+  },
+  iconGP: {
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    bottom: 0,
+  },
+  greedypoints: {
+    justifyContent: 'center',
+    width: 85,
+    height: 85,
+    backgroundColor: colors.azul,
+    borderRadius: 50,
+    elevation: 5,
+    shadowColor: colors.black,
+  },
+  titulo: {
     flexDirection: 'row',
     justifyContent: 'center',
+    width: '100%',
+    marginTop: -3,
+  },
+  letraBlanca: {
+    color: colors.white,
+    fontSize: 17,
+    fontFamily: 'Poppins-Regular',
+  },
+  letraVerde: {
+    color: colors.celeste,
+    fontSize: 17,
+    fontFamily: 'Poppins-Regular',
+  },
+  points: {
     alignItems: 'center',
-    marginLeft: 24,
-    marginRight: 24,
+    width: '100%',
+    marginTop: -4,
   },
-  botonValidar: {
-    backgroundColor: colors.naranja,
-    marginRight: 10,
-    width: '75%',
+  letraNaranja: {
+    color: colors.naranja,
+    fontSize: 19,
+    fontFamily: 'Poppins-Regular',
   },
-  textoValidar: {
-    marginTop: 20,
-    alignContent: 'center',
+  fab: {
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    bottom: 0,
+    backgroundColor: colors.azul,
   },
-  textoVal: {
-    color: colors.black,
-    marginBottom: 2,
-    fontSize: 16,
-    textAlign: 'center',
+  letrasCont: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    width: '100%',
+    marginTop: -7,
   },
-  inputCodigoVal: {
-    marginLeft: 24,
-    marginRight: 24,
-    marginBottom: 7,
-    marginTop: 7,
-    height: 55,
-    fontSize: 18,
-    backgroundColor: colors.grey,
+  puntos: {
+    color: colors.white,
+    fontSize: 25,
+    fontFamily: 'Poppins-Regular',
   },
-  errorVal: {
-    color: '#af1a1a',
-    top: -5,
-    marginLeft: 25,
-    marginRight: 20,
+  lBlanca: {
+    color: colors.white,
+    fontSize: 12,
+    fontFamily: 'Poppins-Regular',
+  },
+  lVerde: {
+    color: colors.celeste,
+    fontSize: 12,
+    fontFamily: 'Poppins-Regular',
+  },
+  lNaranja: {
+    color: colors.naranja,
+    fontSize: 12,
+    fontFamily: 'Poppins-Regular',
   },
 });
 
@@ -418,4 +363,10 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(Cupones);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    eliminarCupon: (id, idCupon) => dispatch(eliminarCupon(id, idCupon)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cupones);

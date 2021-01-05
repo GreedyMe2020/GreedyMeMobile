@@ -1,13 +1,5 @@
 import * as React from 'react';
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-  TouchableWithoutFeedback,
-  Platform,
-  Keyboard,
-} from 'react-native';
+import { StyleSheet, StatusBar, View, TouchableOpacity } from 'react-native';
 import { IconButton } from 'react-native-paper';
 import { SearchBar } from 'react-native-elements';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -62,28 +54,30 @@ function BarraSup(props) {
   }, [props.comercios, comercios]);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.searchcont}>
-        <SearchBar
-          placeholder="Buscar comercio"
-          onChangeText={props.onChangeText}
-          value={props.texto}
-          inputContainerStyle={{
-            backgroundColor: '#F6F8F7',
-            borderRadius: 100,
-            height: 40,
-          }}
-          containerStyle={styles.searchcontainer}
-          lightTheme
-          round
-        />
-        {/*<SearchBarBuscar
+    <SafeAreaView>
+      <View style={styles.container}>
+        <View style={styles.searchcont}>
+          <SearchBar
+            placeholder="Buscar comercio"
+            onChangeText={props.onChangeText}
+            value={props.texto}
+            inputContainerStyle={{
+              backgroundColor: '#F6F8F7',
+              borderRadius: 100,
+              height: 40,
+            }}
+            containerStyle={styles.searchcontainer}
+            lightTheme
+            round
+          />
+          {/*<SearchBarBuscar
           navigation={props.navigation}
           styleContainer={styles.searchcontainer}
           //onChangeText={props.onChangeText}
           onChangeSearch={onChangeSearch}
           searchQuery={searchQuery}
         />*/}
+        </View>
       </View>
       <View style={styles.separador}></View>
       <View style={styles.ico}>
@@ -116,14 +110,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     flexDirection: 'row',
-    height: 90,
+    //height: 90,
   },
   searchcont: {
     marginLeft: 10,
     flex: 3,
+    //justifyContent: 'center',
   },
   separador: {
     flex: 0.1,
+  },
+  ico: {
+    flexDirection: 'row',
+    flex: 1.2,
+    marginRight: 10,
+    //justifyContent: 'center',
   },
   searchcontainer: {
     backgroundColor: colors.azul,
@@ -132,11 +133,8 @@ const styles = StyleSheet.create({
     borderBottomColor: 'transparent',
     borderTopColor: 'transparent',
     color: colors.black,
-  },
-  ico: {
-    flexDirection: 'row',
-    flex: 1.2,
-    marginRight: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   ubicacion: {
     alignItems: 'center',

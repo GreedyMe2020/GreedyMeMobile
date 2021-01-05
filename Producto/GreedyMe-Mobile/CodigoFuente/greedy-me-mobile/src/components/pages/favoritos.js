@@ -3,7 +3,6 @@ import {
   StyleSheet,
   StatusBar,
   View,
-  Text,
   SafeAreaView,
   ScrollView,
 } from 'react-native';
@@ -81,13 +80,7 @@ const styles = StyleSheet.create({
     color: colors.black,
   },
 });
-/*const styles = StyleSheet.create({
-  contenedor: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-  },
-});*/
+
 const mapStateToProps = (state) => {
   return {
     auth: state.firebase.auth,

@@ -24,7 +24,7 @@ function ValidacionGreedyPoints1(props) {
         </View>
         <TouchableWithoutFeedback>
           <View style={styles.cat}>
-            <TouchableOpacity style={styles.categorias}>
+            <View style={styles.categorias}>
               <Text style={styles.textoSumaste}>Sumaste</Text>
               <Text style={styles.texto}>10</Text>
               <View style={styles.titulo}>
@@ -32,7 +32,7 @@ function ValidacionGreedyPoints1(props) {
                 <Text style={styles.letraVerde}>edy</Text>
                 <Text style={styles.letraNaranja}>Points</Text>
               </View>
-            </TouchableOpacity>
+            </View>
           </View>
         </TouchableWithoutFeedback>
         <View style={styles.sumaExtra}>

@@ -102,6 +102,7 @@ export const guardarCupon = (idUsuario, datos, comercio, sucursal) => {
       .collection('cupones')
       .doc()
       .set({
+        idBeneficio: datos.id,
         tipoPromo: datos.tipoPromo,
         valuePromo: datos.valuePromo,
         otraPromo: datos.otraPromo,
@@ -126,14 +127,51 @@ export const guardarCupon = (idUsuario, datos, comercio, sucursal) => {
   };
 };
 
-export const setearFavorito = () => {
+export const eliminarCupon = (idUsuario, id) => {
   return (dispatch, getState, { getFirestore }) => {
-    dispatch({ type: 'SETEAR_FAVORITO' });
+    const firestore = getFirestore();
+    firestore
+      .collection('usuarioConsumidor')
+      .doc(idUsuario)
+      .collection('cupones')
+      .doc(id)
+      .delete()
+      .then(() => {
+        dispatch({ type: 'ELIMINAR_CUPON' });
+      })
+      .catch((error) => {
+        dispatch({ type: 'ERROR_ELIMINAR_CUPON', error });
+      });
   };
 };
 
-export const guardarComerciosEnRedux = (comercios) => {
+/*export const validarCupon = (idCupon) => {
   return (dispatch, getState, { getFirestore }) => {
-    dispatch({ type: 'LISTA_COMERCIOS', comercios });
+    
+    firestore
+      .collection('usuarioConsumidor')
+      .doc(idUsuario)
+      .collection('cupones')
+      .doc(id)
+      .delete()
+      .then(() => {
+        dispatch({ type: 'ELIMINAR_CUPON' });
+      })
+      .catch((error) => {
+        dispatch({ type: 'ERROR_ELIMINAR_CUPON', error });
+      });
+  };
+};*/
+
+
+export const guardarComerciosRedux = (comerciosRedux) => {
+  return (dispatch, getState, { getFirestore }) => {
+    dispatch({ type: 'LISTA_COMERCIOS_EN_REDUX', comerciosRedux });
   };
 };
+
+/*export const setearFavorito = () => {
+  return (dispatch, getState, { getFirestore }) => {
+    dispatch({ type: 'SETEAR_FAVORITO' });
+  };
+};*/

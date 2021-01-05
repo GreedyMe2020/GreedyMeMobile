@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, TextInput, Snackbar } from 'react-native-paper';
+import { TextInput, Snackbar } from 'react-native-paper';
 import {
   View,
   StyleSheet,
@@ -16,7 +16,6 @@ import {
 } from '../../../redux/actions/auth-actions';
 import { colors } from '../../styles/colores';
 import ButtonEj from '../button';
-import { NavigationContainer } from '@react-navigation/native';
 
 function OlvideContraseña(props) {
   //Estados para manejar los datos del email y la validacion del mismo
