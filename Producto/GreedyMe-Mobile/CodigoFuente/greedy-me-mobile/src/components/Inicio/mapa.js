@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 import { colors } from '../../styles/colores';
 import SearchBarBuscar from '../buscador/search-bar-buscar';

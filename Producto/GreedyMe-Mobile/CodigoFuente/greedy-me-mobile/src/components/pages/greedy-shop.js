@@ -34,7 +34,7 @@ function GreedyShop(props) {
             }}
           />
           <List.Item
-            title="Ver historial de puntos"
+            title="Historial de canjes"
             style={styles.listItem}
             left={(props) => <List.Icon icon="file-document" color="#707070" />}
             right={(props) => (

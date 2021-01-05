@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, StatusBar, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { IconButton } from 'react-native-paper';
 import { SearchBar } from 'react-native-elements';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -70,32 +70,25 @@ function BarraSup(props) {
             lightTheme
             round
           />
-          {/*<SearchBarBuscar
-          navigation={props.navigation}
-          styleContainer={styles.searchcontainer}
-          //onChangeText={props.onChangeText}
-          onChangeSearch={onChangeSearch}
-          searchQuery={searchQuery}
-        />*/}
         </View>
-      </View>
-      <View style={styles.separador}></View>
-      <View style={styles.ico}>
-        <TouchableOpacity style={styles.ubicacion} activeOpacity={0.5}>
-          <IconButton
-            icon="map-marker-outline"
-            style={styles.image}
-            color="black"
-            onPress={() => {
-              props.navigation.navigate('Mapa', {
-                comercios: listaComercios,
-              });
-            }}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.notificacion} activeOpacity={0.5}>
-          <IconButton icon="bell-outline" color="black" />
-        </TouchableOpacity>
+        <View style={styles.separador} />
+        <View style={styles.ico}>
+          <TouchableOpacity style={styles.ubicacion} activeOpacity={0.5}>
+            <IconButton
+              icon="map-marker-outline"
+              style={styles.image}
+              color="black"
+              onPress={() => {
+                props.navigation.navigate('Mapa', {
+                  comercios: listaComercios,
+                });
+              }}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.notificacion} activeOpacity={0.5}>
+            <IconButton icon="bell-outline" color="black" />
+          </TouchableOpacity>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -110,7 +103,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     flexDirection: 'row',
-    //height: 90,
   },
   searchcont: {
     marginLeft: 10,
