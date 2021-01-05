@@ -124,3 +124,15 @@ export const resetearValores = () => {
     dispatch({ type: 'RESETEAR_VALORES' });
   };
 };
+
+export const guardarGeolocalizacion = (location) => {
+  return (dispatch, getState, { getFirestore }) => {
+    dispatch({ type: 'SETEAR_GEO', location });
+  };
+};
+
+export const quitarGeolocalizacion = (geo) => {
+  return (dispatch, getState, { getFirestore }) => {
+    dispatch({ type: 'RESETEAR_GEO' });
+  };
+};

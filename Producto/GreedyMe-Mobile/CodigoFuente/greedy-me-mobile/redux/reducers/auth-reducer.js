@@ -118,7 +118,7 @@ const authReducer = (state = initState, action) => {
       console.log('ya no es nuevo usuario');
       return {
         ...state,
-        usuarioNuevo: 'FALSE',
+        usuarioNuevo: null,
       };
     default:
       return state;

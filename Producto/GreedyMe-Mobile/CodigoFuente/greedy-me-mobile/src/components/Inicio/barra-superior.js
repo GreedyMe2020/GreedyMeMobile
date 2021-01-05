@@ -14,10 +14,52 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { connect } from 'react-redux';
 import { colors } from '../../styles/colores';
 import SearchBarBuscar from '../buscador/search-bar-buscar';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import { Marker } from 'react-native-maps';
+import Geocoder from 'react-native-geocoding';
+
+Geocoder.init('AIzaSyBMSuKle9DYdzJxk9t2GPxL98Ms296DgLU');
 
 function BarraSup(props) {
   //const [searchQuery, setSearchQuery] = React.useState('');
   //const onChangeSearch = (searchQuery) => setSearchQuery(searchQuery);
+
+  //Recibo por props los datos de los comercios ya filtrados segun los proveedores asociados
+  const [comercios, setComercios] = React.useState(props.comercios);
+  //esta variable la voy a usar para guardar datos del comercio y ademas la lat y lng
+  const [listaComercios, setListaComercios] = React.useState([]);
+  const filtrarComercios = () => {
+    setListaComercios([]);
+    const comerciosCercanos = [];
+    //Recorro todos los comercios y pregunto si tienen direccion para obtener la lat y lng y poder ubicarlos en el mapa
+    comercios.forEach((comercio) => {
+      if (comercio.direccion != '') {
+        Geocoder.from(comercio.direccion)
+          .then((json) => {
+            //aca pido permiso a la API para guardar la lat y lng cuando le paso la direccion de un comercio
+            let location = json.results[0].geometry.location;
+            //guardo en un array de objetos, los datos de los comercios a mostrar en el mapa.
+            comerciosCercanos.push({
+              location: { latitude: location.lat, longitude: location.lng },
+              direccion: comercio.direccion,
+              nombre: comercio.nombreComercio,
+              sucursal: comercio.sucursal,
+              web: comercio.web,
+            });
+          })
+          .catch((error) => console.error('error al traer las coordenadas'));
+      }
+    });
+    //Guardo todos los comercios que pude encontrar su ubicacion (porque algunos no tienen direccion)
+    setListaComercios(comerciosCercanos);
+  };
+
+  React.useEffect(() => {
+    setComercios(props.comercios);
+    if (comercios !== 'null' && comercios !== null && comercios !== []) {
+      filtrarComercios();
+    }
+  }, [props.comercios, comercios]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -52,7 +94,7 @@ function BarraSup(props) {
             color="black"
             onPress={() => {
               props.navigation.navigate('Mapa', {
-                data: props.comercios,
+                comercios: listaComercios,
               });
             }}
           />
