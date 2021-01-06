@@ -27,7 +27,8 @@ function IniciarSesion(props) {
     props.setearDesLogeo('False');
   }
   if (props.auth.uid) {
-    props.navigation.navigate('Main');
+    //POR SI SE ROMPE ALGUN INICIO DE SESION ES ESTO
+    //props.navigation.navigate('Main');
   }
   if (props.usuarioNuevo) {
     props.navigation.navigate('ProveedoresLogin');

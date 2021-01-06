@@ -7,6 +7,8 @@ const initState = {
   proveedorError: null,
   notificaciones: null,
   notificacionesError: null,
+  permisoGeo: null,
+  location: null,
 };
 
 const userReducer = (state = initState, action) => {
@@ -72,7 +74,21 @@ const userReducer = (state = initState, action) => {
         contra: null,
         contraError: null,
       };
-
+    case 'SETEAR_GEO':
+      console.log('Se guardó la geolocalización');
+      console.log(action.location);
+      return {
+        ...state,
+        location: action.location,
+        permisoGeo: 'TRUE',
+      };
+    case 'RESETEAR_GEO':
+      console.log('Se quitó la geolocalización');
+      return {
+        ...state,
+        location: null,
+        permisoGeo: null,
+      };
     default:
       return state;
   }

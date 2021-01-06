@@ -7,7 +7,6 @@ import { connect } from 'react-redux';
 import { editarProveedores } from '../../../redux/actions/user-actions';
 import firebaseapp from '../../../firebase/config';
 import { colors } from '../../styles/colores';
-import { setNuevoUsuarioFalse } from '../../../redux/actions/auth-actions';
 
 const firestore = firebaseapp.firestore();
 const items = [];
@@ -171,6 +170,7 @@ const mapStateToProps = (state) => {
   return {
     auth: state.firebase.auth,
     profile: state.firebase.profile,
+    logeo: state.auth.logeo,
   };
 };
 

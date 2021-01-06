@@ -10,6 +10,7 @@ import {
 import { Divider } from 'react-native-paper';
 import _ from 'lodash';
 import * as Location from 'expo-location';
+import * as Permissions from 'expo-permissions';
 import { LogBox } from 'react-native';
 import { connect } from 'react-redux';
 import CardComercio from '../Inicio/card-comercio';
@@ -25,8 +26,10 @@ import {
 } from '../../../redux/actions/comercio-actions';
 import {
   setearLogeo,
-  setNuevoUsuarioFalse,
+  setNuevoUsuario,
 } from '../../../redux/actions/auth-actions';
+
+import { guardarGeolocalizacion } from '../../../redux/actions/user-actions';
 
 //Obtengo todos los comercios que en un principio solo deberian estar los que tienen proveedor de servicio del usuario
 const firestore = firebaseapp.firestore();
@@ -69,10 +72,33 @@ LogBox.ignoreAllLogs();
 function Inicio(props) {
   if (props.logeo) {
     props.setearLogeo('False');
-    props.setNuevoUsuarioFalse();
   }
+
+  //funcion para pedir permiso de ubicacion cuando abre por primera vez (usuario nuevo)
+
+  //Necesito ponerla acá porque creo que se renderiza de arriba hacia abajo (conclusión mia) y
+  // si la meto abajo del if en el bloque de código que sigue no me funca
+
+  const getLocation = async () => {
+    //if props.location then nada
+    const { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== 'granted') {
+      //Se rechazó el permiso para geolocalizacion
+      console.log('El permiso para acceder a la ubicación fue denegado');
+    } else {
+      const location = await Location.getCurrentPositionAsync();
+      props.guardarGeolocalizacion(location);
+      props.setNuevoUsuario('False');
+    }
+  };
+
+  //DE ESTE IFF
+  if (props.usuarioNuevo !== null) {
+    console.log(props.usuarioNuevo);
+    getLocation();
+  }
+
   //estados para el permiso de ubicacion
-  const [estadoGeo, setEstadoGeo] = React.useState(null);
   const [errorMsgGeo, setErrorMsgGeo] = React.useState(null);
   //estado lista comercios
   const [listaComercios, setListaComercios] = React.useState(null);
@@ -171,19 +197,6 @@ function Inicio(props) {
     setText(texto);
   };
 
-  //use effect para pedir permiso de ubicacion cuando abre por primera vez
-  React.useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestPermissionsAsync();
-      if (status !== 'granted') {
-        setErrorMsgGeo('El permiso para acceder a la ubicación fue denegado');
-        setEstadoGeo(status);
-      } else {
-        setEstadoGeo(status);
-      }
-    })();
-  }, []);
-
   /*const obtenerDatosComercio = React.useCallback(({ comercios }) => {
     //setListaComercios(comercios);
   }, []);*/
@@ -222,7 +235,11 @@ function Inicio(props) {
 
   React.useEffect(() => {
     setProveedores(props.profile.proveedoresAsociados);
-    filtrar(proveedores);
+    if (proveedores) {
+      filtrar(proveedores);
+    } else {
+      console.error('No hay proveedores');
+    }
     /*if (props.profile.proveedoresAsociados) {
       setProveedores(props.profile.proveedoresAsociados);
       filtrar(proveedores);
@@ -322,16 +339,23 @@ const mapStateToProps = (state) => {
     profile: state.firebase.profile,
     favoritos: state.comercio.favoritos,
     logeo: state.auth.logeo,
+    usuarioNuevo: state.auth.usuarioNuevo,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    guardarGeolocalizacion: (location) =>
+      dispatch(guardarGeolocalizacion(location)),
+    //quitarGeolocalizacion: () => dispatch(quitarGeolocalizacion()),
+
     agregarComercioFavorito: (comercio, favorito) =>
       dispatch(agregarComercioFavorito(comercio, favorito)),
 
     setearLogeo: (flag) => dispatch(setearLogeo(flag)),
-    setNuevoUsuarioFalse: () => setNuevoUsuarioFalse(),
+
+    setNuevoUsuario: (flag) => dispatch(setNuevoUsuario(flag)),
+    guardarComerciosEnRedux: (comercios) => guardarComerciosEnRedux(comercios),
   };
 };
 

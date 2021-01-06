@@ -23,6 +23,10 @@ import Validarcupones from '../mis cupones/validar-cupones';
 import { connect } from 'react-redux';
 import ValidacionGreedyPoints1 from '../encuesta/validarGP';
 import EncuestaExtraGP from '../encuesta/encuesta-extraGP';
+import GreedyShop from '../pages/greedy-shop';
+import GreedyShopCanje from '../greedypoints/greedy-canje';
+import GreedyShopHistorial from '../greedypoints/greedy-historial';
+import ProductoACanjear from '../greedypoints/producto-canjear';
 
 //Funcion para determinar el color del header del componente
 // Main a partir del nombre de la ruta obtenida.
@@ -247,6 +251,62 @@ function NavegadorPrincipal(props) {
               options={{
                 title: 'Encuesta',
                 headerLeft: null,
+                headerShown: true,
+                headerTintColor: 'white',
+                headerStyle: {
+                  backgroundColor: '#1E1B4D',
+                },
+                animationEnabled: false,
+                gestureDirection: 'horizontal',
+              }}
+            />
+            <Stack.Screen
+              name="GreedyPointsInicio"
+              component={GreedyShop}
+              options={{
+                title: 'GreedyPoints',
+                headerShown: true,
+                headerTintColor: 'white',
+                headerStyle: {
+                  backgroundColor: '#1E1B4D',
+                },
+                animationEnabled: false,
+                gestureDirection: 'horizontal',
+              }}
+            />
+            <Stack.Screen
+              name="CanjearPuntos"
+              component={GreedyShopCanje}
+              options={{
+                title: 'GreedyShop',
+                headerShown: true,
+                headerTintColor: 'white',
+                headerStyle: {
+                  backgroundColor: '#1E1B4D',
+                },
+                animationEnabled: false,
+                gestureDirection: 'horizontal',
+              }}
+            />
+            <Stack.Screen
+              name="HistorialPuntos"
+              component={GreedyShopHistorial}
+              options={{
+                title: 'Historial de GreedyPoints',
+                headerShown: true,
+                headerTintColor: 'white',
+                headerStyle: {
+                  backgroundColor: '#1E1B4D',
+                },
+                animationEnabled: false,
+                gestureDirection: 'horizontal',
+              }}
+            />
+            <Stack.Screen
+              name="ProductoACanjear"
+              component={ProductoACanjear}
+              options={{
+                title: 'Producto a canjear',
                 headerShown: true,
                 headerTintColor: 'white',
                 headerStyle: {

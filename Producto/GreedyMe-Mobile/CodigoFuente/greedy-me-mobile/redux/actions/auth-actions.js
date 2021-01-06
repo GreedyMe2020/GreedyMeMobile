@@ -220,8 +220,12 @@ export const setearValidacionMail = () => {
   };
 };
 
-export const setNuevoUsuarioFalse = () => {
+export const setNuevoUsuario = (flag) => {
   return (dispatch, getState, { getFirestore }) => {
-    dispatch({ type: 'NUEVO_USUARIO_FALSE' });
+    if (flag === 'True') {
+      dispatch({ type: 'NUEVO_USUARIO_TRUE' });
+    } else {
+      dispatch({ type: 'NUEVO_USUARIO_FALSE' });
+    }
   };
 };
