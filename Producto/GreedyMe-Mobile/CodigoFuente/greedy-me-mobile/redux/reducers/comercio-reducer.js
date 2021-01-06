@@ -5,6 +5,8 @@ const initState = {
   errorCupon: null,
   eliminarCupon: null,
   errorEliminarCupon: null,
+  validarCupon: null,
+  errorValidarCupon: null,
   comerciosRedux: null,
 };
 
@@ -46,11 +48,17 @@ const comercioReducer = (state = initState, action) => {
         ...state,
         errorEliminarCupon: 'Ocurrió algún error al eliminar cupon',
       };
-    case 'LISTA_COMERCIOS_EN_REDUX':
-      console.log('Seteo los comercios padre');
+    case 'VALIDAR_CUPON':
+      console.log('Cupon validado');
       return {
         ...state,
-        comerciosRedux: action.comerciosRedux,
+        validarCupon: 'Se valido el cupon',
+      };
+    case 'ERROR_VALIDAR_CUPON':
+      console.log('Error al validar cupon');
+      return {
+        ...state,
+        errorValidarCupon: 'Ocurrió algún error al validar cupon',
       };
     default:
       return state;

@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { colors } from '../../styles/colores';
-import firebaseapp from '../../../firebase/config';
 import { format } from 'date-fns';
 import { AirbnbRating } from 'react-native-elements';
 import {
@@ -23,11 +22,9 @@ import {
   TextInput,
 } from 'react-native-paper';
 import firebaseSecondary from '../../../firebase/config-secondary';
+import { validaCupon } from '../../../redux/actions/comercio-actions';
 
-//Variable que contiene un codigo de prueba para comparar con el del input del cupon
-//const CODIGO_VALIDAR = 'ABCDEF';
-
-function Cupones(props) {
+function Cupon(props) {
   //estados para manejar los dialog que se abren de la primer encuesta
   const [visible, setVisible] = React.useState(false);
 
@@ -41,7 +38,6 @@ function Cupones(props) {
   const [codigo, setCodigo] = React.useState(null);
   //estado que donde se guardan la lista de codigos a validar
   const [listaCodigos, setListaCodigos] = React.useState([]);
-
   //use effect que trae los codigos para validar
   React.useEffect(() => {
     const obtenerCodigos = async () => {
@@ -56,7 +52,6 @@ function Cupones(props) {
           ...doc.data(),
         }));
         setListaCodigos(arrayCodigos);
-        console.log(arrayCodigos);
       } catch (error) {
         console.log(error);
       }
@@ -70,14 +65,20 @@ function Cupones(props) {
   };
   //funcion que valida el codigo
   const handleSubmit = () => {
+    let contador = 0;
+    let idValidacion = null;
     listaCodigos.forEach((cod) => {
       if (cod.codigo === codigo && cod.idCupon === data.item.idBeneficio) {
-        console.log('claro');
-        showDialog();
-      } else {
-        console.log('error');
+        contador += 1;
+        idValidacion = cod.id;
       }
     });
+    if (contador > 0){
+      showDialog();
+      props.validaCupon(props.auth.uid, data.item.id, idValidacion);
+    } else {
+      console.log('pqe');
+    }
   };
 
   const { data } = props.route.params;
@@ -223,7 +224,7 @@ function Cupones(props) {
                   <Dialog.Content style={{ marginBottom: -10 }}>
                     <Paragraph style={{ fontSize: 17 }}>
                       {'Contános como fue tu experiencia de compra en ' +
-                        props.nombrecomercio +
+                        data.item.nombreComercio +
                         ' para finalizar la validación y sumar tus GreedyPoints.'}
                     </Paragraph>
                     <AirbnbRating
@@ -405,4 +406,11 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(Cupones);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    validaCupon: (idUsuario, idCupon, idValidacion) =>
+      dispatch(validaCupon(idUsuario, idCupon, idValidacion)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cupon);
