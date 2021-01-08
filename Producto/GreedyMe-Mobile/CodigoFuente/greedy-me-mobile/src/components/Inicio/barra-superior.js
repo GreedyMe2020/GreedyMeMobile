@@ -20,6 +20,8 @@ function BarraSup(props) {
   const [comercios, setComercios] = React.useState(props.comercios);
   //esta variable la voy a usar para guardar datos del comercio y ademas la lat y lng
   const [listaComercios, setListaComercios] = React.useState([]);
+  //esta variable la uso para guardar la ubicación del usuario si es que la tiene activada
+
   const filtrarComercios = () => {
     setListaComercios([]);
     const comerciosCercanos = [];
@@ -157,6 +159,7 @@ const mapStateToProps = (state) => {
   return {
     auth: state.firebase.auth,
     profile: state.firebase.profile,
+    permisoGeo: state.user.permisoGeo,
   };
 };
 
