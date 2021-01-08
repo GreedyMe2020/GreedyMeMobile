@@ -121,3 +121,34 @@ export const validaCupon = (idUsuario, idCupon, idValidacion) => {
       });
   };
 };
+
+export const sumarGreedyPoints = (
+  idUsuarioConsumidor,
+  idUsuarioComercio,
+  rating,
+) => {
+  return (dispatch, getState, { getFirestore }) => {
+    const firestore = getFirestore();
+    const increment = firestore.FieldValue.increment(1);
+    const increment2 = firestore.FieldValue.increment(10);
+    const increment3 = firestore.FieldValue.increment(rating);
+    firestore
+      .collection('usuarioConsumidor')
+      .doc(idUsuarioConsumidor)
+      .update({ greedyPoints: increment2 });
+    firestore
+      .collection('usuarioComercio')
+      .doc(idUsuarioComercio)
+      .update({ contadorPreguntas: increment, sumadorPreguntas: increment3 });
+    const bd = secondaryApp.firestore();
+    bd.collection('usuarioComercio')
+      .doc(idUsuarioComercio)
+      .update({ contadorPreguntas: increment, sumadorPreguntas: increment3 })
+      .then(() => {
+        dispatch({ type: 'SUMAR_GREEDY_POINTS' });
+      })
+      .catch((error) => {
+        dispatch({ type: 'ERROR_GREEDY_POINTS', error });
+      });
+  };
+};

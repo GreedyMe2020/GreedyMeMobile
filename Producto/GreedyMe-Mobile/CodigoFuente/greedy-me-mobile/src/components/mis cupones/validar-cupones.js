@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import { colors } from '../../styles/colores';
 import { format } from 'date-fns';
-import { AirbnbRating } from 'react-native-elements';
+import { Rating, AirbnbRating } from 'react-native-elements';
 import {
   ScrollView,
   StyleSheet,
@@ -20,11 +20,12 @@ import {
   Button,
   Title,
   Paragraph,
+  Snackbar,
   Divider,
   TextInput,
 } from 'react-native-paper';
 import firebaseSecondary from '../../../firebase/config-secondary';
-import { validaCupon } from '../../../redux/actions/comercio-actions';
+import { validaCupon, sumarGreedyPoints } from '../../../redux/actions/comercio-actions';
 
 function Cupon(props) {
   //estados para manejar los dialog que se abren de la primer encuesta
@@ -34,12 +35,19 @@ function Cupon(props) {
 
   const hideDialog = () => setVisible(false);
 
-  //estado que contiene el mensaje de error en la validacion del cupon
-  const [errorCupon, setErrorCupon] = React.useState('');
+  //estado del mensaje de error
+  const [mensajeError, setMensajeError] = React.useState(false);
   //estado que maneja el contenido del input de validacion
   const [codigo, setCodigo] = React.useState(null);
   //estado que donde se guardan la lista de codigos a validar
   const [listaCodigos, setListaCodigos] = React.useState([]);
+  //estado para el rating pa
+  const [rating, setRating] = React.useState(3);
+
+  //funcion que maneja el rating (yo no manejo el rating, manejo un rolls royce)
+  function ratingCompleted(rating) {
+    setRating(rating);
+  }
   //use effect que trae los codigos para validar
   React.useEffect(() => {
     const obtenerCodigos = async () => {
@@ -60,6 +68,8 @@ function Cupon(props) {
     };
     obtenerCodigos();
   }, []);
+  //funcion para cerrar el mensaje de error
+  const onDismissSnackBar2 = () => setMensajeError(false);
 
   //funcion que asigna el valor del input de validacion en el estado cupon
   const handleChangeCodigo = (codigo) => {
@@ -75,11 +85,12 @@ function Cupon(props) {
         idValidacion = cod.id;
       }
     });
-    if (contador > 0){
+    if (contador > 0) {
       showDialog();
+      //agregar para que se guarde em cupones usados.
       props.validaCupon(props.auth.uid, data.item.id, idValidacion);
     } else {
-      console.log('pqe');
+      setMensajeError(true);
     }
   };
 
@@ -227,6 +238,22 @@ function Cupon(props) {
                   >
                     Validar
                   </Button>
+                  {mensajeError ? (
+                    <Snackbar
+                      visible={mensajeError}
+                      onDismiss={onDismissSnackBar2}
+                      theme={{ colors: { accent: 'white' } }}
+                      action={{
+                        label: 'OK',
+                        onPress: () => {
+                          onDismissSnackBar2;
+                        },
+                      }}
+                      style={styles.snackbar2}
+                    >
+                      Código inválido, ingrésalo nuevamente.
+                    </Snackbar>
+                  ) : null}
                 </View>
                 <Portal>
                   <Dialog visible={visible} onDismiss={hideDialog}>
@@ -234,12 +261,13 @@ function Cupon(props) {
                     <Dialog.Content style={{ marginBottom: -10 }}>
                       <Paragraph style={{ fontSize: 17 }}>
                         {'Contános como fue tu experiencia de compra en ' +
-                          props.nombrecomercio +
+                          data.item.nombreComercio +
                           ' para finalizar la validación y sumar tus GreedyPoints.'}
                       </Paragraph>
                       <AirbnbRating
                         count={5}
                         defaultRating={3}
+                        onFinishRating={ratingCompleted}
                         reviews={[
                           'Mala',
                           'Regular',
@@ -254,6 +282,12 @@ function Cupon(props) {
                         onPress={() => {
                           props.navigation.navigate('ValidacionGreedyPoints1');
                           setVisible(false);
+                          sumarGreedyPoints(
+                            props.auth.uid,
+                            data.item.id,
+                            rating,
+                          );
+                          console.log(rating);
                         }}
                         style={{ fontSize: 17 }}
                       >
@@ -408,6 +442,10 @@ const styles = StyleSheet.create({
     color: '#af1a1a',
     top: -8,
   },
+  snackbar2: {
+    alignSelf: 'flex-end',
+    backgroundColor: colors.error,
+  },
 });
 
 const mapStateToProps = (state) => {
@@ -421,6 +459,10 @@ const mapDispatchToProps = (dispatch) => {
   return {
     validaCupon: (idUsuario, idCupon, idValidacion) =>
       dispatch(validaCupon(idUsuario, idCupon, idValidacion)),
+    sumarGreedyPoints: (idUsuarioConsumidor, idUsuarioComercio, rating) =>
+      dispatch(
+        sumarGreedyPoints(idUsuarioConsumidor, idUsuarioComercio, rating),
+      ),
   };
 };
 
