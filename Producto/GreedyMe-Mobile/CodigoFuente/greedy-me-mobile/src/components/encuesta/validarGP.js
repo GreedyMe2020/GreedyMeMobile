@@ -13,6 +13,10 @@ import { colors } from '../../styles/colores';
 import { Button } from 'react-native-paper';
 
 function ValidacionGreedyPoints1(props) {
+  //Traigo la info del beneficio y se la asigno a la variable data,
+  //y los datos del comercio a las otras variables:
+  const { data } = props.route.params;
+
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -49,7 +53,9 @@ function ValidacionGreedyPoints1(props) {
             style={styles.botonContestar}
             labelStyle={{ fontSize: 18, color: colors.white }}
             onPress={() => {
-              props.navigation.navigate('EncuestaExtraGP');
+              props.navigation.navigate('EncuestaExtraGP', {
+                data: data,
+              });
             }}
           >
             Contestar

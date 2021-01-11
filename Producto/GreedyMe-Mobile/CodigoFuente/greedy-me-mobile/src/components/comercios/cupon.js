@@ -62,7 +62,7 @@ function Cupon(props) {
       }
     });
     if (contador === 0) {
-      props.guardarCupon(props.auth.uid, data.item, comercio, sucursal);
+      props.guardarCupon(props.auth.uid, data.item, comercio, sucursal, id);
       cupones.push({
         idBeneficio: data.item.id,
         tipoPromo: data.item.tipoPromo,
@@ -79,6 +79,7 @@ function Cupon(props) {
         medioPago: data.item.medioPago,
         nombreComercio: comercio,
         sucursal: sucursal,
+        idComercio: id,
       });
       setMensajeCorrecto(true);
     } else {
@@ -87,7 +88,7 @@ function Cupon(props) {
   };
   //Traigo la info del beneficio y se la asigno a la variable data,
   //y los datos del comercio a las otras variables:
-  const { data, sucursal, comercio, fotocomercio } = props.route.params;
+  const { data, sucursal, comercio, fotocomercio, id } = props.route.params;
 
   //Estado para abrir o cerrar el snackbar de guardado
   const [guardado, setGuardado] = React.useState(false);
@@ -420,8 +421,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    guardarCupon: (idUsuario, datos, comercio, sucursal) =>
-      dispatch(guardarCupon(idUsuario, datos, comercio, sucursal)),
+    guardarCupon: (idUsuario, datos, comercio, sucursal, id) =>
+      dispatch(guardarCupon(idUsuario, datos, comercio, sucursal, id)),
   };
 };
 

@@ -168,7 +168,7 @@ function Cupones(props) {
         <View style={styles.iconGP}>
           <View style={styles.greedypoints}>
             <View style={styles.titulo}>
-              <Text style={styles.puntos}>250</Text>
+              <Text style={styles.puntos}>{props.profile.greedyPoints}</Text>
             </View>
             <View style={styles.letrasCont}>
               <Text style={styles.lBlanca}>gre</Text>

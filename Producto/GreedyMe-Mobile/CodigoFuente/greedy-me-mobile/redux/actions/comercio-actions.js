@@ -46,7 +46,7 @@ export const eliminarComercioFavorito = (idUsuario, idComercio) => {
   };
 };
 
-export const guardarCupon = (idUsuario, datos, comercio, sucursal) => {
+export const guardarCupon = (idUsuario, datos, comercio, sucursal, id) => {
   return (dispatch, getState, { getFirestore }) => {
     const firestore = getFirestore();
     firestore
@@ -70,6 +70,7 @@ export const guardarCupon = (idUsuario, datos, comercio, sucursal) => {
         medioPago: datos.medioPago,
         nombreComercio: comercio,
         sucursal: sucursal,
+        idComercio: id,
       })
       .then(() => {
         dispatch({ type: 'GUARDAR_CUPON' });
@@ -149,6 +150,52 @@ export const sumarGreedyPoints = (
       })
       .catch((error) => {
         dispatch({ type: 'ERROR_GREEDY_POINTS', error });
+      });
+  };
+};
+
+export const sumarGreedyPointsEncuesta = (
+  idUsuarioConsumidor,
+  idUsuarioComercio,
+  value,
+  value1,
+  value2,
+  text,
+) => {
+  return (dispatch, getState, { getFirestore }) => {
+    const firestore = getFirestore();
+    const increment2 = firestore.FieldValue.increment(20);
+    firestore
+      .collection('usuarioConsumidor')
+      .doc(idUsuarioConsumidor)
+      .update({ greedyPoints: increment2 });
+    firestore
+      .collection('usuarioComercio')
+      .doc(idUsuarioComercio)
+      .collection('reseñas')
+      .doc()
+      .set({
+        utilizoBeneficio: value,
+        coincideLoEsperado: value1,
+        atencionVendedor: value2,
+        comentario: text,
+      });
+    const bd = secondaryApp.firestore();
+    bd.collection('usuarioComercio')
+      .doc(idUsuarioComercio)
+      .collection('reseñas')
+      .doc()
+      .set({
+        utilizoBeneficio: value,
+        coincideLoEsperado: value1,
+        atencionVendedor: value2,
+        comentario: text,
+      })
+      .then(() => {
+        dispatch({ type: 'ENCUESTA_GREEDY_POINTS' });
+      })
+      .catch((error) => {
+        dispatch({ type: 'ERROR_ENCUESTA', error });
       });
   };
 };

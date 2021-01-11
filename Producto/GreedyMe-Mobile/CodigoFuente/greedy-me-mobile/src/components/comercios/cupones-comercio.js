@@ -67,6 +67,7 @@ function CuponesComercio(props) {
                       sucursal: props.sucursalcomercio,
                       comercio: props.nombrecomercio,
                       fotocomercio: props.fotocomercio,
+                      id: props.idcomercio,
                     });
                   }}
                 >

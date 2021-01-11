@@ -12,22 +12,36 @@ import {
   Dialog,
   Portal,
   RadioButton,
+  Snackbar,
   TextInput,
 } from 'react-native-paper';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { colors } from '../../styles/colores';
+import { sumarGreedyPointsEncuesta } from '../../../redux/actions/comercio-actions';
 
 function EncuestaExtraGP(props) {
-  const [value, setValue] = React.useState('');
-  const [value1, setValue1] = React.useState('');
-  const [value2, setValue2] = React.useState('');
+  const [value, setValue] = React.useState('si');
+  const [value1, setValue1] = React.useState('si');
+  const [value2, setValue2] = React.useState('muybuena');
   const [text, setText] = React.useState('');
+  const [mensajeError, setMensajeError] = React.useState(false);
 
   //estados para manejar los dialog que se abren de la primer encuesta
   const [visible, setVisible] = React.useState(false);
-  const showDialogValidar = () => setVisible(true);
+  const showDialogValidar = () => {
+    if (text === '' || /^\s*$/.test(text)) {
+      setMensajeError(true);
+      return;
+    }
+    setVisible(true);
+  };
   const hideDialogValidar = () => setVisible(false);
+
+  const onDismissSnackBar2 = () => setMensajeError(false);
+  //Traigo la info del beneficio y se la asigno a la variable data,
+  //y los datos del comercio a las otras variables:
+  const { data } = props.route.params;
 
   return (
     <View style={styles.container}>
@@ -185,6 +199,14 @@ function EncuestaExtraGP(props) {
               <Dialog.Actions style={{ marginRight: 8 }}>
                 <Button
                   onPress={() => {
+                    props.sumarGreedyPointsEncuesta(
+                      props.auth.uid,
+                      data.item.idComercio,
+                      value,
+                      value1,
+                      value2,
+                      text,
+                    );
                     props.navigation.navigate('Inicio');
                   }}
                   style={{ fontSize: 20 }}
@@ -194,6 +216,22 @@ function EncuestaExtraGP(props) {
               </Dialog.Actions>
             </Dialog>
           </Portal>
+          {mensajeError ? (
+            <Snackbar
+              visible={mensajeError}
+              onDismiss={onDismissSnackBar2}
+              theme={{ colors: { accent: 'white' } }}
+              action={{
+                label: 'OK',
+                onPress: () => {
+                  onDismissSnackBar2;
+                },
+              }}
+              style={styles.snackbar2}
+            >
+              Debés dejar un comentario.
+            </Snackbar>
+          ) : null}
         </View>
       </ScrollView>
     </View>
@@ -312,4 +350,27 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(EncuestaExtraGP);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    sumarGreedyPointsEncuesta: (
+      idUsuarioConsumidor,
+      idUsuarioComercio,
+      value,
+      value1,
+      value2,
+      text,
+    ) =>
+      dispatch(
+        sumarGreedyPointsEncuesta(
+          idUsuarioConsumidor,
+          idUsuarioComercio,
+          value,
+          value1,
+          value2,
+          text,
+        ),
+      ),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(EncuestaExtraGP);

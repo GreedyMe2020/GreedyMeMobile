@@ -25,7 +25,10 @@ import {
   TextInput,
 } from 'react-native-paper';
 import firebaseSecondary from '../../../firebase/config-secondary';
-import { validaCupon, sumarGreedyPoints } from '../../../redux/actions/comercio-actions';
+import {
+  validaCupon,
+  sumarGreedyPoints,
+} from '../../../redux/actions/comercio-actions';
 
 function Cupon(props) {
   //estados para manejar los dialog que se abren de la primer encuesta
@@ -280,14 +283,15 @@ function Cupon(props) {
                     <Dialog.Actions style={{ marginRight: 8 }}>
                       <Button
                         onPress={() => {
-                          props.navigation.navigate('ValidacionGreedyPoints1');
-                          setVisible(false);
-                          sumarGreedyPoints(
+                          props.sumarGreedyPoints(
                             props.auth.uid,
-                            data.item.id,
+                            data.item.idComercio,
                             rating,
                           );
-                          console.log(rating);
+                          props.navigation.navigate('ValidacionGreedyPoints1', {
+                            data: data,
+                          });
+                          setVisible(false);
                         }}
                         style={{ fontSize: 17 }}
                       >

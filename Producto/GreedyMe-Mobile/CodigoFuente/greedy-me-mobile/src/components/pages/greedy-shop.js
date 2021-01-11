@@ -11,7 +11,7 @@ function GreedyShop(props) {
       <TouchableWithoutFeedback>
         <View style={styles.cat}>
           <View style={styles.categorias}>
-            <Text style={styles.texto}>250</Text>
+            <Text style={styles.texto}>{props.profile.greedyPoints}</Text>
             <View style={styles.titulo}>
               <Text style={styles.letraBlanca}>gre</Text>
               <Text style={styles.letraVerde}>edy</Text>
@@ -113,4 +113,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default GreedyShop;
+export default connect(mapStateToProps)(GreedyShop);

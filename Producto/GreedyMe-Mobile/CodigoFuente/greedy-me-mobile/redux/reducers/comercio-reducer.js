@@ -9,6 +9,8 @@ const initState = {
   errorValidarCupon: null,
   sumarGreedyPoints: null,
   errorGreedyPoints: null,
+  sumarEncuestaGreedyPoints: null,
+  errorEncuestaPoints: null,
 };
 
 const comercioReducer = (state = initState, action) => {
@@ -71,7 +73,19 @@ const comercioReducer = (state = initState, action) => {
       console.log('Error al sumar greedyPoints');
       return {
         ...state,
-        errorGreedyPoints: 'Ocurrió algún error al sumar los greedypoints',
+        errorGreedyPoints: 'Ocurrió algún error al sumar los 20 greedypoints',
+      };
+    case 'ENCUESTA_GREEDY_POINTS':
+      console.log('Sumado encuesta 20 GreedyPoints');
+      return {
+        ...state,
+        sumarEncuestaGreedyPoints: 'Se sumo los greedypoints',
+      };
+    case 'ERROR_ENCUESTA':
+      console.log('Error al sumar encuesta 20 greedyPoints');
+      return {
+        ...state,
+        errorEncuestaPoints: 'Ocurrió algún error al sumar los 20 greedypoints',
       };
     default:
       return state;

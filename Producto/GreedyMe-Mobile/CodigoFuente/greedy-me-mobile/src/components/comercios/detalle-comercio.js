@@ -22,7 +22,10 @@ export default function DetalleComercio(props) {
           <Rating
             imageSize={24}
             readonly
-            startingValue={3.5}
+            startingValue={
+              props.data.item.sumadorPreguntas /
+              props.data.item.contadorPreguntas
+            }
             tintColor={'#f3f3f3'}
             style={styles.rating}
           />
