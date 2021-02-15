@@ -23,6 +23,7 @@ export const signUp = (nuevoUsuario) => {
             proveedoresAsociados: [],
             favorito: [],
             greedyPoints: 0,
+            pushToken: null,
           });
       })
       .then(() => {
@@ -86,6 +87,7 @@ export const signInGoogle = (credential) => {
               proveedoresAsociados: [],
               favorito: [],
               greedyPoints: 0,
+              pushToken: null,
             })
             .then(() => {
               dispatch({ type: 'USUARIO_CREADO' });
@@ -126,6 +128,7 @@ export const signInFacebook = (credential) => {
               proveedoresAsociados: [],
               favorito: [],
               greedyPoints: 0,
+              pushToken: null,
             })
             .then(() => {
               dispatch({ type: 'USUARIO_CREADO' });

@@ -10,8 +10,9 @@ import {
 import { Divider } from 'react-native-paper';
 import _ from 'lodash';
 import * as Location from 'expo-location';
+import * as Notifications from 'expo-notifications';
 import * as Permissions from 'expo-permissions';
-import { LogBox } from 'react-native';
+import { LogBox, YellowBox } from 'react-native';
 import { connect } from 'react-redux';
 import CardComercio from '../Inicio/card-comercio';
 import BarraSup from '../Inicio/barra-superior';
@@ -68,7 +69,13 @@ obtenerPromociones();
 //esconde los warnings
 LogBox.ignoreLogs(['Warning: ...']);
 LogBox.ignoreAllLogs();
-
+YellowBox.ignoreWarnings(['Setting a timer']);
+const _console = _.clone(console);
+console.warn = (message) => {
+  if (message.indexOf('Setting a timer') <= -1) {
+    _console.warn(message);
+  }
+};
 function Inicio(props) {
   if (props.logeo) {
     props.setearLogeo('False');
@@ -92,10 +99,39 @@ function Inicio(props) {
     }
   };
 
+  const getDevicePushToken = () => {
+    return Permissions.getAsync(Permissions.NOTIFICATIONS)
+      .then((response) =>
+        response.status === 'granted'
+          ? response
+          : Permissions.askAsync(Permissions.NOTIFICATIONS),
+      )
+      .then((response) => {
+        if (response.status !== 'granted') {
+          return Promise.reject(
+            new Error('Push notifications permission was rejected'),
+          );
+        }
+
+        return Notifications.getDevicePushTokenAsync();
+      })
+      .then((token) => {
+        firestore
+          .collection('usuarioConsumidor')
+          .doc(props.auth.uid)
+          .update({ pushToken: token.data });
+        console.log(token);
+      })
+      .catch((error) => {
+        console.log('Error while registering device push token', error);
+      });
+  };
+
   //DE ESTE IFF
   if (props.usuarioNuevo !== null) {
     console.log(props.usuarioNuevo);
     getLocation();
+    getDevicePushToken();
   }
 
   //estados para el permiso de ubicacion

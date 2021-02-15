@@ -15,11 +15,6 @@ import {
   agregarComercioFavorito,
   eliminarComercioFavorito,
 } from '../../../redux/actions/comercio-actions';
-import firebaseapp from '../../../firebase/config';
-import { LogBox } from 'react-native';
-
-LogBox.ignoreLogs(['Warning: ...']);
-LogBox.ignoreAllLogs();
 
 function CardComercio(props) {
   //Seteo la variable favorito
