@@ -11,34 +11,61 @@ import { List } from 'react-native-paper';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { colors } from '../../styles/colores';
+import firebaseapp from '../../../firebase/config';
 
 function GreedyShopCanje(props) {
+  //Estado para traer los premios
+  const [premios, setPremios] = React.useState([]);
+  //use effect que se ejecuta una vez y trae premios
+  React.useEffect(() => {
+    const obtenerPremios = async () => {
+      const firestore = firebaseapp.firestore();
+      try {
+        const premios = await firestore.collection('greedyPremio').get();
+        const arrayPremios = premios.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setPremios(arrayPremios);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    obtenerPremios();
+  }, []);
+
   return (
     <View style={styles.container}>
       <Text style={styles.textoIntro}>Productos disponibles para canjear</Text>
-      {/* <FlatList
-        data={props.comercios}
-        keyExtractor={(item) => item.id}
-        showsVerticalScrollIndicator={false}
-        renderItem={(data) => ( */}
-
-      <View style={styles.contList}>
-        <List.Item
-          title="Nombre producto"
-          titleStyle={styles.titulo}
-          description="100 greedyPoints"
-          style={styles.lista}
-          onPress={() => {
-            props.navigation.navigate('ProductoACanjear');
-          }}
-          left={() => (
-            <Image
-              style={styles.image}
-              source={require('../../multimedia/cuaderno.jpg')}
-            />
+      {premios ? (
+        <FlatList
+          data={premios}
+          keyExtractor={(item) => item.id}
+          showsVerticalScrollIndicator={false}
+          renderItem={(data) => ( 
+            <View style={styles.contList}>
+              <List.Item
+                title={data.item.nombre}
+                titleStyle={styles.titulo}
+                description={`${data.item.greedyPoints} greedyPoints`}
+                style={styles.lista}
+                onPress={() => {
+                  props.navigation.navigate('ProductoACanjear');
+                }}
+                left={() => (
+                  <Image
+                    style={styles.image}
+                    source={{
+                      uri: data.item.photoURL ? data.item.photoURL : null,
+                    }}
+                  />
+                )}
+              />
+            </View>
           )}
         />
-      </View>
+      ) : null}
+
       <TouchableWithoutFeedback
         onPress={() => {
           props.navigation.navigate('GreedyPointsInicio');
@@ -47,7 +74,7 @@ function GreedyShopCanje(props) {
         <View style={styles.iconGP}>
           <View style={styles.greedypoints}>
             <View style={styles.tituloP}>
-              <Text style={styles.puntos}>250</Text>
+              <Text style={styles.puntos}>{props.profile.greedyPoints}</Text>
             </View>
             <View style={styles.letrasCont}>
               <Text style={styles.lBlanca}>gre</Text>
@@ -147,4 +174,15 @@ const styles = StyleSheet.create({
   },
 });
 
-export default GreedyShopCanje;
+const mapStateToProps = (state) => {
+  return {
+    auth: state.firebase.auth,
+    profile: state.firebase.profile,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(GreedyShopCanje);
