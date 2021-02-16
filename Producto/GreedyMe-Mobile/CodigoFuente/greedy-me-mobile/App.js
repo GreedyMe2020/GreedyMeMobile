@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import store from './redux/store';
 import * as Font from 'expo-font';
 import NavegadorPrincipal from './src/components/pages/navegador-principal';
+import { CuponesContextProvider } from './src/context/cuponesContext';
 
 const theme = {
   ...DefaultTheme,
@@ -35,11 +36,13 @@ export default function App(props) {
 
   return (
     <Provider store={store}>
-      <SafeAreaProvider>
-        <PaperProvider theme={theme}>
-          <NavegadorPrincipal />
-        </PaperProvider>
-      </SafeAreaProvider>
+      <CuponesContextProvider>
+        <SafeAreaProvider>
+          <PaperProvider theme={theme}>
+            <NavegadorPrincipal />
+          </PaperProvider>
+        </SafeAreaProvider>
+      </CuponesContextProvider>
     </Provider>
   );
 }

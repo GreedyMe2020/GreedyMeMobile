@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   StyleSheet,
   Image,
@@ -16,11 +16,13 @@ import { colors } from '../../styles/colores';
 import firebaseapp from '../../../firebase/config';
 import { format } from 'date-fns';
 import { eliminarCupon } from '../../../redux/actions/comercio-actions';
+import CuponesContext from '../../context/cuponesContext';
 
 function Cupones(props) {
   //estado de cupones
-  const [cupones, setCupones] = React.useState(null);
-
+  //const [cupones, setCupones] = React.useState(null);
+  //estado global de los cupones
+  const { contextCupones, setContextCupones } = useContext(CuponesContext);
   //use effect que se ejecuta una vez y trae cupones
   React.useEffect(() => {
     const obtenerCupones = async () => {
@@ -35,8 +37,7 @@ function Cupones(props) {
           id: doc.id,
           ...doc.data(),
         }));
-
-        setCupones(arrayCupones);
+        setContextCupones(arrayCupones);
       } catch (error) {
         console.log(error);
       }
@@ -47,10 +48,10 @@ function Cupones(props) {
   //funcion para eliminar cupon
   const handleEliminar = (id) => {
     props.eliminarCupon(props.auth.uid, id);
-    const cuponEliminado = _.remove(cupones, function (n) {
+    const cuponEliminado = _.remove(contextCupones, function (n) {
       return n.id === id;
     });
-    setCupones([...cupones]);
+    setContextCupones([...contextCupones]);
   };
 
   /*  //estados para manejar los dialog que se abren de la primer encuesta
@@ -76,10 +77,9 @@ function Cupones(props) {
 
   return (
     <SafeAreaView style={styles.container}>
-      {console.log(cupones)}
-      {cupones ? (
+      {contextCupones ? (
         <FlatList
-          data={cupones}
+          data={contextCupones}
           keyExtractor={(item) => item.id}
           showsVerticalScrollIndicator={false}
           renderItem={(data) => (
