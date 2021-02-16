@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   StyleSheet,
   Image,
@@ -20,6 +20,7 @@ import { colors } from '../../styles/colores';
 import firebaseapp from '../../../firebase/config';
 import { format } from 'date-fns';
 import { guardarCupon } from '../../../redux/actions/comercio-actions';
+import CuponesContext from '../../context/cuponesContext';
 
 function Cupon(props) {
   //estado para tener los cupones para que no se puedan guardar cupones iguales
@@ -27,6 +28,9 @@ function Cupon(props) {
   //estado para mostrar un mensaje de error si se quieren guardar cupones iguales
   const [mensajeError, setMensajeError] = React.useState(false);
   const [mensajeCorrecto, setMensajeCorrecto] = React.useState(false);
+
+  //estado global de los cupones
+  const { contextCupones, setContextCupones } = useContext(CuponesContext);
   //use effect para traer los cupones del usuario de la base de datos
   React.useEffect(() => {
     const obtenerCupones = async () => {
@@ -64,6 +68,24 @@ function Cupon(props) {
     if (contador === 0) {
       props.guardarCupon(props.auth.uid, data.item, comercio, sucursal, id);
       cupones.push({
+        idBeneficio: data.item.id,
+        tipoPromo: data.item.tipoPromo,
+        valuePromo: data.item.valuePromo,
+        otraPromo: data.item.otraPromo,
+        tipoProveedor: data.item.tipoProveedor,
+        valueProveedor: data.item.valueProveedor,
+        otroProveedor: data.item.otroProveedor,
+        desdeVigencia: data.item.desdeVigencia,
+        hastaVigencia: data.item.hastaVigencia,
+        descripcion: data.item.descripcion,
+        photoURL: data.item.photoURL,
+        diaAplicacion: data.item.diaAplicacion,
+        medioPago: data.item.medioPago,
+        nombreComercio: comercio,
+        sucursal: sucursal,
+        idComercio: id,
+      });
+      contextCupones.push({
         idBeneficio: data.item.id,
         tipoPromo: data.item.tipoPromo,
         valuePromo: data.item.valuePromo,
