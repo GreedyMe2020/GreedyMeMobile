@@ -57,7 +57,7 @@ export default function ComerciosNav(props) {
       >
         <Tab.Screen
           name="Información"
-          component={() => <DetalleComercio data={data} />}
+          children={() => <DetalleComercio data={data} />}
         />
         <Tab.Screen
           name="Cupones"

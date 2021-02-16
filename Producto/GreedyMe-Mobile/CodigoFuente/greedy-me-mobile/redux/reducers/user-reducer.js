@@ -9,6 +9,8 @@ const initState = {
   notificacionesError: null,
   permisoGeo: null,
   location: null,
+  producto: null,
+  productoError: null,
 };
 
 const userReducer = (state = initState, action) => {
@@ -88,6 +90,20 @@ const userReducer = (state = initState, action) => {
         ...state,
         location: null,
         permisoGeo: null,
+      };
+    case 'GUARDAR_PRODUCTO':
+      console.log('se guardó un producto canjeado');
+      return {
+        ...state,
+        producto: 'se guardó un producto canjeado',
+        productoError: null,
+      };
+    case 'ERROR_PRODUCTO':
+      console.log('error en guardar producto');
+      return {
+        ...state,
+        productoError: 'error en guardar producto',
+        producto: null,
       };
     default:
       return state;

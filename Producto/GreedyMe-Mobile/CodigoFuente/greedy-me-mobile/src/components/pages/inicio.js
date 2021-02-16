@@ -280,7 +280,7 @@ function Inicio(props) {
       setProveedores(props.profile.proveedoresAsociados);
       filtrar(proveedores);
     }*/
-  }, [props.profile.proveedoresAsociados, proveedores]);
+  }, [proveedores, props.profile.proveedoresAsociados]);
 
   return (
     <SafeAreaView style={styles.container}>

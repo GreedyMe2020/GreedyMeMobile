@@ -23,8 +23,10 @@ export default function DetalleComercio(props) {
             imageSize={24}
             readonly
             startingValue={
-              props.data.item.sumadorPreguntas /
-              props.data.item.contadorPreguntas
+              props.data.item.sumadorPreguntas
+                ? props.data.item.sumadorPreguntas /
+                  props.data.item.contadorPreguntas
+                : 0
             }
             tintColor={'#f3f3f3'}
             style={styles.rating}

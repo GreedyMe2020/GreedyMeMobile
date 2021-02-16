@@ -136,3 +136,28 @@ export const quitarGeolocalizacion = (geo) => {
     dispatch({ type: 'RESETEAR_GEO' });
   };
 };
+
+// le agregaria el nombre del producto y los greedy points
+export const guardarProductoCanjeado = (idUsuario, direccion, localidad) => {
+  return (dispatch, getState, { getFirestore }) => {
+    const firestore = getFirestore();
+    firestore
+      .collection('usuarioConsumidor')
+      .doc(idUsuario)
+      .collection('productosCanjeados')
+      .doc()
+      .set({
+        direccionRetiro: direccion,
+        localidad: localidad,
+        //idProducto,
+        //descripcion,
+        //greedypoints
+      })
+      .then(() => {
+        dispatch({ type: 'GUARDAR_PRODUCTO' });
+      })
+      .catch((error) => {
+        dispatch({ type: 'ERROR_PRODUCTO', error });
+      });
+  };
+};

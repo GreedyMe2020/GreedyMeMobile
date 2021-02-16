@@ -35,6 +35,7 @@ function Cupones(props) {
           id: doc.id,
           ...doc.data(),
         }));
+
         setCupones(arrayCupones);
       } catch (error) {
         console.log(error);
@@ -75,6 +76,7 @@ function Cupones(props) {
 
   return (
     <SafeAreaView style={styles.container}>
+      {console.log(cupones)}
       {cupones ? (
         <FlatList
           data={cupones}

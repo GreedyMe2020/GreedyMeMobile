@@ -28,26 +28,7 @@ function Cupon(props) {
   const [mensajeError, setMensajeError] = React.useState(false);
   const [mensajeCorrecto, setMensajeCorrecto] = React.useState(false);
   //use effect para traer los cupones del usuario de la base de datos
-  React.useEffect(() => {
-    const obtenerCupones = async () => {
-      const firestore = firebaseapp.firestore();
-      try {
-        const cupones = await firestore
-          .collection('usuarioConsumidor')
-          .doc(props.auth.uid)
-          .collection('cupones')
-          .get();
-        const arrayCupones = cupones.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setCupones(arrayCupones);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    obtenerCupones();
-  }, []);
+
   //funcion que cierra el mensaje de error
   const onDismissSnackBar2 = () => setMensajeError(false);
   const onDismissSnackBar3 = () => setMensajeCorrecto(false);
@@ -55,8 +36,6 @@ function Cupon(props) {
   const onSubmit = () => {
     let contador = 0;
     cupones.forEach((cupon) => {
-      console.log(data.item.id);
-      console.log(cupon.id);
       if (cupon.idBeneficio === data.item.id) {
         contador += 1;
       }

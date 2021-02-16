@@ -11,6 +11,7 @@ import { List } from 'react-native-paper';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { colors } from '../../styles/colores';
+import firebaseapp from '../../../firebase/config';
 
 function GreedyShopCanje(props) {
   return (
@@ -47,7 +48,7 @@ function GreedyShopCanje(props) {
         <View style={styles.iconGP}>
           <View style={styles.greedypoints}>
             <View style={styles.tituloP}>
-              <Text style={styles.puntos}>250</Text>
+              <Text style={styles.puntos}>{props.profile.greedyPoints}</Text>
             </View>
             <View style={styles.letrasCont}>
               <Text style={styles.lBlanca}>gre</Text>
@@ -146,5 +147,11 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Regular',
   },
 });
+const mapStateToProps = (state) => {
+  return {
+    auth: state.firebase.auth,
+    profile: state.firebase.profile,
+  };
+};
 
-export default GreedyShopCanje;
+export default connect(mapStateToProps)(GreedyShopCanje);
