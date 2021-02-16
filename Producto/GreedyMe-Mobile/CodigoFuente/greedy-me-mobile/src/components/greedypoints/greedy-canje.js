@@ -14,6 +14,25 @@ import { colors } from '../../styles/colores';
 import firebaseapp from '../../../firebase/config';
 
 function GreedyShopCanje(props) {
+  const [greedyPremio, setGreedyPremio] = React.useState([]);
+
+  React.useEffect(() => {
+    const obtenerGreedyPremio = async () => {
+      const firestore = firebaseapp.firestore();
+      try {
+        const greedyPremio = await firestore.collection('greedyPremio').get();
+        const arrayGreedyPremio = greedyPremio.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        setGreedyPremio(arrayGreedyPremio);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    obtenerGreedyPremio();
+  }, []);
   return (
     <View style={styles.container}>
       <Text style={styles.textoIntro}>Productos disponibles para canjear</Text>
@@ -22,24 +41,33 @@ function GreedyShopCanje(props) {
         keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
         renderItem={(data) => ( */}
-
-      <View style={styles.contList}>
-        <List.Item
-          title="Nombre producto"
-          titleStyle={styles.titulo}
-          description="100 greedyPoints"
-          style={styles.lista}
-          onPress={() => {
-            props.navigation.navigate('ProductoACanjear');
-          }}
-          left={() => (
-            <Image
-              style={styles.image}
-              source={require('../../multimedia/cuaderno.jpg')}
-            />
-          )}
-        />
-      </View>
+      <FlatList
+        data={greedyPremio}
+        keyExtractor={(item) => item.id}
+        showsVerticalScrollIndicator={false}
+        renderItem={(data) => (
+          <TouchableWithoutFeedback>
+            <View>
+              <View style={styles.contList}>
+                <List.Item
+                  title={data.item.nombre}
+                  titleStyle={styles.titulo}
+                  description={data.item.descripcion}
+                  style={styles.lista}
+                  onPress={() => {
+                    props.navigation.navigate('ProductoACanjear', {
+                      data: data,
+                    });
+                  }}
+                  left={() => (
+                    <Image style={styles.image} source={data.item.photoURL} />
+                  )}
+                />
+              </View>
+            </View>
+          </TouchableWithoutFeedback>
+        )}
+      />
       <TouchableWithoutFeedback
         onPress={() => {
           props.navigation.navigate('GreedyPointsInicio');

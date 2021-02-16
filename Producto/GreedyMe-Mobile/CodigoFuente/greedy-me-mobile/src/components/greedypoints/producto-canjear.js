@@ -16,6 +16,7 @@ import firebaseapp from '../../../firebase/config';
 import { guardarProductoCanjeado } from '../../../redux/actions/user-actions';
 
 function ProductoACanjear(props) {
+  const { data } = props.route.params;
   const firestore = firebaseapp.firestore();
 
   const [puntoRetiroDefault, setPuntoRetiroDefault] = React.useState(false);
@@ -33,6 +34,9 @@ function ProductoACanjear(props) {
     setVisible(true);
     props.guardarProductoCanjeado(
       props.auth.uid,
+      data.item.id,
+      data.item.nombre,
+      data.item.greedyPoints,
       puntoRetiroSeleccionado.label,
       puntoRetiroSeleccionado.value,
     );
@@ -61,13 +65,14 @@ function ProductoACanjear(props) {
 
   return (
     <View style={styles.container}>
-      <Image
-        style={styles.image}
-        source={require('../../multimedia/cuaderno.jpg')}
-      />
+      <Image style={styles.image} source={data.item.photoURL} />
+      {console.log(data.item)}
       <View style={styles.texto}>
-        <Text style={styles.nombreProducto}>Cuaderno GreedyMe</Text>
-        <Text style={styles.puntos}>100 greedyPoints</Text>
+        <Text style={styles.nombreProducto}>{data.item.nombre}</Text>
+        <Text style={styles.descripcion}>{data.item.descripcion}</Text>
+        <Text
+          style={styles.puntos}
+        >{`${data.item.greedyPoints} greedyPoints`}</Text>
       </View>
       <View style={styles.botones}>
         <Text style={styles.textoRetiro}>Seleccionar punto de retiro: </Text>
@@ -266,8 +271,24 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    guardarProductoCanjeado: (idUsuario, direccion, localidad) =>
-      dispatch(guardarProductoCanjeado(idUsuario, direccion, localidad)),
+    guardarProductoCanjeado: (
+      idUsuario,
+      idProducto,
+      nombreProducto,
+      greedyPoints,
+      direccion,
+      localidad,
+    ) =>
+      dispatch(
+        guardarProductoCanjeado(
+          idUsuario,
+          idProducto,
+          nombreProducto,
+          greedyPoints,
+          direccion,
+          localidad,
+        ),
+      ),
   };
 };
 

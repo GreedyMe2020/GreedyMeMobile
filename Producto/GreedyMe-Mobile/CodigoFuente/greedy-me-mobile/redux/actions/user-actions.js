@@ -138,7 +138,14 @@ export const quitarGeolocalizacion = (geo) => {
 };
 
 // le agregaria el nombre del producto y los greedy points
-export const guardarProductoCanjeado = (idUsuario, direccion, localidad) => {
+export const guardarProductoCanjeado = (
+  idUsuario,
+  idProducto,
+  nombreProducto,
+  greedyPoints,
+  direccion,
+  localidad,
+) => {
   return (dispatch, getState, { getFirestore }) => {
     const firestore = getFirestore();
     firestore
@@ -147,11 +154,11 @@ export const guardarProductoCanjeado = (idUsuario, direccion, localidad) => {
       .collection('productosCanjeados')
       .doc()
       .set({
+        idProducto: idProducto,
+        nombreProducto: nombreProducto,
+        greedyPoints: greedyPoints,
         direccionRetiro: direccion,
         localidad: localidad,
-        //idProducto,
-        //descripcion,
-        //greedypoints
       })
       .then(() => {
         dispatch({ type: 'GUARDAR_PRODUCTO' });
