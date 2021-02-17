@@ -65,7 +65,7 @@ function ProductoACanjear(props) {
 
   return (
     <View style={styles.container}>
-      <Image style={styles.image} source={data.item.photoURL} />
+      <Image style={styles.image} source={{ uri: data.item.photoURL }} />
       {console.log(data.item)}
       <View style={styles.texto}>
         <Text style={styles.nombreProducto}>{data.item.nombre}</Text>
@@ -187,14 +187,17 @@ const styles = StyleSheet.create({
     color: colors.black,
   },
   descripcion: {
-    fontSize: 18,
+    fontSize: 17,
     marginTop: 5,
+    marginLeft: 20,
+    marginRight: 20,
+    textAlign: 'center',
     color: colors.black,
   },
   puntos: {
     fontSize: 20,
     color: colors.naranja,
-    marginTop: 5,
+    marginTop: 20,
   },
   textoRetiro: {
     fontSize: 17,

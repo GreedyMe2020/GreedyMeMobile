@@ -27,7 +27,7 @@ import GreedyShop from '../pages/greedy-shop';
 import GreedyShopCanje from '../greedypoints/greedy-canje';
 import GreedyShopHistorial from '../greedypoints/greedy-historial';
 import ProductoACanjear from '../greedypoints/producto-canjear';
-
+import { setearDesLogeo } from '../../../redux/actions/auth-actions';
 //Funcion para determinar el color del header del componente
 // Main a partir del nombre de la ruta obtenida.
 function coloresHeaderTab(tabName) {
@@ -43,8 +43,10 @@ function coloresHeaderTab(tabName) {
 const Stack = createStackNavigator();
 
 function NavegadorPrincipal(props) {
+  if (props.deslogeo) {
+    props.setearDesLogeo('False');
+  }
   const [estaLogeado, setEstaLogeado] = useState(null);
-
   useEffect(() => {
     if (props.auth.uid) {
       setTimeout(() => {
@@ -60,6 +62,9 @@ function NavegadorPrincipal(props) {
   return (
     <NavigationContainer>
       <Stack.Navigator headerMode="screen">
+        {console.log('logeo')}
+        {console.log(estaLogeado)}
+
         {estaLogeado ? (
           <>
             <Stack.Screen
@@ -131,35 +136,7 @@ function NavegadorPrincipal(props) {
                 gestureDirection: 'horizontal',
               })}
             />
-            <Stack.Screen
-              name="GestionarProveedores"
-              component={Proveedores}
-              options={({ route }) => ({
-                title: 'Gestionar mis proveedores',
-                headerShown: true,
-                headerTintColor: 'white',
-                headerStyle: {
-                  backgroundColor: '#1E1B4D',
-                },
-                animationEnabled: false,
-                gestureDirection: 'horizontal',
-              })}
-            />
-            <Stack.Screen
-              name="ProveedoresLogin"
-              component={ProveedoresLogin}
-              options={({ route }) => ({
-                title: 'Gestionar mis proveedores',
-                headerShown: true,
-                headerLeft: null,
-                headerTintColor: 'white',
-                headerStyle: {
-                  backgroundColor: '#1E1B4D',
-                },
-                animationEnabled: false,
-                gestureDirection: 'horizontal',
-              })}
-            />
+
             <Stack.Screen
               name="CambiarContraseña"
               component={CambiarContraseña}
@@ -316,6 +293,36 @@ function NavegadorPrincipal(props) {
                 gestureDirection: 'horizontal',
               }}
             />
+
+            <Stack.Screen
+              name="GestionarProveedores"
+              component={Proveedores}
+              options={({ route }) => ({
+                title: 'Gestionar mis proveedores',
+                headerShown: true,
+                headerTintColor: 'white',
+                headerStyle: {
+                  backgroundColor: '#1E1B4D',
+                },
+                animationEnabled: false,
+                gestureDirection: 'horizontal',
+              })}
+            />
+            <Stack.Screen
+              name="PantallaLogo"
+              component={PantallaLogo}
+              options={{
+                headerShown: false,
+                headerLeft: null,
+                animationEnabled: false,
+                gestureDirection: 'horizontal',
+              }}
+            />
+            <Stack.Screen
+              name="Settings"
+              component={Settings}
+              options={{ title: '', headerTransparent: true }}
+            />
           </>
         ) : estaLogeado === false ? (
           <>
@@ -362,7 +369,7 @@ function NavegadorPrincipal(props) {
           </>
         ) : (
           <Stack.Screen
-            name="Home"
+            name="PantallaLogo"
             component={PantallaLogo}
             options={{
               headerShown: false,
@@ -377,10 +384,58 @@ function NavegadorPrincipal(props) {
   );
 }
 
+function Settings() {
+  {
+    console.log('3');
+  }
+  return (
+    <Stack.Navigator initialRouteName="ProveedoresLogin">
+      <Stack.Screen
+        name="GestionarProveedores"
+        component={Proveedores}
+        options={({ route }) => ({
+          title: 'Gestionar mis proveedores',
+          headerShown: true,
+          headerTintColor: 'white',
+          headerStyle: {
+            backgroundColor: '#1E1B4D',
+          },
+          animationEnabled: false,
+          gestureDirection: 'horizontal',
+        })}
+      />
+      <Stack.Screen
+        name="ProveedoresLogin"
+        component={ProveedoresLogin}
+        options={({ route }) => ({
+          title: 'Gestionar mis proveedores',
+          headerShown: true,
+          headerLeft: null,
+          headerTintColor: 'white',
+          headerStyle: {
+            backgroundColor: '#1E1B4D',
+          },
+          animationEnabled: false,
+          gestureDirection: 'horizontal',
+        })}
+      />
+    </Stack.Navigator>
+  );
+}
+
 const mapStateToProps = (state) => {
   return {
     auth: state.firebase.auth,
+    deslogeo: state.auth.deslogeo,
+    logeo: state.auth.logeo,
+    usuarioNuevo: state.auth.usuarioNuevo,
   };
 };
 
-export default connect(mapStateToProps)(NavegadorPrincipal);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setearDesLogeo: (flag) => dispatch(setearDesLogeo(flag)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavegadorPrincipal);

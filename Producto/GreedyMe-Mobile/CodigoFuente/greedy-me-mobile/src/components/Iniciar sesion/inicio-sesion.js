@@ -23,15 +23,12 @@ import {
 import { colors } from '../../styles/colores';
 
 function IniciarSesion(props) {
-  if (props.deslogeo) {
-    props.setearDesLogeo('False');
-  }
   if (props.auth.uid) {
     //POR SI SE ROMPE ALGUN INICIO DE SESION ES ESTO
     //props.navigation.navigate('Main');
   }
   if (props.usuarioNuevo) {
-    props.navigation.navigate('ProveedoresLogin');
+    props.navigation.navigate('Settings');
   }
 
   //Estado para abrir o cerrar el snackbar de confirmacion

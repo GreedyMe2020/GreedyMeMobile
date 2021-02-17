@@ -60,7 +60,10 @@ function GreedyShopCanje(props) {
                     });
                   }}
                   left={() => (
-                    <Image style={styles.image} source={data.item.photoURL} />
+                    <Image
+                      style={styles.image}
+                      source={{ uri: data.item.photoURL }}
+                    />
                   )}
                 />
               </View>
