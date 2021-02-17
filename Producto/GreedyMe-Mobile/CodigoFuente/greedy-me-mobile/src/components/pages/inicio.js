@@ -92,9 +92,11 @@ function Inicio(props) {
     if (status !== 'granted') {
       //Se rechazó el permiso para geolocalizacion
       console.log('El permiso para acceder a la ubicación fue denegado');
+      props.setNuevoUsuario('False');
     } else {
       const location = await Location.getCurrentPositionAsync();
       props.guardarGeolocalizacion(location);
+      props.setNuevoUsuario('False');
     }
   };
 
@@ -112,7 +114,7 @@ function Inicio(props) {
             new Error('Push notifications permission was rejected'),
           );
         }
-
+        props.setNuevoUsuario('False');
         return Notifications.getDevicePushTokenAsync();
       })
       .then((token) => {
