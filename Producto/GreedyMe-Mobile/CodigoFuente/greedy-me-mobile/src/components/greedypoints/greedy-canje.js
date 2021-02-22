@@ -7,7 +7,7 @@ import {
   Image,
   FlatList,
 } from 'react-native';
-import { List } from 'react-native-paper';
+import { List, Divider } from 'react-native-paper';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { colors } from '../../styles/colores';
@@ -35,14 +35,9 @@ function GreedyShopCanje(props) {
   }, []);
   return (
     <View style={styles.container}>
-      <Text style={styles.textoIntro}>Productos disponibles para canjear</Text>
-      {/* <FlatList
-        data={props.comercios}
-        keyExtractor={(item) => item.id}
-        showsVerticalScrollIndicator={false}
-        renderItem={(data) => ( */}
       <FlatList
         data={greedyPremio}
+        style={{ marginTop: 5 }}
         keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
         renderItem={(data) => (
@@ -67,6 +62,14 @@ function GreedyShopCanje(props) {
                   )}
                 />
               </View>
+              <Divider
+                style={{
+                  height: 1,
+                  backgroundColor: colors.avatar,
+                  marginLeft: 20,
+                  marginRight: 20,
+                }}
+              />
             </View>
           </TouchableWithoutFeedback>
         )}
@@ -107,8 +110,8 @@ const styles = StyleSheet.create({
   contList: {
     marginLeft: 12,
     marginRight: 20,
-    marginBottom: 8,
-    marginTop: 12,
+    marginBottom: 10,
+    marginTop: 10,
   },
   titulo: {
     marginBottom: 4,
@@ -122,7 +125,7 @@ const styles = StyleSheet.create({
     height: 75,
     width: 75,
     marginRight: 10,
-    borderRadius: 50,
+    borderRadius: 10,
   },
   buttonC: {
     justifyContent: 'center',
@@ -138,8 +141,8 @@ const styles = StyleSheet.create({
   },
   greedypoints: {
     justifyContent: 'center',
-    width: 85,
-    height: 85,
+    width: 88,
+    height: 88,
     backgroundColor: colors.azul,
     borderRadius: 50,
     elevation: 5,

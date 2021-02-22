@@ -290,8 +290,8 @@ const styles = StyleSheet.create({
   },
   greedypoints: {
     justifyContent: 'center',
-    width: 85,
-    height: 85,
+    width: 88,
+    height: 88,
     backgroundColor: colors.azul,
     borderRadius: 50,
     elevation: 5,

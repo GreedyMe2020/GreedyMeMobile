@@ -196,6 +196,7 @@ function Cupon(props) {
                     </View>
                   </View>
                 </View>
+
                 <View style={styles.circulos}>
                   <View style={styles.contCirculo}>
                     <View style={styles.circulo} />
@@ -241,23 +242,8 @@ function Cupon(props) {
                   >
                     Validar
                   </Button>
-                  {mensajeError ? (
-                    <Snackbar
-                      visible={mensajeError}
-                      onDismiss={onDismissSnackBar2}
-                      theme={{ colors: { accent: 'white' } }}
-                      action={{
-                        label: 'OK',
-                        onPress: () => {
-                          onDismissSnackBar2;
-                        },
-                      }}
-                      style={styles.snackbar2}
-                    >
-                      Código inválido, ingrésalo nuevamente.
-                    </Snackbar>
-                  ) : null}
                 </View>
+
                 <Portal>
                   <Dialog visible={visible} onDismiss={hideDialog}>
                     <Dialog.Title>Validar cupón</Dialog.Title>
@@ -303,6 +289,24 @@ function Cupon(props) {
               </View>
             </View>
           </ScrollView>
+          <View>
+            {mensajeError ? (
+              <Snackbar
+                visible={mensajeError}
+                onDismiss={onDismissSnackBar2}
+                theme={{ colors: { accent: 'white' } }}
+                action={{
+                  label: 'OK',
+                  onPress: () => {
+                    onDismissSnackBar2;
+                  },
+                }}
+                style={styles.snackbar2}
+              >
+                Código inválido, ingrésalo nuevamente.
+              </Snackbar>
+            ) : null}
+          </View>
         </KeyboardAvoidingView>
       ) : null}
     </SafeAreaView>

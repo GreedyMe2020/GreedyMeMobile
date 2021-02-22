@@ -21,9 +21,9 @@ import { colors } from '../../styles/colores';
 import { sumarGreedyPointsEncuesta } from '../../../redux/actions/comercio-actions';
 
 function EncuestaExtraGP(props) {
-  const [value, setValue] = React.useState('si');
-  const [value1, setValue1] = React.useState('si');
-  const [value2, setValue2] = React.useState('muybuena');
+  const [value, setValue] = React.useState(null);
+  const [value1, setValue1] = React.useState(null);
+  const [value2, setValue2] = React.useState(null);
   const [text, setText] = React.useState('');
   const [mensajeError, setMensajeError] = React.useState(false);
 
@@ -216,24 +216,24 @@ function EncuestaExtraGP(props) {
               </Dialog.Actions>
             </Dialog>
           </Portal>
-          {mensajeError ? (
-            <Snackbar
-              visible={mensajeError}
-              onDismiss={onDismissSnackBar2}
-              theme={{ colors: { accent: 'white' } }}
-              action={{
-                label: 'OK',
-                onPress: () => {
-                  onDismissSnackBar2;
-                },
-              }}
-              style={styles.snackbar2}
-            >
-              Debés dejar un comentario.
-            </Snackbar>
-          ) : null}
         </View>
       </ScrollView>
+      {mensajeError ? (
+        <Snackbar
+          visible={mensajeError}
+          onDismiss={onDismissSnackBar2}
+          theme={{ colors: { accent: 'white' } }}
+          action={{
+            label: 'OK',
+            onPress: () => {
+              onDismissSnackBar2;
+            },
+          }}
+          style={styles.snackbar2}
+        >
+          Debés dejar un comentario.
+        </Snackbar>
+      ) : null}
     </View>
   );
 }
@@ -340,6 +340,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginTop: 40,
     width: 160,
+  },
+  snackbar2: {
+    alignSelf: 'flex-end',
+    backgroundColor: colors.naranja,
   },
 });
 

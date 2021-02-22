@@ -99,24 +99,7 @@ function ProductoACanjear(props) {
           //   }
         />
       </View>
-      <TouchableWithoutFeedback
-        onPress={() => {
-          props.navigation.navigate('GreedyPointsInicio');
-        }}
-      >
-        <View style={styles.iconGP}>
-          <View style={styles.greedypoints}>
-            <View style={styles.tituloP}>
-              <Text style={styles.puntosGP}>{props.profile.greedyPoints}</Text>
-            </View>
-            <View style={styles.letrasCont}>
-              <Text style={styles.lBlanca}>gre</Text>
-              <Text style={styles.lVerde}>edy</Text>
-              <Text style={styles.lNaranja}>Points</Text>
-            </View>
-          </View>
-        </View>
-      </TouchableWithoutFeedback>
+
       <View style={{ zIndex: 3 }}>
         {puntoRetiroSeleccionado ? (
           <Button
@@ -182,22 +165,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   nombreProducto: {
-    marginTop: 20,
+    marginTop: 16,
     fontSize: 22,
     color: colors.black,
   },
   descripcion: {
-    fontSize: 17,
+    fontSize: 16,
     marginTop: 5,
-    marginLeft: 20,
-    marginRight: 20,
+    marginLeft: 22,
+    marginRight: 22,
     textAlign: 'center',
     color: colors.black,
   },
   puntos: {
     fontSize: 20,
+    fontWeight: 'bold',
     color: colors.naranja,
-    marginTop: 20,
+    marginTop: 15,
   },
   textoRetiro: {
     fontSize: 17,
