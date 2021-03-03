@@ -7,65 +7,73 @@ import {
   Image,
   FlatList,
 } from 'react-native';
-import { List } from 'react-native-paper';
+import { List, Divider } from 'react-native-paper';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { colors } from '../../styles/colores';
 import firebaseapp from '../../../firebase/config';
 
 function GreedyShopCanje(props) {
-  //Estado para traer los premios
-  const [premios, setPremios] = React.useState([]);
-  //use effect que se ejecuta una vez y trae premios
+  const [greedyPremio, setGreedyPremio] = React.useState([]);
+
   React.useEffect(() => {
-    const obtenerPremios = async () => {
+    const obtenerGreedyPremio = async () => {
       const firestore = firebaseapp.firestore();
       try {
-        const premios = await firestore.collection('greedyPremio').get();
-        const arrayPremios = premios.docs.map((doc) => ({
+        const greedyPremio = await firestore.collection('greedyPremio').get();
+        const arrayGreedyPremio = greedyPremio.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
-        setPremios(arrayPremios);
+
+        setGreedyPremio(arrayGreedyPremio);
       } catch (error) {
         console.log(error);
       }
     };
-    obtenerPremios();
+    obtenerGreedyPremio();
   }, []);
-
   return (
     <View style={styles.container}>
-      <Text style={styles.textoIntro}>Productos disponibles para canjear</Text>
-      {premios ? (
-        <FlatList
-          data={premios}
-          keyExtractor={(item) => item.id}
-          showsVerticalScrollIndicator={false}
-          renderItem={(data) => ( 
-            <View style={styles.contList}>
-              <List.Item
-                title={data.item.nombre}
-                titleStyle={styles.titulo}
-                description={`${data.item.greedyPoints} greedyPoints`}
-                style={styles.lista}
-                onPress={() => {
-                  props.navigation.navigate('ProductoACanjear');
+      <FlatList
+        data={greedyPremio}
+        style={{ marginTop: 5 }}
+        keyExtractor={(item) => item.id}
+        showsVerticalScrollIndicator={false}
+        renderItem={(data) => (
+          <TouchableWithoutFeedback>
+            <View>
+              <View style={styles.contList}>
+                <List.Item
+                  title={data.item.nombre}
+                  titleStyle={styles.titulo}
+                  description={data.item.descripcion}
+                  style={styles.lista}
+                  onPress={() => {
+                    props.navigation.navigate('ProductoACanjear', {
+                      data: data,
+                    });
+                  }}
+                  left={() => (
+                    <Image
+                      style={styles.image}
+                      source={{ uri: data.item.photoURL }}
+                    />
+                  )}
+                />
+              </View>
+              <Divider
+                style={{
+                  height: 1,
+                  backgroundColor: colors.avatar,
+                  marginLeft: 20,
+                  marginRight: 20,
                 }}
-                left={() => (
-                  <Image
-                    style={styles.image}
-                    source={{
-                      uri: data.item.photoURL ? data.item.photoURL : null,
-                    }}
-                  />
-                )}
               />
             </View>
-          )}
-        />
-      ) : null}
-
+          </TouchableWithoutFeedback>
+        )}
+      />
       <TouchableWithoutFeedback
         onPress={() => {
           props.navigation.navigate('GreedyPointsInicio');
@@ -102,8 +110,8 @@ const styles = StyleSheet.create({
   contList: {
     marginLeft: 12,
     marginRight: 20,
-    marginBottom: 8,
-    marginTop: 12,
+    marginBottom: 10,
+    marginTop: 10,
   },
   titulo: {
     marginBottom: 4,
@@ -117,7 +125,7 @@ const styles = StyleSheet.create({
     height: 75,
     width: 75,
     marginRight: 10,
-    borderRadius: 50,
+    borderRadius: 10,
   },
   buttonC: {
     justifyContent: 'center',
@@ -133,8 +141,8 @@ const styles = StyleSheet.create({
   },
   greedypoints: {
     justifyContent: 'center',
-    width: 85,
-    height: 85,
+    width: 88,
+    height: 88,
     backgroundColor: colors.azul,
     borderRadius: 50,
     elevation: 5,
@@ -173,7 +181,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Regular',
   },
 });
-
 const mapStateToProps = (state) => {
   return {
     auth: state.firebase.auth,
@@ -181,8 +188,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(GreedyShopCanje);
+export default connect(mapStateToProps)(GreedyShopCanje);

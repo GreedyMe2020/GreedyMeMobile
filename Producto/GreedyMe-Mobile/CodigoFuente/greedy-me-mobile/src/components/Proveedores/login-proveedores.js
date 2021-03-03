@@ -118,9 +118,7 @@ function ProveedoresLogin(props) {
         style={styles.boton}
         mode="outlined"
         labelStyle={{ fontSize: 16, color: colors.azul }}
-        onPress={() => {
-          props.navigation.navigate('Main');
-        }}
+        onPress={() => props.navigation.goBack()}
       >
         Guardar proveedores
       </Button>
@@ -129,9 +127,7 @@ function ProveedoresLogin(props) {
         style={styles.botonOmitir}
         mode="text"
         labelStyle={{ fontSize: 16, color: 'rgba(30, 27, 77, 0.8)' }}
-        onPress={() => {
-          props.navigation.navigate('Main');
-        }}
+        onPress={() => props.navigation.goBack()}
       >
         Omitir por ahora
       </Button>

@@ -12,51 +12,86 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { colors } from '../../styles/colores';
+import firebaseapp from '../../../firebase/config';
+import { guardarProductoCanjeado } from '../../../redux/actions/user-actions';
 
 function ProductoACanjear(props) {
-  const [puntoRetiro, setPuntoRetiro] = React.useState(false);
+  const { data } = props.route.params;
+  const firestore = firebaseapp.firestore();
 
+  const [puntoRetiroDefault, setPuntoRetiroDefault] = React.useState(false);
+
+  const [puntoRetiro, setPuntoRetiro] = React.useState([]);
+
+  const [puntoRetiroSeleccionado, setPuntoRetiroSeleccionado] = React.useState(
+    null,
+  );
   //estados para manejar el dialog
   const [visible, setVisible] = React.useState(false);
-  const showDialog = () => setVisible(true);
+  //falta agregar los datos del producto que tendrian que venir por props, yo lo preparo en el back comentado
+  //el label es la direccion y el value es la localidad
+  const onSubmit = () => {
+    setVisible(true);
+    props.guardarProductoCanjeado(
+      props.auth.uid,
+      data.item.id,
+      data.item.nombre,
+      data.item.greedyPoints,
+      puntoRetiroSeleccionado.label,
+      puntoRetiroSeleccionado.value,
+    );
+  };
+
   const hideDialog = () => setVisible(false);
+
+  //use effect que se ejecuta una vez y trae cupones
+  React.useEffect(() => {
+    const obtenerPuntoRetiro = async () => {
+      const firestore = firebaseapp.firestore();
+      try {
+        const puntosRetiro = await firestore.collection('puntoRetiro').get();
+        const arrayPuntosRetiro = puntosRetiro.docs.map((doc) => ({
+          label: doc.data().direccion,
+          value: doc.data().localidad,
+        }));
+
+        setPuntoRetiro(arrayPuntosRetiro);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    obtenerPuntoRetiro();
+  }, []);
 
   return (
     <View style={styles.container}>
-      <Image
-        style={styles.image}
-        source={require('../../multimedia/cuaderno.jpg')}
-      />
+      <Image style={styles.image} source={{ uri: data.item.photoURL }} />
+      {console.log(data.item)}
       <View style={styles.texto}>
-        <Text style={styles.nombreProducto}>Cuaderno GreedyMe</Text>
-        <Text style={styles.puntos}>100 greedyPoints</Text>
+        <Text style={styles.nombreProducto}>{data.item.nombre}</Text>
+        <Text style={styles.descripcion}>{data.item.descripcion}</Text>
+        <Text
+          style={styles.puntos}
+        >{`${data.item.greedyPoints} greedyPoints`}</Text>
       </View>
       <View style={styles.botones}>
         <Text style={styles.textoRetiro}>Seleccionar punto de retiro: </Text>
         <DropDownPicker
-          items={[
-            {
-              label: 'Patio Olmos',
-              value: 'olmos',
-            },
-            {
-              label: 'Villa Allende',
-              value: 'villa',
-            },
-          ]}
-          defaultValue={puntoRetiro}
-          placeholder={'Punto de retiro'}
+          items={puntoRetiro}
+          defaultValue={puntoRetiroDefault}
+          placeholder={'Puntos de retiro'}
           containerStyle={{
             height: 40,
             marginRight: 20,
             marginLeft: 20,
             marginTop: 12,
           }}
-          style={{ backgroundColor: '#fafafa' }}
+          style={{ backgroundColor: '#fafafa', zIndex: 2 }}
           itemStyle={{
             justifyContent: 'flex-start',
           }}
-          dropDownStyle={{ backgroundColor: '#fafafa' }}
+          dropDownStyle={{ backgroundColor: '#fafafa', zIndex: 1 }}
+          onChangeItem={(item) => setPuntoRetiroSeleccionado(item)}
           //   onChangeItem={(item) =>
           //     setPuntoRetiro({
           //       country: item.value,
@@ -64,33 +99,29 @@ function ProductoACanjear(props) {
           //   }
         />
       </View>
-      <TouchableWithoutFeedback
-        onPress={() => {
-          props.navigation.navigate('GreedyPointsInicio');
-        }}
-      >
-        <View style={styles.iconGP}>
-          <View style={styles.greedypoints}>
-            <View style={styles.tituloP}>
-              <Text style={styles.puntosGP}>250</Text>
-            </View>
-            <View style={styles.letrasCont}>
-              <Text style={styles.lBlanca}>gre</Text>
-              <Text style={styles.lVerde}>edy</Text>
-              <Text style={styles.lNaranja}>Points</Text>
-            </View>
-          </View>
-        </View>
-      </TouchableWithoutFeedback>
-      <View>
-        <Button
-          mode="contained"
-          labelStyle={{ fontSize: 18, color: colors.white }}
-          style={styles.btncanjear}
-          onPress={showDialog}
-        >
-          Canjear
-        </Button>
+
+      <View style={{ zIndex: 3 }}>
+        {puntoRetiroSeleccionado ? (
+          <Button
+            mode="contained"
+            labelStyle={{ fontSize: 18, color: colors.white }}
+            style={styles.btncanjear}
+            onPress={onSubmit}
+          >
+            Canjear
+          </Button>
+        ) : (
+          <Button
+            mode="contained"
+            labelStyle={{ fontSize: 18, color: colors.white }}
+            style={styles.btncanjearblocked}
+            disabled
+            onPress={onSubmit}
+          >
+            Canjear
+          </Button>
+        )}
+
         <Portal>
           <Dialog visible={visible} onDismiss={hideDialog}>
             <Dialog.Title>¡¡Premio canjeado!! </Dialog.Title>
@@ -134,19 +165,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   nombreProducto: {
-    marginTop: 20,
+    marginTop: 16,
     fontSize: 22,
     color: colors.black,
   },
   descripcion: {
-    fontSize: 18,
+    fontSize: 16,
     marginTop: 5,
+    marginLeft: 22,
+    marginRight: 22,
+    textAlign: 'center',
     color: colors.black,
   },
   puntos: {
     fontSize: 20,
+    fontWeight: 'bold',
     color: colors.naranja,
-    marginTop: 5,
+    marginTop: 15,
   },
   textoRetiro: {
     fontSize: 17,
@@ -155,6 +190,13 @@ const styles = StyleSheet.create({
   },
   btncanjear: {
     backgroundColor: colors.naranja,
+    marginRight: 20,
+    marginLeft: 20,
+    marginTop: 25,
+  },
+  btncanjearblocked: {
+    backgroundColor: colors.naranja,
+    opacity: 0.5,
     marginRight: 20,
     marginLeft: 20,
     marginTop: 25,
@@ -208,4 +250,33 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProductoACanjear;
+const mapStateToProps = (state) => {
+  return {
+    auth: state.firebase.auth,
+    profile: state.firebase.profile,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    guardarProductoCanjeado: (
+      idUsuario,
+      idProducto,
+      nombreProducto,
+      greedyPoints,
+      direccion,
+      localidad,
+    ) =>
+      dispatch(
+        guardarProductoCanjeado(
+          idUsuario,
+          idProducto,
+          nombreProducto,
+          greedyPoints,
+          direccion,
+          localidad,
+        ),
+      ),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductoACanjear);

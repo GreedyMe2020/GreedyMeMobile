@@ -13,7 +13,7 @@ import { colors } from '../../styles/colores';
 
 function Perfil(props) {
   const handleCerrarSesion = () => {
-    props.navigation.navigate('Home');
+    props.navigation.navigate('PantallaLogo');
     props.signOut();
   };
   return (

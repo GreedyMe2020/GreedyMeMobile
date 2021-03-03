@@ -88,10 +88,11 @@ function Inicio(props) {
 
   const getLocation = async () => {
     //if props.location then nada
-    const { status } = await Permissions.askAsync(Permissions.LOCATION);
+    const { status } = await Permissions.getAsync(Permissions.LOCATION);
     if (status !== 'granted') {
       //Se rechazó el permiso para geolocalizacion
       console.log('El permiso para acceder a la ubicación fue denegado');
+      props.setNuevoUsuario('False');
     } else {
       const location = await Location.getCurrentPositionAsync();
       props.guardarGeolocalizacion(location);
@@ -108,11 +109,12 @@ function Inicio(props) {
       )
       .then((response) => {
         if (response.status !== 'granted') {
+          props.setNuevoUsuario('False');
           return Promise.reject(
             new Error('Push notifications permission was rejected'),
           );
         }
-
+        props.setNuevoUsuario('False');
         return Notifications.getDevicePushTokenAsync();
       })
       .then((token) => {
@@ -121,8 +123,10 @@ function Inicio(props) {
           .doc(props.auth.uid)
           .update({ pushToken: token.data });
         console.log(token);
+        props.setNuevoUsuario('False');
       })
       .catch((error) => {
+        props.setNuevoUsuario('False');
         console.log('Error while registering device push token', error);
       });
   };
@@ -280,7 +284,7 @@ function Inicio(props) {
       setProveedores(props.profile.proveedoresAsociados);
       filtrar(proveedores);
     }*/
-  }, [props.profile.proveedoresAsociados, proveedores]);
+  }, [proveedores, props.profile.proveedoresAsociados]);
 
   return (
     <SafeAreaView style={styles.container}>
