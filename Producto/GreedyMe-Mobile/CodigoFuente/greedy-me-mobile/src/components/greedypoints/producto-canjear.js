@@ -7,7 +7,13 @@ import {
   Image,
   TouchableWithoutFeedback,
 } from 'react-native';
-import { Button, Paragraph, Dialog, Portal } from 'react-native-paper';
+import {
+  Button,
+  Paragraph,
+  Dialog,
+  Portal,
+  Snackbar,
+} from 'react-native-paper';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { connect } from 'react-redux';
 import _ from 'lodash';
@@ -23,23 +29,36 @@ function ProductoACanjear(props) {
 
   const [puntoRetiro, setPuntoRetiro] = React.useState([]);
 
+  //estado para mostrar un mensaje de error si se quiere comprar un producto sin tener los greedyPoints necesarios
+  const [mensajeError, setMensajeError] = React.useState(false);
+  //funcion que cierra el mensaje de error
+  const onDismissSnackBar2 = () => setMensajeError(false);
+
   const [puntoRetiroSeleccionado, setPuntoRetiroSeleccionado] = React.useState(
     null,
   );
+
   //estados para manejar el dialog
   const [visible, setVisible] = React.useState(false);
   //falta agregar los datos del producto que tendrian que venir por props, yo lo preparo en el back comentado
   //el label es la direccion y el value es la localidad
   const onSubmit = () => {
     setVisible(true);
-    props.guardarProductoCanjeado(
-      props.auth.uid,
-      data.item.id,
-      data.item.nombre,
-      data.item.greedyPoints,
-      puntoRetiroSeleccionado.label,
-      puntoRetiroSeleccionado.value,
-    );
+    if (props.profile.greedyPoints >= data.item.greedyPoints) {
+      let greedyPointsRestantes =
+        props.profile.greedyPoints - data.item.greedyPoints;
+      props.guardarProductoCanjeado(
+        props.auth.uid,
+        data.item.id,
+        data.item.nombre,
+        data.item.greedyPoints,
+        puntoRetiroSeleccionado.label,
+        puntoRetiroSeleccionado.value,
+        greedyPointsRestantes,
+      );
+    } else {
+      setMensajeError(true);
+    }
   };
 
   const hideDialog = () => setVisible(false);
@@ -66,7 +85,6 @@ function ProductoACanjear(props) {
   return (
     <View style={styles.container}>
       <Image style={styles.image} source={{ uri: data.item.photoURL }} />
-      {console.log(data.item)}
       <View style={styles.texto}>
         <Text style={styles.nombreProducto}>{data.item.nombre}</Text>
         <Text style={styles.descripcion}>{data.item.descripcion}</Text>
@@ -122,28 +140,45 @@ function ProductoACanjear(props) {
           </Button>
         )}
 
-        <Portal>
-          <Dialog visible={visible} onDismiss={hideDialog}>
-            <Dialog.Title>¡¡Premio canjeado!! </Dialog.Title>
-            <Dialog.Content>
-              <Paragraph style={{ fontSize: 16 }}>
-                Tenés como máximo 5 días hábiles para retirar tu premio en el
-                punto de entrega elegido. Pasado ese periodo no podrás
-                reclamarlo.
-              </Paragraph>
-            </Dialog.Content>
-            <Dialog.Actions>
-              <Button
-                style={{ marginRight: 7 }}
-                onPress={() => {
-                  props.navigation.navigate('GreedyPointsInicio');
-                }}
-              >
-                OK
-              </Button>
-            </Dialog.Actions>
-          </Dialog>
-        </Portal>
+        {mensajeError ? (
+          <Snackbar
+            visible={mensajeError}
+            onDismiss={onDismissSnackBar2}
+            theme={{ colors: { accent: 'white' } }}
+            action={{
+              label: 'OK',
+              onPress: () => {
+                onDismissSnackBar2;
+              },
+            }}
+            style={styles.snackbar2}
+          >
+            No tenés los suficientes greedyPoints para canjear este producto.
+          </Snackbar>
+        ) : (
+          <Portal>
+            <Dialog visible={visible} onDismiss={hideDialog}>
+              <Dialog.Title>¡¡Premio canjeado!! </Dialog.Title>
+              <Dialog.Content>
+                <Paragraph style={{ fontSize: 16 }}>
+                  Tenés como máximo 5 días hábiles para retirar tu premio en el
+                  punto de entrega elegido. Pasado ese periodo no podrás
+                  reclamarlo.
+                </Paragraph>
+              </Dialog.Content>
+              <Dialog.Actions>
+                <Button
+                  style={{ marginRight: 7 }}
+                  onPress={() => {
+                    props.navigation.navigate('GreedyPointsInicio');
+                  }}
+                >
+                  OK
+                </Button>
+              </Dialog.Actions>
+            </Dialog>
+          </Portal>
+        )}
       </View>
     </View>
   );
@@ -265,6 +300,7 @@ const mapDispatchToProps = (dispatch) => {
       greedyPoints,
       direccion,
       localidad,
+      greedyPointsADescontar,
     ) =>
       dispatch(
         guardarProductoCanjeado(
@@ -274,6 +310,7 @@ const mapDispatchToProps = (dispatch) => {
           greedyPoints,
           direccion,
           localidad,
+          greedyPointsADescontar,
         ),
       ),
   };

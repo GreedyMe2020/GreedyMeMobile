@@ -145,9 +145,14 @@ export const guardarProductoCanjeado = (
   greedyPoints,
   direccion,
   localidad,
+  greedyPointsADescontar,
 ) => {
   return (dispatch, getState, { getFirestore }) => {
     const firestore = getFirestore();
+    firestore
+      .collection('usuarioConsumidor')
+      .doc(idUsuario)
+      .update({ greedyPoints: greedyPointsADescontar });
     firestore
       .collection('usuarioConsumidor')
       .doc(idUsuario)
