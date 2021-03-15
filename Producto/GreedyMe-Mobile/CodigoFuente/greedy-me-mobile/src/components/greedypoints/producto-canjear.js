@@ -141,20 +141,27 @@ function ProductoACanjear(props) {
         )}
 
         {mensajeError ? (
-          <Snackbar
-            visible={mensajeError}
-            onDismiss={onDismissSnackBar2}
-            theme={{ colors: { accent: 'white' } }}
-            action={{
-              label: 'OK',
-              onPress: () => {
-                onDismissSnackBar2;
-              },
-            }}
-            style={styles.snackbar2}
-          >
-            No tenés los suficientes greedyPoints para canjear este producto.
-          </Snackbar>
+          <Portal>
+            <Dialog visible={visible} onDismiss={hideDialog}>
+              <Dialog.Title>¡¡GreedyPoints insuficientes!! </Dialog.Title>
+              <Dialog.Content>
+                <Paragraph style={{ fontSize: 16 }}>
+                  No tenés los suficientes greedyPoints para canjear este
+                  producto.
+                </Paragraph>
+              </Dialog.Content>
+              <Dialog.Actions>
+                <Button
+                  style={{ marginRight: 7 }}
+                  onPress={() => {
+                    props.navigation.navigate('GreedyPointsInicio');
+                  }}
+                >
+                  OK
+                </Button>
+              </Dialog.Actions>
+            </Dialog>
+          </Portal>
         ) : (
           <Portal>
             <Dialog visible={visible} onDismiss={hideDialog}>
@@ -282,6 +289,10 @@ const styles = StyleSheet.create({
     color: colors.naranja,
     fontSize: 12,
     fontFamily: 'Poppins-Regular',
+  },
+  snackbar: {
+    alignSelf: 'flex-end',
+    backgroundColor: colors.alertGrey,
   },
 });
 
