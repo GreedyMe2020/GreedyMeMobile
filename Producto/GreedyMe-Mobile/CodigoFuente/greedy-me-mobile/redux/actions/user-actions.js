@@ -1,5 +1,5 @@
 import { id } from 'date-fns/locale';
-
+import secondaryApp from '../../firebase/config-secondary';
 export const editarDatos = (datos) => {
   return (dispatch, getState, { getFirestore }) => {
     //codigo asincrono
@@ -157,17 +157,7 @@ export const guardarProductoCanjeado = (
       .collection('usuarioConsumidor')
       .doc(idUsuario)
       .update({ greedyPoints: greedyPointsADescontar });
-    firestore.collection('productosCanjeadosGeneral').doc().set({
-      apellidoUsuario: apellidoUsuario,
-      nombreUsuario: nombreUsuario,
-      idProducto: idProducto,
-      nombreProducto: nombreProducto,
-      greedyPoints: greedyPoints,
-      direccionRetiro: direccion,
-      localidad: localidad,
-      estado: 'A retirar',
-      fecha: new Date(),
-    });
+
     firestore
       .collection('usuarioConsumidor')
       .doc(idUsuario)
@@ -179,6 +169,20 @@ export const guardarProductoCanjeado = (
         greedyPoints: greedyPoints,
         direccionRetiro: direccion,
         localidad: localidad,
+        fecha: new Date(),
+      });
+    const bd = secondaryApp.firestore();
+    bd.collection('productosCanjeadosGeneral')
+      .doc()
+      .set({
+        apellidoUsuario: apellidoUsuario,
+        nombreUsuario: nombreUsuario,
+        idProducto: idProducto,
+        nombreProducto: nombreProducto,
+        greedyPoints: greedyPoints,
+        direccionRetiro: direccion,
+        localidad: localidad,
+        estado: 'A retirar',
         fecha: new Date(),
       })
       .then(() => {
