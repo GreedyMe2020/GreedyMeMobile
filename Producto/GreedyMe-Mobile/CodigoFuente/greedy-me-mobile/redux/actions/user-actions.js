@@ -1,3 +1,5 @@
+import { id } from 'date-fns/locale';
+
 export const editarDatos = (datos) => {
   return (dispatch, getState, { getFirestore }) => {
     //codigo asincrono
@@ -139,6 +141,8 @@ export const quitarGeolocalizacion = (geo) => {
 
 // le agregaria el nombre del producto y los greedy points
 export const guardarProductoCanjeado = (
+  apellidoUsuario,
+  nombreUsuario,
   idUsuario,
   idProducto,
   nombreProducto,
@@ -153,6 +157,17 @@ export const guardarProductoCanjeado = (
       .collection('usuarioConsumidor')
       .doc(idUsuario)
       .update({ greedyPoints: greedyPointsADescontar });
+    firestore.collection('productosCanjeadosGeneral').doc().set({
+      apellidoUsuario: apellidoUsuario,
+      nombreUsuario: nombreUsuario,
+      idProducto: idProducto,
+      nombreProducto: nombreProducto,
+      greedyPoints: greedyPoints,
+      direccionRetiro: direccion,
+      localidad: localidad,
+      estado: 'A retirar',
+      fecha: new Date(),
+    });
     firestore
       .collection('usuarioConsumidor')
       .doc(idUsuario)
@@ -164,6 +179,7 @@ export const guardarProductoCanjeado = (
         greedyPoints: greedyPoints,
         direccionRetiro: direccion,
         localidad: localidad,
+        fecha: new Date(),
       })
       .then(() => {
         dispatch({ type: 'GUARDAR_PRODUCTO' });

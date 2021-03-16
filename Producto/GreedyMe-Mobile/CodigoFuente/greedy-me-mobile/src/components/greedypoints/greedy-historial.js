@@ -1,14 +1,45 @@
 import * as React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
 import { DataTable } from 'react-native-paper';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { colors } from '../../styles/colores';
+import firebaseapp from '../../../firebase/config';
 
 function GreedyShopHistorial(props) {
+  const [productosCanjeadosTotal, setProductosCanjeadosTotal] = React.useState(
+    [],
+  );
+  const [uid, setUid] = React.useState(props.auth.uid);
+  //Traigo todos los productos canjeados del usuario.
+  React.useEffect(() => {
+    const obtenerProductosCanjeados = async () => {
+      const firestore = firebaseapp.firestore();
+      try {
+        const productosCanjeados = await firestore
+          .collection('usuarioConsumidor')
+          .doc(uid)
+          .collection('productosCanjeados')
+          .get();
+        const arrayProductosCanjeados = productosCanjeados.docs.map((doc) => ({
+          id: doc.id,
+          fecha: doc.fecha,
+          nombre: doc.nombreProducto,
+          greedyPoints: doc.greedyPoints,
+        }));
+
+        setProductosCanjeadosTotal(arrayProductosCanjeados);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    obtenerProductosCanjeados();
+  }, []);
+
   return (
     <View style={styles.container}>
-      <DataTable>
+      {console.log(productosCanjeadosTotal)}
+      <DataTable data={productosCanjeadosTotal} columns={3}>
         <DataTable.Header style={styles.header}>
           <DataTable.Title style={styles.headerTextF}>Fecha</DataTable.Title>
           <DataTable.Title style={styles.headerTextP}>Producto</DataTable.Title>
@@ -16,36 +47,6 @@ function GreedyShopHistorial(props) {
             GreedyPoints
           </DataTable.Title>
         </DataTable.Header>
-
-        <DataTable.Row style={styles.row}>
-          <DataTable.Cell style={styles.fecha}>10/05/2020</DataTable.Cell>
-          <DataTable.Cell numeric style={styles.producto}>
-            Cuaderno GP
-          </DataTable.Cell>
-          <DataTable.Cell numeric style={styles.points}>
-            100
-          </DataTable.Cell>
-        </DataTable.Row>
-
-        <DataTable.Row style={styles.row}>
-          <DataTable.Cell style={styles.fecha}>20/10/2020</DataTable.Cell>
-          <DataTable.Cell numeric style={styles.producto}>
-            Vaso térmico
-          </DataTable.Cell>
-          <DataTable.Cell numeric style={styles.points}>
-            150
-          </DataTable.Cell>
-        </DataTable.Row>
-
-        <DataTable.Row style={styles.row}>
-          <DataTable.Cell style={styles.fecha}>28/01/2021</DataTable.Cell>
-          <DataTable.Cell numeric style={styles.producto}>
-            Mate GreedyMe
-          </DataTable.Cell>
-          <DataTable.Cell numeric style={styles.points}>
-            250
-          </DataTable.Cell>
-        </DataTable.Row>
       </DataTable>
     </View>
   );

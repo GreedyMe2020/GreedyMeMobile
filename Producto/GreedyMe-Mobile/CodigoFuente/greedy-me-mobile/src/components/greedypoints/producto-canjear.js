@@ -48,6 +48,8 @@ function ProductoACanjear(props) {
       let greedyPointsRestantes =
         props.profile.greedyPoints - data.item.greedyPoints;
       props.guardarProductoCanjeado(
+        props.profile.apellido,
+        props.profile.nombre,
         props.auth.uid,
         data.item.id,
         data.item.nombre,
@@ -305,6 +307,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     guardarProductoCanjeado: (
+      apellidoUsuario,
+      nombreUsuario,
       idUsuario,
       idProducto,
       nombreProducto,
@@ -315,6 +319,8 @@ const mapDispatchToProps = (dispatch) => {
     ) =>
       dispatch(
         guardarProductoCanjeado(
+          apellidoUsuario,
+          nombreUsuario,
           idUsuario,
           idProducto,
           nombreProducto,
