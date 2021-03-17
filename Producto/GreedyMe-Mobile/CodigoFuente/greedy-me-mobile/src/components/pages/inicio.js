@@ -29,7 +29,7 @@ import {
   setearLogeo,
   setNuevoUsuario,
 } from '../../../redux/actions/auth-actions';
-
+import secondaryApp from '../../../firebase/config-secondary';
 import { guardarGeolocalizacion } from '../../../redux/actions/user-actions';
 
 //Obtengo todos los comercios que en un principio solo deberian estar los que tienen proveedor de servicio del usuario
@@ -115,13 +115,36 @@ function Inicio(props) {
           );
         }
         props.setNuevoUsuario('False');
-        return Notifications.getDevicePushTokenAsync();
+        return Notifications.getExpoPushTokenAsync();
       })
       .then((token) => {
         firestore
           .collection('usuarioConsumidor')
           .doc(props.auth.uid)
           .update({ pushToken: token.data });
+        firestore
+          .collection('todosTokens')
+          .get()
+          .then((doc) => {
+            const tokens = doc.docs.map((documento) => ({
+              id: documento.id,
+              ...documento.data(),
+            }));
+            let todosTokens = tokens[0].tokens;
+            todosTokens.push(token.data);
+            return todosTokens;
+          })
+          .then((todosTokens) => {
+            firestore
+              .collection('todosTokens')
+              .doc('abcdtokens')
+              .update({ tokens: todosTokens });
+            const bd = secondaryApp.firestore();
+            bd.collection('todosTokens')
+              .doc('abcdtokens')
+              .update({ tokens: todosTokens });
+          })
+          .catch(() => console.log('Error al guardar token'));
         console.log(token);
         props.setNuevoUsuario('False');
       })
@@ -130,6 +153,7 @@ function Inicio(props) {
         console.log('Error while registering device push token', error);
       });
   };
+  //console.log(props);
 
   //DE ESTE IFF
   if (props.usuarioNuevo !== null) {
@@ -137,7 +161,6 @@ function Inicio(props) {
     getLocation();
     getDevicePushToken();
   }
-
   //estados para el permiso de ubicacion
   const [errorMsgGeo, setErrorMsgGeo] = React.useState(null);
   //estado lista comercios
