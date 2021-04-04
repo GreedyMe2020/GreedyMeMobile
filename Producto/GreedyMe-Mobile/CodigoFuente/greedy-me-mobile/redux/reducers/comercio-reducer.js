@@ -11,6 +11,10 @@ const initState = {
   errorGreedyPoints: null,
   sumarEncuestaGreedyPoints: null,
   errorEncuestaPoints: null,
+  tokenAFavorito: null,
+  errorTokenAFavorito: null,
+  eliminarTokenAFavorito: null,
+  errorEliminarTokenAFavorito: null,
 };
 
 const comercioReducer = (state = initState, action) => {
@@ -86,6 +90,30 @@ const comercioReducer = (state = initState, action) => {
       return {
         ...state,
         errorEncuestaPoints: 'Ocurrió algún error al sumar los 20 greedypoints',
+      };
+    case 'CAMBIAR_TOKENFAVORITO':
+      console.log('agregaste token a favorito');
+      return {
+        ...state,
+        tokenAFavorito: 'se agrego token a favorito',
+      };
+    case 'ERROR_TOKENFAVORITO':
+      console.log('no agregaste token a favorito');
+      return {
+        ...state,
+        errorTokenAFavorito: 'error al agregar token a favorito',
+      };
+    case 'ELIMINAR_TOKENFAVORITO':
+      console.log('eliminaste token a favorito');
+      return {
+        ...state,
+        eliminarTokenAFavorito: 'se elimino token a favorito',
+      };
+    case 'ERROR_ELIMINARTOKENFAVORITO':
+      console.log('no eliminaste token a favorito');
+      return {
+        ...state,
+        errorEliminarTokenAFavorito: 'error al eliminar token a favorito',
       };
     default:
       return state;

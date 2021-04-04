@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { connect } from 'react-redux';
 import { editarProveedores } from '../../../redux/actions/user-actions';
 import firebaseapp from '../../../firebase/config';
+import ProveedoresContext from '../../context/proveedoresContext';
 
 const firestore = firebaseapp.firestore();
 const items = [];
@@ -25,11 +26,15 @@ const obtenerProveedores = () => {
 obtenerProveedores();
 
 function Proveedores(props) {
-  const [selectedItems, setSelectedItems] = React.useState(
-    props.profile.proveedoresAsociados,
+  //traigo contexto global de proveedores
+  const { contextProveedores, setContextProveedores } = React.useContext(
+    ProveedoresContext,
   );
 
+  const [selectedItems, setSelectedItems] = React.useState(contextProveedores);
+
   const onSelectedItemsChange = (selectedItems) => {
+    setContextProveedores(selectedItems);
     setSelectedItems(selectedItems);
     props.editarProveedores(selectedItems, props.auth.uid);
   };

@@ -161,6 +161,8 @@ export const sumarGreedyPointsEncuesta = (
   value1,
   value2,
   text,
+  nombre,
+  apellido,
 ) => {
   return (dispatch, getState, { getFirestore }) => {
     const firestore = getFirestore();
@@ -179,6 +181,8 @@ export const sumarGreedyPointsEncuesta = (
         coincideLoEsperado: value1,
         atencionVendedor: value2,
         comentario: text,
+        nombre: nombre,
+        apellido: apellido,
       });
     const bd = secondaryApp.firestore();
     bd.collection('usuarioComercio')
@@ -190,12 +194,83 @@ export const sumarGreedyPointsEncuesta = (
         coincideLoEsperado: value1,
         atencionVendedor: value2,
         comentario: text,
+        nombre: nombre,
+        apellido: apellido,
       })
       .then(() => {
         dispatch({ type: 'ENCUESTA_GREEDY_POINTS' });
       })
       .catch((error) => {
         dispatch({ type: 'ERROR_ENCUESTA', error });
+      });
+  };
+};
+
+export const agregarTokenAComercio = (idComercio, pushToken) => {
+  return (dispatch, getState, { getFirestore }) => {
+    //codigo asincrono
+    const firestore = getFirestore();
+    firestore
+      .collection('usuarioComercio')
+      .doc(idComercio)
+      .get()
+      .then((doc) => {
+        let todosTokens = doc.data().tokensFavoritos;
+        todosTokens.push(pushToken);
+        return todosTokens;
+      })
+      .then((todosTokens) => {
+        firestore.collection('usuarioComercio').doc(idComercio).update({
+          tokensFavoritos: todosTokens,
+        });
+        const bd = secondaryApp.firestore();
+        bd.collection('usuarioComercio')
+          .doc(idComercio)
+          .update({
+            tokensFavoritos: todosTokens,
+          })
+          .then(() => {
+            dispatch({ type: 'CAMBIAR_TOKENFAVORITO' });
+          })
+          .catch((error) => {
+            dispatch({ type: 'ERROR_TOKENFAVORITO', error });
+          });
+      });
+  };
+};
+
+export const eliminarTokenAComercio = (idComercio, pushToken) => {
+  return (dispatch, getState, { getFirestore }) => {
+    //codigo asincrono
+    const firestore = getFirestore();
+    firestore
+      .collection('usuarioComercio')
+      .doc(idComercio)
+      .get()
+      .then((doc) => {
+        let todosTokens = doc.data().tokensFavoritos;
+        const indice = _.findIndex(todosTokens, function (o) {
+          return o === pushToken;
+        });
+        todosTokens.splice(indice, 1);
+        return todosTokens;
+      })
+      .then((todosTokens) => {
+        firestore.collection('usuarioComercio').doc(idComercio).update({
+          tokensFavoritos: todosTokens,
+        });
+        const bd = secondaryApp.firestore();
+        bd.collection('usuarioComercio')
+          .doc(idComercio)
+          .update({
+            tokensFavoritos: todosTokens,
+          })
+          .then(() => {
+            dispatch({ type: 'ELIMINAR_TOKENFAVORITO' });
+          })
+          .catch((error) => {
+            dispatch({ type: 'ERROR_ELIMINARTOKENFAVORITO', error });
+          });
       });
   };
 };

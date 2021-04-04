@@ -71,7 +71,18 @@ export default function ComerciosNav(props) {
             />
           )}
         />
-        <Tab.Screen name="Reseñas" component={ReseñasComercio} />
+        <Tab.Screen
+          name="Reseñas"
+          children={() => (
+            <ReseñasComercio
+              idcomercio={data.item.id}
+              navigation={props.navigation}
+              fotocomercio={data.item.photoURL}
+              nombrecomercio={data.item.nombreComercio}
+              sucursalcomercio={data.item.sucursal}
+            />
+          )}
+        />
       </Tab.Navigator>
     </SafeAreaView>
   );

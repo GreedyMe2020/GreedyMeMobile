@@ -206,6 +206,8 @@ function EncuestaExtraGP(props) {
                       value1,
                       value2,
                       text,
+                      props.profile.nombre,
+                      props.profile.apellido,
                     );
                     props.navigation.navigate('Inicio');
                   }}
@@ -363,6 +365,8 @@ const mapDispatchToProps = (dispatch) => {
       value1,
       value2,
       text,
+      nombre,
+      apellido,
     ) =>
       dispatch(
         sumarGreedyPointsEncuesta(
@@ -372,6 +376,8 @@ const mapDispatchToProps = (dispatch) => {
           value1,
           value2,
           text,
+          nombre,
+          apellido,
         ),
       ),
   };

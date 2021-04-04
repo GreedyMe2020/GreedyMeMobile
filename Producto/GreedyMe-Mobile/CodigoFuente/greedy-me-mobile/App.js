@@ -8,6 +8,9 @@ import store from './redux/store';
 import * as Font from 'expo-font';
 import NavegadorPrincipal from './src/components/pages/navegador-principal';
 import { CuponesContextProvider } from './src/context/cuponesContext';
+import { ComerciosContextProvider } from './src/context/comerciosContext';
+import { PromocionesContextProvider } from './src/context/promocionesContext';
+import { ProveedoresContextProvider } from './src/context/proveedoresContext';
 
 const theme = {
   ...DefaultTheme,
@@ -36,13 +39,19 @@ export default function App(props) {
 
   return (
     <Provider store={store}>
-      <CuponesContextProvider>
-        <SafeAreaProvider>
-          <PaperProvider theme={theme}>
-            <NavegadorPrincipal />
-          </PaperProvider>
-        </SafeAreaProvider>
-      </CuponesContextProvider>
+      <ComerciosContextProvider>
+        <PromocionesContextProvider>
+          <ProveedoresContextProvider>
+            <CuponesContextProvider>
+              <SafeAreaProvider>
+                <PaperProvider theme={theme}>
+                  <NavegadorPrincipal />
+                </PaperProvider>
+              </SafeAreaProvider>
+            </CuponesContextProvider>
+          </ProveedoresContextProvider>
+        </PromocionesContextProvider>
+      </ComerciosContextProvider>
     </Provider>
   );
 }
