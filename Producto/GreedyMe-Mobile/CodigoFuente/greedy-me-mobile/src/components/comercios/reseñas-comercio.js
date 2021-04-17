@@ -14,6 +14,9 @@ import firebaseapp from '../../../firebase/config';
 const firestore = firebaseapp.firestore();
 export default function ReseñasComercio(props) {
   const [reseñas, setReseñas] = React.useState(null);
+  const [muyBuena, setMuyBuena] = React.useState(0);
+  const [buena, setBuena] = React.useState(0);
+  const [mala, setMala] = React.useState(0);
 
   React.useEffect(() => {
     firestore
@@ -26,11 +29,29 @@ export default function ReseñasComercio(props) {
           id: doc.id,
           ...doc.data(),
         }));
+        let muybuena = 0;
+        let buena = 0;
+        let mala = 0;
+        arrayReseñas.forEach((reseña) => {
+          if (reseña.atencionVendedor === 'muybuena') {
+            muybuena += 1;
+          }
+          if (reseña.atencionVendedor === 'buena') {
+            buena += 1;
+          }
+          if (reseña.atencionVendedor === 'mala') {
+            mala += 1;
+          }
+          setMuyBuena(muybuena);
+          setBuena(buena);
+          setMala(mala);
+        });
         setReseñas(arrayReseñas);
       })
       .catch((err) => console.log(err));
   }, []);
 
+  //esta if no funciona no se porque
   if (reseñas === null || reseñas === []) {
     return (
       <View style={styles.contenedor}>
@@ -58,7 +79,13 @@ export default function ReseñasComercio(props) {
               <View style={styles.progres}>
                 <Text style={styles.textoC}>Muy buena</Text>
                 <ProgressBar
-                  progress={0.7}
+                  progress={
+                    reseñas.lenght === 0
+                      ? 0
+                      : muyBuena === 0
+                      ? 0
+                      : muyBuena / reseñas.lenght
+                  }
                   color={colors.naranja}
                   style={styles.barra}
                 />
@@ -66,7 +93,13 @@ export default function ReseñasComercio(props) {
               <View style={styles.progres}>
                 <Text style={styles.textoC}>Regular</Text>
                 <ProgressBar
-                  progress={0.5}
+                  progress={
+                    reseñas.lenght === 0
+                      ? 0
+                      : buena === 0
+                      ? 0
+                      : buena / reseñas.lenght
+                  }
                   color={colors.celeste}
                   style={styles.barra}
                 />
@@ -74,7 +107,13 @@ export default function ReseñasComercio(props) {
               <View style={styles.progres}>
                 <Text style={styles.textoC}>Mala</Text>
                 <ProgressBar
-                  progress={0.2}
+                  progress={
+                    reseñas.lenght === 0
+                      ? 0
+                      : mala === 0
+                      ? 0
+                      : mala / reseñas.lenght
+                  }
                   color={colors.error}
                   style={styles.barra}
                 />
@@ -104,9 +143,6 @@ export default function ReseñasComercio(props) {
       </SafeAreaView>
     );
   }
-
-
-  
 }
 
 const styles = StyleSheet.create({

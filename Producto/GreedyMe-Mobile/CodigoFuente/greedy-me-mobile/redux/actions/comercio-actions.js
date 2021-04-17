@@ -274,3 +274,75 @@ export const eliminarTokenAComercio = (idComercio, pushToken) => {
       });
   };
 };
+
+export const agregarEstadisticaFavorito = (idComercio, idConsumidor) => {
+  return (dispatch, getState, { getFirestore }) => {
+    //codigo asincrono
+    const firestore = getFirestore();
+    firestore
+      .collection('usuarioComercio')
+      .doc(idComercio)
+      .get()
+      .then((doc) => {
+        let todosEstadisticaFavorito = doc.data().estadisticasFavoritos;
+        todosEstadisticaFavorito.push({
+          idConsumidor: idConsumidor,
+          fecha: Date(),
+        });
+        return todosEstadisticaFavorito;
+      })
+      .then((todosEstadisticaFavorito) => {
+        firestore.collection('usuarioComercio').doc(idComercio).update({
+          estadisticasFavoritos: todosEstadisticaFavorito,
+        });
+        const bd = secondaryApp.firestore();
+        bd.collection('usuarioComercio')
+          .doc(idComercio)
+          .update({
+            estadisticasFavoritos: todosEstadisticaFavorito,
+          })
+          .then(() => {
+            dispatch({ type: 'CAMBIAR_ESTADISTICAFAVORITO' });
+          })
+          .catch((error) => {
+            dispatch({ type: 'ERROR_ESTADISTICAFAVORITO', error });
+          });
+      });
+  };
+};
+
+export const eliminarEstadisticaFavorito = (idComercio, idConsumidor) => {
+  return (dispatch, getState, { getFirestore }) => {
+    //codigo asincrono
+    const firestore = getFirestore();
+    firestore
+      .collection('usuarioComercio')
+      .doc(idComercio)
+      .get()
+      .then((doc) => {
+        let todosEstadisticaFavorito = doc.data().estadisticasFavoritos;
+        const indice = _.findIndex(todosEstadisticaFavorito, function (o) {
+          return o.idConsumidor === idConsumidor;
+        });
+        todosEstadisticaFavorito.splice(indice, 1);
+        return todosEstadisticaFavorito;
+      })
+      .then((todosEstadisticaFavorito) => {
+        firestore.collection('usuarioComercio').doc(idComercio).update({
+          estadisticasFavoritos: todosEstadisticaFavorito,
+        });
+        const bd = secondaryApp.firestore();
+        bd.collection('usuarioComercio')
+          .doc(idComercio)
+          .update({
+            estadisticasFavoritos: todosEstadisticaFavorito,
+          })
+          .then(() => {
+            dispatch({ type: 'ELIMINAR_ESTADISTICAFAVORITO' });
+          })
+          .catch((error) => {
+            dispatch({ type: 'ERROR_ELIMINARESTADISTICAFAVORITO', error });
+          });
+      });
+  };
+};

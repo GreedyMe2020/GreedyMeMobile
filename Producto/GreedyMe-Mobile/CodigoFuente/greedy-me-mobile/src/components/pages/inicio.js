@@ -31,40 +31,8 @@ import ComerciosContext from '../../context/comerciosContext';
 import PromocionesContext from '../../context/promocionesContext';
 import ProveedoresContext from '../../context/proveedoresContext';
 
-//Obtengo todos los comercios que en un principio solo deberian estar los que tienen proveedor de servicio del usuario
 const firestore = firebaseapp.firestore();
-/*
-const comercios = [];
-const obtenerComercios = () => {
-  firebaseapp.auth().onAuthStateChanged(function (user) {
-    if (user) {
-      firestore.collection('usuarioComercio').onSnapshot((snapShots) => {
-        snapShots.forEach((doc) => {
-          const data = doc.data();
-          comercios.push({
-            ...data,
-            id: doc.id,
-          });
-        });
-      });
-    }
-  });
-};
-obtenerComercios();
 
-const promociones = [];
-const obtenerPromociones = () => {
-  firestore.collection('promociones').onSnapshot((snapShots) => {
-    snapShots.forEach((doc) => {
-      const data = doc.data();
-      promociones.push({
-        ...data,
-        id: doc.id,
-      });
-    });
-  });
-};
-obtenerPromociones();*/
 //esconde los warnings
 LogBox.ignoreLogs(['Warning: ...']);
 LogBox.ignoreAllLogs();
@@ -133,11 +101,6 @@ function Inicio(props) {
     obtenerComercios();
   }, []);
 
-  //guardo los proveedores del usuario
-  /*const [proveedores, setProveedores] = React.useState(
-    props.profile.proveedoresAsociados,
-  );*/
-
   const filtro = (proveedoresSeleccionados) => {
     if (proveedoresSeleccionados === null) {
       let idComercios = [];
@@ -198,76 +161,6 @@ function Inicio(props) {
       setListaComercios2(comerciosFinales);
     }
   };
-
-  //primer filtrado de comercios segun el proveedor de cada usuario
-  /*const filtrar = (itemSeleccionados) => {
-    if (itemSeleccionados === null) {
-      const idComercios = [];
-      contextPromociones.forEach((promo) => {
-        if (promo.visible === true) {
-          if (promo.TipoProveedor === 'Propias') {
-            idComercios.push(promo.idComercio);
-          }
-        }
-      });
-      for (var i = idComercios.length - 1; i >= 0; i--) {
-        if (idComercios.indexOf(idComercios[i]) !== i) {
-          idComercios.splice(i, 1);
-        }
-      }
-      let comerciosFinales = [];
-      comercios.forEach((comercio) => {
-        idComercios.forEach((idComercio) => {
-          if (comercio.id === idComercio) {
-            comerciosFinales.push(comercio);
-          }
-        });
-      });
-      let set = new Set(comerciosFinales.map(JSON.stringify));
-      let arrSinDuplicaciones = Array.from(set).map(JSON.parse);
-      setListaComercios(arrSinDuplicaciones);
-      setListaComercios2(arrSinDuplicaciones);
-      return;
-    }
-    const idComercios = [];
-
-    itemSeleccionados
-      ? itemSeleccionados.forEach((item) => {
-          promociones.forEach((promo) => {
-            if (promo.visible === true) {
-              if (
-                promo.tipoProveedor === item ||
-                promo.valueProveedor === item ||
-                promo.otroProveedor === item ||
-                promo.tipoProveedor === 'Propias'
-              ) {
-                idComercios.push(promo.idComercio);
-              }
-            }
-          });
-        })
-      : null;
-
-    for (var i = idComercios.length - 1; i >= 0; i--) {
-      if (idComercios.indexOf(idComercios[i]) !== i) {
-        idComercios.splice(i, 1);
-      }
-    }
-
-    let comerciosFinales = [];
-    comercios.forEach((comercio) => {
-      idComercios.forEach((idComercio) => {
-        if (comercio.id === idComercio) {
-          comerciosFinales.push(comercio);
-        }
-      });
-    });
-    let set = new Set(comerciosFinales.map(JSON.stringify));
-    let arrSinDuplicaciones = Array.from(set).map(JSON.parse);
-    setListaComercios(arrSinDuplicaciones);
-    setListaComercios2(arrSinDuplicaciones);
-    return;
-  };*/
 
   //funcion para pedir permiso de ubicacion cuando abre por primera vez (usuario nuevo)
 
@@ -424,7 +317,7 @@ function Inicio(props) {
   }, [proveedores, props.profile.proveedoresAsociados]);*/
 
   React.useEffect(() => {
-    if (contextProveedores){
+    if (contextProveedores) {
       filtro(contextProveedores);
     }
   }, [contextProveedores]);

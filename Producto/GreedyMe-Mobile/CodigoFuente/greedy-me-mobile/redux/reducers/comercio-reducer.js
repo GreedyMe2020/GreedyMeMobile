@@ -15,6 +15,10 @@ const initState = {
   errorTokenAFavorito: null,
   eliminarTokenAFavorito: null,
   errorEliminarTokenAFavorito: null,
+  estadisticaAFavorito: null,
+  errorEstadisticaAFavorito: null,
+  eliminarEstadisticaAFavorito: null,
+  errorEliminarEstadisticaAFavorito: null,
 };
 
 const comercioReducer = (state = initState, action) => {
@@ -114,6 +118,31 @@ const comercioReducer = (state = initState, action) => {
       return {
         ...state,
         errorEliminarTokenAFavorito: 'error al eliminar token a favorito',
+      };
+    case 'CAMBIAR_ESTADISTICAFAVORITO':
+      console.log('agregaste estadistica a favorito');
+      return {
+        ...state,
+        estadisticaAFavorito: 'se agrego token a favorito',
+      };
+    case 'ERROR_ESTADISTICAFAVORITO':
+      console.log('no agregaste estadistica a favorito');
+      return {
+        ...state,
+        errorEstadisticaAFavorito: 'error al agregar estadistica a favorito',
+      };
+    case 'ELIMINAR_ESTADISTICAFAVORITO':
+      console.log('eliminaste estadistica a favorito');
+      return {
+        ...state,
+        eliminarEstadisticaAFavorito: 'se elimino estadistica a favorito',
+      };
+    case 'ERROR_ELIMINARESTADISTICAFAVORITO':
+      console.log('no eliminaste estadistica a favorito');
+      return {
+        ...state,
+        errorEliminarEstadisticaAFavorito:
+          'error al eliminar estadistica a favorito',
       };
     default:
       return state;

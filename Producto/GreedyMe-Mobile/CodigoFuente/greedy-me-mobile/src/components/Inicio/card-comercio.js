@@ -16,6 +16,8 @@ import {
   eliminarComercioFavorito,
   eliminarTokenAComercio,
   agregarTokenAComercio,
+  agregarEstadisticaFavorito,
+  eliminarEstadisticaFavorito,
 } from '../../../redux/actions/comercio-actions';
 
 function CardComercio(props) {
@@ -31,9 +33,11 @@ function CardComercio(props) {
     if (esFavorito === true) {
       props.eliminarComercioFavorito(props.auth.uid, idComercio);
       props.eliminarTokenAComercio(idComercio, props.profile.pushToken);
+      props.eliminarEstadisticaFavorito(idComercio, props.auth.uid);
     } else {
       props.agregarComercioFavorito(props.auth.uid, idComercio);
       props.agregarTokenAComercio(idComercio, props.profile.pushToken);
+      props.agregarEstadisticaFavorito(idComercio, props.auth.uid);
     }
   };
 
@@ -147,6 +151,10 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(eliminarTokenAComercio(idComercio, pushToken)),
     agregarTokenAComercio: (idComercio, pushToken) =>
       dispatch(agregarTokenAComercio(idComercio, pushToken)),
+    agregarEstadisticaFavorito: (idComercio, idConsumidor) =>
+      dispatch(agregarEstadisticaFavorito(idComercio, idConsumidor)),
+    eliminarEstadisticaFavorito: (idComercio, idConsumidor) =>
+      dispatch(eliminarEstadisticaFavorito(idComercio, idConsumidor)),
   };
 };
 
