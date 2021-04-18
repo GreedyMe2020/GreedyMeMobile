@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { editarProveedores } from '../../../redux/actions/user-actions';
 import firebaseapp from '../../../firebase/config';
 import { colors } from '../../styles/colores';
+import ProveedoresContext from '../../context/proveedoresContext';
 
 const firestore = firebaseapp.firestore();
 const items = [];
@@ -27,20 +28,23 @@ const obtenerProveedores = () => {
 obtenerProveedores();
 
 function ProveedoresLogin(props) {
-  const [selectedItems, setSelectedItems] = React.useState(
-    props.profile.proveedoresAsociados,
+  //traigo contexto global de proveedores
+  const { contextProveedores, setContextProveedores } = React.useContext(
+    ProveedoresContext,
   );
 
-  const [disable, setDisable] = React.useState('');
+  const [selectedItems, setSelectedItems] = React.useState(contextProveedores);
+
+  //const [disable, setDisable] = React.useState('');
 
   const onSelectedItemsChange = (selectedItems) => {
-    setSelectedItems(selectedItems);
-    if (selectedItems === null) {
+    /*if (selectedItems === null) {
       setDisable('');
     } else {
       setDisable('true');
-    }
-
+    }*/
+    setContextProveedores(selectedItems);
+    setSelectedItems(selectedItems);
     props.editarProveedores(selectedItems, props.auth.uid);
   };
 

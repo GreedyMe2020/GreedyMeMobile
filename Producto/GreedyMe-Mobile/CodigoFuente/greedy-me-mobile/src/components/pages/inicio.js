@@ -102,7 +102,10 @@ function Inicio(props) {
   }, []);
 
   const filtro = (proveedoresSeleccionados) => {
-    if (proveedoresSeleccionados === null) {
+    if (
+      proveedoresSeleccionados === null ||
+      proveedoresSeleccionados.length === 0
+    ) {
       let idComercios = [];
       contextPromociones.forEach((promo) => {
         if (promo.visible === true) {
@@ -128,7 +131,7 @@ function Inicio(props) {
       setListaComercios2(comerciosFinales);
     }
 
-    if (proveedoresSeleccionados !== null) {
+    if (proveedoresSeleccionados.length > 0) {
       let idComercios = [];
       proveedoresSeleccionados.forEach((proveedor) => {
         contextPromociones.forEach((promocion) => {

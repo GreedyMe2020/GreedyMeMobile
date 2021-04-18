@@ -385,9 +385,6 @@ function NavegadorPrincipal(props) {
 }
 
 function Settings() {
-  {
-    console.log('3');
-  }
   return (
     <Stack.Navigator initialRouteName="ProveedoresLogin">
       <Stack.Screen
