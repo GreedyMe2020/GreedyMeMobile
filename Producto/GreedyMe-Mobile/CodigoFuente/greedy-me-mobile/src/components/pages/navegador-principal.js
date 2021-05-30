@@ -62,9 +62,6 @@ function NavegadorPrincipal(props) {
   return (
     <NavigationContainer>
       <Stack.Navigator headerMode="screen">
-        {console.log('logeo')}
-        {console.log(estaLogeado)}
-
         {estaLogeado ? (
           <>
             <Stack.Screen

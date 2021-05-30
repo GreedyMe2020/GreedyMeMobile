@@ -5,12 +5,12 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import { colors } from '../../styles/colores';
 import firebaseapp from '../../../firebase/config';
+import { format } from 'date-fns';
 
 function GreedyShopHistorial(props) {
   const [productosCanjeadosTotal, setProductosCanjeadosTotal] = React.useState(
     [],
   );
-  const [uid, setUid] = React.useState(props.auth.uid);
   //Traigo todos los productos canjeados del usuario.
   React.useEffect(() => {
     const obtenerProductosCanjeados = async () => {
@@ -18,28 +18,37 @@ function GreedyShopHistorial(props) {
       try {
         const productosCanjeados = await firestore
           .collection('usuarioConsumidor')
-          .doc(uid)
+          .doc(props.auth.uid)
           .collection('productosCanjeados')
           .get();
         const arrayProductosCanjeados = productosCanjeados.docs.map((doc) => ({
           id: doc.id,
-          fecha: doc.fecha,
+          ...doc.data(),
+          /*fecha: doc.fecha,
           nombre: doc.nombreProducto,
-          greedyPoints: doc.greedyPoints,
+          greedyPoints: doc.greedyPoints,*/
         }));
-
-        setProductosCanjeadosTotal(arrayProductosCanjeados);
+        const arrayFinal = [];
+        arrayProductosCanjeados.forEach((element) => {
+          const formatoFecha = format(element.fecha.toDate(), 'dd/MM/yyyy');
+          arrayFinal.push({
+            key: element.id,
+            fecha: formatoFecha,
+            producto: element.nombreProducto,
+            greedyPoints: element.greedyPoints,
+          });
+        });
+        setProductosCanjeadosTotal(arrayFinal);
       } catch (error) {
         console.log(error);
       }
     };
     obtenerProductosCanjeados();
-  }, []);
+  });
 
   return (
     <View style={styles.container}>
-      {console.log(productosCanjeadosTotal)}
-      <DataTable data={productosCanjeadosTotal} columns={3}>
+      <DataTable>
         <DataTable.Header style={styles.header}>
           <DataTable.Title style={styles.headerTextF}>Fecha</DataTable.Title>
           <DataTable.Title style={styles.headerTextP}>Producto</DataTable.Title>
@@ -47,6 +56,21 @@ function GreedyShopHistorial(props) {
             GreedyPoints
           </DataTable.Title>
         </DataTable.Header>
+        {productosCanjeadosTotal.map((element) => {
+          return (
+            <DataTable.Row style={styles.row} key={element.id}>
+              <DataTable.Cell style={styles.fecha}>
+                {element.fecha}
+              </DataTable.Cell>
+              <DataTable.Cell numeric style={styles.producto}>
+                {element.producto}
+              </DataTable.Cell>
+              <DataTable.Cell numeric style={styles.points}>
+                {element.greedyPoints}
+              </DataTable.Cell>
+            </DataTable.Row>
+          );
+        })}
       </DataTable>
     </View>
   );
@@ -86,4 +110,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default GreedyShopHistorial;
+export default connect(mapStateToProps)(GreedyShopHistorial);
