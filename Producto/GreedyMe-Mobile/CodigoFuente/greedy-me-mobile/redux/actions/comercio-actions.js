@@ -179,6 +179,7 @@ export const sumarGreedyPointsEncuesta = (
         coincideLoEsperado: value1,
         atencionVendedor: value2,
         comentario: text,
+        fecha: Date(),
       });
     const bd = secondaryApp.firestore();
     bd.collection('usuarioComercio')
@@ -190,6 +191,7 @@ export const sumarGreedyPointsEncuesta = (
         coincideLoEsperado: value1,
         atencionVendedor: value2,
         comentario: text,
+        fecha: Date(),
       })
       .then(() => {
         dispatch({ type: 'ENCUESTA_GREEDY_POINTS' });
