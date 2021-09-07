@@ -108,7 +108,10 @@ function Inicio(props) {
     ) {
       let idComercios = [];
       contextPromociones.forEach((promo) => {
-        if (promo.visible === true) {
+        if (
+          promo.visible === true &&
+          promo.hastaVigencia.toDate() > new Date()
+        ) {
           if (promo.tipoProveedor === 'Propias') {
             idComercios.push(promo.idComercio);
           }
@@ -135,7 +138,10 @@ function Inicio(props) {
       let idComercios = [];
       proveedoresSeleccionados.forEach((proveedor) => {
         contextPromociones.forEach((promocion) => {
-          if (promocion.visible === true) {
+          if (
+            promocion.visible === true &&
+            promocion.hastaVigencia.toDate() > new Date()
+          ) {
             if (
               promocion.tipoProveedor === proveedor ||
               promocion.valueProveedor === proveedor ||
