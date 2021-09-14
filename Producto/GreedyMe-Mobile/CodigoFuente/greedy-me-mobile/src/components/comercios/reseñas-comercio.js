@@ -13,7 +13,7 @@ import firebaseapp from '../../../firebase/config';
 
 const firestore = firebaseapp.firestore();
 export default function ReseñasComercio(props) {
-  const [reseñas, setReseñas] = React.useState(null);
+  const [reseñas, setReseñas] = React.useState([]);
   const [muyBuena, setMuyBuena] = React.useState(0);
   const [buena, setBuena] = React.useState(0);
   const [mala, setMala] = React.useState(0);
@@ -45,34 +45,16 @@ export default function ReseñasComercio(props) {
           setMuyBuena(muybuena);
           setBuena(buena);
           setMala(mala);
+          setReseñas(arrayReseñas);
         });
-        setReseñas(arrayReseñas);
       })
       .catch((err) => console.log(err));
   }, []);
 
-  //esta if no funciona no se porque
-  if (reseñas === null || reseñas === []) {
-    return (
-      <View style={styles.contenedor}>
-        <Image
-          style={styles.image}
-          source={require('../../multimedia/reseñas.png')}
-        />
-        <Text style={styles.text}>No se encontraron reseñas</Text>
-      </View>
-    );
-  } else {
-    return (
-      <SafeAreaView style={styles.container}>
+  return (
+    <SafeAreaView style={styles.container}>
+      {reseñas.length > 0 ? (
         <ScrollView>
-          {/* <View style={styles.contenedor}>
-          <Image
-            style={styles.image}
-            source={require('../../multimedia/reseñas.png')}
-          />
-          <Text style={styles.text}>No se encontraron reseñas</Text>
-        </View> */}
           <View style={styles.contenedorTodo}>
             <Text style={styles.texto}>Atención en el local</Text>
             <View style={styles.contenedorOpinion}>
@@ -84,7 +66,7 @@ export default function ReseñasComercio(props) {
                       ? 0
                       : muyBuena === 0
                       ? 0
-                      : muyBuena / reseñas.lenght
+                      : muyBuena / reseñas.length
                   }
                   color={colors.naranja}
                   style={styles.barra}
@@ -98,7 +80,7 @@ export default function ReseñasComercio(props) {
                       ? 0
                       : buena === 0
                       ? 0
-                      : buena / reseñas.lenght
+                      : buena / reseñas.length
                   }
                   color={colors.celeste}
                   style={styles.barra}
@@ -112,7 +94,7 @@ export default function ReseñasComercio(props) {
                       ? 0
                       : mala === 0
                       ? 0
-                      : mala / reseñas.lenght
+                      : mala / reseñas.length
                   }
                   color={colors.error}
                   style={styles.barra}
@@ -140,9 +122,17 @@ export default function ReseñasComercio(props) {
             </View>
           </View>
         </ScrollView>
-      </SafeAreaView>
-    );
-  }
+      ) : (
+        <View style={styles.contenedor}>
+          <Image
+            style={styles.image}
+            source={require('../../multimedia/reseñas.png')}
+          />
+          <Text style={styles.text}>No se encontraron reseñas</Text>
+        </View>
+      )}
+    </SafeAreaView>
+  );
 }
 
 const styles = StyleSheet.create({

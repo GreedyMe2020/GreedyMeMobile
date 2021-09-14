@@ -32,29 +32,49 @@ function CuponesComercio(props) {
     ProveedoresContext,
   );
   React.useEffect(() => {
-    const promocionesIntermedio = [];
-    contextProveedores.forEach((proveedor) => {
+    if (contextProveedores.length > 0){
+      const promocionesIntermedio = [];
+      contextProveedores.forEach((proveedor) => {
+        contextPromociones.forEach((promocion) => {
+          if (promocion.idComercio === props.idcomercio){
+            if (promocion.visible === true) {
+              if (
+                promocion.tipoProveedor === proveedor ||
+                promocion.valueProveedor === proveedor ||
+                promocion.otroProveedor === proveedor ||
+                promocion.tipoProveedor === 'Propias'
+              ) {
+                promocionesIntermedio.push(promocion);
+              }
+            }
+          }
+        });
+      });
+      for (var i = promocionesIntermedio.length - 1; i >= 0; i--) {
+        if (promocionesIntermedio.indexOf(promocionesIntermedio[i]) !== i) {
+          promocionesIntermedio.splice(i, 1);
+        }
+      }
+      setListaPromociones(promocionesIntermedio);
+    }
+    if (contextProveedores.length === 0){
+      const promocionesIntermedio = [];
       contextPromociones.forEach((promocion) => {
         if (promocion.idComercio === props.idcomercio){
           if (promocion.visible === true) {
-            if (
-              promocion.tipoProveedor === proveedor ||
-              promocion.valueProveedor === proveedor ||
-              promocion.otroProveedor === proveedor ||
-              promocion.tipoProveedor === 'Propias'
-            ) {
+            if (promocion.tipoProveedor === 'Propias') {
               promocionesIntermedio.push(promocion);
             }
           }
         }
       });
-    });
-    for (var i = promocionesIntermedio.length - 1; i >= 0; i--) {
-      if (promocionesIntermedio.indexOf(promocionesIntermedio[i]) !== i) {
-        promocionesIntermedio.splice(i, 1);
+      for (var i = promocionesIntermedio.length - 1; i >= 0; i--) {
+        if (promocionesIntermedio.indexOf(promocionesIntermedio[i]) !== i) {
+          promocionesIntermedio.splice(i, 1);
+        }
       }
+      setListaPromociones(promocionesIntermedio);
     }
-    setListaPromociones(promocionesIntermedio);
   }, [idComercio]);
   return (
     <SafeAreaView style={styles.container}>

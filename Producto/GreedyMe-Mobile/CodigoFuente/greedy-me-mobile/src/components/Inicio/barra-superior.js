@@ -87,9 +87,6 @@ function BarraSup(props) {
               }}
             />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.notificacion} activeOpacity={0.5}>
-            <IconButton icon="bell-outline" color="black" />
-          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>
@@ -108,7 +105,7 @@ const styles = StyleSheet.create({
   },
   searchcont: {
     marginLeft: 10,
-    flex: 3,
+    flex: 9,
     //justifyContent: 'center',
   },
   separador: {
