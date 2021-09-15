@@ -149,7 +149,7 @@ function Cupon(props) {
                     </Text>
                     <Text style={styles.validez}>
                       {'en ' +
-                        data.item.comercio +
+                        data.item.nombreComercio +
                         ', sucursal ' +
                         data.item.sucursal +
                         '.'}
