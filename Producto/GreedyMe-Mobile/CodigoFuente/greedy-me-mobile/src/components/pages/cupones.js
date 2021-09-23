@@ -117,13 +117,11 @@ function Cupones(props) {
                         resizeMode="cover"
                         source={{
                           uri:
-                            data.item.tipoProveedor === 'Propias'
-                              ? props.fotocomercio
-                              : data.item.valueProveedor === 'Otro'
+                            data.item.valueProveedor === 'Otro'
+                              ? 'https://firebasestorage.googleapis.com/v0/b/greedyme-d6c6c.appspot.com/o/proveedores%2F1.jpg?alt=media&token=d186f078-7cfa-437c-9287-1bbfd9de8c00'
+                              : data.item.valueProveedor === 'Todos'
                                 ? 'https://firebasestorage.googleapis.com/v0/b/greedyme-d6c6c.appspot.com/o/proveedores%2F1.jpg?alt=media&token=d186f078-7cfa-437c-9287-1bbfd9de8c00'
-                                : data.item.valueProveedor === 'Todos'
-                                  ? 'https://firebasestorage.googleapis.com/v0/b/greedyme-d6c6c.appspot.com/o/proveedores%2F1.jpg?alt=media&token=d186f078-7cfa-437c-9287-1bbfd9de8c00'
-                                  : data.item.photoURL,
+                                : data.item.photoURL,
                         }}
                       />
                       <Divider style={styles.divider} />
