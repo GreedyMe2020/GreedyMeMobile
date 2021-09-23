@@ -177,6 +177,8 @@ export const sumarGreedyPointsEncuesta = (
       .collection('reseñas')
       .doc()
       .set({
+        nombre: nombre,
+        apellido: apellido,
         utilizoBeneficio: value,
         coincideLoEsperado: value1,
         atencionVendedor: value2,
@@ -189,6 +191,8 @@ export const sumarGreedyPointsEncuesta = (
       .collection('reseñas')
       .doc()
       .set({
+        nombre: nombre,
+        apellido: apellido,
         utilizoBeneficio: value,
         coincideLoEsperado: value1,
         atencionVendedor: value2,
