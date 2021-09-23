@@ -43,7 +43,7 @@ function Cupones(props) {
       }
     };
     obtenerCupones();
-  }, []);
+  });
 
   //funcion para eliminar cupon
   const handleEliminar = (id) => {
@@ -120,10 +120,10 @@ function Cupones(props) {
                             data.item.tipoProveedor === 'Propias'
                               ? props.fotocomercio
                               : data.item.valueProveedor === 'Otro'
-                              ? 'https://firebasestorage.googleapis.com/v0/b/greedyme-d6c6c.appspot.com/o/proveedores%2F1.jpg?alt=media&token=d186f078-7cfa-437c-9287-1bbfd9de8c00'
-                              : data.item.valueProveedor === 'Todos'
-                              ? 'https://firebasestorage.googleapis.com/v0/b/greedyme-d6c6c.appspot.com/o/proveedores%2F1.jpg?alt=media&token=d186f078-7cfa-437c-9287-1bbfd9de8c00'
-                              : data.item.photoURL,
+                                ? 'https://firebasestorage.googleapis.com/v0/b/greedyme-d6c6c.appspot.com/o/proveedores%2F1.jpg?alt=media&token=d186f078-7cfa-437c-9287-1bbfd9de8c00'
+                                : data.item.valueProveedor === 'Todos'
+                                  ? 'https://firebasestorage.googleapis.com/v0/b/greedyme-d6c6c.appspot.com/o/proveedores%2F1.jpg?alt=media&token=d186f078-7cfa-437c-9287-1bbfd9de8c00'
+                                  : data.item.photoURL,
                         }}
                       />
                       <Divider style={styles.divider} />
@@ -133,17 +133,17 @@ function Cupones(props) {
                           {data.item.valuePromo === 'Otro'
                             ? data.item.otraPromo
                             : data.item.tipoPromo === 'Descuento'
-                            ? data.item.valuePromo + ' OFF'
-                            : data.item.valuePromo}
+                              ? data.item.valuePromo + ' OFF'
+                              : data.item.valuePromo}
                         </Title>
                         <Text style={{ color: colors.darkGrey, fontSize: 16 }}>
                           {data.item.valueProveedor === 'Otro'
                             ? data.item.otroProveedor
                             : data.item.valueProveedor === 'Propio'
-                            ? props.nombrecomercio
-                            : data.item.valueProveedor === 'Todos'
-                            ? data.item.valueProveedor + ' los Bancos'
-                            : data.item.valueProveedor}
+                              ? props.nombrecomercio
+                              : data.item.valueProveedor === 'Todos'
+                                ? data.item.valueProveedor + ' los Bancos'
+                                : data.item.valueProveedor}
                         </Text>
                       </View>
                     </View>

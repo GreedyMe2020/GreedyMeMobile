@@ -10,59 +10,73 @@ import { connect } from 'react-redux';
 import firebaseapp from '../../../firebase/config';
 import _ from 'lodash';
 import { colors } from '../../styles/colores';
-
-const firestore = firebaseapp.firestore();
-const comerciosPremium = [];
-const obtenerComercios = () => {
-  firestore
-    .collection('usuarioComercio')
-    .where('tipoSuscripcion', '==', 2)
-    .onSnapshot((snapShots) => {
-      snapShots.forEach((doc) => {
-        const data = doc.data();
-        comerciosPremium.push({
-          ...data,
-          id: doc.id,
-        });
-      });
-    });
-};
-obtenerComercios();
+import { useFocusEffect } from '@react-navigation/native';
 
 function CardPremium(props) {
+  const [cargandoComercios, setCargando] = React.useState(false);
+  const [comerciosPremium, setComerciosPremium] = React.useState([]);
+  const obtenerComercios = async () => {
+    const firestore = firebaseapp.firestore();
+    try {
+      const comerciosOrigen = await firestore
+        .collection('usuarioComercio')
+        .where('tipoSuscripcion', '==', 2)
+        .get();
+      const comerciosTemporal = comerciosOrigen.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setComerciosPremium(comerciosTemporal);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setCargando(false);
+      obtenerComercios();
+      setCargando(true);
+    }, []),
+  );
+
   return (
     <SafeAreaView style={styles.flatlist}>
-      <FlatList
-        data={comerciosPremium}
-        keyExtractor={(item) => item.id}
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}
-        renderItem={(data) => (
-          <TouchableWithoutFeedback>
-            <Card
-              style={styles.cardComercio}
-              onPress={() => {
-                props.navigation.navigate('ComerciosNavegador', {
-                  data: data,
-                });
-              }}
-            >
-              <Card.Cover
-                style={styles.image}
-                source={{
-                  uri: data.item.photoURL,
+      {cargandoComercios ? (
+        <FlatList
+          data={comerciosPremium}
+          keyExtractor={(item) => item.id}
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          renderItem={(data) => (
+            <TouchableWithoutFeedback>
+              <Card
+                style={styles.cardComercio}
+                onPress={() => {
+                  props.navigation.navigate('ComerciosNavegador', {
+                    data: data,
+                  });
                 }}
-              />
-              <Card.Content>
-                <Title style={styles.tittle}>{data.item.nombreComercio}</Title>
-                <Paragraph style={styles.subtittle}>
-                  {data.item.sucursal}
-                </Paragraph>
-              </Card.Content>
-            </Card>
-          </TouchableWithoutFeedback>
-        )}
-      />
+              >
+                <Card.Cover
+                  style={styles.image}
+                  source={{
+                    uri: data.item.photoURL,
+                  }}
+                />
+                <Card.Content>
+                  <Title style={styles.tittle}>
+                    {data.item.nombreComercio}
+                  </Title>
+                  <Paragraph style={styles.subtittle}>
+                    {data.item.sucursal}
+                  </Paragraph>
+                </Card.Content>
+              </Card>
+            </TouchableWithoutFeedback>
+          )}
+        />
+      ) : null}
     </SafeAreaView>
   );
 }
