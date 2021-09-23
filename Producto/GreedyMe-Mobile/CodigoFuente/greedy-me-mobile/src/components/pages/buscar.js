@@ -7,35 +7,12 @@ import { colors } from '../../styles/colores';
 import CardComercio from '../Inicio/card-comercio';
 import { connect } from 'react-redux';
 import firebaseapp from '../../../firebase/config';
+import { useFocusEffect } from '@react-navigation/native';
 
-const firestore = firebaseapp.firestore();
-const comercios = [];
-const obtenerComercios = () => {
-  firestore.collection('usuarioComercio').onSnapshot((snapShots) => {
-    snapShots.forEach((doc) => {
-      const data = doc.data();
-      comercios.push({
-        ...data,
-        id: doc.id,
-      });
-    });
-  });
-};
-obtenerComercios();
-const promociones = [];
-const obtenerPromociones = () => {
-  firestore.collection('promociones').onSnapshot((snapShots) => {
-    snapShots.forEach((doc) => {
-      const data = doc.data();
-      promociones.push({
-        ...data,
-        id: doc.id,
-      });
-    });
-  });
-};
-obtenerPromociones();
+
 function Buscador(props) {
+  const [comercios, setComercios] = React.useState([]);
+  const [promociones, setPromociones] = React.useState([]);
   //estado de lista de comercios
   const [listaComercios, setListaComercios] = React.useState([]);
   //estado lista de comercios para el buscador
@@ -48,14 +25,14 @@ function Buscador(props) {
     const idComercios = [];
     itemSeleccionados
       ? itemSeleccionados.forEach((item) => {
-          promociones.forEach((promo) => {
-            if (promo.visible === true) {
-              if (promo.valuePromo === item) {
-                idComercios.push(promo.idComercio);
-              }
+        promociones.forEach((promo) => {
+          if (promo.visible === true) {
+            if (promo.valuePromo === item) {
+              idComercios.push(promo.idComercio);
             }
-          });
-        })
+          }
+        });
+      })
       : null;
     itemSeleccionados.forEach((item) => {
       comercios.forEach((comercio) => {
@@ -95,6 +72,40 @@ function Buscador(props) {
     setListaComercios(newDatos);
     setText(texto);
   };
+
+  const obtenerComerciosYPromociones = async () => {
+    const firestore = firebaseapp.firestore();
+    try {
+      const comerciosOrigen = await firestore
+        .collection('usuarioComercio')
+        .get();
+      const comerciosTemporal = comerciosOrigen.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setComercios(comerciosTemporal);
+
+      const promocionesOrigen = await firestore
+        .collection('promociones')
+        .get();
+      const promocionesTemporal = promocionesOrigen.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setPromociones(promocionesTemporal);
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      obtenerComerciosYPromociones();
+    }, []),
+  );
+
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar

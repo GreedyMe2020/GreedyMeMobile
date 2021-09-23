@@ -13,8 +13,6 @@ import firebaseapp from '../../../firebase/config';
 
 import { useFocusEffect } from '@react-navigation/native';
 
-
-
 function Favoritos(props) {
   const [listaComercios, setListaComercios] = React.useState([]);
   const [favoritos, setListaFavoritos] = React.useState([]);
