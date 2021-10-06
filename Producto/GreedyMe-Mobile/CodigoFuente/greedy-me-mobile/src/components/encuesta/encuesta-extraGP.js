@@ -154,8 +154,7 @@ function EncuestaExtraGP(props) {
                 label="Comentario"
                 value={text}
                 mode="outlined"
-                multiline={true}
-                numberOfLines={3}
+                numberOfLines={1}
                 onChangeText={(text) => setText(text)}
                 style={{
                   backgroundColor: colors.avatar,
@@ -205,7 +204,7 @@ function EncuestaExtraGP(props) {
                       value,
                       value1,
                       value2,
-                      text,
+                      text.trim(),
                       props.profile.nombre,
                       props.profile.apellido,
                     );

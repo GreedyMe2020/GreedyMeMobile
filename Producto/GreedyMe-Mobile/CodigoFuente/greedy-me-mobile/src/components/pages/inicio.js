@@ -269,8 +269,7 @@ function Inicio(props) {
     const datos = listaComercios2;
     const newDatos = datos.filter(function (item) {
       const itemNombreComercio = item.nombreComercio.toUpperCase();
-      const itemSucursal = item.sucursal.toUpperCase();
-      const campo = itemNombreComercio + ' ' + itemSucursal;
+      const campo = itemNombreComercio;
       const textData = textoBuscar.toUpperCase();
       return campo.indexOf(textData) > -1;
     });

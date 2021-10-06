@@ -109,13 +109,14 @@ export default function ReseñasComercio(props) {
                     <Text style={styles.nombre}>
                       {reseña.nombre + ' ' + reseña.apellido}
                     </Text>
+                    <Text style={styles.comentario}>{reseña.comentario}</Text>
                     <Divider
                       style={{
-                        height: 1,
+                        height: 2,
+                        marginTop: 10,
                         backgroundColor: colors.grey,
                       }}
                     />
-                    <Text style={styles.comentario}>{reseña.comentario}</Text>
                   </View>
                 );
               })}
@@ -172,6 +173,7 @@ const styles = StyleSheet.create({
   },
   contenedorComentarios: {
     marginTop: 30,
+    marginBottom: 30,
     marginRight: 22,
   },
   coments: {
@@ -179,6 +181,7 @@ const styles = StyleSheet.create({
   },
   nombre: {
     color: colors.black,
+    fontWeight: 'bold',
     fontSize: 16,
   },
   comentario: {
