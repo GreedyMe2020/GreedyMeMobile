@@ -36,8 +36,11 @@ function CuponesComercio(props) {
       const promocionesIntermedio = [];
       contextProveedores.forEach((proveedor) => {
         contextPromociones.forEach((promocion) => {
-          if (promocion.idComercio === props.idcomercio){
-            if (promocion.visible === true) {
+          if (promocion.idComercio === props.idcomercio) {
+            if (
+              promocion.visible === true &&
+              promocion.hastaVigencia.toDate() > new Date()
+            ) {
               if (
                 promocion.tipoProveedor === proveedor ||
                 promocion.valueProveedor === proveedor ||
@@ -61,7 +64,10 @@ function CuponesComercio(props) {
       const promocionesIntermedio = [];
       contextPromociones.forEach((promocion) => {
         if (promocion.idComercio === props.idcomercio){
-          if (promocion.visible === true) {
+          if (
+            promocion.visible === true &&
+            promocion.hastaVigencia.toDate() > new Date()
+          ) {
             if (promocion.tipoProveedor === 'Propias') {
               promocionesIntermedio.push(promocion);
             }
