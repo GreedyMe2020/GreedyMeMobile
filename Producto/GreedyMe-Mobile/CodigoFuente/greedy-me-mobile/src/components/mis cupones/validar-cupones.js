@@ -51,24 +51,28 @@ function Cupon(props) {
   function ratingCompleted(rating) {
     setRating(rating);
   }
+
+
+  const obtenerCodigos = async () => {
+    const firestore = firebaseSecondary.firestore();
+    try {
+      const codigos = await firestore
+        .collection('codigoCupon')
+        .where('validado', '==', false)
+        .get();
+      const arrayCodigos = codigos.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setListaCodigos(arrayCodigos);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
   //use effect que trae los codigos para validar
   React.useEffect(() => {
-    const obtenerCodigos = async () => {
-      const firestore = firebaseSecondary.firestore();
-      try {
-        const codigos = await firestore
-          .collection('codigoCupon')
-          .where('validado', '==', false)
-          .get();
-        const arrayCodigos = codigos.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setListaCodigos(arrayCodigos);
-      } catch (error) {
-        console.log(error);
-      }
-    };
     obtenerCodigos();
   }, []);
   //funcion para cerrar el mensaje de error
@@ -83,6 +87,7 @@ function Cupon(props) {
     let contador = 0;
     let idValidacion = null;
     listaCodigos.forEach((cod) => {
+      console.log(data.item.idBeneficio);
       if (cod.codigo === codigo && cod.idCupon === data.item.idBeneficio) {
         contador += 1;
         idValidacion = cod.id;

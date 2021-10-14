@@ -15,45 +15,53 @@ function GreedyShopHistorial(props) {
 
   const [visible, setVisible] = React.useState(false);
 
-  const [direccionRetiro, setDireccionRetiro] = React.useState("");
-  const [fechaRetiro, setFechaRetiro] = React.useState("");
+  const [direccionRetiro, setDireccionRetiro] = React.useState();
+  const [fechaRetiro, setFechaRetiro] = React.useState();
   const hideModal = () => setVisible(false);
+
+
+  const obtenerProductosCanjeados = async () => {
+    const firestore = firebaseapp.firestore();
+    try {
+      const productosCanjeados = await firestore
+        .collection('usuarioConsumidor')
+        .doc(props.auth.uid)
+        .collection('productosCanjeados')
+        .get();
+      const arrayProductosCanjeados = productosCanjeados.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+        /*fecha: doc.fecha,
+        nombre: doc.nombreProducto,
+        greedyPoints: doc.greedyPoints,*/
+      }));
+      const arrayFinal = [];
+      arrayProductosCanjeados.forEach((element) => {
+        const formatoFecha = format(element.fecha.toDate(), 'dd/MM/yyyy');
+
+        const fechaRetiro = element.fecha.toDate();
+        fechaRetiro.setDate(fechaRetiro.getDate() + 5);
+        const formatoFechaRetiro = format(fechaRetiro, 'dd/MM/yyyy');
+
+        arrayFinal.push({
+          key: element.id,
+          fecha: formatoFecha,
+          producto: element.nombreProducto,
+          greedyPoints: element.greedyPoints,
+          direccion: element.direccionRetiro,
+          fechaRetiro: formatoFechaRetiro,
+        });
+      });
+      setProductosCanjeadosTotal(arrayFinal);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   //Traigo todos los productos canjeados del usuario.
   React.useEffect(() => {
-    const obtenerProductosCanjeados = async () => {
-      const firestore = firebaseapp.firestore();
-      try {
-        const productosCanjeados = await firestore
-          .collection('usuarioConsumidor')
-          .doc(props.auth.uid)
-          .collection('productosCanjeados')
-          .get();
-        const arrayProductosCanjeados = productosCanjeados.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-          /*fecha: doc.fecha,
-          nombre: doc.nombreProducto,
-          greedyPoints: doc.greedyPoints,*/
-        }));
-        const arrayFinal = [];
-        arrayProductosCanjeados.forEach((element) => {
-          const formatoFecha = format(element.fecha.toDate(), 'dd/MM/yyyy');
-          arrayFinal.push({
-            key: element.id,
-            fecha: formatoFecha,
-            producto: element.nombreProducto,
-            greedyPoints: element.greedyPoints,
-            direccion: element.direccionRetiro,
-          });
-        });
-        setProductosCanjeadosTotal(arrayFinal);
-      } catch (error) {
-        console.log(error);
-      }
-    };
     obtenerProductosCanjeados();
-  });
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -83,7 +91,7 @@ function GreedyShopHistorial(props) {
                   icon="information-outline"
                   color={colors.naranja}
                   size={20}
-                  onPress={() => {setDireccionRetiro(element.direccion); setFechaRetiro("19/01/1997"); setVisible(true);  }}
+                  onPress={() => { setDireccionRetiro(element.direccion); setFechaRetiro(element.fechaRetiro); setVisible(true); }}
                 />
               </DataTable.Cell>
             </DataTable.Row>

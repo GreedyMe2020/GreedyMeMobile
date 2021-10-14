@@ -37,7 +37,7 @@ function CardComercioFav(props) {
       setCargando(false);
       comerciosFavoritos();
       setCargando(true);
-    }, [props.profile.favorito]),
+    }, [props.profile.favorito,]),
   );
   return (
     <SafeAreaView>
