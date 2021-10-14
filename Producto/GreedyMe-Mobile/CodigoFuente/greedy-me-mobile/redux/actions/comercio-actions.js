@@ -177,11 +177,13 @@ export const sumarGreedyPointsEncuesta = (
       .collection('reseñas')
       .doc()
       .set({
+        nombre: nombre,
+        apellido: apellido,
         utilizoBeneficio: value,
         coincideLoEsperado: value1,
         atencionVendedor: value2,
         comentario: text,
-        fecha: Date(),
+        fecha: new Date(),
       });
     const bd = secondaryApp.firestore();
     bd.collection('usuarioComercio')
@@ -189,11 +191,13 @@ export const sumarGreedyPointsEncuesta = (
       .collection('reseñas')
       .doc()
       .set({
+        nombre: nombre,
+        apellido: apellido,
         utilizoBeneficio: value,
         coincideLoEsperado: value1,
         atencionVendedor: value2,
         comentario: text,
-        fecha: Date(),
+        fecha: new Date(),
       })
       .then(() => {
         dispatch({ type: 'ENCUESTA_GREEDY_POINTS' });
@@ -285,7 +289,7 @@ export const agregarEstadisticaFavorito = (idComercio, idConsumidor) => {
         let todosEstadisticaFavorito = doc.data().estadisticasFavoritos;
         todosEstadisticaFavorito.push({
           idConsumidor: idConsumidor,
-          fecha: Date(),
+          fecha: new Date(),
         });
         return todosEstadisticaFavorito;
       })

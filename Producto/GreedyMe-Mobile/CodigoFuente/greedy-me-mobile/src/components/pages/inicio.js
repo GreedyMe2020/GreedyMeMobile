@@ -31,6 +31,8 @@ import ComerciosContext from '../../context/comerciosContext';
 import PromocionesContext from '../../context/promocionesContext';
 import ProveedoresContext from '../../context/proveedoresContext';
 
+import { useFocusEffect } from '@react-navigation/native';
+
 const firestore = firebaseapp.firestore();
 
 //esconde los warnings
@@ -62,44 +64,51 @@ function Inicio(props) {
   );
 
   const [comerciosFiltrados, setComerciosFiltrados] = React.useState([]);
+  const [cargando, setCargando] = React.useState(false);
+
+  const obtenerComercios = async () => {
+    const firestore = firebaseapp.firestore();
+    try {
+      const comercios = await firestore.collection('usuarioComercio').get();
+      const arrayComercios = comercios.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      const promociones = await firestore.collection('promociones').get();
+      const arrayPromociones = promociones.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setContextComercios(arrayComercios);
+      setContextPromociones(arrayPromociones);
+      firebaseapp.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          firestore
+            .collection('usuarioConsumidor')
+            .doc(props.auth.uid)
+            .get()
+            .then((perfiles) => {
+              const arrayPerfiles = perfiles.data();
+              setContextProveedores(arrayPerfiles.proveedoresAsociados);
+              filtro(arrayPerfiles.proveedoresAsociados);
+            });
+        } else {
+          console.log('Error');
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   //use effect que trae los comercios
-  React.useEffect(() => {
-    const obtenerComercios = async () => {
-      const firestore = firebaseapp.firestore();
-      try {
-        const comercios = await firestore.collection('usuarioComercio').get();
-        const arrayComercios = comercios.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        const promociones = await firestore.collection('promociones').get();
-        const arrayPromociones = promociones.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setContextComercios(arrayComercios);
-        setContextPromociones(arrayPromociones);
-        firebaseapp.auth().onAuthStateChanged(function (user) {
-          if (user) {
-            firestore
-              .collection('usuarioConsumidor')
-              .doc(props.auth.uid)
-              .get()
-              .then((perfiles) => {
-                const arrayPerfiles = perfiles.data();
-                setContextProveedores(arrayPerfiles.proveedoresAsociados);
-                filtro(arrayPerfiles.proveedoresAsociados);
-              });
-          } else {
-            console.log('no taje nada pa');
-          }
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    obtenerComercios();
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      setCargando(false);
+      obtenerComercios();
+      setCargando(true);
+    }, []),
+  );
 
   const filtro = (proveedoresSeleccionados) => {
     if (
@@ -247,7 +256,6 @@ function Inicio(props) {
 
   //DE ESTE IFF
   if (props.usuarioNuevo !== null) {
-    console.log(props.usuarioNuevo);
     getLocation();
     getDevicePushToken();
   }
@@ -267,8 +275,7 @@ function Inicio(props) {
     const datos = listaComercios2;
     const newDatos = datos.filter(function (item) {
       const itemNombreComercio = item.nombreComercio.toUpperCase();
-      const itemSucursal = item.sucursal.toUpperCase();
-      const campo = itemNombreComercio + ' ' + itemSucursal;
+      const campo = itemNombreComercio;
       const textData = textoBuscar.toUpperCase();
       return campo.indexOf(textData) > -1;
     });
@@ -333,44 +340,48 @@ function Inicio(props) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar
-        barStyle="light-content"
-        translucent={true}
-        backgroundColor={'transparent'}
-      />
-      <View style={styles.barraSup}>
-        <BarraSup
-          navigation={props.navigation}
-          onChangeText={filter}
-          texto={text}
-          comercios={comerciosFiltrados}
-        />
-      </View>
-      <ScrollView style={styles.scroll}>
-        <View>
-          <View style={styles.categorias}>
-            <Text style={styles.texto}>Categorías</Text>
-            <ButtonCategorias
+      {cargando ? (
+        <>
+          <StatusBar
+            barStyle="light-content"
+            translucent={true}
+            backgroundColor={'transparent'}
+          />
+          <View style={styles.barraSup}>
+            <BarraSup
               navigation={props.navigation}
+              onChangeText={filter}
+              texto={text}
               comercios={comerciosFiltrados}
             />
           </View>
-          <Divider style={{ height: 7, backgroundColor: '#f8f8f8' }} />
-          <View style={styles.premium}>
-            <Text style={styles.texto}>Locales destacados</Text>
-            <CardPremium navigation={props.navigation} />
-          </View>
-          <Divider style={{ height: 7, backgroundColor: '#f8f8f8' }} />
-          <View style={styles.cards}>
-            <Text style={styles.texto}>Todos los locales</Text>
-            <CardComercio
-              navigation={props.navigation}
-              comercios={comerciosFiltrados}
-              //obtenerDatosComercio={obtenerDatosComercio}
-            />
-          </View>
-        </View>
-      </ScrollView>
+          <ScrollView style={styles.scroll}>
+            <View>
+              <View style={styles.categorias}>
+                <Text style={styles.texto}>Categorías</Text>
+                <ButtonCategorias
+                  navigation={props.navigation}
+                  comercios={comerciosFiltrados}
+                />
+              </View>
+              <Divider style={{ height: 7, backgroundColor: '#f8f8f8' }} />
+              <View style={styles.premium}>
+                <Text style={styles.texto}>Locales destacados</Text>
+                <CardPremium navigation={props.navigation} />
+              </View>
+              <Divider style={{ height: 7, backgroundColor: '#f8f8f8' }} />
+              <View style={styles.cards}>
+                <Text style={styles.texto}>Todos los locales</Text>
+                <CardComercio
+                  navigation={props.navigation}
+                  comercios={comerciosFiltrados}
+                //obtenerDatosComercio={obtenerDatosComercio}
+                />
+              </View>
+            </View>
+          </ScrollView>
+        </>
+      ) : null}
     </SafeAreaView>
   );
 }

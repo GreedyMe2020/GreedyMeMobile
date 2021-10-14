@@ -5,9 +5,6 @@ import { SearchBar } from 'react-native-elements';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { connect } from 'react-redux';
 import { colors } from '../../styles/colores';
-import SearchBarBuscar from '../buscador/search-bar-buscar';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
-import { Marker } from 'react-native-maps';
 import Geocoder from 'react-native-geocoding';
 
 Geocoder.init('AIzaSyBMSuKle9DYdzJxk9t2GPxL98Ms296DgLU');
@@ -87,9 +84,6 @@ function BarraSup(props) {
               }}
             />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.notificacion} activeOpacity={0.5}>
-            <IconButton icon="bell-outline" color="black" />
-          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>
@@ -108,7 +102,7 @@ const styles = StyleSheet.create({
   },
   searchcont: {
     marginLeft: 10,
-    flex: 3,
+    flex: 9,
     //justifyContent: 'center',
   },
   separador: {

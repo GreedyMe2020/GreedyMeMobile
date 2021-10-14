@@ -107,13 +107,13 @@ function Perfil(props) {
                   props.navigation.navigate('GestionarProveedores');
                 }}
               />
-              <List.Item
+              {/* <List.Item
                 title="Términos y condiciones"
                 style={styles.listItem}
                 left={(props) => (
                   <List.Icon icon="information" color="#707070" />
                 )}
-              />
+              /> */}
               <Divider />
               <List.Item
                 title="Cerrar sesión"
