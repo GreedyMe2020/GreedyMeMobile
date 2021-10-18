@@ -1,80 +1,137 @@
 import React from 'react';
-import { View, Text, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  ScrollView,
+  Image,
+} from 'react-native';
 import { colors } from '../../styles/colores';
 import { ProgressBar, Divider } from 'react-native-paper';
+import firebaseapp from '../../../firebase/config';
 
+const firestore = firebaseapp.firestore();
 export default function ReseñasComercio(props) {
+  const [reseñas, setReseñas] = React.useState([]);
+  const [muyBuena, setMuyBuena] = React.useState(0);
+  const [buena, setBuena] = React.useState(0);
+  const [mala, setMala] = React.useState(0);
+
+  React.useEffect(() => {
+    firestore
+      .collection('usuarioComercio')
+      .doc(props.idcomercio)
+      .collection('reseñas')
+      .get()
+      .then((reseñas) => {
+        const arrayReseñas = reseñas.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        let muybuena = 0;
+        let buena = 0;
+        let mala = 0;
+        arrayReseñas.forEach((reseña) => {
+          if (reseña.atencionVendedor === 'muybuena') {
+            muybuena += 1;
+          }
+          if (reseña.atencionVendedor === 'buena') {
+            buena += 1;
+          }
+          if (reseña.atencionVendedor === 'mala') {
+            mala += 1;
+          }
+          setMuyBuena(muybuena);
+          setBuena(buena);
+          setMala(mala);
+          setReseñas(arrayReseñas);
+        });
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
-        {/* <View style={styles.contenedor}>
-        <Image
-          style={styles.image}
-          source={require('../../multimedia/reseñas.png')}
-        />
-        <Text style={styles.text}>No se encontraron reseñas</Text>
-      </View> */}
-        <View style={styles.contenedorTodo}>
-          <Text style={styles.texto}>Atención en el local</Text>
-          <View style={styles.contenedorOpinion}>
-            <View style={styles.progres}>
-              <Text style={styles.textoC}>Muy buena</Text>
-              <ProgressBar
-                progress={0.7}
-                color={colors.naranja}
-                style={styles.barra}
-              />
+      {reseñas.length > 0 ? (
+        <ScrollView>
+          <View style={styles.contenedorTodo}>
+            <Text style={styles.texto}>Atención en el local</Text>
+            <View style={styles.contenedorOpinion}>
+              <View style={styles.progres}>
+                <Text style={styles.textoC}>Muy buena</Text>
+                <ProgressBar
+                  progress={
+                    reseñas.lenght === 0
+                      ? 0
+                      : muyBuena === 0
+                      ? 0
+                      : muyBuena / reseñas.length
+                  }
+                  color={colors.naranja}
+                  style={styles.barra}
+                />
+              </View>
+              <View style={styles.progres}>
+                <Text style={styles.textoC}>Regular</Text>
+                <ProgressBar
+                  progress={
+                    reseñas.lenght === 0
+                      ? 0
+                      : buena === 0
+                      ? 0
+                      : buena / reseñas.length
+                  }
+                  color={colors.celeste}
+                  style={styles.barra}
+                />
+              </View>
+              <View style={styles.progres}>
+                <Text style={styles.textoC}>Mala</Text>
+                <ProgressBar
+                  progress={
+                    reseñas.lenght === 0
+                      ? 0
+                      : mala === 0
+                      ? 0
+                      : mala / reseñas.length
+                  }
+                  color={colors.error}
+                  style={styles.barra}
+                />
+              </View>
             </View>
-            <View style={styles.progres}>
-              <Text style={styles.textoC}>Regular</Text>
-              <ProgressBar
-                progress={0.5}
-                color={colors.celeste}
-                style={styles.barra}
-              />
-            </View>
-            <View style={styles.progres}>
-              <Text style={styles.textoC}>Mala</Text>
-              <ProgressBar
-                progress={0.2}
-                color={colors.error}
-                style={styles.barra}
-              />
+            <View style={styles.contenedorComentarios}>
+              <Text style={styles.texto}>Comentarios</Text>
+              {reseñas.map((reseña) => {
+                return (
+                  <View style={styles.coments} key={reseña.id}>
+                    <Text style={styles.nombre}>
+                      {reseña.nombre + ' ' + reseña.apellido}
+                    </Text>
+                    <Text style={styles.comentario}>{reseña.comentario}</Text>
+                    <Divider
+                      style={{
+                        height: 2,
+                        marginTop: 10,
+                        backgroundColor: colors.grey,
+                      }}
+                    />
+                  </View>
+                );
+              })}
             </View>
           </View>
-          <View style={styles.contenedorComentarios}>
-            <Text style={styles.texto}>Comentarios</Text>
-            <View style={styles.coments}>
-              <Text style={styles.nombre}>Nombre</Text>
-              <Divider
-                style={{
-                  height: 1,
-                  backgroundColor: colors.grey,
-                }}
-              />
-              <Text style={styles.comentario}>
-                Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-                accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
-                quae ab illo inventore veritatis
-              </Text>
-            </View>
-            <View style={styles.coments}>
-              <Text style={styles.nombre}>Nombre</Text>
-              <Divider
-                style={{
-                  height: 1,
-                  backgroundColor: colors.grey,
-                }}
-              />
-              <Text style={styles.comentario}>
-                Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-                accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
-                quae ab illo inventore veritatis
-              </Text>
-            </View>
-          </View>
+        </ScrollView>
+      ) : (
+        <View style={styles.contenedor}>
+          <Image
+            style={styles.image}
+            source={require('../../multimedia/reseñas.png')}
+          />
+          <Text style={styles.text}>No se encontraron reseñas</Text>
         </View>
-      </ScrollView>
+      )}
     </SafeAreaView>
   );
 }
@@ -116,6 +173,7 @@ const styles = StyleSheet.create({
   },
   contenedorComentarios: {
     marginTop: 30,
+    marginBottom: 30,
     marginRight: 22,
   },
   coments: {
@@ -123,6 +181,7 @@ const styles = StyleSheet.create({
   },
   nombre: {
     color: colors.black,
+    fontWeight: 'bold',
     fontSize: 16,
   },
   comentario: {

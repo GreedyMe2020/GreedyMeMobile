@@ -161,6 +161,8 @@ export const sumarGreedyPointsEncuesta = (
   value1,
   value2,
   text,
+  nombre,
+  apellido,
 ) => {
   return (dispatch, getState, { getFirestore }) => {
     const firestore = getFirestore();
@@ -175,10 +177,13 @@ export const sumarGreedyPointsEncuesta = (
       .collection('reseñas')
       .doc()
       .set({
+        nombre: nombre,
+        apellido: apellido,
         utilizoBeneficio: value,
         coincideLoEsperado: value1,
         atencionVendedor: value2,
         comentario: text,
+        fecha: new Date(),
       });
     const bd = secondaryApp.firestore();
     bd.collection('usuarioComercio')
@@ -186,16 +191,160 @@ export const sumarGreedyPointsEncuesta = (
       .collection('reseñas')
       .doc()
       .set({
+        nombre: nombre,
+        apellido: apellido,
         utilizoBeneficio: value,
         coincideLoEsperado: value1,
         atencionVendedor: value2,
         comentario: text,
+        fecha: new Date(),
       })
       .then(() => {
         dispatch({ type: 'ENCUESTA_GREEDY_POINTS' });
       })
       .catch((error) => {
         dispatch({ type: 'ERROR_ENCUESTA', error });
+      });
+  };
+};
+
+export const agregarTokenAComercio = (idComercio, pushToken) => {
+  return (dispatch, getState, { getFirestore }) => {
+    //codigo asincrono
+    const firestore = getFirestore();
+    firestore
+      .collection('usuarioComercio')
+      .doc(idComercio)
+      .get()
+      .then((doc) => {
+        let todosTokens = doc.data().tokensFavoritos;
+        todosTokens.push(pushToken);
+        return todosTokens;
+      })
+      .then((todosTokens) => {
+        firestore.collection('usuarioComercio').doc(idComercio).update({
+          tokensFavoritos: todosTokens,
+        });
+        const bd = secondaryApp.firestore();
+        bd.collection('usuarioComercio')
+          .doc(idComercio)
+          .update({
+            tokensFavoritos: todosTokens,
+          })
+          .then(() => {
+            dispatch({ type: 'CAMBIAR_TOKENFAVORITO' });
+          })
+          .catch((error) => {
+            dispatch({ type: 'ERROR_TOKENFAVORITO', error });
+          });
+      });
+  };
+};
+
+export const eliminarTokenAComercio = (idComercio, pushToken) => {
+  return (dispatch, getState, { getFirestore }) => {
+    //codigo asincrono
+    const firestore = getFirestore();
+    firestore
+      .collection('usuarioComercio')
+      .doc(idComercio)
+      .get()
+      .then((doc) => {
+        let todosTokens = doc.data().tokensFavoritos;
+        const indice = _.findIndex(todosTokens, function (o) {
+          return o === pushToken;
+        });
+        todosTokens.splice(indice, 1);
+        return todosTokens;
+      })
+      .then((todosTokens) => {
+        firestore.collection('usuarioComercio').doc(idComercio).update({
+          tokensFavoritos: todosTokens,
+        });
+        const bd = secondaryApp.firestore();
+        bd.collection('usuarioComercio')
+          .doc(idComercio)
+          .update({
+            tokensFavoritos: todosTokens,
+          })
+          .then(() => {
+            dispatch({ type: 'ELIMINAR_TOKENFAVORITO' });
+          })
+          .catch((error) => {
+            dispatch({ type: 'ERROR_ELIMINARTOKENFAVORITO', error });
+          });
+      });
+  };
+};
+
+export const agregarEstadisticaFavorito = (idComercio, idConsumidor) => {
+  return (dispatch, getState, { getFirestore }) => {
+    //codigo asincrono
+    const firestore = getFirestore();
+    firestore
+      .collection('usuarioComercio')
+      .doc(idComercio)
+      .get()
+      .then((doc) => {
+        let todosEstadisticaFavorito = doc.data().estadisticasFavoritos;
+        todosEstadisticaFavorito.push({
+          idConsumidor: idConsumidor,
+          fecha: new Date(),
+        });
+        return todosEstadisticaFavorito;
+      })
+      .then((todosEstadisticaFavorito) => {
+        firestore.collection('usuarioComercio').doc(idComercio).update({
+          estadisticasFavoritos: todosEstadisticaFavorito,
+        });
+        const bd = secondaryApp.firestore();
+        bd.collection('usuarioComercio')
+          .doc(idComercio)
+          .update({
+            estadisticasFavoritos: todosEstadisticaFavorito,
+          })
+          .then(() => {
+            dispatch({ type: 'CAMBIAR_ESTADISTICAFAVORITO' });
+          })
+          .catch((error) => {
+            dispatch({ type: 'ERROR_ESTADISTICAFAVORITO', error });
+          });
+      });
+  };
+};
+
+export const eliminarEstadisticaFavorito = (idComercio, idConsumidor) => {
+  return (dispatch, getState, { getFirestore }) => {
+    //codigo asincrono
+    const firestore = getFirestore();
+    firestore
+      .collection('usuarioComercio')
+      .doc(idComercio)
+      .get()
+      .then((doc) => {
+        let todosEstadisticaFavorito = doc.data().estadisticasFavoritos;
+        const indice = _.findIndex(todosEstadisticaFavorito, function (o) {
+          return o.idConsumidor === idConsumidor;
+        });
+        todosEstadisticaFavorito.splice(indice, 1);
+        return todosEstadisticaFavorito;
+      })
+      .then((todosEstadisticaFavorito) => {
+        firestore.collection('usuarioComercio').doc(idComercio).update({
+          estadisticasFavoritos: todosEstadisticaFavorito,
+        });
+        const bd = secondaryApp.firestore();
+        bd.collection('usuarioComercio')
+          .doc(idComercio)
+          .update({
+            estadisticasFavoritos: todosEstadisticaFavorito,
+          })
+          .then(() => {
+            dispatch({ type: 'ELIMINAR_ESTADISTICAFAVORITO' });
+          })
+          .catch((error) => {
+            dispatch({ type: 'ERROR_ELIMINARESTADISTICAFAVORITO', error });
+          });
       });
   };
 };

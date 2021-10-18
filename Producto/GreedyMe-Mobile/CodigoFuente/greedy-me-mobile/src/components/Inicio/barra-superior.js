@@ -5,10 +5,9 @@ import { SearchBar } from 'react-native-elements';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { connect } from 'react-redux';
 import { colors } from '../../styles/colores';
-import SearchBarBuscar from '../buscador/search-bar-buscar';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
-import { Marker } from 'react-native-maps';
 import Geocoder from 'react-native-geocoding';
+import { useFocusEffect } from '@react-navigation/native';
+
 
 Geocoder.init('AIzaSyBMSuKle9DYdzJxk9t2GPxL98Ms296DgLU');
 
@@ -27,7 +26,7 @@ function BarraSup(props) {
     const comerciosCercanos = [];
     //Recorro todos los comercios y pregunto si tienen direccion para obtener la lat y lng y poder ubicarlos en el mapa
     comercios.forEach((comercio) => {
-      if (comercio.direccion != '') {
+      if (comercio.direccion !== '') {
         Geocoder.from(comercio.direccion)
           .then((json) => {
             //aca pido permiso a la API para guardar la lat y lng cuando le paso la direccion de un comercio
@@ -48,12 +47,19 @@ function BarraSup(props) {
     setListaComercios(comerciosCercanos);
   };
 
-  React.useEffect(() => {
-    setComercios(props.comercios);
-    if (comercios !== 'null' && comercios !== null && comercios !== []) {
+  useFocusEffect(
+    React.useCallback(() => {
+      setComercios(props.comercios);
       filtrarComercios();
-    }
-  }, [props.comercios, comercios]);
+    }, [props.profile.auth]),
+  );
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setComercios(props.comercios);
+      filtrarComercios();
+    }, []),
+  );
 
   return (
     <SafeAreaView>
@@ -87,9 +93,6 @@ function BarraSup(props) {
               }}
             />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.notificacion} activeOpacity={0.5}>
-            <IconButton icon="bell-outline" color="black" />
-          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>
@@ -108,7 +111,7 @@ const styles = StyleSheet.create({
   },
   searchcont: {
     marginLeft: 10,
-    flex: 3,
+    flex: 9,
     //justifyContent: 'center',
   },
   separador: {

@@ -12,7 +12,7 @@ import ReseñasComercio from './reseñas-comercio';
 const Tab = createMaterialTopTabNavigator();
 
 export default function ComerciosNav(props) {
-  //Traigo la info del comerico y se la asigno a la variable data:
+  //Traigo la info del comercio y se la asigno a la variable data:
   const { data } = props.route.params;
   return (
     <SafeAreaView style={styles.container}>
@@ -71,7 +71,18 @@ export default function ComerciosNav(props) {
             />
           )}
         />
-        <Tab.Screen name="Reseñas" component={ReseñasComercio} />
+        <Tab.Screen
+          name="Reseñas"
+          children={() => (
+            <ReseñasComercio
+              idcomercio={data.item.id}
+              navigation={props.navigation}
+              fotocomercio={data.item.photoURL}
+              nombrecomercio={data.item.nombreComercio}
+              sucursalcomercio={data.item.sucursal}
+            />
+          )}
+        />
       </Tab.Navigator>
     </SafeAreaView>
   );

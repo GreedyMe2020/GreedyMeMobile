@@ -45,7 +45,7 @@ function Notificaciones(props) {
           )}
         />
         <Divider style={{ height: 1 }} />
-        <List.Item
+        {/* <List.Item
           title="Comercios cercanos a mi ubicación"
           style={styles.listItem}
           right={(props) => (
@@ -54,7 +54,7 @@ function Notificaciones(props) {
               onValueChange={onToggleSwitchUbic}
             />
           )}
-        />
+        /> */}
         <Divider style={{ height: 1 }} />
         <List.Item
           title="Todos los comercios"

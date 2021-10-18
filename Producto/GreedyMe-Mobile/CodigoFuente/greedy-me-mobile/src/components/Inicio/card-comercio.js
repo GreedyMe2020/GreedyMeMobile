@@ -14,6 +14,10 @@ import { colors } from '../../styles/colores';
 import {
   agregarComercioFavorito,
   eliminarComercioFavorito,
+  eliminarTokenAComercio,
+  agregarTokenAComercio,
+  agregarEstadisticaFavorito,
+  eliminarEstadisticaFavorito,
 } from '../../../redux/actions/comercio-actions';
 
 function CardComercio(props) {
@@ -28,45 +32,14 @@ function CardComercio(props) {
     });
     if (esFavorito === true) {
       props.eliminarComercioFavorito(props.auth.uid, idComercio);
+      props.eliminarTokenAComercio(idComercio, props.profile.pushToken);
+      props.eliminarEstadisticaFavorito(idComercio, props.auth.uid);
     } else {
       props.agregarComercioFavorito(props.auth.uid, idComercio);
+      props.agregarTokenAComercio(idComercio, props.profile.pushToken);
+      props.agregarEstadisticaFavorito(idComercio, props.auth.uid);
     }
   };
-  /*React.useEffect(() => {
-    setListaComercios(props.comercios);
-  }, [favorito, props.comercios]);*/
-
-  /*React.useEffect(() => {
-    if (currentId) {
-      const indiceACambiar = _.findIndex(listaComercios, function (o) {
-        return o.id === currentId;
-      });
-
-      const objCambiar = _.nth(listaComercios, indiceACambiar);
-
-      listaComercios.splice(indiceACambiar, 1, {
-        id: objCambiar.id,
-        cuit: objCambiar.cuit,
-        direccion: objCambiar.direccion,
-        email: objCambiar.email,
-        facebook: objCambiar.facebook,
-        fechaCreacion: objCambiar.fechaCreacion,
-        instagram: objCambiar.instagram,
-        nombreComercio: objCambiar.nombreComercio,
-        photoURL: objCambiar.photoURL,
-        rubro: objCambiar.rubro,
-        sucursal: objCambiar.sucursal,
-        favorito: value,
-        telefono: objCambiar.telefono,
-        tipoSuscripcion: objCambiar.tipoSuscripcion,
-        web: objCambiar.web,
-      });
-      //props.obtener
-      //setListaComercios(listaComercios);
-      //props.obtenerDatosComercio([listaComercios]);
-    }
-    setCurrentId(null);
-  }, [currentId]);*/
 
   return (
     <SafeAreaView>
@@ -174,6 +147,14 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(agregarComercioFavorito(idUsuario, idComercio)),
     eliminarComercioFavorito: (idUsuario, idComercio) =>
       dispatch(eliminarComercioFavorito(idUsuario, idComercio)),
+    eliminarTokenAComercio: (idComercio, pushToken) =>
+      dispatch(eliminarTokenAComercio(idComercio, pushToken)),
+    agregarTokenAComercio: (idComercio, pushToken) =>
+      dispatch(agregarTokenAComercio(idComercio, pushToken)),
+    agregarEstadisticaFavorito: (idComercio, idConsumidor) =>
+      dispatch(agregarEstadisticaFavorito(idComercio, idConsumidor)),
+    eliminarEstadisticaFavorito: (idComercio, idConsumidor) =>
+      dispatch(eliminarEstadisticaFavorito(idComercio, idConsumidor)),
   };
 };
 

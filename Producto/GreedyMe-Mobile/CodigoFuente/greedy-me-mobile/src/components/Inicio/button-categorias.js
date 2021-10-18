@@ -11,58 +11,71 @@ import {
 import { connect } from 'react-redux';
 import { colors } from '../../styles/colores';
 import firebaseapp from '../../../firebase/config';
-
-const firestore = firebaseapp.firestore();
-const rubros = [];
-const obtenerRubros = () => {
-  firestore
-    .collection('rubros')
-    .orderBy('prioridad')
-    .onSnapshot((snapShots) => {
-      snapShots.forEach((doc) => {
-        const data = doc.data();
-        rubros.push({
-          ...data,
-          id: doc.id,
-        });
-      });
-    });
-};
-obtenerRubros();
+import { useFocusEffect } from '@react-navigation/native';
 
 function ButtonCategorias(props) {
+  const [cargandoRubros, setCargando] = React.useState(false);
+  const [rubros, setRubros] = React.useState([]);
+
+  const obtenerRubros = async () => {
+    const firestore = firebaseapp.firestore();
+    try {
+      const rubrosOrigen = await firestore
+        .collection('rubros')
+        .orderBy('prioridad')
+        .get();
+      const rubrosTemporal1 = rubrosOrigen.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setRubros(rubrosTemporal1);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setCargando(false);
+      obtenerRubros();
+      setCargando(true);
+    }, []),
+  );
+
   return (
     <SafeAreaView style={styles.cont}>
-      <FlatList
-        data={rubros}
-        keyExtractor={(item) => item.id}
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}
-        renderItem={(data) => (
-          <TouchableWithoutFeedback>
-            <View style={styles.cat}>
-              <TouchableOpacity
-                style={styles.categorias}
-                activeOpacity={0.5}
-                onPress={() => {
-                  props.navigation.navigate('ComerciosPorRubro', {
-                    data: data,
-                    comercios: props.comercios,
-                  });
-                }}
-              >
-                <Image
-                  source={{
-                    uri: data.item.photoURL,
+      {cargandoRubros ? (
+        <FlatList
+          data={rubros}
+          keyExtractor={(item) => item.id}
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          renderItem={(data) => (
+            <TouchableWithoutFeedback>
+              <View style={styles.cat}>
+                <TouchableOpacity
+                  style={styles.categorias}
+                  activeOpacity={0.5}
+                  onPress={() => {
+                    props.navigation.navigate('ComerciosPorRubro', {
+                      data: data,
+                      comercios: props.comercios,
+                    });
                   }}
-                  style={styles.image}
-                />
-              </TouchableOpacity>
-              <Text style={styles.texto}>{data.item.nombre}</Text>
-            </View>
-          </TouchableWithoutFeedback>
-        )}
-      />
+                >
+                  <Image
+                    source={{
+                      uri: data.item.photoURL,
+                    }}
+                    style={styles.image}
+                  />
+                </TouchableOpacity>
+                <Text style={styles.texto}>{data.item.nombre}</Text>
+              </View>
+            </TouchableWithoutFeedback>
+          )}
+        />
+      ) : null}
     </SafeAreaView>
   );
 }

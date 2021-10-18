@@ -15,40 +15,72 @@ import _ from 'lodash';
 import { colors } from '../../styles/colores';
 import firebaseapp from '../../../firebase/config';
 import { format } from 'date-fns';
+import PromocionesContext from '../../context/promocionesContext';
+import ProveedoresContext from '../../context/proveedoresContext';
 
 const firestore = firebaseapp.firestore();
-const promociones = [];
-const obtenerPromociones = () => {
-  firestore.collection('promociones').onSnapshot((snapShots) => {
-    snapShots.forEach((doc) => {
-      const data = doc.data();
-      promociones.push({
-        ...data,
-        id: doc.id,
-      });
-    });
-  });
-};
-obtenerPromociones();
 
 function CuponesComercio(props) {
   const [idComercio, setIdComercio] = React.useState(props.idcomercio);
   const [listaPromociones, setListaPromociones] = React.useState([]);
+  //traigo el contexto global de promociones
+  const { contextPromociones, setContextPromociones } = React.useContext(
+    PromocionesContext,
+  );
+  //traigo contexto global de proveedores
+  const { contextProveedores, setContextProveedores } = React.useContext(
+    ProveedoresContext,
+  );
   React.useEffect(() => {
-    const promocionesIntermedio = [];
-    promociones.forEach((promocion) => {
-      if (promocion.visible === true) {
-        if (promocion.idComercio === idComercio) {
-          promocionesIntermedio.push(promocion);
+    if (contextProveedores.length > 0){
+      const promocionesIntermedio = [];
+      contextProveedores.forEach((proveedor) => {
+        contextPromociones.forEach((promocion) => {
+          if (promocion.idComercio === props.idcomercio) {
+            if (
+              promocion.visible === true &&
+              promocion.hastaVigencia.toDate() > new Date()
+            ) {
+              if (
+                promocion.tipoProveedor === proveedor ||
+                promocion.valueProveedor === proveedor ||
+                promocion.otroProveedor === proveedor ||
+                promocion.tipoProveedor === 'Propias'
+              ) {
+                promocionesIntermedio.push(promocion);
+              }
+            }
+          }
+        });
+      });
+      for (var i = promocionesIntermedio.length - 1; i >= 0; i--) {
+        if (promocionesIntermedio.indexOf(promocionesIntermedio[i]) !== i) {
+          promocionesIntermedio.splice(i, 1);
         }
       }
-    });
-    for (var i = promocionesIntermedio.length - 1; i >= 0; i--) {
-      if (promocionesIntermedio.indexOf(promocionesIntermedio[i]) !== i) {
-        promocionesIntermedio.splice(i, 1);
-      }
+      setListaPromociones(promocionesIntermedio);
     }
-    setListaPromociones(promocionesIntermedio);
+    if (contextProveedores.length === 0){
+      const promocionesIntermedio = [];
+      contextPromociones.forEach((promocion) => {
+        if (promocion.idComercio === props.idcomercio){
+          if (
+            promocion.visible === true &&
+            promocion.hastaVigencia.toDate() > new Date()
+          ) {
+            if (promocion.tipoProveedor === 'Propias') {
+              promocionesIntermedio.push(promocion);
+            }
+          }
+        }
+      });
+      for (var i = promocionesIntermedio.length - 1; i >= 0; i--) {
+        if (promocionesIntermedio.indexOf(promocionesIntermedio[i]) !== i) {
+          promocionesIntermedio.splice(i, 1);
+        }
+      }
+      setListaPromociones(promocionesIntermedio);
+    }
   }, [idComercio]);
   return (
     <SafeAreaView style={styles.container}>
