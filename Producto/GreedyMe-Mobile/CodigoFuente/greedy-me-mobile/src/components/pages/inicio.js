@@ -12,7 +12,7 @@ import _ from 'lodash';
 import * as Location from 'expo-location';
 import * as Notifications from 'expo-notifications';
 import * as Permissions from 'expo-permissions';
-import { LogBox, YellowBox } from 'react-native';
+import { LogBox } from 'react-native';
 import { connect } from 'react-redux';
 import CardComercio from '../Inicio/card-comercio';
 import BarraSup from '../Inicio/barra-superior';
@@ -38,7 +38,6 @@ const firestore = firebaseapp.firestore();
 //esconde los warnings
 LogBox.ignoreLogs(['Warning: ...']);
 LogBox.ignoreAllLogs();
-YellowBox.ignoreWarnings(['Setting a timer']);
 const _console = _.clone(console);
 console.warn = (message) => {
   if (message.indexOf('Setting a timer') <= -1) {

@@ -24,24 +24,25 @@ function Cupones(props) {
   //estado global de los cupones
   const { contextCupones, setContextCupones } = useContext(CuponesContext);
   //use effect que se ejecuta una vez y trae cupones
+  const obtenerCupones = async () => {
+    const firestore = firebaseapp.firestore();
+    try {
+      const cupones = await firestore
+        .collection('usuarioConsumidor')
+        .doc(props.auth.uid)
+        .collection('cupones')
+        .get();
+      const arrayCupones = cupones.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setContextCupones(arrayCupones);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   React.useEffect(() => {
-    const obtenerCupones = async () => {
-      const firestore = firebaseapp.firestore();
-      try {
-        const cupones = await firestore
-          .collection('usuarioConsumidor')
-          .doc(props.auth.uid)
-          .collection('cupones')
-          .get();
-        const arrayCupones = cupones.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setContextCupones(arrayCupones);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+
     obtenerCupones();
   });
 

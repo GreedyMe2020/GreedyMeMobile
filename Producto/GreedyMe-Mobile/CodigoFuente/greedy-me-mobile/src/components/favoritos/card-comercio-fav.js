@@ -11,33 +11,56 @@ import { List, Divider } from 'react-native-paper';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { colors } from '../../styles/colores';
-
+import firebaseapp from '../../../firebase/config';
 import { useFocusEffect } from '@react-navigation/native';
+import { LogBox } from 'react-native';
 
 function CardComercioFav(props) {
   const [listaComerciosFavoritos, setListaComerciosFavoritos] = React.useState([]);
   const [cargando, setCargando] = React.useState(false);
 
-  const comerciosFavoritos = () => {
-    const comerciosFavTemporal = [];
-    props.comercios.forEach((comercio) => {
-      props.profile.favorito
-        ? props.profile.favorito.forEach((fav) => {
-          if (comercio.id === fav) {
-            comerciosFavTemporal.push(comercio);
-          }
-        })
-        : null;
-    });
-    setListaComerciosFavoritos(comerciosFavTemporal);
+  const obtenerComerciosFav = async () => {
+    const firestore = firebaseapp.firestore();
+    try {
+      const comerciosFavTemporal = [];
+      const comercios = await firestore.collection('usuarioComercio').get();
+      const arrayComercios = comercios.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      arrayComercios.forEach((comercio) => {
+        props.profile.favorito
+          ? props.profile.favorito.forEach((fav) => {
+            if (comercio.id === fav) {
+              comerciosFavTemporal.push(comercio);
+            }
+          })
+          : null;
+      });
+      setListaComerciosFavoritos(comerciosFavTemporal);
+    }
+    catch (error) {
+      console.log(error);
+    }
   };
 
   useFocusEffect(
     React.useCallback(() => {
       setCargando(false);
-      comerciosFavoritos();
+      LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+      obtenerComerciosFav();
       setCargando(true);
-    }, [props.profile.favorito,]),
+    }, [props.profile.favorito]),
+  );
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setListaComerciosFavoritos([]);
+      setCargando(false);
+      LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+      obtenerComerciosFav();
+      setCargando(true);
+    }, []),
   );
   return (
     <SafeAreaView>

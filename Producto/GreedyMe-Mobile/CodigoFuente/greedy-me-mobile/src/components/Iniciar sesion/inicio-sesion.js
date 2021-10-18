@@ -16,7 +16,6 @@ import { signIn } from '../../../redux/actions/auth-actions';
 import IniciarSesionConEmail from './iniciar-con-email';
 import IniciarSesionConRedes from './iniciar-con-redes';
 import {
-  setearLogeo,
   setearDesLogeo,
   resetearValoresInicioSesion,
 } from '../../../redux/actions/auth-actions';
@@ -248,7 +247,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     signIn: (user) => dispatch(signIn(user)),
-    setearLogeo: (flag) => dispatch(setearLogeo(flag)),
     setearDesLogeo: (flag) => dispatch(setearDesLogeo(flag)),
     resetearValoresInicioSesion: () => dispatch(resetearValoresInicioSesion()),
   };

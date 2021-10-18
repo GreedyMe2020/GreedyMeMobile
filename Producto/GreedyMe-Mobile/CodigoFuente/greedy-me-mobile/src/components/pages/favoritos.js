@@ -56,7 +56,6 @@ function Favoritos(props) {
             <View>
               <CardComercioFav
                 navigation={props.navigation}
-                comercios={listaComercios}
               />
             </View>
           </ScrollView>
