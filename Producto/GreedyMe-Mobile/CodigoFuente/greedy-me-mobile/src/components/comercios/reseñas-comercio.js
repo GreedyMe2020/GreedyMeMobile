@@ -65,22 +65,22 @@ export default function ReseñasComercio(props) {
                     reseñas.lenght === 0
                       ? 0
                       : muyBuena === 0
-                      ? 0
-                      : muyBuena / reseñas.length
+                        ? 0
+                        : muyBuena / reseñas.length
                   }
                   color={colors.naranja}
                   style={styles.barra}
                 />
               </View>
               <View style={styles.progres}>
-                <Text style={styles.textoC}>Regular</Text>
+                <Text style={styles.textoC}>Buena</Text>
                 <ProgressBar
                   progress={
                     reseñas.lenght === 0
                       ? 0
                       : buena === 0
-                      ? 0
-                      : buena / reseñas.length
+                        ? 0
+                        : buena / reseñas.length
                   }
                   color={colors.celeste}
                   style={styles.barra}
@@ -93,8 +93,8 @@ export default function ReseñasComercio(props) {
                     reseñas.lenght === 0
                       ? 0
                       : mala === 0
-                      ? 0
-                      : mala / reseñas.length
+                        ? 0
+                        : mala / reseñas.length
                   }
                   color={colors.error}
                   style={styles.barra}
