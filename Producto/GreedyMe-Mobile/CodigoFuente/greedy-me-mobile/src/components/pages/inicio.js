@@ -6,6 +6,7 @@ import {
   Text,
   ScrollView,
   SafeAreaView,
+  RefreshControl,
 } from 'react-native';
 import { Divider } from 'react-native-paper';
 import _ from 'lodash';
@@ -100,6 +101,12 @@ function Inicio(props) {
     }
   };
 
+
+  const [refreshing, setRefreshing] = React.useState();
+  const wait = (timeout) => {
+    return new Promise((resolve) => setTimeout(resolve, timeout));
+  };
+
   //use effect que trae los comercios
   useFocusEffect(
     React.useCallback(() => {
@@ -108,6 +115,10 @@ function Inicio(props) {
       setCargando(true);
     }, []),
   );
+
+  React.useEffect(() => {
+    obtenerComercios();
+  }, [refreshing]);
 
   const filtro = (proveedoresSeleccionados) => {
     if (
@@ -337,6 +348,19 @@ function Inicio(props) {
     }
   }, [contextProveedores]);
 
+  React.useEffect(() => {
+    if (contextProveedores) {
+      filtro(contextProveedores);
+    }
+  }, [refreshing, setRefreshing]);
+
+  const onRefresh = React.useCallback(() => {
+    setCargando(false);
+    setRefreshing(true);
+    wait(2000).then(() => { setRefreshing(false); setCargando(true); });
+
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       {cargando ? (
@@ -354,7 +378,11 @@ function Inicio(props) {
               comercios={comerciosFiltrados}
             />
           </View>
-          <ScrollView style={styles.scroll}>
+          <ScrollView refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              size="large"
+              onRefresh={onRefresh} />} style={styles.scroll}>
             <View>
               <View style={styles.categorias}>
                 <Text style={styles.texto}>Categorías</Text>
@@ -380,7 +408,26 @@ function Inicio(props) {
             </View>
           </ScrollView>
         </>
-      ) : null}
+      ) : (
+        <>
+          <StatusBar
+            barStyle="light-content"
+            translucent={true}
+            backgroundColor={'transparent'}
+          />
+          <View style={styles.barraSup} />
+          <ScrollView
+            refreshControl=
+            {<RefreshControl
+              refreshing={refreshing}
+              size="large"
+            />
+            }
+            style={styles.scroll}
+          />
+
+        </>
+      )}
     </SafeAreaView>
   );
 }

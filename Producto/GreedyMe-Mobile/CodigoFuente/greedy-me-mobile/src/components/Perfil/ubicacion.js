@@ -30,6 +30,7 @@ function Ubicacion(props) {
   };
 
   React.useEffect(() => {
+    console.log(props.permisoGeo);
     if (props.permisoGeo && ubicacion === false) {
       //Si ya tiene la ubicación activada de cuando ingresó por primera vez, seteo a true el marcador (Switch)
       setUbicacion(!ubicacion);
