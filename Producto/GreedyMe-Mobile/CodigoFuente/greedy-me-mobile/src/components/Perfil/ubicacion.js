@@ -24,13 +24,13 @@ function Ubicacion(props) {
       props.quitarGeolocalizacion();
     } else {
       //Pido la localización.
-      const location = await Location.getCurrentPositionAsync();
-      props.guardarGeolocalizacion(location);
+      await Location.getCurrentPositionAsync().then((value) =>
+        props.guardarGeolocalizacion(value),
+      );
     }
   };
 
   React.useEffect(() => {
-    console.log(props.permisoGeo);
     if (props.permisoGeo && ubicacion === false) {
       //Si ya tiene la ubicación activada de cuando ingresó por primera vez, seteo a true el marcador (Switch)
       setUbicacion(!ubicacion);
