@@ -151,6 +151,7 @@ function IniciarSesionConRedes(props) {
         props.setearLogeo('False');
       }
     } catch ({ message }) {
+      // eslint-disable-next-line no-alert
       alert(`Facebook Login Error: ${message}`);
     }
   };
